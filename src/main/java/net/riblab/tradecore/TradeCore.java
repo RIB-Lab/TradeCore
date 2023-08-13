@@ -6,10 +6,11 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.CommandPermission;
-import dev.jorel.commandapi.arguments.DoubleArgument;
-import dev.jorel.commandapi.arguments.PlayerArgument;
+import dev.jorel.commandapi.arguments.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.item.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -18,7 +19,6 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -29,6 +29,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -67,6 +68,15 @@ public final class TradeCore extends JavaPlugin implements Listener {
                 });
         setMoneyCommand.setPermission(CommandPermission.OP);
         setMoneyCommand.register();
+
+        CommandAPICommand tcGiveCommand = new CommandAPICommand("tcgive")
+                .withArguments(TCItems.customITCItemArgument("item"))
+                .executesPlayer((player, args) -> {
+                    ITCItem itcItem = (ITCItem) args.get(0);
+                    player.getInventory().addItem(itcItem.getItemStack());
+                });
+        tcGiveCommand.setPermission(CommandPermission.OP);
+        tcGiveCommand.register();
     }
 
     @Override
