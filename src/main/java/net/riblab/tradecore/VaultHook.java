@@ -12,7 +12,7 @@ public class VaultHook {
     private Economy provider;
 
     public void hook() {
-        provider = plugin.economy;
+        provider = plugin.getEconomy();
         Bukkit.getServicesManager().register(Economy.class, this.provider, this.plugin, ServicePriority.Normal);
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultAPI hooked into " + ChatColor.AQUA + plugin.getName());
     }

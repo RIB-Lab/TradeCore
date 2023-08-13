@@ -6,6 +6,7 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Bukkit;
@@ -23,11 +24,11 @@ import java.util.UUID;
 public final class TradeCore extends JavaPlugin implements Listener {
 
     private static TradeCore instance;
-    public EconomyImplementer economy;
+    @Getter
+    private EconomyImplementer economy;
     private VaultHook vaultHook;
-
-    public final HashMap<UUID,Double> playerBank = new HashMap<>();
-
+    @Getter
+    private ConfigManager configManager;
     public TradeCore() {
         instance = this;
     }
@@ -56,6 +57,9 @@ public final class TradeCore extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        configManager = new ConfigManager();
+        configManager.load();
+        
         economy = new EconomyImplementer();
         vaultHook = new VaultHook();
         vaultHook.hook();
@@ -80,18 +84,27 @@ public final class TradeCore extends JavaPlugin implements Listener {
                     Component text = Component.text("");
                     text = text.append(Component.text(negativeSpace + negativeSpace + negativeSpace + negativeSpace + TCResourcePackData.IconsFont.COIN.get_char()).font(TCResourcePackData.iconsFontName));
                     text = text.append(Component.text(" " + balance).font(TCResourcePackData.yPlus12FontName));
-                    text = text.append(Component.text("  " + TCResourcePackData.IconsFont.VOTE_TICKET.get_char()).font(TCResourcePackData.iconsFontName));
+                    text = text.append(Component.text("                         " + TCResourcePackData.IconsFont.VOTE_TICKET.get_char()).font(TCResourcePackData.iconsFontName));
                     text = text.append(Component.text(" 0").font(TCResourcePackData.yPlus12FontName));
                     player.sendActionBar(text);
                 });
             }
         }.runTaskTimer(this, 0, 20);
+        
+        //定期的にコンフィグを保存
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                configManager.save();
+            }
+        }.runTaskTimer(this, 0, 3600);
     }
 
     @Override
     public void onDisable() {
         vaultHook.unhook();
         CommandAPI.onDisable();
+        configManager.save();
     }
     
     @EventHandler
