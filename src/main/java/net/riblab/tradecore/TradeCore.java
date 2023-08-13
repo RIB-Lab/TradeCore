@@ -6,11 +6,15 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -59,6 +63,29 @@ public final class TradeCore extends JavaPlugin implements Listener {
         CommandAPI.onEnable();
         
         getServer().getPluginManager().registerEvents(this, this);
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            if(!economy.hasAccount(player))
+                economy.createPlayerAccount(player);
+        });
+        
+        new BukkitRunnable(){
+
+            //所持金と投票券表示
+            @Override
+            public void run() {
+                String negativeSpace = TCResourcePackData.IconsFont.NEGATIVE_SPACE.get_char();
+                Bukkit.getOnlinePlayers().forEach(player ->{
+                    int balance = (int)economy.getBalance(player);
+                    Component text = Component.text("");
+                    text = text.append(Component.text(negativeSpace + negativeSpace + negativeSpace + negativeSpace + TCResourcePackData.IconsFont.COIN.get_char()).font(TCResourcePackData.iconsFontName));
+                    text = text.append(Component.text(" " + balance).font(TCResourcePackData.yPlus12FontName));
+                    text = text.append(Component.text("  " + TCResourcePackData.IconsFont.VOTE_TICKET.get_char()).font(TCResourcePackData.iconsFontName));
+                    text = text.append(Component.text(" 0").font(TCResourcePackData.yPlus12FontName));
+                    player.sendActionBar(text);
+                });
+            }
+        }.runTaskTimer(this, 0, 20);
     }
 
     @Override
@@ -71,5 +98,20 @@ public final class TradeCore extends JavaPlugin implements Listener {
     public void OnPlayerJoin(PlayerJoinEvent event){
         if(!economy.hasAccount(event.getPlayer()))
             economy.createPlayerAccount(event.getPlayer());
+    }
+
+    /**
+     * BukkitのOnDisableでエラーが出ないようにクラスを強制的にロードする
+     * @param klass
+     * @param <T>
+     * @return
+     */
+    public static <T> Class<T> forceInit(Class<T> klass) {
+        try {
+            Class.forName(klass.getName(), true, klass.getClassLoader());
+        } catch (ClassNotFoundException e) {
+            throw new AssertionError(e);  // Can't happen
+        }
+        return klass;
     }
 }
