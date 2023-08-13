@@ -4,3 +4,4 @@ main: net.riblab.tradecore.TradeCore
 api-version: 1.20
 depend:
   - Vault
+  - ProtocolLib
