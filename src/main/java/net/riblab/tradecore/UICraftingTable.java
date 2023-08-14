@@ -1,5 +1,7 @@
 package net.riblab.tradecore;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.events.PacketContainer;
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
@@ -10,12 +12,16 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.riblab.tradecore.craft.TCRecipe;
 import net.riblab.tradecore.craft.TCRecipes;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.InvocationTargetException;
+import java.util.*;
 
 public class UICraftingTable {
     
@@ -43,6 +49,8 @@ public class UICraftingTable {
         gui.setUpdating(false);
         
         gui.open(player);
+        
+        FakeVillagerService.spawnFakeVillager(player);
     }
 
     /**

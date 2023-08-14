@@ -1,7 +1,5 @@
 package net.riblab.tradecore;
 
-import com.destroystokyo.paper.event.block.BlockDestroyEvent;
-import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
@@ -11,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -45,6 +44,9 @@ public class EventHandler implements Listener {
     
     @org.bukkit.event.EventHandler
     public void OnPlayerInteract(PlayerInteractEvent event){
+        if(event.getPlayer().isSneaking())
+            return;
+        
         //念のため金床をブロック
         if(event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.ANVIL){
             event.setCancelled(true);
@@ -150,5 +152,12 @@ public class EventHandler implements Listener {
     public void onLeavesDecay(LeavesDecayEvent event) {
         event.setCancelled(true);
         event.getBlock().setType(Material.AIR);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onInventoryClose(InventoryCloseEvent event) {
+        if(!(event.getPlayer() instanceof Player))
+            return;
+        FakeVillagerService.tryDeSpawnFakeVillager((Player) event.getPlayer());
     }
 }
