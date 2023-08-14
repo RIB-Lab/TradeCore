@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.github.Exlll.ConfigLib:configlib-yaml:v4.2.0'
     compileOnly "org.projectlombok:lombok:1.18.24"
     compileOnly 'com.comphenix.protocol:ProtocolLib:4.8.0'
+    implementation 'dev.triumphteam:triumph-gui:3.1.4'
 }
 
 def targetJavaVersion = 17
@@ -68,6 +69,7 @@ shadowJar {
     relocate 'de.tr7zw.nbtapi', 'net.riblab.tradecore.nbtapi'
     relocate 'dev.jorel.commandapi', 'net.riblab.tradecore.commandapi'
     relocate 'de.exlll.configlib', 'net.riblab.tradecore.configlib'
+    relocate 'dev.triumphteam.gui', 'quarri6343.overcrafted.gui'
 }
 
 //Disable jar and replace with shadowJar

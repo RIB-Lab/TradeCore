@@ -45,7 +45,13 @@ public class TCResourcePackData {
         NEGATIVE_SPACE("«"),
         SUPER_NEGATIVE_SPACE("<"),
         SPACE(" "),
-        CRAFTING_TABLE("\uE000");
+        CRAFTING_TABLE_CATEGORY("\uE000"),
+        CRAFTING_TABLE_ARMOR("\uE001"),
+        CRAFTING_TABLE_CRAFTING("\uE002"),
+        CRAFTING_TABLE_MISC("\uE003"),
+        CRAFTING_TABLE_TOOL("\uE004"),
+        CRAFTING_TABLE_WEAPON("\uE005");
+        
 
         private final String _char;
 

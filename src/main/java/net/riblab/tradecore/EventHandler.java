@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -57,14 +58,7 @@ public class EventHandler implements Listener {
         //カスタム作業台 TODO:システム化
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.CRAFTING_TABLE){
             event.setCancelled(true);
-            String neg = TCResourcePackData.UIFont.NEGATIVE_SPACE.get_char();
-            String neg2 = TCResourcePackData.UIFont.SUPER_NEGATIVE_SPACE.get_char();
-            String main = TCResourcePackData.UIFont.CRAFTING_TABLE.get_char();
-            Component text = Component.text(neg + neg + main).font(TCResourcePackData.uiFontName).color(NamedTextColor.WHITE);
-            text = text.append(Component.text(neg2 + neg2 + neg2 + neg2 + neg + neg).font(TCResourcePackData.uiFontName));
-            text = text.append(Component.text("作業台").font(TCResourcePackData.defaultFontName).color(NamedTextColor.BLACK));
-            Inventory inv = Bukkit.createInventory(event.getPlayer(), 27, text);
-            event.getPlayer().openInventory(inv);
+            UICraftingTable.open(event.getPlayer(), UICraftingTable.CraftingScreenType.CATEGORY);
         }
     }
 
