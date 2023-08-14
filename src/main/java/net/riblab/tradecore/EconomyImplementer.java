@@ -16,12 +16,12 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return TradeCore.getInstance().isEnabled();
     }
 
     @Override
     public String getName() {
-        return null;
+        return "TradeCore";
     }
 
     @Override
@@ -31,27 +31,27 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public int fractionalDigits() {
-        return 0;
+        return -1;
     }
 
     @Override
     public String format(double v) {
-        return null;
+        return Integer.toString((int)v);
     }
 
     @Override
     public String currencyNamePlural() {
-        return null;
+        return "rib";
     }
 
     @Override
     public String currencyNameSingular() {
-        return null;
+        return "rib";
     }
 
     @Override
     public boolean hasAccount(String s) {
-        return false;
+        return true;
     }
 
     @Override
@@ -62,12 +62,12 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean hasAccount(String s, String s1) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean hasAccount(OfflinePlayer offlinePlayer, String s) {
-        return false;
+        return true;
     }
 
     @Override
@@ -103,7 +103,8 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, double v) {
-        return false;
+        UUID uuid = offlinePlayer.getUniqueId();
+        return data.playerBank.get(uuid) > v;
     }
 
     @Override
@@ -113,7 +114,8 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, String s, double v) {
-        return false;
+        UUID uuid = offlinePlayer.getUniqueId();
+        return data.playerBank.get(uuid) > v;
     }
 
     @Override
@@ -266,6 +268,11 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer offlinePlayer, String s) {
-        return false;
+        if(hasAccount(offlinePlayer))
+            return false;
+
+        UUID uuid = offlinePlayer.getUniqueId();
+        data.playerBank.put(offlinePlayer.getUniqueId(), 0d);
+        return true;
     }
 }
