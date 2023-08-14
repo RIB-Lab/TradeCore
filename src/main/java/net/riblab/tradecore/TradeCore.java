@@ -173,14 +173,12 @@ public final class TradeCore extends JavaPlugin {
         return klass;
     }
     
-    public static void dropItemByLootTable(BlockBreakEvent event, Map<Float, ITCItem> table){
+    public static void dropItemByLootTable(Block block, Map<Float, ITCItem> table){
         Random random = new Random();
-        event.setCancelled(true);
-        event.getBlock().setType(Material.AIR);
         table.forEach((aFloat, itcItem) -> {
             float rand = random.nextFloat();
             if(rand < aFloat){
-                event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), itcItem.getItemStack());
+                block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
             }
         });
     }

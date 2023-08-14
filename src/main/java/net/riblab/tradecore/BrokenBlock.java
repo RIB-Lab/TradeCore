@@ -4,6 +4,8 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import lombok.Getter;
+import org.bukkit.SoundCategory;
+import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
@@ -42,7 +44,9 @@ public class BrokenBlock {
         BrokenBlocksService.getBrokenBlocks().remove(breaker);
 //        SoundPlayerUtils.playBlockSound(block);
         if (breaker == null) return;
-        
+
+        SoundGroup soundGroup = block.getBlockData().getSoundGroup();
+        breaker.playSound(block.getLocation(), soundGroup.getBreakSound(), SoundCategory.BLOCKS, 1f, 1f);
         breaker.breakBlock(block);
     }
 

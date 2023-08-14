@@ -6,10 +6,7 @@ import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.item.TCTool;
-import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -110,7 +107,9 @@ public class EventHandler implements Listener {
             BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでアイテムがドロップしないなら実質素手
             return;
         }
-        
+
+        SoundGroup soundGroup = block.getBlockData().getSoundGroup();
+        player.playSound(block.getLocation(), soundGroup.getHitSound(), SoundCategory.BLOCKS, 1f, 1f);
         BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, ((TCTool) itcItem).getActualMiningSpeed());
     }
 
@@ -120,12 +119,14 @@ public class EventHandler implements Listener {
             event.setCancelled(true);
             return;
         }
-
+        
         ItemStack mainHand = event.getPlayer().getItemInHand();
         if(mainHand.getType() == Material.AIR){
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), TCTool.ToolType.HAND);
             if(table.size() != 0){
-                TradeCore.dropItemByLootTable(event, table);
+                event.setCancelled(true);
+                event.getBlock().setType(Material.AIR);
+                TradeCore.dropItemByLootTable(event.getBlock(), table);
                 return;
             }
         }
@@ -134,7 +135,9 @@ public class EventHandler implements Listener {
         if(itcItem instanceof TCTool){
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
             if(table.size() != 0){
-                TradeCore.dropItemByLootTable(event, table);
+                event.setCancelled(true);
+                event.getBlock().setType(Material.AIR);
+                TradeCore.dropItemByLootTable(event.getBlock(), table);
                 ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(mainHand);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
                 return;
