@@ -249,7 +249,7 @@ public class ItemCreator {
      */
     @Nonnull
     public ItemStack create() {
-        return this.itemStack;
+        return this.itemStack.clone();
     }
 
     /**

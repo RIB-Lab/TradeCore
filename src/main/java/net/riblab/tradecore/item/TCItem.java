@@ -34,7 +34,7 @@ public class TCItem implements ITCItem {
      * アイテムを作製した時これがまず渡されるので必要に応じてインスタンスの固有データを流し込む<br>
      * 注意：絶対に変更してはいけないので必ずクローンして使うこと
      */
-    private final ItemStack itemStackTemplate;
+    private final ItemCreator itemStackTemplate;
 
     /**
      * 主に召喚コマンドで用いられる内部的なアイテム名<br>
@@ -69,25 +69,24 @@ public class TCItem implements ITCItem {
      *
      * @return 作られたアイテムの型の実体
      */
-    private ItemStack createItem() {
+    private ItemCreator createItem() {
         return new ItemCreator(material)
                 .setName(name.decoration(TextDecoration.ITALIC,false).color(NamedTextColor.WHITE))
                 .setStrNBT("TCID", internalName)
                 .hideEnchantment()
                 .setCustomModelData(customModelData)
                 .setUnbreakable(false)
-                .hideAttributes()
-                .create();
+                .hideAttributes();
     }
 
     public void onGiveCommand(CommandSender sender, String[] argments) {
         Player player = (Player) sender;
-        player.getInventory().addItem(itemStackTemplate);
+        player.getInventory().addItem(itemStackTemplate.create());
     }
 
     @Nonnull
     public ItemStack getItemStack() {
-        return itemStackTemplate.clone();
+        return itemStackTemplate.create();
     }
 
     public boolean isSimilar(@Nullable ItemStack itemStack) {

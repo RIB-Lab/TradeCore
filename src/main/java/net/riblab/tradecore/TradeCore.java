@@ -12,13 +12,13 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.TCTool;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
@@ -36,7 +36,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 
-public final class TradeCore extends JavaPlugin implements Listener {
+public final class TradeCore extends JavaPlugin {
 
     private static TradeCore instance;
     @Getter
@@ -46,13 +46,7 @@ public final class TradeCore extends JavaPlugin implements Listener {
     private ConfigManager configManager;
     @Getter
     private ProtocolManager protocolManager;
-    
-    public static final Set<Material> unbreakableMaterial = Set.of(
-            Material.BEDROCK, Material.COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK, 
-            Material.BARRIER, Material.END_PORTAL_FRAME, Material.END_PORTAL, Material.NETHER_PORTAL, Material.STRUCTURE_BLOCK);
-
-    public static final Set<Material> leaves = Set.of(Material.ACACIA_LEAVES, Material.AZALEA_LEAVES, Material.BIRCH_LEAVES, Material.CHERRY_LEAVES, Material.DARK_OAK_LEAVES
-            , Material.FLOWERING_AZALEA_LEAVES, Material.JUNGLE_LEAVES, Material.MANGROVE_LEAVES, Material.OAK_LEAVES, Material.SPRUCE_LEAVES);
+    private EventHandler eventHandler;
     
     public TradeCore() {
         instance = this;
@@ -93,14 +87,13 @@ public final class TradeCore extends JavaPlugin implements Listener {
     public void onEnable() {
         configManager = new ConfigManager();
         configManager.load();
+        eventHandler = new EventHandler();
         
         economy = new EconomyImplementer();
         vaultHook = new VaultHook();
         vaultHook.hook();
 
         CommandAPI.onEnable();
-        
-        getServer().getPluginManager().registerEvents(this, this);
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             if(!economy.hasAccount(player))
@@ -147,32 +140,12 @@ public final class TradeCore extends JavaPlugin implements Listener {
         
         Bukkit.getOnlinePlayers().forEach(player -> removeSlowDig(player));
     }
-    
-    @EventHandler
-    public void OnPlayerJoin(PlayerJoinEvent event){
-        if(!economy.hasAccount(event.getPlayer()))
-            economy.createPlayerAccount(event.getPlayer());
-        
-        addSlowDig(event.getPlayer());
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event){
-        removeSlowDig(event.getPlayer());
-    }
-
-    //念のため金床をブロック
-    @EventHandler
-    public void OnPlayerInteract(PlayerInteractEvent event){
-        if(event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.ANVIL)
-            event.setCancelled(true);
-    }
 
     /**
      * カスタムブロック破壊を実装
      * @param player
      */
-    public void addSlowDig(Player player) {
+    public static void addSlowDig(Player player) {
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, -1, -1, false, false), true);
     }
 
@@ -180,7 +153,7 @@ public final class TradeCore extends JavaPlugin implements Listener {
      * カスタムブロック破壊を除去
      * @param player
      */
-    public void removeSlowDig(Player player) {
+    public static void removeSlowDig(Player player) {
         player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
     }
 
@@ -198,65 +171,8 @@ public final class TradeCore extends JavaPlugin implements Listener {
         }
         return klass;
     }
-
-    @EventHandler
-    public void onBlockDamage(BlockDamageEvent event) {
-        if(unbreakableMaterial.contains(event.getBlock().getType()))
-            return;
-        
-        BrokenBlocksService.createBrokenBlock(event.getBlock(), event.getPlayer());
-    }
-
-    @EventHandler
-    public void onPlayerAnimation(PlayerAnimationEvent event) {
-        Player player = event.getPlayer();
-        Set<Material> transparentBlocks = new HashSet<>();
-        transparentBlocks.add(Material.WATER);
-        transparentBlocks.add(Material.LAVA);
-        transparentBlocks.add(Material.AIR);
-        Block block = player.getTargetBlock(transparentBlocks, 5);
-        Location blockPosition = block.getLocation();
-
-        if (BrokenBlocksService.isPlayerBreakingAnotherBlock(event.getPlayer(), blockPosition)) return;
-
-        double distanceX = blockPosition.getX() - player.getLocation().x();
-        double distanceY = blockPosition.getY() - player.getLocation().y();
-        double distanceZ = blockPosition.getZ() - player.getLocation().z();
-
-        if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
-        BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d);
-    }
-
-    @EventHandler
-    public void onPlayerBreakBlock(BlockBreakEvent event) {
-        if(unbreakableMaterial.contains(event.getBlock().getType())){
-            event.setCancelled(true);
-            return;
-        }
-        
-        if(event.getPlayer().getItemInHand().getType() == Material.AIR){
-            Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), LootTables.ToolType.HAND);
-            if(table.size() != 0){
-                dropItemByLootTable(event, table);
-                return;
-            }
-        }
-        
-        ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getItemInHand());
-        if(itcItem != null && itcItem.getInternalName().equals("pebble")){
-            Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), LootTables.ToolType.AXE);
-            if(table.size() != 0){
-                dropItemByLootTable(event, table);
-                return;
-            }
-            return;
-        } //TODO:TOOL TYPE
-
-        //適正ツール以外での採掘は何も落とさない
-        event.setDropItems(false);
-    }
     
-    private void dropItemByLootTable(BlockBreakEvent event, Map<Float, ITCItem> table){
+    public static void dropItemByLootTable(BlockBreakEvent event, Map<Float, ITCItem> table){
         Random random = new Random();
         event.setCancelled(true);
         event.getBlock().setType(Material.AIR);

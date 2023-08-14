@@ -16,8 +16,8 @@ import java.util.Arrays;
  * アイテムレジストリ
  */
 public enum TCItems {
-    PEBBLE(new TCItem(Component.text("小石"), Material.PAPER, "pebble", 1)),
-    HATCHET(new TCItem(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1)),
+    PEBBLE(new TCTool(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0)),
+    HATCHET(new TCTool(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, TCTool.ToolType.AXE, 1)),
     STICK(new TCItem(Component.text("木の棒"), Material.STICK, "stick", 0));
     
     private final ITCItem tcItem;
