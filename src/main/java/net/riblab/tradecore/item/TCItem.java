@@ -34,7 +34,7 @@ public class TCItem implements ITCItem {
      * アイテムを作製した時これがまず渡されるので必要に応じてインスタンスの固有データを流し込む<br>
      * 注意：絶対に変更してはいけないので必ずクローンして使うこと
      */
-    private final ItemCreator itemStackTemplate;
+    protected ItemCreator itemStackTemplate;
 
     /**
      * 主に召喚コマンドで用いられる内部的なアイテム名<br>
@@ -61,7 +61,6 @@ public class TCItem implements ITCItem {
         this.material = material;
         this.internalName = internalName;
         this.customModelData = customModelData;
-        itemStackTemplate = createItem();
     }
 
     /**
@@ -69,7 +68,7 @@ public class TCItem implements ITCItem {
      *
      * @return 作られたアイテムの型の実体
      */
-    private ItemCreator createItem() {
+    protected ItemCreator createItem() {
         return new ItemCreator(material)
                 .setName(name.decoration(TextDecoration.ITALIC,false).color(NamedTextColor.WHITE))
                 .setStrNBT("TCID", internalName)
@@ -86,6 +85,9 @@ public class TCItem implements ITCItem {
 
     @Nonnull
     public ItemStack getItemStack() {
+        if(itemStackTemplate == null)
+            itemStackTemplate = createItem();
+        
         return itemStackTemplate.create();
     }
 

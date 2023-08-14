@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -79,7 +80,7 @@ public class EventHandler implements Listener {
 
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
         
-        ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getItemInHand());
+        ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
         if(!(itcItem instanceof TCTool)){
             BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでないアイテムを持っているなら実質素手
             return;
@@ -101,7 +102,8 @@ public class EventHandler implements Listener {
             return;
         }
 
-        if(event.getPlayer().getItemInHand().getType() == Material.AIR){
+        ItemStack mainHand = event.getPlayer().getItemInHand();
+        if(mainHand.getType() == Material.AIR){
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), TCTool.ToolType.HAND);
             if(table.size() != 0){
                 TradeCore.dropItemByLootTable(event, table);
@@ -109,11 +111,13 @@ public class EventHandler implements Listener {
             }
         }
 
-        ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getItemInHand());
+        ITCItem itcItem = TCItems.toTCItem(mainHand);
         if(itcItem instanceof TCTool){
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
             if(table.size() != 0){
                 TradeCore.dropItemByLootTable(event, table);
+                ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(mainHand);
+                event.getPlayer().getInventory().setItemInMainHand(newItemStack);
                 return;
             }
         }

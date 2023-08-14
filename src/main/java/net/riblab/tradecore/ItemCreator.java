@@ -307,7 +307,7 @@ public class ItemCreator {
         return this;
     }
 
-    @Nullable
+    @Nonnull
     public Integer getIntNBT(String key) {
         return new NBTItem(itemStack).getInteger(key);
     }
