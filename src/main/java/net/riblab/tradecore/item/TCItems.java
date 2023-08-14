@@ -18,7 +18,10 @@ import java.util.Arrays;
 public enum TCItems {
     PEBBLE(new TCTool(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0, 1.1)),
     HATCHET(new TCTool(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, TCTool.ToolType.AXE, 1, 1.2)),
-    STICK(new TCItem(Component.text("木の棒"), Material.STICK, "stick", 0));
+    STICK(new TCItem(Component.text("木の棒"), Material.STICK, "stick", 0)),
+    BARK(new TCItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1)),
+    TWIG(new TCItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3)),
+    ROUND_TRUNK(new TCItem(Component.text("丸太"), Material.OAK_LOG, "round_trunk", 2));
     
     private final ITCItem tcItem;
 

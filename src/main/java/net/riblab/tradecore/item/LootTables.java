@@ -9,7 +9,7 @@ import java.util.*;
 public enum LootTables {
     GRASS(new LootTable(Set.of(Material.GRASS, Material.TALL_GRASS), TCTool.ToolType.HAND, 0, Map.of(0.2f, TCItems.PEBBLE.get()))),
     LEAVES(new LootTable(Materials.leaves, TCTool.ToolType.AXE, 0, Map.of(0.2f, TCItems.STICK.get()))),
-    LOGS(new LootTable(Materials.logs, TCTool.ToolType.AXE, 1, Map.of(1f, TCItems.STICK.get()))); //TODO:新アイテム
+    LOGS(new LootTable(Materials.logs, TCTool.ToolType.AXE, 1, Map.of(0.2f, TCItems.ROUND_TRUNK.get(), 0.4f, TCItems.BARK.get(), 0.8f, TCItems.TWIG.get())));
     
     private final LootTable table;
 

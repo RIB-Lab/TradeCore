@@ -70,7 +70,8 @@ public class EventHandler implements Listener {
         Block block = player.getTargetBlock(transparentBlocks, 5);
         Location blockPosition = block.getLocation();
 
-        if (BrokenBlocksService.isPlayerBreakingAnotherBlock(event.getPlayer(), blockPosition)) return;
+        if(!BrokenBlocksService.getBrokenBlocks().containsKey(player)) return;
+        if(BrokenBlocksService.isPlayerBreakingAnotherBlock(event.getPlayer(), blockPosition)) return;
 
         double distanceX = blockPosition.getX() - player.getLocation().x();
         double distanceY = blockPosition.getY() - player.getLocation().y();
