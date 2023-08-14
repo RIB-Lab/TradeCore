@@ -1,5 +1,7 @@
 package net.riblab.tradecore;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
@@ -11,12 +13,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
@@ -44,12 +48,27 @@ public class EventHandler implements Listener {
     public void onPlayerQuit(PlayerQuitEvent event){
         TradeCore.removeSlowDig(event.getPlayer());
     }
-
-    //念のため金床をブロック
+    
     @org.bukkit.event.EventHandler
     public void OnPlayerInteract(PlayerInteractEvent event){
-        if(event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.ANVIL)
+        //念のため金床をブロック
+        if(event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.ANVIL){
             event.setCancelled(true);
+            return;
+        }
+        
+        //カスタム作業台 TODO:システム化
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.CRAFTING_TABLE){
+            event.setCancelled(true);
+            String neg = TCResourcePackData.UIFont.NEGATIVE_SPACE.get_char();
+            String neg2 = TCResourcePackData.UIFont.SUPER_NEGATIVE_SPACE.get_char();
+            String main = TCResourcePackData.UIFont.CRAFTING_TABLE.get_char();
+            Component text = Component.text(neg + neg + main).font(TCResourcePackData.uiFontName).color(NamedTextColor.WHITE);
+            text = text.append(Component.text(neg2 + neg2 + neg2 + neg2 + neg + neg).font(TCResourcePackData.uiFontName));
+            text = text.append(Component.text("作業台").font(TCResourcePackData.defaultFontName).color(NamedTextColor.BLACK));
+            Inventory inv = Bukkit.createInventory(event.getPlayer(), 27, text);
+            event.getPlayer().openInventory(inv);
+        }
     }
 
 
