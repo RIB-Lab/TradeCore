@@ -16,12 +16,19 @@ import java.util.Arrays;
  * アイテムレジストリ
  */
 public enum TCItems {
+    //原始時代
     PEBBLE(new TCTool(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0, 1.1, -1)),
     HATCHET(new TCTool(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, TCTool.ToolType.AXE, 1, 1.2, 10)),
     STICK(new TCItem(Component.text("木の棒"), Material.STICK, "stick", 0)),
     BARK(new TCItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1)),
     TWIG(new TCItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3)),
-    ROUND_TRUNK(new TCItem(Component.text("丸太"), Material.OAK_LOG, "round_trunk", 2));
+    ROUND_TRUNK(new TCItem(Component.text("丸太"), Material.OAK_LOG, "round_trunk", 2)),
+
+    //原木時代
+    WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, 1.2, 32)),
+    WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, 1.2, 32)),
+    WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, 1.2, 32)),
+    WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, 32));
     
     private final ITCItem tcItem;
 
