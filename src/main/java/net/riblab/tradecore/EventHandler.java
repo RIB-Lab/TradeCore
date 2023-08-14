@@ -13,6 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -140,5 +141,12 @@ public class EventHandler implements Listener {
 
         //適正ツール以外での採掘は何も落とさない
         event.setDropItems(false);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onPlayerPlaceBlock(BlockPlaceEvent event) {
+        ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
+        if(itcItem != null)
+            event.setCancelled(true);
     }
 }
