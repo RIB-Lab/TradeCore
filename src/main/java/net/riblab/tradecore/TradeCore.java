@@ -10,6 +10,7 @@ import dev.jorel.commandapi.arguments.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -19,19 +20,20 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 public final class TradeCore extends JavaPlugin implements Listener {
@@ -44,6 +46,14 @@ public final class TradeCore extends JavaPlugin implements Listener {
     private ConfigManager configManager;
     @Getter
     private ProtocolManager protocolManager;
+    
+    public static final Set<Material> unbreakableMaterial = Set.of(
+            Material.BEDROCK, Material.COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK, 
+            Material.BARRIER, Material.END_PORTAL_FRAME, Material.END_PORTAL, Material.NETHER_PORTAL, Material.STRUCTURE_BLOCK);
+
+    public static final Set<Material> leaves = Set.of(Material.ACACIA_LEAVES, Material.AZALEA_LEAVES, Material.BIRCH_LEAVES, Material.CHERRY_LEAVES, Material.DARK_OAK_LEAVES
+            , Material.FLOWERING_AZALEA_LEAVES, Material.JUNGLE_LEAVES, Material.MANGROVE_LEAVES, Material.OAK_LEAVES, Material.SPRUCE_LEAVES);
+    
     public TradeCore() {
         instance = this;
     }
@@ -191,6 +201,9 @@ public final class TradeCore extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onBlockDamage(BlockDamageEvent event) {
+        if(unbreakableMaterial.contains(event.getBlock().getType()))
+            return;
+        
         BrokenBlocksService.createBrokenBlock(event.getBlock(), event.getPlayer());
     }
 
@@ -212,5 +225,46 @@ public final class TradeCore extends JavaPlugin implements Listener {
 
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
         BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d);
+    }
+
+    @EventHandler
+    public void onPlayerBreakBlock(BlockBreakEvent event) {
+        if(unbreakableMaterial.contains(event.getBlock().getType())){
+            event.setCancelled(true);
+            return;
+        }
+        
+        if(event.getPlayer().getItemInHand().getType() == Material.AIR){
+            Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), LootTables.ToolType.HAND);
+            if(table.size() != 0){
+                dropItemByLootTable(event, table);
+                return;
+            }
+        }
+        
+        ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getItemInHand());
+        if(itcItem != null && itcItem.getInternalName().equals("pebble")){
+            Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), LootTables.ToolType.AXE);
+            if(table.size() != 0){
+                dropItemByLootTable(event, table);
+                return;
+            }
+            return;
+        } //TODO:TOOL TYPE
+
+        //適正ツール以外での採掘は何も落とさない
+        event.setDropItems(false);
+    }
+    
+    private void dropItemByLootTable(BlockBreakEvent event, Map<Float, ITCItem> table){
+        Random random = new Random();
+        event.setCancelled(true);
+        event.getBlock().setType(Material.AIR);
+        table.forEach((aFloat, itcItem) -> {
+            float rand = random.nextFloat();
+            if(rand < aFloat){
+                event.getBlock().getWorld().dropItemNaturally(event.getBlock().getLocation(), itcItem.getItemStack());
+            }
+        });
     }
 }

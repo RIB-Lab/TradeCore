@@ -17,7 +17,8 @@ import java.util.Arrays;
  */
 public enum TCItems {
     PEBBLE(new TCItem(Component.text("小石"), Material.PAPER, "pebble", 1)),
-    HATCHET(new TCItem(Component.text("ハチェット"), Material.PAPER, "hatchet", 2));
+    HATCHET(new TCItem(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1)),
+    STICK(new TCItem(Component.text("木の棒"), Material.STICK, "stick", 0));
     
     private final ITCItem tcItem;
 

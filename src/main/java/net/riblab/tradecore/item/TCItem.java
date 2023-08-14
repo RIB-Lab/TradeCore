@@ -76,6 +76,7 @@ public class TCItem implements ITCItem {
                 .hideEnchantment()
                 .setCustomModelData(customModelData)
                 .setUnbreakable(false)
+                .hideAttributes()
                 .create();
     }
 
