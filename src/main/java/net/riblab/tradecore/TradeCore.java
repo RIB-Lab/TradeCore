@@ -88,6 +88,7 @@ public final class TradeCore extends JavaPlugin {
         configManager = new ConfigManager();
         configManager.load();
         eventHandler = new EventHandler();
+        new RecipeHandler();
         
         economy = new EconomyImplementer();
         vaultHook = new VaultHook();
