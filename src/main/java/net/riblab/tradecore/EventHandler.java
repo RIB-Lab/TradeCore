@@ -77,7 +77,20 @@ public class EventHandler implements Listener {
         double distanceZ = blockPosition.getZ() - player.getLocation().z();
 
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
-        BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d);
+        
+        ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getItemInHand());
+        if(!(itcItem instanceof TCTool)){
+            BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでないアイテムを持っているなら実質素手
+            return;
+        }
+        
+        Map<Float, ITCItem> loots = LootTables.get(block.getType(), (TCTool)itcItem);
+        if(loots.size() == 0){
+            BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでアイテムがドロップしないなら実質素手
+            return;
+        }
+        
+        BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, ((TCTool) itcItem).getActualMiningSpeed());
     }
 
     @org.bukkit.event.EventHandler

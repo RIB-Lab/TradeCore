@@ -20,6 +20,12 @@ public class TCTool extends TCItem{
      */
     @Getter
     private final int harvestLevel;
+
+    /**
+     * ツールの採掘速度(1が素手と同じ速さで、10000000000で1tick破壊)
+     */
+    @Getter
+    private final double baseMiningSpeed;
     
     /**
      * 　固有アイテムの型を作成する
@@ -30,11 +36,16 @@ public class TCTool extends TCItem{
      *                        召喚コマンドで使われるので必ず半角英数字にしてスペースの代わりに_を使うこと
      * @param customModelData 固有アイテムにセットするカスタムモデルデータ
      */
-    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel) {
+    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed) {
         super(name, material, internalName, customModelData);
         
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;
+        this.baseMiningSpeed = miningSpeed;
+    }
+    
+    public double getActualMiningSpeed(){
+        return Math.log10(baseMiningSpeed) + 0.1d;
     }
 
     public enum ToolType {
