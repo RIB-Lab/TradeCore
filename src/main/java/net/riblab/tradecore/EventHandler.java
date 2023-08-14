@@ -1,5 +1,7 @@
 package net.riblab.tradecore;
 
+import com.destroystokyo.paper.event.block.BlockDestroyEvent;
+import io.papermc.paper.event.block.BlockBreakBlockEvent;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
@@ -8,10 +10,7 @@ import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDamageEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -144,5 +143,12 @@ public class EventHandler implements Listener {
         ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
         if(itcItem != null)
             event.setCancelled(true);
+    }
+
+    //バニラの棒がドロップすることを防ぐ
+    @org.bukkit.event.EventHandler
+    public void onLeavesDecay(LeavesDecayEvent event) {
+        event.setCancelled(true);
+        event.getBlock().setType(Material.AIR);
     }
 }
