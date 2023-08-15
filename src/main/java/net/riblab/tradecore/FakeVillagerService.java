@@ -53,8 +53,6 @@ public class FakeVillagerService {
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
-
-        player.getWorld().spawnParticle(Particle.HEART, spawnLocation, 10,1, 1, 1);//TODO:加工した瞬間に再生
     }
 
     /**

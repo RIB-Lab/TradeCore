@@ -12,7 +12,7 @@ import java.util.Map;
 @Data
 public class TCRecipe {
     /**
-     * レシピ素材
+     * レシピ素材。同じ種類のアイテムを複数スロットに入れないこと！
      */
     private final Map<ITCItem, Integer> ingredients;
 

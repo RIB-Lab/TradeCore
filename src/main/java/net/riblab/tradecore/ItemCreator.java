@@ -214,6 +214,24 @@ public class ItemCreator {
         return this;
     }
 
+    @ParametersAreNonnullByDefault
+    public ItemCreator addLores(List<Component> newLore) {
+        if (newLore.size() == 0) {
+            return this;
+        }
+        ItemMeta meta = itemStack.getItemMeta();
+        if (meta != null) {
+            List<Component> lores = meta.lore();
+            if (lores == null) {
+                lores = new ArrayList<>();
+            }
+            lores.addAll(newLore);
+            meta.lore(lores);
+            itemStack.setItemMeta(meta);
+        }
+        return this;
+    }
+    
     /**
      * アイテムの全ての説明文を取得
      *
