@@ -84,7 +84,7 @@ public class TCTool extends TCItem{
                     .append(Component.text("/" + baseDurability).color(NamedTextColor.WHITE)));
         }
         texts.add(Component.text("採掘速度: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
-                .append(Component.text((Math.floor(baseMiningSpeed * 10)) / 10)));
+                .append(Component.text((Math.floor(baseMiningSpeed * 100)) / 100)));
         return texts;
     }
 

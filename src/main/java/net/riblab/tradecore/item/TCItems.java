@@ -36,7 +36,14 @@ public enum TCItems {
     WIDESTONE(new TCItem(Component.text("横長の石"), Material.COBBLESTONE, "widestone", 1)),
     TALLSTONE(new TCItem(Component.text("縦長の石"), Material.COBBLESTONE, "tallstone", 2)),
     WOODPULP(new TCItem(Component.text("木くず"), Material.OAK_PLANKS, "woodpulp", 1)),
-    MOSS(new TCItem(Component.text("コケ"), Material.DIRT, "moss", 3));
+    MOSS(new TCItem(Component.text("コケ"), Material.DIRT, "moss", 3)),
+    WOODEN_COMPONENT(new TCItem(Component.text("木の強化資材"), Material.OAK_PLANKS, "wooden_component", 2)),
+    
+    //石器時代
+    STONE_AXE(new TCTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, 1.25, 128)),
+    STONE_SHOVEL(new TCTool(Component.text("石のシャベル"), Material.STONE_SHOVEL, "stone_shovel", 0, TCTool.ToolType.SHOVEL, 1, 1.25, 128)),
+    STONE_PICKAXE(new TCTool(Component.text("石のツルハシ"), Material.STONE_PICKAXE, "stone_pickaxe", 0, TCTool.ToolType.PICKAXE, 1, 1.25, 128)),
+    STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, 1.25, 128));
     
     private final ITCItem tcItem;
 

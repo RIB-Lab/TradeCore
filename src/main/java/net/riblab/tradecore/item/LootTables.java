@@ -13,7 +13,8 @@ public enum LootTables {
     DIRTS(new LootTable(Materials.dirts, TCTool.ToolType.SHOVEL, 0, Map.of(0.2f, TCItems.DUST.get(), 0.1f, TCItems.MUD.get()))),
     PRIMITIVESTONES(new LootTable(Materials.primitiveStones, TCTool.ToolType.PICKAXE, 0, Map.of(0.2f, TCItems.WIDESTONE.get(), 0.21f, TCItems.TALLSTONE.get()))),
     PRIMITIVEPLANKS(new LootTable(Materials.primitivePlanks, TCTool.ToolType.AXE, 2, Map.of(1.0f, TCItems.WOODPULP.get()))),
-    MOSS(new LootTable(Set.of(Material.FARMLAND), TCTool.ToolType.HOE, 0, Map.of(0.2f, TCItems.MOSS.get(), 1.0f, TCItems.DRYGRASS.get())));
+    MOSS(new LootTable(Set.of(Material.FARMLAND), TCTool.ToolType.HOE, 0, Map.of(0.2f, TCItems.MOSS.get(), 1.0f, TCItems.DRYGRASS.get()))),
+    LOGS2(new LootTable(Materials.logs, TCTool.ToolType.AXE, 2, Map.of(0.2f, TCItems.ROUND_TRUNK.get())));//木の斧の採掘量バフ
     
     
     private final LootTable table;
