@@ -36,7 +36,7 @@ dependencies {
     implementation 'de.tr7zw:item-nbt-api-plugin:2.11.3'
     implementation 'com.github.Exlll.ConfigLib:configlib-yaml:v4.2.0'
     compileOnly "org.projectlombok:lombok:1.18.24"
-    compileOnly 'com.comphenix.protocol:ProtocolLib:4.8.0'
+    compileOnly 'com.comphenix.protocol:ProtocolLib:5.1.0'
     implementation 'dev.triumphteam:triumph-gui:3.1.4'
 }
 

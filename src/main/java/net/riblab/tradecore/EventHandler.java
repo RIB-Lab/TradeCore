@@ -7,13 +7,11 @@ import net.riblab.tradecore.item.TCTool;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.player.PlayerAnimationEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
@@ -158,6 +156,6 @@ public class EventHandler implements Listener {
     public void onInventoryClose(InventoryCloseEvent event) {
         if(!(event.getPlayer() instanceof Player))
             return;
-        FakeVillagerService.tryDeSpawnFakeVillager((Player) event.getPlayer());
+        FakeVillagerService.tryDeSpawnFakeVillager((Player) event.getPlayer()); //TODO:買い取り商人の時は消さないようにする
     }
 }

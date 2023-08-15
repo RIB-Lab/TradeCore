@@ -2,11 +2,15 @@ package net.riblab.tradecore;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import com.comphenix.protocol.wrappers.WrappedDataValue;
+import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.google.common.collect.Lists;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.util.Vector;
 
 import java.lang.reflect.InvocationTargetException;
@@ -20,13 +24,10 @@ public class FakeVillagerService {
      * プレイヤーの視線の先のブロックの上に村人を召喚する
      * @param player
      */
-    public static void spawnFakeVillager(Player player){
-        Set<Material> transparentBlocks = new HashSet<>();
-        transparentBlocks.add(Material.WATER);
-        transparentBlocks.add(Material.LAVA);
-        transparentBlocks.add(Material.AIR);
-        Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0,1,0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
-
+    public static void spawnFakeVillager(Player player, String name, Location spawnLocation){
+        if(idMap.containsKey(player))
+            tryDeSpawnFakeVillager(player);
+        
         PacketContainer spawnPacket = TradeCore.getInstance().getProtocolManager().createPacket(PacketType.Play.Server.SPAWN_ENTITY);
 
         int entityID = new Random().nextInt();
@@ -48,11 +49,26 @@ public class FakeVillagerService {
                 .write(1, (byte) (player.getEyeLocation().getPitch() * (256.0F / 360.0F)))
                 .write(2, (byte) (yaw * (256.0F / 360.0F)));
 
-        try {
-            TradeCore.getInstance().getProtocolManager().sendServerPacket(player, spawnPacket);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        TradeCore.getInstance().getProtocolManager().sendServerPacket(player, spawnPacket);
+
+        //ここからメタデータ
+        PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
+
+        final WrappedDataWatcher.Serializer chatSerializer =
+                WrappedDataWatcher.Registry.getChatComponentSerializer(true);
+
+        final Optional<Object> optChatField =
+                Optional.of(WrappedChatComponent.fromChatMessage(name)[0].getHandle());
+        
+        final List<WrappedDataValue> dataValues = List.of(
+                new WrappedDataValue(2, chatSerializer, optChatField),
+                new WrappedDataValue(3, WrappedDataWatcher.Registry.get(Boolean.class), true),//hascustomname
+                new WrappedDataValue(5, WrappedDataWatcher.Registry.get(Boolean.class), true) //hasgravity
+        );
+        packet.getIntegers().write(0, entityID);
+        packet.getDataValueCollectionModifier().write(0, dataValues);
+
+        TradeCore.getInstance().getProtocolManager().sendServerPacket(player, packet);
     }
 
     /**
@@ -70,10 +86,10 @@ public class FakeVillagerService {
         PacketContainer deSpawnPacket = TradeCore.getInstance().getProtocolManager().createPacket(PacketType.Play.Server.ENTITY_DESTROY);
         deSpawnPacket.getIntLists().write(0, entityIDList);
 
-        try {
-            TradeCore.getInstance().getProtocolManager().sendServerPacket(player, deSpawnPacket);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        TradeCore.getInstance().getProtocolManager().sendServerPacket(player, deSpawnPacket);
+    }
+    
+    public static Integer getCurrentID(Player player){
+        return idMap.get(player);
     }
 }

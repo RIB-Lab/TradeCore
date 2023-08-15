@@ -1,7 +1,11 @@
 package net.riblab.tradecore;
 
+import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketAdapter;
+import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPICommand;
@@ -13,14 +17,22 @@ import net.riblab.tradecore.craft.VanillaCraftHandler;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Villager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.*;
+
+import static net.riblab.tradecore.Materials.transparentBlocks;
 
 
 public final class TradeCore extends JavaPlugin {
@@ -42,6 +54,8 @@ public final class TradeCore extends JavaPlugin {
     public static TradeCore getInstance() {
         return instance;
     }
+    
+    public static final String merchantName = "買い取り商";
     
     @Override
     public void onLoad(){
@@ -68,6 +82,17 @@ public final class TradeCore extends JavaPlugin {
                 });
         tcGiveCommand.setPermission(CommandPermission.OP);
         tcGiveCommand.register();
+
+        CommandAPICommand sellCommand = new CommandAPICommand("sell")
+                .executesPlayer((player, args) -> {
+                    Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+                    spawnLocation.setY(player.getLocation().getY());
+
+                    FakeVillagerService.spawnFakeVillager(player, merchantName, spawnLocation);
+                    player.getWorld().spawnParticle(Particle.SMOKE_LARGE, spawnLocation, 10,1,1,1);
+                });
+        sellCommand.setPermission(CommandPermission.NONE);
+        sellCommand.register();
     }
 
     @Override
@@ -125,6 +150,21 @@ public final class TradeCore extends JavaPlugin {
                 Bukkit.getOnlinePlayers().forEach(player -> economy.depositTickets(player, 1));
             }
         }.runTaskTimer(this, 0, 12000);
+
+        //買い取り商人
+        ProtocolLibrary.getProtocolManager().addPacketListener(
+                new PacketAdapter(this, PacketType.Play.Client.USE_ENTITY) {
+                    @Override
+                    public void onPacketReceiving(PacketEvent event) {
+                        Player player = event.getPlayer();
+                        PacketContainer packet = event.getPacket();
+                        int id = packet.getIntegers().read(0);
+                        if (id == FakeVillagerService.getCurrentID(player)) {
+                            player.sendMessage("テスト");
+                        }
+                    }
+                }
+        );
     }
 
     @Override

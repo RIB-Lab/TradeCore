@@ -13,11 +13,15 @@ import net.riblab.tradecore.craft.TCRecipes;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.Vector;
 
 import java.util.*;
+
+import static net.riblab.tradecore.Materials.transparentBlocks;
 
 public class UICraftingTable {
 
@@ -34,7 +38,7 @@ public class UICraftingTable {
                 .rows(3)
                 .disableAllInteractions()
                 .create();
-
+        
         if(type == CraftingScreenType.CATEGORY){
             addCategoryScreen(gui, player);
         }
@@ -51,8 +55,9 @@ public class UICraftingTable {
         gui.setUpdating(false);
         
         gui.open(player);
-        
-        FakeVillagerService.spawnFakeVillager(player);
+
+        Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0,1,0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+        FakeVillagerService.spawnFakeVillager(player, "職人", spawnLocation);
     }
 
     /**
@@ -73,7 +78,8 @@ public class UICraftingTable {
 
         gui.open(player);
 
-        FakeVillagerService.spawnFakeVillager(player);
+        Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0,1,0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+        FakeVillagerService.spawnFakeVillager(player, "職人", spawnLocation);
     }
 
     /**

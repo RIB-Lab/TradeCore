@@ -14,4 +14,6 @@ public class Materials {
 
     public static final Set<Material> logs = Set.of(Material.ACACIA_LOG, Material.BIRCH_LOG, Material.CHERRY_LOG, Material.JUNGLE_LOG, Material.DARK_OAK_LOG
             , Material.MANGROVE_LOG, Material.OAK_LOG, Material.SPRUCE_LOG);
+
+    public static final Set<Material> transparentBlocks = Set.of(Material.WATER, Material.LAVA, Material.AIR);
 }

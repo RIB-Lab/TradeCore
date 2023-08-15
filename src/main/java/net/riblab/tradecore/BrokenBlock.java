@@ -64,12 +64,8 @@ public class BrokenBlock {
         blockBreak.getIntegers()
                 .write(0, block.getLocation().hashCode())
                 .write(1, (int)getDamage());
-        
-        try {
-            TradeCore.getInstance().getProtocolManager().sendServerPacket(player, blockBreak);
-        } catch (InvocationTargetException ex) {
-            ex.printStackTrace();
-        }
+
+        TradeCore.getInstance().getProtocolManager().sendServerPacket(player, blockBreak);
     }
     
     private BlockPosition getBlockPosition(Block block) {
