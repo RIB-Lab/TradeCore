@@ -56,6 +56,9 @@ public final class TradeCore extends JavaPlugin {
         return instance;
     }
     
+    @Getter
+    private static boolean isWGLoaded;
+    
     public static final String merchantName = "買い取り商";
     
     @Override
@@ -110,6 +113,7 @@ public final class TradeCore extends JavaPlugin {
         economy = new EconomyImplementer();
         vaultHook = new VaultHook();
         vaultHook.hook();
+        isWGLoaded = getServer().getPluginManager().isPluginEnabled("WorldGuard");
 
         CommandAPI.onEnable();
 
