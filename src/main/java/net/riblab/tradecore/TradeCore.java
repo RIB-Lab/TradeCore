@@ -92,21 +92,20 @@ public final class TradeCore extends JavaPlugin {
 
         protocolManager = ProtocolLibrary.getProtocolManager();
 
+        //所持金と投票券表示
         new BukkitRunnable(){
-
-            //所持金と投票券表示
             @Override
             public void run() {
                 String negativeSpace = TCResourcePackData.IconsFont.NEGATIVE_SPACE.get_char();
                 Bukkit.getOnlinePlayers().forEach(player ->{
                     int balance = (int)economy.getBalance(player);
+                    int tickets = economy.getPlayTickets(player);
                     Component text = Component.text("");
                     text = text.append(Component.text(negativeSpace + negativeSpace + negativeSpace + negativeSpace + TCResourcePackData.IconsFont.COIN.get_char()).font(TCResourcePackData.iconsFontName));
                     text = text.append(Component.text(" " + balance).font(TCResourcePackData.yPlus12FontName));
                     text = text.append(Component.text("                         " + TCResourcePackData.IconsFont.VOTE_TICKET.get_char()).font(TCResourcePackData.iconsFontName));
-                    text = text.append(Component.text(" 0").font(TCResourcePackData.yPlus12FontName));
+                    text = text.append(Component.text(" " + tickets).font(TCResourcePackData.yPlus12FontName));
                     player.sendActionBar(text);
-                    
                 });
             }
         }.runTaskTimer(this, 0, 20);
@@ -118,6 +117,14 @@ public final class TradeCore extends JavaPlugin {
                 configManager.save();
             }
         }.runTaskTimer(this, 0, 3600);
+        
+        //10分に1回プレイチケット配布
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                Bukkit.getOnlinePlayers().forEach(player -> economy.depositTickets(player, 1));
+            }
+        }.runTaskTimer(this, 0, 12000);
     }
 
     @Override

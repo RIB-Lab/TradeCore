@@ -264,7 +264,8 @@ public class EconomyImplementer implements Economy {
             return false;
 
         UUID uuid = offlinePlayer.getUniqueId();
-        data.playerBank.put(offlinePlayer.getUniqueId(), 0d);
+        data.playerBank.put(uuid, 0d);
+        data.playerTickets.put(uuid, 0);
         return true;
     }
 
@@ -282,5 +283,32 @@ public class EconomyImplementer implements Economy {
         data.playerBank.put(uuid, 0d);
         data.playerTickets.put(uuid, 0);
         return true;
+    }
+    
+    /**
+     * プレイヤーの所持チケットを確認
+     */
+    public int getPlayTickets(OfflinePlayer offlinePlayer){
+        return data.playerTickets.get(offlinePlayer.getUniqueId());
+    }
+
+    /**
+     * プレイヤーにチケットを与える
+     */
+    public void depositTickets(OfflinePlayer offlinePlayer, int amount){
+        UUID uuid = offlinePlayer.getUniqueId();
+        int oldTickets = data.playerTickets.get(uuid);
+        int newTickets = oldTickets + amount;
+        data.playerTickets.put(uuid, newTickets);
+    }
+
+    /**
+     * プレイヤーからチケットを引く
+     */
+    public void withdrawTickets(OfflinePlayer offlinePlayer, int amount){
+        UUID uuid = offlinePlayer.getUniqueId();
+        int oldTickets = data.playerTickets.get(uuid);
+        int newTickets = oldTickets - amount;
+        data.playerTickets.put(uuid, newTickets);
     }
 }

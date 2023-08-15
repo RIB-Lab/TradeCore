@@ -18,7 +18,7 @@ public class ConfigManager {
     public static class CurrencyData {
         @Comment({"所持金"})
         public Map<UUID,Double> playerBank = new HashMap<>();
-        @Comment({"所持投票チケット数"})
+        @Comment({"所持プレイチケット数"})
         public Map<UUID,Integer> playerTickets = new HashMap<>();
     }
     
