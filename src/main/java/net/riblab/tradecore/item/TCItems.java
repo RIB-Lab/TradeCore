@@ -23,6 +23,7 @@ public enum TCItems {
     BARK(new TCItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1)),
     TWIG(new TCItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3)),
     ROUND_TRUNK(new TCItem(Component.text("丸太"), Material.OAK_LOG, "round_trunk", 2)),
+    DRYGRASS(new TCItem(Component.text("干し草"), Material.PAPER, "drygrass", 2)),
 
     //原木時代
     WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, 1.2, 32)),
