@@ -101,6 +101,16 @@ public final class TradeCore extends JavaPlugin {
                 });
         sellCommand.setPermission(CommandPermission.NONE);
         sellCommand.register();
+
+        CommandAPICommand spawnCommand = new CommandAPICommand("tcspawn")
+                .executesPlayer((player, args) -> {
+                    Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+                    spawnLocation.setY(player.getLocation().getY());
+                    
+                    CustomMobService.spawn(player, spawnLocation);
+                });
+        spawnCommand.setPermission(CommandPermission.OP);
+        spawnCommand.register();
     }
 
     @Override
@@ -168,7 +178,8 @@ public final class TradeCore extends JavaPlugin {
                         Player player = event.getPlayer();
                         PacketContainer packet = event.getPacket();
                         int id = packet.getIntegers().read(0);
-                        if (id == FakeVillagerService.getCurrentID(player)) {
+                        Integer integer = FakeVillagerService.getCurrentID(player);
+                        if (integer != null && id == integer) {
                             new BukkitRunnable(){
                                 @Override
                                 public void run() {

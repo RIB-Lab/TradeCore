@@ -28,6 +28,7 @@ repositories {
     maven { url 'https://jitpack.io' }
     maven { url "https://repo.dmulloy2.net/repository/public/" }
     maven { url "https://maven.enginehub.org/repo/" }
+    maven { url 'https://repo.codemc.io/repository/maven-snapshots/' }
 }
 
 dependencies {
@@ -40,6 +41,7 @@ dependencies {
     compileOnly 'com.comphenix.protocol:ProtocolLib:5.1.0'
     implementation 'dev.triumphteam:triumph-gui:3.1.4'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.9'
+    implementation(fileTree(dir: 'libs', include: ['mobchip-bukkit-*.jar']))
 }
 
 def targetJavaVersion = 17
@@ -71,7 +73,12 @@ shadowJar {
     relocate 'de.tr7zw.nbtapi', 'net.riblab.tradecore.nbtapi'
     relocate 'dev.jorel.commandapi', 'net.riblab.tradecore.commandapi'
     relocate 'de.exlll.configlib', 'net.riblab.tradecore.configlib'
-    relocate 'dev.triumphteam.gui', 'quarri6343.overcrafted.gui'
+    relocate 'dev.triumphteam.gui', 'net.riblab.tradecore.gui'
+    exclude 'me/gamercoder215/mobchip/abstraction/v1_13_R1/*'
+    exclude 'me/gamercoder215/mobchip/abstraction/v1_16_R1/*'
+    exclude 'me/gamercoder215/mobchip/abstraction/v1_16_R2/*'
+    exclude 'me/gamercoder215/mobchip/abstraction/v1_18_R1/*'
+    relocate 'me.gamercoder215.mobchip', 'net.riblab.tradecore.mobchip'
 }
 
 //Disable jar and replace with shadowJar

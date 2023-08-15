@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
@@ -164,5 +165,10 @@ public class EventHandler implements Listener {
     public void onLeavesDecay(LeavesDecayEvent event) {
         event.setCancelled(true);
         event.getBlock().setType(Material.AIR);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onEntityDeath(EntityDeathEvent event){
+        CustomMobService.onEntityDeath(event);
     }
 }

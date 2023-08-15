@@ -123,6 +123,9 @@ public class EconomyImplementer implements Economy {
         UUID uuid = player.getUniqueId();
         double oldBalance = data.playerBank.get(uuid);
         double newBalance = oldBalance - v;
+        if(newBalance < 0){
+            return new EconomyResponse(0, oldBalance, EconomyResponse.ResponseType.FAILURE, null);
+        }
         data.playerBank.put(uuid, newBalance);
         return new EconomyResponse(v, newBalance, EconomyResponse.ResponseType.SUCCESS, null);
     }
@@ -132,6 +135,9 @@ public class EconomyImplementer implements Economy {
         UUID uuid = offlinePlayer.getUniqueId();
         double oldBalance = data.playerBank.get(uuid);
         double newBalance = oldBalance - v;
+        if(newBalance < 0){
+            return new EconomyResponse(0, oldBalance, EconomyResponse.ResponseType.FAILURE, null);
+        }
         data.playerBank.put(uuid, newBalance);
         return new EconomyResponse(v, newBalance, EconomyResponse.ResponseType.SUCCESS, null);
     }
@@ -142,6 +148,9 @@ public class EconomyImplementer implements Economy {
         UUID uuid = player.getUniqueId();
         double oldBalance = data.playerBank.get(uuid);
         double newBalance = oldBalance - v;
+        if(newBalance < 0){
+            return new EconomyResponse(0, oldBalance, EconomyResponse.ResponseType.FAILURE, null);
+        }
         data.playerBank.put(uuid, newBalance);
         return new EconomyResponse(v, newBalance, EconomyResponse.ResponseType.SUCCESS, null);
     }
@@ -151,6 +160,9 @@ public class EconomyImplementer implements Economy {
         UUID uuid = offlinePlayer.getUniqueId();
         double oldBalance = data.playerBank.get(uuid);
         double newBalance = oldBalance - v;
+        if(newBalance < 0){
+            return new EconomyResponse(0, oldBalance, EconomyResponse.ResponseType.FAILURE, null);
+        }
         data.playerBank.put(uuid, newBalance);
         return new EconomyResponse(v, newBalance, EconomyResponse.ResponseType.SUCCESS, null);
     }
