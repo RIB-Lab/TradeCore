@@ -1,5 +1,12 @@
 package net.riblab.tradecore;
 
+import com.sk89q.worldedit.bukkit.BukkitWorld;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldguard.protection.ApplicableRegionSet;
+import com.sk89q.worldguard.protection.flags.Flags;
+import com.sk89q.worldguard.protection.managers.RegionManager;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
@@ -110,6 +117,11 @@ public class EventHandler implements Listener {
             return;
         }
         
+        if(!canBreakBlockWithWG(event.getPlayer(), event.getBlock())){
+            event.setCancelled(true);
+            return;
+        }
+        
         ItemStack mainHand = event.getPlayer().getItemInHand();
         if(mainHand.getType() == Material.AIR){
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), TCTool.ToolType.HAND);
@@ -150,5 +162,15 @@ public class EventHandler implements Listener {
     public void onLeavesDecay(LeavesDecayEvent event) {
         event.setCancelled(true);
         event.getBlock().setType(Material.AIR);
+    }
+
+    /**
+     * プレイヤーがWGで保護された区域のブロックを破壊できるかどうか
+     */
+    public static boolean canBreakBlockWithWG(Player p, Block b) {
+        BlockVector3 vector = BlockVector3.at(b.getX(), b.getY(), b.getZ());
+        RegionManager rm = WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(b.getWorld()));
+        ApplicableRegionSet rs = rm.getApplicableRegions(vector);
+        return rs.testState(TradeCore.getPlugin(WorldGuardPlugin.class).wrapPlayer(p), Flags.BUILD);
     }
 }
