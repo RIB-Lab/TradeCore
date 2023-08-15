@@ -16,6 +16,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -32,7 +34,7 @@ public class UICraftingTable {
      * @param player
      * @param type
      */
-    public static void open(Player player, CraftingScreenType type){
+    public static PaginatedGui open(Player player, CraftingScreenType type){
         PaginatedGui gui = Gui.paginated()
                 .title(type.getTitle())
                 .rows(3)
@@ -53,17 +55,23 @@ public class UICraftingTable {
         gui.setUpdating(true);
         gui.setInventory(Bukkit.createInventory(gui, gui.getInventory().getSize(), type.getTitle()));
         gui.setUpdating(false);
+
+        gui.setCloseGuiAction(event -> {
+            if(event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
+                FakeVillagerService.tryDeSpawnFakeVillager(player);
+        });
         
         gui.open(player);
 
         Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0,1,0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
         FakeVillagerService.spawnFakeVillager(player, "職人", spawnLocation);
+        return gui;
     }
 
     /**
      * クラフト確認画面を開く
      */
-    public static void open(Player player, TCRecipe recipe){
+    public static PaginatedGui open(Player player, TCRecipe recipe){
         PaginatedGui gui = Gui.paginated()
                 .title(CraftingScreenType.CRAFTING.getTitle())
                 .rows(3)
@@ -76,10 +84,16 @@ public class UICraftingTable {
         
         addCraftingScreen(gui, player, recipe);
 
+        gui.setCloseGuiAction(event -> {
+            if(event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
+                FakeVillagerService.tryDeSpawnFakeVillager(player);
+        });
+        
         gui.open(player);
 
         Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0,1,0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
         FakeVillagerService.spawnFakeVillager(player, "職人", spawnLocation);
+        return gui;
     }
 
     /**

@@ -19,11 +19,11 @@ public enum TCItems {
     //原始時代
     PEBBLE(new TCTool(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0, 1.1, -1)),
     HATCHET(new TCTool(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, TCTool.ToolType.AXE, 1, 1.2, 10)),
-    STICK(new TCItem(Component.text("木の棒"), Material.STICK, "stick", 0)),
-    BARK(new TCItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1)),
-    TWIG(new TCItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3)),
-    ROUND_TRUNK(new TCItem(Component.text("丸太"), Material.OAK_LOG, "round_trunk", 2)),
-    DRYGRASS(new TCItem(Component.text("干し草"), Material.PAPER, "drygrass", 2)),
+    STICK(new TCSellableItem(Component.text("木の棒"), Material.STICK, "stick", 0, 0.01d)),
+    BARK(new TCSellableItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1, 0.01d)),
+    TWIG(new TCSellableItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3, 0.01d)),
+    ROUND_TRUNK(new TCSellableItem(Component.text("丸太"), Material.OAK_LOG, "round_trunk", 2, 0.02d)),
+    DRYGRASS(new TCSellableItem(Component.text("干し草"), Material.PAPER, "drygrass", 2, 0.01d)),
 
     //原木時代
     WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, 1.2, 32)),

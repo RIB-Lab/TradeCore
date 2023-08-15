@@ -151,11 +151,4 @@ public class EventHandler implements Listener {
         event.setCancelled(true);
         event.getBlock().setType(Material.AIR);
     }
-
-    @org.bukkit.event.EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
-        if(!(event.getPlayer() instanceof Player))
-            return;
-        FakeVillagerService.tryDeSpawnFakeVillager((Player) event.getPlayer()); //TODO:買い取り商人の時は消さないようにする
-    }
 }

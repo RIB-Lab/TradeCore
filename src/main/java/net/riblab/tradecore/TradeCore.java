@@ -24,6 +24,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -76,9 +77,13 @@ public final class TradeCore extends JavaPlugin {
 
         CommandAPICommand tcGiveCommand = new CommandAPICommand("tcgive")
                 .withArguments(TCItems.customITCItemArgument("item"))
+                .withArguments(new IntegerArgument("amount", 1, 1000))
                 .executesPlayer((player, args) -> {
                     ITCItem itcItem = (ITCItem) args.get(0);
-                    player.getInventory().addItem(itcItem.getItemStack());
+                    int amount = (int) args.get(1);
+                    ItemStack newStack = itcItem.getItemStack();
+                    newStack.setAmount(amount);
+                    player.getInventory().addItem(newStack);
                 });
         tcGiveCommand.setPermission(CommandPermission.OP);
         tcGiveCommand.register();
@@ -160,7 +165,12 @@ public final class TradeCore extends JavaPlugin {
                         PacketContainer packet = event.getPacket();
                         int id = packet.getIntegers().read(0);
                         if (id == FakeVillagerService.getCurrentID(player)) {
-                            player.sendMessage("テスト");
+                            new BukkitRunnable(){
+                                @Override
+                                public void run() {
+                                    UISell.open(event.getPlayer());
+                                }
+                            }.runTaskLater(TradeCore.getInstance(), 0);
                         }
                     }
                 }
