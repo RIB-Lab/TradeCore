@@ -3,6 +3,7 @@ package net.riblab.tradecore.craft;
 import lombok.Data;
 import net.riblab.tradecore.UICraftingTable;
 import net.riblab.tradecore.item.ITCItem;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class TCRecipe {
     /**
      * レシピ完成品
      */
-    private final ITCItem result;
+    private final ItemStack result;
 
     /**
      * 完成品の量

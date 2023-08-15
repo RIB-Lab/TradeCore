@@ -16,4 +16,11 @@ public class Materials {
             , Material.MANGROVE_LOG, Material.OAK_LOG, Material.SPRUCE_LOG);
 
     public static final Set<Material> transparentBlocks = Set.of(Material.WATER, Material.LAVA, Material.AIR);
+
+    public static final Set<Material> dirts = Set.of(Material.DIRT, Material.GRASS_BLOCK, Material.DIRT_PATH, Material.COARSE_DIRT, Material.ROOTED_DIRT);
+    
+    public static final Set<Material> primitiveStones = Set.of(Material.COBBLESTONE, Material.STONE, Material.COBBLESTONE_SLAB, Material.STONE_SLAB);
+    
+    public static final Set<Material> primitivePlanks = Set.of(Material.ACACIA_PLANKS, Material.BIRCH_PLANKS, Material.BAMBOO_PLANKS, Material.CHERRY_PLANKS, Material.CRIMSON_PLANKS,
+            Material.JUNGLE_PLANKS, Material.MANGROVE_PLANKS, Material.OAK_PLANKS, Material.DARK_OAK_PLANKS, Material.SPRUCE_PLANKS);
 }

@@ -134,7 +134,7 @@ public class UICraftingTable {
             return;
         
         recipeList.forEach(tcRecipe -> {
-            ItemStack recipeStack = tcRecipe.getResult().getItemStack();
+            ItemStack recipeStack = tcRecipe.getResult().clone();
             GuiItem recipeButton = new GuiItem(recipeStack,
                     event -> open(player, tcRecipe));
             gui.addItem(recipeButton);
@@ -162,7 +162,7 @@ public class UICraftingTable {
             }while(!allowedIngredientSlotSet.contains(slot));
         }
 
-        ItemStack resultStack = recipe.getResult().getItemStack();
+        ItemStack resultStack = recipe.getResult().clone();
         Component craftTip = Component.text("<<クリックで製作>>").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false);
         resultStack = new ItemCreator(resultStack).addLore(craftTip).create();
         resultStack.setAmount(recipe.getResultAmount());
@@ -213,7 +213,7 @@ public class UICraftingTable {
         }
         TradeCore.getInstance().getEconomy().withdrawPlayer(player, recipe.getFee());
         
-        player.getInventory().addItem(recipe.getResult().getItemStack());
+        player.getInventory().addItem(recipe.getResult());
     }
     
     private static void close(Player player){

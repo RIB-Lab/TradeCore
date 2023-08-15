@@ -7,10 +7,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.managers.RegionManager;
-import net.riblab.tradecore.item.ITCItem;
-import net.riblab.tradecore.item.LootTables;
-import net.riblab.tradecore.item.TCItems;
-import net.riblab.tradecore.item.TCTool;
+import net.riblab.tradecore.item.*;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -153,8 +150,18 @@ public class EventHandler implements Listener {
     @org.bukkit.event.EventHandler
     public void onPlayerPlaceBlock(BlockPlaceEvent event) {
         ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
-        if(itcItem != null)
-            event.setCancelled(true);
+        
+        if(itcItem == null)
+            return;
+        
+        if(event.getBlock().getType() == Material.FARMLAND && itcItem instanceof TCTool){ //耕地を耕したときのドロップ
+            Map<Float, ITCItem> table = LootTables.get(Material.FARMLAND, (TCTool) itcItem);
+            TradeCore.dropItemByLootTable(event.getBlock(), table);
+            return;
+        }
+
+        event.setCancelled(true);
+
     }
 
     //バニラの棒がドロップすることを防ぐ
