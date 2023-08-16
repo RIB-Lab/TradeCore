@@ -34,20 +34,23 @@ public enum TCItems {
     WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, 32)),
     WOODEN_SWORD(new TCTool(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, TCTool.ToolType.SWORD, 0, 1, 32)),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 0)),
-    DUST(new TCItem(Component.text("塵"), Material.DIRT, "dust", 1)),
-    MUD(new TCItem(Component.text("泥"), Material.DIRT, "mud", 2)),
-    WIDESTONE(new TCItem(Component.text("横長の石"), Material.COBBLESTONE, "widestone", 1)),
-    TALLSTONE(new TCItem(Component.text("縦長の石"), Material.COBBLESTONE, "tallstone", 2)),
-    WOODPULP(new TCItem(Component.text("木くず"), Material.OAK_PLANKS, "woodpulp", 1)),
-    MOSS(new TCItem(Component.text("コケ"), Material.DIRT, "moss", 3)),
-    WOODEN_COMPONENT(new TCItem(Component.text("木の強化資材"), Material.OAK_PLANKS, "wooden_component", 2)),
+    DUST(new TCSellableItem(Component.text("塵"), Material.DIRT, "dust", 1, 0.02d)),
+    MUD(new TCSellableItem(Component.text("泥"), Material.DIRT, "mud", 2, 0.02d)),
+    WIDESTONE(new TCSellableItem(Component.text("横長の石"), Material.COBBLESTONE, "widestone", 1, 0.02d)),
+    TALLSTONE(new TCSellableItem(Component.text("縦長の石"), Material.COBBLESTONE, "tallstone", 2, 0.02d)),
+    WOODPULP(new TCSellableItem(Component.text("木くず"), Material.OAK_PLANKS, "woodpulp", 1, 0.02d)),
+    MOSS(new TCSellableItem(Component.text("コケ"), Material.DIRT, "moss", 3, 0.02d)),
+    WOODEN_COMPONENT(new TCSellableItem(Component.text("木の強化資材"), Material.OAK_PLANKS, "wooden_component", 2, 0.05d)),
     
     //石器時代
     STONE_AXE(new TCEncountableTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, 1.25, 128, Map.of(TCMobs.BASIC_TREANT.get(), 0.01f))),
     STONE_SHOVEL(new TCTool(Component.text("石のシャベル"), Material.STONE_SHOVEL, "stone_shovel", 0, TCTool.ToolType.SHOVEL, 1, 1.25, 128)),
     STONE_PICKAXE(new TCEncountableTool(Component.text("石のツルハシ"), Material.STONE_PICKAXE, "stone_pickaxe", 0, TCTool.ToolType.PICKAXE, 1, 1.25, 128, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))),
     STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, 1.25, 128)),
-    STONE_SWORD(new TCTool(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, TCTool.ToolType.SWORD, 0, 1, 128));
+    STONE_SWORD(new TCTool(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, TCTool.ToolType.SWORD, 0, 1, 128)),
+    
+    //その他
+    DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 0));
     
     private final ITCItem tcItem;
 

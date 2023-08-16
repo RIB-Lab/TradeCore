@@ -60,8 +60,21 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onBlockDamage(BlockDamageEvent event) {
-        if(unbreakableMaterial.contains(event.getBlock().getType()))
+        if(unbreakableMaterial.contains(event.getBlock().getType())){
+            event.setCancelled(true);
             return;
+        }
+
+        ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
+        if(TCItems.DESTRUCTORS_WAND.get().isSimilar(mainHand) && event.getBlock().getWorld().getName().equals("world")){ //高速破壊杖
+            if(TradeCore.isWGLoaded() && !WorldGuardUtil.canBreakBlockWithWG(event.getPlayer(), event.getBlock())){
+                event.setCancelled(true);
+                return;
+            }
+            
+            event.getBlock().setType(Material.AIR);
+            return;
+        }
 
         BrokenBlocksService.createBrokenBlock(event.getBlock(), event.getPlayer());
     }
@@ -114,8 +127,8 @@ public class EventHandler implements Listener {
             return;
         }
         
-        ItemStack mainHand = event.getPlayer().getItemInHand(); //素手
-        if(mainHand.getType() == Material.AIR){
+        ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
+        if(mainHand.getType() == Material.AIR){//素手
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), TCTool.ToolType.HAND);
             if(table.size() != 0){
                 event.setCancelled(true);
