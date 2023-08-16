@@ -9,6 +9,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
@@ -150,6 +151,12 @@ public class EventHandler implements Listener {
         if(event.getBlock().getType() == Material.FARMLAND && itcItem instanceof TCTool){ //耕地を耕したときのドロップ
             Map<Float, ITCItem> table = LootTables.get(Material.FARMLAND, (TCTool) itcItem);
             TradeCore.dropItemByLootTable(event.getBlock(), table);
+            ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(event.getItemInHand());
+            if(event.getHand() == EquipmentSlot.HAND)
+                event.getPlayer().getInventory().setItemInMainHand(newItemStack);
+            else{
+                event.getPlayer().getInventory().setItemInOffHand(newItemStack);
+            }
             return;
         }
 
