@@ -11,6 +11,9 @@ import org.bukkit.Material;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 売却可能な(素材)アイテム
+ */
 public class TCSellableItem extends TCItem {
 
     @Getter

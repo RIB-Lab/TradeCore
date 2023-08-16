@@ -11,8 +11,14 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
+/**
+ * ダミーの村人をクライアントに出現させるためのパケット管理システム
+ */
 public class FakeVillagerService {
 
+    /**
+     * プレイヤーとそのプレイヤーの元に送られたダミーの村人のMap
+     */
     private static Map<Player, Integer> idMap = new HashMap<>();
 
     /**
@@ -86,6 +92,11 @@ public class FakeVillagerService {
         TradeCore.getInstance().getProtocolManager().sendServerPacket(player, deSpawnPacket);
     }
 
+    /**
+     * 現在プレイヤーが召喚した村人のID取得
+     * @param player
+     * @return
+     */
     public static Integer getCurrentID(Player player) {
         return idMap.get(player);
     }

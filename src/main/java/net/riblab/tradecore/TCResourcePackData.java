@@ -17,8 +17,14 @@ public class TCResourcePackData {
      */
     public static final Key iconsFontName = Key.key("icons");
 
+    /**
+     * uiFontのリソースパック上での名前
+     */
     public static final Key uiFontName = Key.key("ui");
 
+    /**
+     * アクションバーのy+12の位置に表示される数字のフォントの名前
+     */
     public static final Key yPlus12FontName = Key.key("asciiyplus12");
 
     /**

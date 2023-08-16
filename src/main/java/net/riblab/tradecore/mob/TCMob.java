@@ -18,6 +18,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Map;
 import java.util.Random;
 
+/**
+ * カスタムモブの基礎クラス
+ */
 @RequiredArgsConstructor
 public class TCMob {
 
@@ -86,6 +89,10 @@ public class TCMob {
         }.runTaskLater(TradeCore.getInstance(), lifetime);
     }
 
+    /**
+     * カスタムモブが死んだときの処理
+     * @param event
+     */
     public void onKilledByPlayer(EntityDeathEvent event) {
         Random random = new Random();
         drops.forEach((itemStack, aFloat) -> {
@@ -96,6 +103,9 @@ public class TCMob {
         });
     }
 
+    /**
+     * 引数のモブがこのカスタムモブであるかどうか
+     */
     public boolean isSimilar(Mob mob) {
         if (mob == null)
             return false;

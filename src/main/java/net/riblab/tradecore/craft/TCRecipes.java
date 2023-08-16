@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * レシピ登録システム
+ */
 public enum TCRecipes {
     //木器時代
     WOODEN_AXE(new TCRecipe(Map.of(TCItems.ROUND_TRUNK.get(), 3, TCItems.STICK.get(), 2), TCItems.WOODEN_AXE.get().getItemStack(), 1, 1, RecipeType.TOOL)),
@@ -46,6 +49,9 @@ public enum TCRecipes {
         this.recipe = recipe;
     }
 
+    /**
+     * ある種類のレシピを全て取得する
+     */
     public static List<TCRecipe> getRecipes(RecipeType type) {
         return Arrays.stream(TCRecipes.values()).map(TCRecipes::getRecipe).filter(tcRecipe -> tcRecipe.getCategory() == type).collect(Collectors.toList());
     }

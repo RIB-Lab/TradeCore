@@ -13,6 +13,9 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Map;
 
+/**
+ * カスタムモブの定義一覧
+ */
 public enum TCMobs {
     BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of(TCItems.BIG_STONE.get().getItemStack(), 1f))),
     BASIC_TREANT(new Treant());
@@ -27,12 +30,18 @@ public enum TCMobs {
         return tcMob;
     }
 
+    /**
+     * モブをカスタムモブに変換する
+     */
     @Nullable
     public static TCMob toTCMob(Mob mob) {
         TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().isSimilar(mob)).findFirst().orElse(null);
         return itcMob == null ? null : itcMob.get();
     }
 
+    /**
+     * コマンド文字列をカスタムモブに変換する
+     */
     @Nullable
     public static TCMob commandToTCMob(String command) {
         TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(command)).findFirst().orElse(null);

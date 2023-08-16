@@ -6,6 +6,9 @@ import org.bukkit.Material;
 
 import java.util.*;
 
+/**
+ * ブロックを壊したとき落ちるアイテムを記述したルートテーブルの一覧
+ */
 public enum LootTables {
     GRASS(new LootTable(Set.of(Material.GRASS, Material.TALL_GRASS), TCTool.ToolType.HAND, 0, Map.of(1f, TCItems.DRYGRASS.get(), 0.2f, TCItems.PEBBLE.get()))),
     LEAVES(new LootTable(Materials.leaves, TCTool.ToolType.AXE, 0, Map.of(0.2f, TCItems.STICK.get()))),
@@ -57,6 +60,9 @@ public enum LootTables {
         return itemMap;
     }
 
+    /**
+     * バニラのルートテーブルとは別の概念
+     */
     @Data
     public static class LootTable {
         /**

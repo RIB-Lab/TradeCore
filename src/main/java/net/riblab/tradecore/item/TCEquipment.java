@@ -14,6 +14,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * カスタム装備のクラス
+ */
 public class TCEquipment extends TCItem {
 
     /**
@@ -79,9 +82,6 @@ public class TCEquipment extends TCItem {
 
     /**
      * 装備のインスタンスの耐久値を1減らす
-     *
-     * @param instance
-     * @return
      */
     public ItemStack reduceDurability(ItemStack instance) {
         if (!isSimilar(instance))

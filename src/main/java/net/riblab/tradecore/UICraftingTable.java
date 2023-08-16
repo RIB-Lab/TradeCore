@@ -24,8 +24,14 @@ import java.util.*;
 
 import static net.riblab.tradecore.Materials.transparentBlocks;
 
+/**
+ * 作業台UI
+ */
 public class UICraftingTable {
 
+    /**
+     * レシピや材料を置くことが可能なスロット番号のリスト
+     */
     private static final Set<Integer> allowedIngredientSlotSet = Set.of(0, 1, 2, 9, 10, 11, 18, 19, 20);
 
     /**

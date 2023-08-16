@@ -114,6 +114,9 @@ public class TCTool extends TCItem {
         return new ItemCreator(instance).setLores(getLore(durability)).damage(damageToDeal).setIntNBT(durabilityTag, durability).create();
     }
 
+    /**
+     * ツールの種類 TODO:SWORDを廃止してTCWeaponに移行
+     */
     public enum ToolType {
         HAND,
         AXE,

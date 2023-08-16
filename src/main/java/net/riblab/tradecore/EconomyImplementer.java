@@ -10,6 +10,9 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 他プラグインと連携するためにVaultが定義した経済システムを実装する
+ */
 public class EconomyImplementer implements Economy {
     private final ConfigManager.CurrencyData data = TradeCore.getInstance().getConfigManager().getCurrencyData();
 

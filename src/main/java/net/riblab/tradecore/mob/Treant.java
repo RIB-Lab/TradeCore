@@ -14,6 +14,9 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
+/**
+ * 斧で木を殴った時に出てくるモンスター
+ */
 public class Treant extends TCMob {
     public Treant() {
         super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of(TCItems.BARK.get().getItemStack(), 1f));

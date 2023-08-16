@@ -10,8 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
+/**
+ * 売却画面
+ */
 public class UISell {
 
+    /**
+     * 売却画面を開く
+     */
     public static PaginatedGui open(Player player) {
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text("売却"))
@@ -26,6 +32,9 @@ public class UISell {
         return gui;
     }
 
+    /**
+     * 売却画面が閉じられた時、中身の売却(ドロップ)処理を行う
+     */
     public static void onClose(InventoryCloseEvent event) {
         if (event.getReason() == InventoryCloseEvent.Reason.OPEN_NEW)
             return;

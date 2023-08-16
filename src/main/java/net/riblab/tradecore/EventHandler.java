@@ -24,6 +24,9 @@ import java.util.Set;
 
 import static net.riblab.tradecore.Materials.unbreakableMaterial;
 
+/**
+ * イベント受信システム
+ */
 public class EventHandler implements Listener {
 
     public EventHandler() {

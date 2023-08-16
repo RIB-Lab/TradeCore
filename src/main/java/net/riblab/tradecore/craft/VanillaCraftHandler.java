@@ -8,6 +8,9 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 
+/**
+ * バニラレシピの削除・登録クラス
+ */
 public class VanillaCraftHandler {
     public VanillaCraftHandler() {
         Bukkit.clearRecipes();

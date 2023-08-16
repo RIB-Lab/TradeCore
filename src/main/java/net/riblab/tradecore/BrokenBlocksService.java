@@ -8,6 +8,9 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * ワールド中の破壊中のブロックを管理するサービス
+ */
 public class BrokenBlocksService {
 
     @Getter
