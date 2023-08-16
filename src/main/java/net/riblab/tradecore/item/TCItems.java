@@ -61,7 +61,7 @@ public enum TCItems {
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),
 
     //モブ召喚系は他のアイテムを参照するので必ず最後に配置
-    STONE_AXE(new TCEncountableTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, 1.25, 128, Map.of(TCMobs.BASIC_TREANT.get(), 0.01f))),
+    STONE_AXE(new TCEncountableTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, 1.25, 128, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))),
     STONE_SHOVEL(new TCTool(Component.text("石のシャベル"), Material.STONE_SHOVEL, "stone_shovel", 0, TCTool.ToolType.SHOVEL, 1, 1.25, 128)),
     STONE_PICKAXE(new TCEncountableTool(Component.text("石のツルハシ"), Material.STONE_PICKAXE, "stone_pickaxe", 0, TCTool.ToolType.PICKAXE, 1, 1.25, 128, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))),
     STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, 1.25, 128));

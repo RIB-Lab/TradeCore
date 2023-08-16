@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -229,5 +230,30 @@ public class EventHandler implements Listener {
 
         ItemStack newItemStack = ((TCTool) item).reduceDurability(player.getInventory().getItemInMainHand());
         player.getInventory().setItemInMainHand(newItemStack);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onPlayerDamage(EntityDamageEvent event){
+        if(!(event.getEntity() instanceof Player player))
+            return;
+        
+        if(!event.isApplicable(EntityDamageEvent.DamageModifier.ARMOR)) //アーマーで防御出来ないダメージタイプは無視
+            return;
+        
+        double rawDamage = event.getDamage();
+        int armor = 0;
+        ItemStack[] newArmorContent = new ItemStack[4];
+        for (int i = 0; i < player.getInventory().getArmorContents().length; i++) {
+            ITCItem itcItem = TCItems.toTCItem(player.getInventory().getArmorContents()[i]);
+            if(!(itcItem instanceof TCEquipment equipment))
+                continue;
+
+            armor += equipment.getArmor();
+            newArmorContent[i] = equipment.reduceDurability(player.getInventory().getArmorContents()[i]);
+        }
+        player.getInventory().setArmorContents(newArmorContent);
+        
+        double finalDamage = (5* rawDamage * rawDamage)/(armor + 5* rawDamage);
+        event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, finalDamage);
     }
 }
