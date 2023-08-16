@@ -17,7 +17,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -141,9 +140,13 @@ public class UICraftingTable {
         });
 
         gui.getFiller().fillBetweenPoints(1, 4, 3, 9, ItemBuilder.from(Material.AIR).asGuiItem());
-        
-        gui.setItem(22, ItemBuilder.from(Material.ARROW).setName("前のページ").asGuiItem(event -> gui.previous()));
-        gui.setItem(24, ItemBuilder.from(Material.ARROW).setName("次のページ").asGuiItem(event -> gui.next()));//TODO:カスタムアイテム
+
+        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getItemStack(),
+                event -> gui.previous());
+        gui.setItem(22, previousPageButton);
+        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getItemStack(),
+                event -> gui.next());
+        gui.setItem(24, nextPageButton);
     }
 
     /**
