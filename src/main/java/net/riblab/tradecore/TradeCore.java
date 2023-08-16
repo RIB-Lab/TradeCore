@@ -16,14 +16,14 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.mob.CustomMobService;
+import net.riblab.tradecore.mob.TCMob;
+import net.riblab.tradecore.mob.TCMobs;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
@@ -103,11 +103,13 @@ public final class TradeCore extends JavaPlugin {
         sellCommand.register();
 
         CommandAPICommand spawnCommand = new CommandAPICommand("tcspawn")
+                .withArguments(TCMobs.customITCMobArgument("mobname"))
                 .executesPlayer((player, args) -> {
+                    TCMob type = (TCMob) args.get(0);
                     Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
                     
-                    CustomMobService.spawn(player, spawnLocation);
+                    CustomMobService.spawn(player, spawnLocation, type);
                 });
         spawnCommand.setPermission(CommandPermission.OP);
         spawnCommand.register();
