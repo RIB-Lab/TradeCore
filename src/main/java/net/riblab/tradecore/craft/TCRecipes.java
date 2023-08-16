@@ -23,6 +23,10 @@ public enum TCRecipes {
     CHEST(new TCRecipe(Map.of(TCItems.ROUND_TRUNK.get(), 8), new ItemStack(Material.CHEST), 1, 3, RecipeType.MISC)),
     PLANK(new TCRecipe(Map.of(TCItems.ROUND_TRUNK.get(), 1), new ItemStack(Material.OAK_PLANKS), 1, 1, RecipeType.MISC)),
     WOODEN_COMPONENT(new TCRecipe(Map.of(TCItems.ROUND_TRUNK.get(), 3, TCItems.DUST.get(), 3,TCItems.WOODPULP.get(), 5, TCItems.MOSS.get(),10), TCItems.WOODEN_COMPONENT.get().getItemStack(), 1, 5, RecipeType.MISC)),
+    BARK_HELMET(new TCRecipe(Map.of(TCItems.BARK.get(), 5, TCItems.MUD.get(), 5), TCItems.BARK_HELMET.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
+    BARK_CHESTPLATE(new TCRecipe(Map.of(TCItems.BARK.get(), 8, TCItems.MUD.get(), 8), TCItems.BARK_CHESTPLATE.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
+    BARK_LEGGINGS(new TCRecipe(Map.of(TCItems.BARK.get(), 7, TCItems.MUD.get(), 7), TCItems.BARK_LEGGINGS.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
+    BARK_BOOTS(new TCRecipe(Map.of(TCItems.BARK.get(), 4, TCItems.MUD.get(), 4), TCItems.BARK_BOOTS.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
 
     //石器時代
     STONE_AXE(new TCRecipe(Map.of(TCItems.WIDESTONE.get(), 1, TCItems.TALLSTONE.get(), 2, TCItems.WOODEN_COMPONENT.get(), 1, TCItems.STICK.get(), 2), TCItems.STONE_AXE.get().getItemStack(), 1, 3, RecipeType.TOOL)),
@@ -31,7 +35,11 @@ public enum TCRecipes {
     STONE_HOE(new TCRecipe(Map.of(TCItems.WIDESTONE.get(), 2, TCItems.WOODEN_COMPONENT.get(), 1, TCItems.STICK.get(), 2), TCItems.STONE_HOE.get().getItemStack(), 1, 3, RecipeType.TOOL)),
     STONE_SWORD(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 2, TCItems.WOODEN_COMPONENT.get(), 1, TCItems.STICK.get(), 2), TCItems.STONE_SWORD.get().getItemStack(), 1, 3, RecipeType.WEAPON)),
     FURNACE(new TCRecipe(Map.of(TCItems.BIG_STONE.get(), 3, TCItems.STONE_PICKAXE.get(), 1), new ItemStack(Material.FURNACE), 1, 10, RecipeType.MISC)),
-    FUEL_BALL(new TCRecipe(Map.of(TCItems.DRYGRASS.get(), 32), TCItems.FUEL_BALL.get().getItemStack(), 1, 1, RecipeType.MISC));
+    FUEL_BALL(new TCRecipe(Map.of(TCItems.DRYGRASS.get(), 32), TCItems.FUEL_BALL.get().getItemStack(), 1, 1, RecipeType.MISC)),
+    STONE_HELMET(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 10, TCItems.WIDESTONE.get(), 15, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_HELMET.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
+    STONE_CHESTPLATE(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 10, TCItems.WIDESTONE.get(), 30, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_CHESTPLATE.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
+    STONE_LEGGINGS(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 30, TCItems.WIDESTONE.get(), 5, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_LEGGINGS.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
+    STONE_BOOTS(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 40, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_BOOTS.get().getItemStack(), 1, 3, RecipeType.ARMOR));
     
     @Getter
     private final TCRecipe recipe;

@@ -34,7 +34,7 @@ public class CustomMobService {
         if(tcMob == null)
             return;
         
-        tcMob.deSpawn(event);
+        tcMob.onKilledByPlayer(event);
     }
     
     public static void deSpawnAll(){

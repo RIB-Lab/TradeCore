@@ -3,7 +3,6 @@ package net.riblab.tradecore.mob;
 import me.gamercoder215.mobchip.EntityBrain;
 import me.gamercoder215.mobchip.ai.attribute.AttributeInstance;
 import me.gamercoder215.mobchip.ai.attribute.EntityAttribute;
-import me.gamercoder215.mobchip.ai.behavior.EntityBehavior;
 import me.gamercoder215.mobchip.bukkit.BukkitBrain;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.TCItems;
@@ -14,10 +13,11 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Map;
 
 public class Treant extends TCMob{
     public Treant() {
-        super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", List.of(TCItems.BARK.get().getItemStack()));
+        super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of(TCItems.BARK.get().getItemStack(), 1f));
     }
 
     @Override

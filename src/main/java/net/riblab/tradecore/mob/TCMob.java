@@ -1,30 +1,22 @@
 package net.riblab.tradecore.mob;
 
 import de.tr7zw.nbtapi.NBTEntity;
-import de.tr7zw.nbtapi.NBTItem;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import me.gamercoder215.mobchip.EntityBrain;
-import me.gamercoder215.mobchip.ai.EntityAI;
 import me.gamercoder215.mobchip.ai.attribute.AttributeInstance;
 import me.gamercoder215.mobchip.ai.attribute.EntityAttribute;
-import me.gamercoder215.mobchip.ai.goal.PathfinderLeapAtTarget;
-import me.gamercoder215.mobchip.ai.goal.target.PathfinderNearestAttackableTarget;
 import me.gamercoder215.mobchip.bukkit.BukkitBrain;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.ItemCreator;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.item.TCItems;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import javax.annotation.Nullable;
-import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @RequiredArgsConstructor
 public class TCMob {
@@ -57,7 +49,7 @@ public class TCMob {
      * エンティティのドロップ品
      */
     @Getter
-    private final List<ItemStack> drops;
+    private final Map<ItemStack, Float> drops;
     
     private static final int lifetime = 6000;
 
@@ -93,10 +85,14 @@ public class TCMob {
         }.runTaskLater(TradeCore.getInstance(), lifetime);
     }
     
-    public void deSpawn(EntityDeathEvent event){
-        for (ItemStack drop : drops) {
-            event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), drop);
-        }
+    public void onKilledByPlayer(EntityDeathEvent event){
+        Random random = new Random();
+        drops.forEach((itemStack, aFloat) -> {
+            float rand = random.nextFloat();
+            if(rand < aFloat){
+                event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), itemStack);
+            }
+        });
     }
 
     public boolean isSimilar(Mob mob) {
