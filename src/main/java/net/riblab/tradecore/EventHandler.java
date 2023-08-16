@@ -51,20 +51,41 @@ public class EventHandler implements Listener {
     public void OnPlayerInteract(PlayerInteractEvent event) {
         if (event.getPlayer().isSneaking())
             return;
+        
+        blockAnvilInteraction(event);
+        if(event.isCancelled())
+            return;
+        
+        interactCraftingTable(event);
+        if(event.isCancelled())
+            return;
+        
+        interactFurnace(event);
+    }
 
-        //念のため金床をブロック
+    /**
+     * 念のため金床をブロック
+     */
+    public void blockAnvilInteraction(PlayerInteractEvent event) {
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.ANVIL) {
             event.setCancelled(true);
-            return;
         }
+    }
 
-        //カスタム作業台 TODO:カスタムブロックで管理
+    /**
+     * カスタム作業台 TODO:カスタムブロックで管理
+     */
+    public void interactCraftingTable(PlayerInteractEvent event){
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.CRAFTING_TABLE) {
             event.setCancelled(true);
             UICraftingTable.open(event.getPlayer(), UICraftingTable.CraftingScreenType.CATEGORY);
         }
+    }
 
-        //かまど TODO:ちゃんとGUIとかレシピシステムを作る
+    /**
+     * かまど TODO:ちゃんとGUIとかレシピシステムを作る
+     */
+    public void interactFurnace(PlayerInteractEvent event){
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.FURNACE) {
             event.setCancelled(true);
             Inventory inv = event.getPlayer().getInventory();
@@ -80,6 +101,13 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onBlockDamage(BlockDamageEvent event) {
+        tryCreateBrokenBlock(event);
+    }
+
+    /**
+     * ブロックにサーバー側でひびを入れることを試みる
+     */
+    public void tryCreateBrokenBlock(BlockDamageEvent event){
         if (unbreakableMaterial.contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
@@ -101,6 +129,13 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onPlayerAnimation(PlayerAnimationEvent event) {
+        tryIncrementBlockDamage(event);
+    }
+
+    /**
+     * ブロックのサーバー側のヒビを大きくする
+     */
+    public void tryIncrementBlockDamage(PlayerAnimationEvent event){
         Player player = event.getPlayer();
         Set<Material> transparentBlocks = new HashSet<>();
         transparentBlocks.add(Material.WATER);
@@ -137,6 +172,14 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onPlayerBreakBlock(BlockBreakEvent event) {
+        tryHarvestBlockWithCustomTool(event);
+    }
+
+    /**
+     * カスタムツールが使われていた場合、ドロップ品や敵を生成する
+     * @param event
+     */
+    public void tryHarvestBlockWithCustomTool(BlockBreakEvent event) {
         if (unbreakableMaterial.contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
@@ -182,11 +225,19 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onPlayerPlaceBlock(BlockPlaceEvent event) {
+        tryProcessHoeDrop(event);
+    }
+
+    /**
+     * クワの耕地ドロップ処理を実行すると同時にITCItemが設置されるのを防止する
+     * @param event
+     */
+    public void tryProcessHoeDrop(BlockPlaceEvent event) {
         ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
 
         if (itcItem == null)
             return;
-
+        
         if (event.getBlock().getType() == Material.FARMLAND && itcItem instanceof TCTool) { //耕地を耕したときのドロップ
             Map<Float, ITCItem> table = LootTables.get(Material.FARMLAND, (TCTool) itcItem);
             TradeCore.dropItemByLootTable(event.getBlock(), table);
@@ -200,12 +251,17 @@ public class EventHandler implements Listener {
         }
 
         event.setCancelled(true);
-
     }
-
-    //バニラの棒がドロップすることを防ぐ
+    
     @org.bukkit.event.EventHandler
     public void onLeavesDecay(LeavesDecayEvent event) {
+        preventVanillaStickFromDropping(event);
+    }
+
+    /**
+     * バニラの棒が葉っぱからドロップすることを防ぐ
+     */
+    public void preventVanillaStickFromDropping(LeavesDecayEvent event) {
         event.setCancelled(true);
         event.getBlock().setType(Material.AIR);
     }
@@ -217,6 +273,13 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
+        tryReduceWeaponDurability(event);
+    }
+
+    /**
+     * 攻撃した時に武器の耐久値を減らす
+     */
+    public void tryReduceWeaponDurability(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player player))
             return;
 
@@ -237,12 +300,19 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onPlayerDamage(EntityDamageEvent event){
+        tryBlockDamageWithCustomArmor(event);
+    }
+
+    /**
+     * ダメージをカスタム装備でブロックすると同時に装備の耐久を減らす
+     */
+    public void tryBlockDamageWithCustomArmor(EntityDamageEvent event){
         if(!(event.getEntity() instanceof Player player))
             return;
-        
+
         if(!event.isApplicable(EntityDamageEvent.DamageModifier.ARMOR)) //アーマーで防御出来ないダメージタイプは無視
             return;
-        
+
         double rawDamage = event.getDamage();
         int armor = 0;
         ItemStack[] newArmorContent = new ItemStack[4];
@@ -255,7 +325,7 @@ public class EventHandler implements Listener {
             newArmorContent[i] = equipment.reduceDurability(player.getInventory().getArmorContents()[i]);
         }
         player.getInventory().setArmorContents(newArmorContent);
-        
+
         double finalDamage = (5* rawDamage * rawDamage)/(armor + 5* rawDamage);
         event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, finalDamage);
     }
