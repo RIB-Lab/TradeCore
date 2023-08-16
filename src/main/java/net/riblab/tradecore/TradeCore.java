@@ -21,8 +21,10 @@ import net.riblab.tradecore.mob.TCMob;
 import net.riblab.tradecore.mob.TCMobs;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -200,6 +202,8 @@ public final class TradeCore extends JavaPlugin {
         CommandAPI.onDisable();
         configManager.save();
         
+        CustomMobService.deSpawnAll();
+        
         Bukkit.getOnlinePlayers().forEach(player -> removeSlowDig(player));
     }
 
@@ -242,5 +246,30 @@ public final class TradeCore extends JavaPlugin {
                 block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
             }
         });
+    }
+    
+    public static void trySpawnMob(Player player, Block block, Map<TCMob, Float> table){
+        Random random = new Random();
+        table.forEach((itcmob, aFloat) -> {
+            float rand = random.nextFloat();
+            if(rand < aFloat){
+                Location safeLocation = findSafeLocationToSpawn(block, 5);
+                if(safeLocation != null)
+                    CustomMobService.spawn(player, safeLocation, itcmob);
+            }
+        });
+    }
+    
+    public static Location findSafeLocationToSpawn(Block block, int radius){
+        Random random = new Random();
+        for (int i = 0; i < 50; i++) {
+            Block tryBlock = block.getRelative(random.nextInt(radius * 2) - radius + 1, random.nextInt(radius * 2) -radius, random.nextInt(radius * 2) -radius);
+            if(tryBlock.getType() != Material.AIR || tryBlock.getRelative(BlockFace.UP).getType() != Material.AIR)
+                continue;
+            
+            return tryBlock.getLocation().add(new Vector(0.5f, 0, 0.5f));
+        }
+        
+        return null; //何回探しても安全な場所がなかったらモブのスポーンを諦める
     }
 }

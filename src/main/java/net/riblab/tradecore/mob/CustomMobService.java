@@ -1,6 +1,7 @@
 package net.riblab.tradecore.mob;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -34,5 +35,10 @@ public class CustomMobService {
             return;
         
         tcMob.deSpawn(event);
+    }
+    
+    public static void deSpawnAll(){
+        spawnedMobs.forEach(Entity::remove);
+        spawnedMobs.clear();
     }
 }

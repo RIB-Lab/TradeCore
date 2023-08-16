@@ -114,7 +114,7 @@ public class EventHandler implements Listener {
             return;
         }
         
-        ItemStack mainHand = event.getPlayer().getItemInHand();
+        ItemStack mainHand = event.getPlayer().getItemInHand(); //素手
         if(mainHand.getType() == Material.AIR){
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), TCTool.ToolType.HAND);
             if(table.size() != 0){
@@ -126,7 +126,7 @@ public class EventHandler implements Listener {
         }
 
         ITCItem itcItem = TCItems.toTCItem(mainHand);
-        if(itcItem instanceof TCTool){
+        if(itcItem instanceof TCTool){ //ツール
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
             if(table.size() != 0){
                 event.setCancelled(true);
@@ -134,6 +134,11 @@ public class EventHandler implements Listener {
                 TradeCore.dropItemByLootTable(event.getBlock(), table);
                 ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(mainHand);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
+                
+                if(itcItem instanceof TCEncountableTool encountableTool){
+                    TradeCore.trySpawnMob(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable());
+                }
+                
                 return;
             }
         }
