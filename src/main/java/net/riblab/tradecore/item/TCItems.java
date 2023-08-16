@@ -43,11 +43,19 @@ public enum TCItems {
     WOODEN_COMPONENT(new TCSellableItem(Component.text("木の強化資材"), Material.OAK_PLANKS, "wooden_component", 2, 0.05d)),
     NEXT_PAGE(new TCItem(Component.text("次のページ"), Material.ARROW, "nextpage", 1)),
     PREVIOUS_PAGE(new TCItem(Component.text("前のページ"), Material.ARROW, "previouspage", 2)),
+    BARK_HELMET(new TCEquipment(Component.text("樹皮のヘルメット"), Material.CHAINMAIL_HELMET, "bark_helmet", 2, 32, "bark")),
+    BARK_CHESTPLATE(new TCEquipment(Component.text("樹皮のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "bark_chestplate", 2, 32, "bark")),
+    BARK_LEGGINGS(new TCEquipment(Component.text("樹皮のレギンス"), Material.CHAINMAIL_LEGGINGS, "bark_leggings", 2, 32, "bark")),
+    BARK_BOOTS(new TCEquipment(Component.text("樹皮のブーツ"), Material.CHAINMAIL_BOOTS, "bark_boots", 2, 32, "bark")),
     
     //石器時代
     BIG_STONE(new TCSellableItem(Component.text("大きな石"), Material.STONE, "big_stone", 0, 0.05d)),
     STONE_SWORD(new TCTool(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, TCTool.ToolType.SWORD, 0, 1, 128)),
     FUEL_BALL(new TCSellableItem(Component.text("燃料玉"), Material.HAY_BLOCK, "fuel_ball", 0, 0.05d)),
+    STONE_HELMET(new TCEquipment(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", 4, 128, "stone")),
+    STONE_CHESTPLATE(new TCEquipment(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", 4, 128, "stone")),
+    STONE_LEGGINGS(new TCEquipment(Component.text("石のレギンス"), Material.CHAINMAIL_LEGGINGS, "stone_leggings", 4, 128, "stone")),
+    STONE_BOOTS(new TCEquipment(Component.text("石のブーツ"), Material.CHAINMAIL_BOOTS, "stone_boots", 4, 128, "stone")),
     
     //その他
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),

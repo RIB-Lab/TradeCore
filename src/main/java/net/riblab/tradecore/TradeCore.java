@@ -103,7 +103,7 @@ public final class TradeCore extends JavaPlugin {
         tcGiveCommand.setPermission(CommandPermission.OP);
         tcGiveCommand.register();
 
-        CommandAPICommand sellCommand = new CommandAPICommand("sell")
+        CommandAPICommand sellCommand = new CommandAPICommand("tcsell")
                 .executesPlayer((player, args) -> {
                     Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
