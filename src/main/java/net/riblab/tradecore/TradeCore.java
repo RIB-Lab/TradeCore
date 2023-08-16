@@ -13,8 +13,10 @@ import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.craft.TCRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
 import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
@@ -62,6 +64,14 @@ public final class TradeCore extends JavaPlugin {
     private static boolean isWGLoaded;
     
     public static final String merchantName = "買い取り商";
+    
+    static {
+        //安全にenumを初期化
+        TCItems.values();
+        TCMobs.values();
+        LootTables.values();
+        TCRecipes.values();
+    }
     
     @Override
     public void onLoad(){

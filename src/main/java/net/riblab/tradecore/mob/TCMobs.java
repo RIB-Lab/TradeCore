@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum TCMobs {
-    BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", List.of(TCItems.STICK.get().getItemStack()))),
+    BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", List.of(TCItems.BIG_STONE.get().getItemStack()))),
     BASIC_TREANT(new Treant());
     
     private final TCMob tcMob;

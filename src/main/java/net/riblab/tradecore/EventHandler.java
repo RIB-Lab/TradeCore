@@ -11,6 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
@@ -50,10 +51,22 @@ public class EventHandler implements Listener {
             return;
         }
         
-        //カスタム作業台 TODO:システム化
+        //カスタム作業台 TODO:カスタムブロックで管理
         if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.CRAFTING_TABLE){
             event.setCancelled(true);
             UICraftingTable.open(event.getPlayer(), UICraftingTable.CraftingScreenType.CATEGORY);
+        }
+        
+        //かまど TODO:ちゃんとGUIとかレシピシステムを作る
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.FURNACE){
+            event.setCancelled(true);
+            Inventory inv = event.getPlayer().getInventory();
+            if(inv.containsAtLeast(TCItems.FUEL_BALL.get().getItemStack(), 1) &&
+                    inv.containsAtLeast(TCItems.STICK.get().getItemStack(), 1)){
+                inv.removeItem(TCItems.FUEL_BALL.get().getItemStack());
+                inv.removeItem(TCItems.STICK.get().getItemStack());
+                event.getPlayer().getInventory().addItem(new ItemStack(Material.TORCH));
+            }
         }
     }
 
