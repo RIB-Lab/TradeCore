@@ -30,6 +30,7 @@ public enum TCItems {
     WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, 1.2, 32)),
     WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, 1.2, 32)),
     WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, 32)),
+    WOODEN_SWORD(new TCTool(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, TCTool.ToolType.SWORD, 0, 1, 32)),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 0)),
     DUST(new TCItem(Component.text("塵"), Material.DIRT, "dust", 1)),
     MUD(new TCItem(Component.text("泥"), Material.DIRT, "mud", 2)),
@@ -43,7 +44,8 @@ public enum TCItems {
     STONE_AXE(new TCTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, 1.25, 128)),
     STONE_SHOVEL(new TCTool(Component.text("石のシャベル"), Material.STONE_SHOVEL, "stone_shovel", 0, TCTool.ToolType.SHOVEL, 1, 1.25, 128)),
     STONE_PICKAXE(new TCTool(Component.text("石のツルハシ"), Material.STONE_PICKAXE, "stone_pickaxe", 0, TCTool.ToolType.PICKAXE, 1, 1.25, 128)),
-    STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, 1.25, 128));
+    STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, 1.25, 128)),
+    STONE_SWORD(new TCTool(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, TCTool.ToolType.SWORD, 0, 1, 128));
     
     private final ITCItem tcItem;
 

@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
@@ -174,5 +175,25 @@ public class EventHandler implements Listener {
     @org.bukkit.event.EventHandler
     public void onEntityDeath(EntityDeathEvent event){
         CustomMobService.onEntityDeath(event);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onEntityDamage(EntityDamageByEntityEvent event){
+        if(!(event.getDamager() instanceof Player player))
+            return;
+
+        ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
+        if(!(item instanceof TCTool)){
+            event.setCancelled(true);
+            return;
+        }
+
+        if(!(((TCTool)item).getToolType() == TCTool.ToolType.SWORD)){
+            event.setCancelled(true);
+            return;
+        }
+
+        ItemStack newItemStack = ((TCTool) item).reduceDurability(player.getInventory().getItemInMainHand());
+        player.getInventory().setItemInMainHand(newItemStack);
     }
 }
