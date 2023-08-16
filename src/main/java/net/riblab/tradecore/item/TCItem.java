@@ -2,7 +2,6 @@ package net.riblab.tradecore.item;
 
 
 import lombok.Data;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -47,12 +46,12 @@ public class TCItem implements ITCItem {
     private final int customModelData;
 
     /**
-     *　固有アイテムの型を作成する
+     * 　固有アイテムの型を作成する
      *
-     * @param name 作りたい固有アイテムの名前(ユーザーが読むので必ず日本語にすること)
-     * @param material 作りたい固有アイテムの元となるバニラアイテム
-     * @param internalName 作りたい固有アイテムの内部的な名前<br>
-     *                     召喚コマンドで使われるので必ず半角英数字にしてスペースの代わりに_を使うこと
+     * @param name            作りたい固有アイテムの名前(ユーザーが読むので必ず日本語にすること)
+     * @param material        作りたい固有アイテムの元となるバニラアイテム
+     * @param internalName    作りたい固有アイテムの内部的な名前<br>
+     *                        召喚コマンドで使われるので必ず半角英数字にしてスペースの代わりに_を使うこと
      * @param customModelData 固有アイテムにセットするカスタムモデルデータ
      */
     @ParametersAreNonnullByDefault
@@ -70,7 +69,7 @@ public class TCItem implements ITCItem {
      */
     protected ItemCreator createItem() {
         return new ItemCreator(material)
-                .setName(name.decoration(TextDecoration.ITALIC,false).color(NamedTextColor.WHITE))
+                .setName(name.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
                 .setStrNBT("TCID", internalName)
                 .hideEnchantment()
                 .setCustomModelData(customModelData)
@@ -85,9 +84,9 @@ public class TCItem implements ITCItem {
 
     @Nonnull
     public ItemStack getItemStack() {
-        if(itemStackTemplate == null)
+        if (itemStackTemplate == null)
             itemStackTemplate = createItem();
-        
+
         return itemStackTemplate.create();
     }
 
@@ -97,7 +96,7 @@ public class TCItem implements ITCItem {
 
         String ID = new ItemCreator(itemStack).getStrNBT("TCID");
 
-        if(ID == null)
+        if (ID == null)
             return false;
 
         return ID.equals(internalName);

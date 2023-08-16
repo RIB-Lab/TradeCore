@@ -17,7 +17,7 @@ public class TCEncountableTool extends TCTool {
      */
     @Getter
     private final Map<TCMob, Float> spawnTable;
-    
+
     /**
      * 　固有アイテムの型を作成する
      */

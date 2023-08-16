@@ -3,8 +3,8 @@ package net.riblab.tradecore;
 import net.kyori.adventure.key.Key;
 
 public class TCResourcePackData {
-    public TCResourcePackData(){
-        
+    public TCResourcePackData() {
+
     }
 
     /**
@@ -18,7 +18,7 @@ public class TCResourcePackData {
     public static final Key iconsFontName = Key.key("icons");
 
     public static final Key uiFontName = Key.key("ui");
-    
+
     public static final Key yPlus12FontName = Key.key("asciiyplus12");
 
     /**
@@ -29,14 +29,14 @@ public class TCResourcePackData {
         SPACE(" "),
         COIN("\uE000"),
         VOTE_TICKET("\uE001");
-        
+
         private final String _char;
 
         IconsFont(String _char) {
             this._char = _char;
         }
-        
-        public String get_char(){
+
+        public String get_char() {
             return _char;
         }
     }
@@ -51,7 +51,7 @@ public class TCResourcePackData {
         CRAFTING_TABLE_MISC("\uE003"),
         CRAFTING_TABLE_TOOL("\uE004"),
         CRAFTING_TABLE_WEAPON("\uE005");
-        
+
 
         private final String _char;
 
@@ -59,7 +59,7 @@ public class TCResourcePackData {
             this._char = _char;
         }
 
-        public String get_char(){
+        public String get_char() {
             return _char;
         }
     }

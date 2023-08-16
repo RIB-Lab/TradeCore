@@ -9,7 +9,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerAnimationEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -21,48 +24,48 @@ import java.util.Set;
 import static net.riblab.tradecore.Materials.unbreakableMaterial;
 
 public class EventHandler implements Listener {
-    
-    public EventHandler(){
+
+    public EventHandler() {
         Bukkit.getServer().getPluginManager().registerEvents(this, TradeCore.getInstance());
     }
 
 
     @org.bukkit.event.EventHandler
-    public void OnPlayerJoin(PlayerJoinEvent event){
-        if(!TradeCore.getInstance().getEconomy().hasAccount(event.getPlayer()))
+    public void OnPlayerJoin(PlayerJoinEvent event) {
+        if (!TradeCore.getInstance().getEconomy().hasAccount(event.getPlayer()))
             TradeCore.getInstance().getEconomy().createPlayerAccount(event.getPlayer());
 
         TradeCore.addSlowDig(event.getPlayer());
     }
 
     @org.bukkit.event.EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event){
+    public void onPlayerQuit(PlayerQuitEvent event) {
         TradeCore.removeSlowDig(event.getPlayer());
     }
-    
+
     @org.bukkit.event.EventHandler
-    public void OnPlayerInteract(PlayerInteractEvent event){
-        if(event.getPlayer().isSneaking())
+    public void OnPlayerInteract(PlayerInteractEvent event) {
+        if (event.getPlayer().isSneaking())
             return;
-        
+
         //念のため金床をブロック
-        if(event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.ANVIL){
+        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.ANVIL) {
             event.setCancelled(true);
             return;
         }
-        
+
         //カスタム作業台 TODO:カスタムブロックで管理
-        if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.CRAFTING_TABLE){
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.CRAFTING_TABLE) {
             event.setCancelled(true);
             UICraftingTable.open(event.getPlayer(), UICraftingTable.CraftingScreenType.CATEGORY);
         }
-        
+
         //かまど TODO:ちゃんとGUIとかレシピシステムを作る
-        if(event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.FURNACE){
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.FURNACE) {
             event.setCancelled(true);
             Inventory inv = event.getPlayer().getInventory();
-            if(inv.containsAtLeast(TCItems.FUEL_BALL.get().getItemStack(), 1) &&
-                    inv.containsAtLeast(TCItems.STICK.get().getItemStack(), 1)){
+            if (inv.containsAtLeast(TCItems.FUEL_BALL.get().getItemStack(), 1) &&
+                    inv.containsAtLeast(TCItems.STICK.get().getItemStack(), 1)) {
                 inv.removeItem(TCItems.FUEL_BALL.get().getItemStack());
                 inv.removeItem(TCItems.STICK.get().getItemStack());
                 event.getPlayer().getInventory().addItem(new ItemStack(Material.TORCH));
@@ -73,18 +76,18 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onBlockDamage(BlockDamageEvent event) {
-        if(unbreakableMaterial.contains(event.getBlock().getType())){
+        if (unbreakableMaterial.contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
         }
 
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
-        if(TCItems.DESTRUCTORS_WAND.get().isSimilar(mainHand) && event.getBlock().getWorld().getName().equals("world")){ //高速破壊杖
-            if(TradeCore.isWGLoaded() && !WorldGuardUtil.canBreakBlockWithWG(event.getPlayer(), event.getBlock())){
+        if (TCItems.DESTRUCTORS_WAND.get().isSimilar(mainHand) && event.getBlock().getWorld().getName().equals("world")) { //高速破壊杖
+            if (TradeCore.isWGLoaded() && !WorldGuardUtil.canBreakBlockWithWG(event.getPlayer(), event.getBlock())) {
                 event.setCancelled(true);
                 return;
             }
-            
+
             event.getBlock().setType(Material.AIR);
             return;
         }
@@ -102,23 +105,23 @@ public class EventHandler implements Listener {
         Block block = player.getTargetBlock(transparentBlocks, 5);
         Location blockPosition = block.getLocation();
 
-        if(!BrokenBlocksService.getBrokenBlocks().containsKey(player)) return;
-        if(BrokenBlocksService.isPlayerBreakingAnotherBlock(event.getPlayer(), blockPosition)) return;
+        if (!BrokenBlocksService.getBrokenBlocks().containsKey(player)) return;
+        if (BrokenBlocksService.isPlayerBreakingAnotherBlock(event.getPlayer(), blockPosition)) return;
 
         double distanceX = blockPosition.getX() - player.getLocation().x();
         double distanceY = blockPosition.getY() - player.getLocation().y();
         double distanceZ = blockPosition.getZ() - player.getLocation().z();
 
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
-        
+
         ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
-        if(!(itcItem instanceof TCTool)){
+        if (!(itcItem instanceof TCTool)) {
             BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでないアイテムを持っているなら実質素手
             return;
         }
-        
-        Map<Float, ITCItem> loots = LootTables.get(block.getType(), (TCTool)itcItem);
-        if(loots.size() == 0){
+
+        Map<Float, ITCItem> loots = LootTables.get(block.getType(), (TCTool) itcItem);
+        if (loots.size() == 0) {
             BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでアイテムがドロップしないなら実質素手
             return;
         }
@@ -130,20 +133,20 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onPlayerBreakBlock(BlockBreakEvent event) {
-        if(unbreakableMaterial.contains(event.getBlock().getType())){
+        if (unbreakableMaterial.contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
         }
-        
-        if(TradeCore.isWGLoaded() && !WorldGuardUtil.canBreakBlockWithWG(event.getPlayer(), event.getBlock())){
+
+        if (TradeCore.isWGLoaded() && !WorldGuardUtil.canBreakBlockWithWG(event.getPlayer(), event.getBlock())) {
             event.setCancelled(true);
             return;
         }
-        
+
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
-        if(mainHand.getType() == Material.AIR){//素手
+        if (mainHand.getType() == Material.AIR) {//素手
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), TCTool.ToolType.HAND);
-            if(table.size() != 0){
+            if (table.size() != 0) {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
                 TradeCore.dropItemByLootTable(event.getBlock(), table);
@@ -152,19 +155,19 @@ public class EventHandler implements Listener {
         }
 
         ITCItem itcItem = TCItems.toTCItem(mainHand);
-        if(itcItem instanceof TCTool){ //ツール
+        if (itcItem instanceof TCTool) { //ツール
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
-            if(table.size() != 0){
+            if (table.size() != 0) {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
                 TradeCore.dropItemByLootTable(event.getBlock(), table);
                 ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(mainHand);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
-                
-                if(itcItem instanceof TCEncountableTool encountableTool){
+
+                if (itcItem instanceof TCEncountableTool encountableTool) {
                     TradeCore.trySpawnMob(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable());
                 }
-                
+
                 return;
             }
         }
@@ -176,17 +179,17 @@ public class EventHandler implements Listener {
     @org.bukkit.event.EventHandler
     public void onPlayerPlaceBlock(BlockPlaceEvent event) {
         ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
-        
-        if(itcItem == null)
+
+        if (itcItem == null)
             return;
-        
-        if(event.getBlock().getType() == Material.FARMLAND && itcItem instanceof TCTool){ //耕地を耕したときのドロップ
+
+        if (event.getBlock().getType() == Material.FARMLAND && itcItem instanceof TCTool) { //耕地を耕したときのドロップ
             Map<Float, ITCItem> table = LootTables.get(Material.FARMLAND, (TCTool) itcItem);
             TradeCore.dropItemByLootTable(event.getBlock(), table);
             ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(event.getItemInHand());
-            if(event.getHand() == EquipmentSlot.HAND)
+            if (event.getHand() == EquipmentSlot.HAND)
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
-            else{
+            else {
                 event.getPlayer().getInventory().setItemInOffHand(newItemStack);
             }
             return;
@@ -204,22 +207,22 @@ public class EventHandler implements Listener {
     }
 
     @org.bukkit.event.EventHandler
-    public void onEntityDeath(EntityDeathEvent event){
+    public void onEntityDeath(EntityDeathEvent event) {
         CustomMobService.onEntityDeath(event);
     }
 
     @org.bukkit.event.EventHandler
-    public void onEntityDamage(EntityDamageByEntityEvent event){
-        if(!(event.getDamager() instanceof Player player))
+    public void onEntityDamage(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Player player))
             return;
 
         ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-        if(!(item instanceof TCTool)){
+        if (!(item instanceof TCTool)) {
             event.setCancelled(true);
             return;
         }
 
-        if(!(((TCTool)item).getToolType() == TCTool.ToolType.SWORD)){
+        if (!(((TCTool) item).getToolType() == TCTool.ToolType.SWORD)) {
             event.setCancelled(true);
             return;
         }

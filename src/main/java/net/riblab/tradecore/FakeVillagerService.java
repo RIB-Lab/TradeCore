@@ -5,29 +5,25 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataValue;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
-import com.google.common.collect.Lists;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.entity.Villager;
-import org.bukkit.util.Vector;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 public class FakeVillagerService {
-    
+
     private static Map<Player, Integer> idMap = new HashMap<>();
 
     /**
      * プレイヤーの視線の先のブロックの上に村人を召喚する
+     *
      * @param player
      */
-    public static void spawnFakeVillager(Player player, String name, Location spawnLocation){
-        if(idMap.containsKey(player))
+    public static void spawnFakeVillager(Player player, String name, Location spawnLocation) {
+        if (idMap.containsKey(player))
             tryDeSpawnFakeVillager(player);
-        
+
         PacketContainer spawnPacket = TradeCore.getInstance().getProtocolManager().createPacket(PacketType.Play.Server.SPAWN_ENTITY);
 
         int entityID = new Random().nextInt();
@@ -59,7 +55,7 @@ public class FakeVillagerService {
 
         final Optional<Object> optChatField =
                 Optional.of(WrappedChatComponent.fromChatMessage(name)[0].getHandle());
-        
+
         final List<WrappedDataValue> dataValues = List.of(
                 new WrappedDataValue(2, chatSerializer, optChatField),
                 new WrappedDataValue(3, WrappedDataWatcher.Registry.get(Boolean.class), true),//hascustomname
@@ -73,11 +69,12 @@ public class FakeVillagerService {
 
     /**
      * 村人を削除する。呼ばないと村人がクライアントに永遠に残り続ける
+     *
      * @param player
      */
-    public static void tryDeSpawnFakeVillager(Player player){
+    public static void tryDeSpawnFakeVillager(Player player) {
         Integer entityID = idMap.remove(player);
-        if(entityID == null)
+        if (entityID == null)
             return;
 
         List<Integer> entityIDList = new ArrayList<>();
@@ -88,8 +85,8 @@ public class FakeVillagerService {
 
         TradeCore.getInstance().getProtocolManager().sendServerPacket(player, deSpawnPacket);
     }
-    
-    public static Integer getCurrentID(Player player){
+
+    public static Integer getCurrentID(Player player) {
         return idMap.get(player);
     }
 }

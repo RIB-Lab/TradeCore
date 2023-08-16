@@ -1,7 +1,6 @@
 package net.riblab.tradecore.craft;
 
 import lombok.Data;
-import net.riblab.tradecore.UICraftingTable;
 import net.riblab.tradecore.item.ITCItem;
 import org.bukkit.inventory.ItemStack;
 

@@ -10,7 +10,9 @@ import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.CommandPermission;
-import dev.jorel.commandapi.arguments.*;
+import dev.jorel.commandapi.arguments.DoubleArgument;
+import dev.jorel.commandapi.arguments.IntegerArgument;
+import dev.jorel.commandapi.arguments.PlayerArgument;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.craft.TCRecipes;
@@ -35,7 +37,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.*;
+import java.util.Map;
+import java.util.Random;
 
 import static net.riblab.tradecore.Materials.transparentBlocks;
 
@@ -51,7 +54,7 @@ public final class TradeCore extends JavaPlugin {
     @Getter
     private ProtocolManager protocolManager;
     private EventHandler eventHandler;
-    
+
     public TradeCore() {
         instance = this;
     }
@@ -59,12 +62,12 @@ public final class TradeCore extends JavaPlugin {
     public static TradeCore getInstance() {
         return instance;
     }
-    
+
     @Getter
     private static boolean isWGLoaded;
-    
+
     public static final String merchantName = "買い取り商";
-    
+
     static {
         //安全にenumを初期化
         TCItems.values();
@@ -72,9 +75,9 @@ public final class TradeCore extends JavaPlugin {
         LootTables.values();
         TCRecipes.values();
     }
-    
+
     @Override
-    public void onLoad(){
+    public void onLoad() {
         CommandAPI.onLoad(new CommandAPIBukkitConfig(this).verboseOutput(true)); // Load with verbose output
 
         CommandAPICommand setMoneyCommand = new CommandAPICommand("setmoney")
@@ -109,7 +112,7 @@ public final class TradeCore extends JavaPlugin {
                     spawnLocation.setY(player.getLocation().getY());
 
                     FakeVillagerService.spawnFakeVillager(player, merchantName, spawnLocation);
-                    player.getWorld().spawnParticle(Particle.SMOKE_LARGE, spawnLocation, 10,1,1,1);
+                    player.getWorld().spawnParticle(Particle.SMOKE_LARGE, spawnLocation, 10, 1, 1, 1);
                 });
         sellCommand.setPermission(CommandPermission.NONE);
         sellCommand.register();
@@ -120,7 +123,7 @@ public final class TradeCore extends JavaPlugin {
                     TCMob type = (TCMob) args.get(0);
                     Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
-                    
+
                     CustomMobService.spawn(player, spawnLocation, type);
                 });
         spawnCommand.setPermission(CommandPermission.OP);
@@ -133,7 +136,7 @@ public final class TradeCore extends JavaPlugin {
         configManager.load();
         eventHandler = new EventHandler();
         new VanillaCraftHandler();
-        
+
         economy = new EconomyImplementer();
         vaultHook = new VaultHook();
         vaultHook.hook();
@@ -142,21 +145,21 @@ public final class TradeCore extends JavaPlugin {
         CommandAPI.onEnable();
 
         Bukkit.getOnlinePlayers().forEach(player -> {
-            if(!economy.hasAccount(player))
+            if (!economy.hasAccount(player))
                 economy.createPlayerAccount(player);
-            
+
             addSlowDig(player);
         });
 
         protocolManager = ProtocolLibrary.getProtocolManager();
 
         //所持金と投票券表示
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 String negativeSpace = TCResourcePackData.IconsFont.NEGATIVE_SPACE.get_char();
-                Bukkit.getOnlinePlayers().forEach(player ->{
-                    int balance = (int)economy.getBalance(player);
+                Bukkit.getOnlinePlayers().forEach(player -> {
+                    int balance = (int) economy.getBalance(player);
                     int tickets = economy.getPlayTickets(player);
                     Component text = Component.text("");
                     text = text.append(Component.text(negativeSpace + negativeSpace + negativeSpace + negativeSpace + TCResourcePackData.IconsFont.COIN.get_char()).font(TCResourcePackData.iconsFontName));
@@ -167,17 +170,17 @@ public final class TradeCore extends JavaPlugin {
                 });
             }
         }.runTaskTimer(this, 0, 20);
-        
+
         //定期的にコンフィグを保存
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 configManager.save();
             }
         }.runTaskTimer(this, 0, 3600);
-        
+
         //10分に1回プレイチケット配布
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 Bukkit.getOnlinePlayers().forEach(player -> economy.depositTickets(player, 1));
@@ -194,7 +197,7 @@ public final class TradeCore extends JavaPlugin {
                         int id = packet.getIntegers().read(0);
                         Integer integer = FakeVillagerService.getCurrentID(player);
                         if (integer != null && id == integer) {
-                            new BukkitRunnable(){
+                            new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     UISell.open(event.getPlayer());
@@ -211,14 +214,15 @@ public final class TradeCore extends JavaPlugin {
         vaultHook.unhook();
         CommandAPI.onDisable();
         configManager.save();
-        
+
         CustomMobService.deSpawnAll();
-        
+
         Bukkit.getOnlinePlayers().forEach(player -> removeSlowDig(player));
     }
 
     /**
      * カスタムブロック破壊を実装
+     *
      * @param player
      */
     public static void addSlowDig(Player player) {
@@ -227,6 +231,7 @@ public final class TradeCore extends JavaPlugin {
 
     /**
      * カスタムブロック破壊を除去
+     *
      * @param player
      */
     public static void removeSlowDig(Player player) {
@@ -235,6 +240,7 @@ public final class TradeCore extends JavaPlugin {
 
     /**
      * BukkitのOnDisableでエラーが出ないようにクラスを強制的にロードする
+     *
      * @param klass
      * @param <T>
      * @return
@@ -247,39 +253,39 @@ public final class TradeCore extends JavaPlugin {
         }
         return klass;
     }
-    
-    public static void dropItemByLootTable(Block block, Map<Float, ITCItem> table){
+
+    public static void dropItemByLootTable(Block block, Map<Float, ITCItem> table) {
         Random random = new Random();
         table.forEach((aFloat, itcItem) -> {
             float rand = random.nextFloat();
-            if(rand < aFloat){
+            if (rand < aFloat) {
                 block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
             }
         });
     }
-    
-    public static void trySpawnMob(Player player, Block block, Map<TCMob, Float> table){
+
+    public static void trySpawnMob(Player player, Block block, Map<TCMob, Float> table) {
         Random random = new Random();
         table.forEach((itcmob, aFloat) -> {
             float rand = random.nextFloat();
-            if(rand < aFloat){
+            if (rand < aFloat) {
                 Location safeLocation = findSafeLocationToSpawn(block, 5);
-                if(safeLocation != null)
+                if (safeLocation != null)
                     CustomMobService.spawn(player, safeLocation, itcmob);
             }
         });
     }
-    
-    public static Location findSafeLocationToSpawn(Block block, int radius){
+
+    public static Location findSafeLocationToSpawn(Block block, int radius) {
         Random random = new Random();
         for (int i = 0; i < 50; i++) {
-            Block tryBlock = block.getRelative(random.nextInt(radius * 2) - radius + 1, random.nextInt(radius * 2) -radius, random.nextInt(radius * 2) -radius);
-            if(tryBlock.getType() != Material.AIR || tryBlock.getRelative(BlockFace.UP).getType() != Material.AIR)
+            Block tryBlock = block.getRelative(random.nextInt(radius * 2) - radius + 1, random.nextInt(radius * 2) - radius, random.nextInt(radius * 2) - radius);
+            if (tryBlock.getType() != Material.AIR || tryBlock.getRelative(BlockFace.UP).getType() != Material.AIR)
                 continue;
-            
+
             return tryBlock.getLocation().add(new Vector(0.5f, 0, 0.5f));
         }
-        
+
         return null; //何回探しても安全な場所がなかったらモブのスポーンを諦める
     }
 }

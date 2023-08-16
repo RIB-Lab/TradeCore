@@ -1,8 +1,6 @@
 package net.riblab.tradecore.craft;
 
 import lombok.Getter;
-import net.riblab.tradecore.TCResourcePackData;
-import net.riblab.tradecore.UICraftingTable;
 import net.riblab.tradecore.item.TCItems;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -22,7 +20,7 @@ public enum TCRecipes {
     STICK(new TCRecipe(Map.of(TCItems.TWIG.get(), 4), TCItems.STICK.get().getItemStack(), 1, 1, RecipeType.MISC)),
     CHEST(new TCRecipe(Map.of(TCItems.ROUND_TRUNK.get(), 8), new ItemStack(Material.CHEST), 1, 3, RecipeType.MISC)),
     PLANK(new TCRecipe(Map.of(TCItems.ROUND_TRUNK.get(), 1), new ItemStack(Material.OAK_PLANKS), 1, 1, RecipeType.MISC)),
-    WOODEN_COMPONENT(new TCRecipe(Map.of(TCItems.ROUND_TRUNK.get(), 3, TCItems.DUST.get(), 3,TCItems.WOODPULP.get(), 5, TCItems.MOSS.get(),10), TCItems.WOODEN_COMPONENT.get().getItemStack(), 1, 5, RecipeType.MISC)),
+    WOODEN_COMPONENT(new TCRecipe(Map.of(TCItems.ROUND_TRUNK.get(), 3, TCItems.DUST.get(), 3, TCItems.WOODPULP.get(), 5, TCItems.MOSS.get(), 10), TCItems.WOODEN_COMPONENT.get().getItemStack(), 1, 5, RecipeType.MISC)),
     BARK_HELMET(new TCRecipe(Map.of(TCItems.BARK.get(), 5, TCItems.MUD.get(), 5), TCItems.BARK_HELMET.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
     BARK_CHESTPLATE(new TCRecipe(Map.of(TCItems.BARK.get(), 8, TCItems.MUD.get(), 8), TCItems.BARK_CHESTPLATE.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
     BARK_LEGGINGS(new TCRecipe(Map.of(TCItems.BARK.get(), 7, TCItems.MUD.get(), 7), TCItems.BARK_LEGGINGS.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
@@ -40,22 +38,22 @@ public enum TCRecipes {
     STONE_CHESTPLATE(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 10, TCItems.WIDESTONE.get(), 30, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_CHESTPLATE.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
     STONE_LEGGINGS(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 30, TCItems.WIDESTONE.get(), 5, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_LEGGINGS.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
     STONE_BOOTS(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 40, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_BOOTS.get().getItemStack(), 1, 3, RecipeType.ARMOR));
-    
+
     @Getter
     private final TCRecipe recipe;
 
     TCRecipes(TCRecipe recipe) {
         this.recipe = recipe;
     }
-    
-    public static List<TCRecipe> getRecipes(RecipeType type){
+
+    public static List<TCRecipe> getRecipes(RecipeType type) {
         return Arrays.stream(TCRecipes.values()).map(TCRecipes::getRecipe).filter(tcRecipe -> tcRecipe.getCategory() == type).collect(Collectors.toList());
     }
 
     /**
      * レシピの種類
      */
-    public enum RecipeType{
+    public enum RecipeType {
         ARMOR, TOOL, WEAPON, MISC;
     }
 }

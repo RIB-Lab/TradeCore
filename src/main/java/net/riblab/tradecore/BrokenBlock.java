@@ -9,22 +9,20 @@ import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.InvocationTargetException;
-
 public class BrokenBlock {
     @Getter
     private double damage = -1;
-    
+
     @Getter
     private final Block block;
 
     public BrokenBlock(Block block) {
         this.block = block;
     }
-    
+
     public void incrementDamage(Player from, double amount) {
         if (isBroken()) return;
-        
+
         damage += amount;
 
         if (damage < 10) {
@@ -58,16 +56,16 @@ public class BrokenBlock {
 
     public void sendBreakPacket(Player player) {
         PacketContainer blockBreak = TradeCore.getInstance().getProtocolManager().createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
-        
+
         blockBreak.getBlockPositionModifier().write(0, getBlockPosition(block));
 
         blockBreak.getIntegers()
                 .write(0, block.getLocation().hashCode())
-                .write(1, (int)getDamage());
+                .write(1, (int) getDamage());
 
         TradeCore.getInstance().getProtocolManager().sendServerPacket(player, blockBreak);
     }
-    
+
     private BlockPosition getBlockPosition(Block block) {
         return new BlockPosition(block.getX(), block.getY(), block.getZ());
     }

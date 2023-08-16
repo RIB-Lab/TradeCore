@@ -16,7 +16,7 @@ import java.util.Map;
 public enum TCMobs {
     BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of(TCItems.BIG_STONE.get().getItemStack(), 1f))),
     BASIC_TREANT(new Treant());
-    
+
     private final TCMob tcMob;
 
     TCMobs(TCMob tcMob) {
@@ -26,15 +26,15 @@ public enum TCMobs {
     public TCMob get() {
         return tcMob;
     }
-    
+
     @Nullable
-    public static TCMob toTCMob(Mob mob){
-        TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e-> e.get().isSimilar(mob)).findFirst().orElse(null);
+    public static TCMob toTCMob(Mob mob) {
+        TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().isSimilar(mob)).findFirst().orElse(null);
         return itcMob == null ? null : itcMob.get();
     }
-    
+
     @Nullable
-    public static TCMob commandToTCMob(String command){
+    public static TCMob commandToTCMob(String command) {
         TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(command)).findFirst().orElse(null);
         return itcMob == null ? null : itcMob.get();
     }

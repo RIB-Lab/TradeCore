@@ -35,7 +35,7 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public String format(double v) {
-        return Integer.toString((int)v);
+        return Integer.toString((int) v);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class EconomyImplementer implements Economy {
         UUID uuid = player.getUniqueId();
         double oldBalance = data.playerBank.get(uuid);
         double newBalance = oldBalance - v;
-        if(newBalance < 0){
+        if (newBalance < 0) {
             return new EconomyResponse(0, oldBalance, EconomyResponse.ResponseType.FAILURE, null);
         }
         data.playerBank.put(uuid, newBalance);
@@ -135,7 +135,7 @@ public class EconomyImplementer implements Economy {
         UUID uuid = offlinePlayer.getUniqueId();
         double oldBalance = data.playerBank.get(uuid);
         double newBalance = oldBalance - v;
-        if(newBalance < 0){
+        if (newBalance < 0) {
             return new EconomyResponse(0, oldBalance, EconomyResponse.ResponseType.FAILURE, null);
         }
         data.playerBank.put(uuid, newBalance);
@@ -148,7 +148,7 @@ public class EconomyImplementer implements Economy {
         UUID uuid = player.getUniqueId();
         double oldBalance = data.playerBank.get(uuid);
         double newBalance = oldBalance - v;
-        if(newBalance < 0){
+        if (newBalance < 0) {
             return new EconomyResponse(0, oldBalance, EconomyResponse.ResponseType.FAILURE, null);
         }
         data.playerBank.put(uuid, newBalance);
@@ -160,7 +160,7 @@ public class EconomyImplementer implements Economy {
         UUID uuid = offlinePlayer.getUniqueId();
         double oldBalance = data.playerBank.get(uuid);
         double newBalance = oldBalance - v;
-        if(newBalance < 0){
+        if (newBalance < 0) {
             return new EconomyResponse(0, oldBalance, EconomyResponse.ResponseType.FAILURE, null);
         }
         data.playerBank.put(uuid, newBalance);
@@ -272,7 +272,7 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer offlinePlayer) {
-        if(hasAccount(offlinePlayer))
+        if (hasAccount(offlinePlayer))
             return false;
 
         UUID uuid = offlinePlayer.getUniqueId();
@@ -288,7 +288,7 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer offlinePlayer, String s) {
-        if(hasAccount(offlinePlayer))
+        if (hasAccount(offlinePlayer))
             return false;
 
         UUID uuid = offlinePlayer.getUniqueId();
@@ -296,18 +296,18 @@ public class EconomyImplementer implements Economy {
         data.playerTickets.put(uuid, 0);
         return true;
     }
-    
+
     /**
      * プレイヤーの所持チケットを確認
      */
-    public int getPlayTickets(OfflinePlayer offlinePlayer){
+    public int getPlayTickets(OfflinePlayer offlinePlayer) {
         return data.playerTickets.get(offlinePlayer.getUniqueId());
     }
 
     /**
      * プレイヤーにチケットを与える
      */
-    public void depositTickets(OfflinePlayer offlinePlayer, int amount){
+    public void depositTickets(OfflinePlayer offlinePlayer, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
         int oldTickets = data.playerTickets.get(uuid);
         int newTickets = oldTickets + amount;
@@ -317,7 +317,7 @@ public class EconomyImplementer implements Economy {
     /**
      * プレイヤーからチケットを引く
      */
-    public void withdrawTickets(OfflinePlayer offlinePlayer, int amount){
+    public void withdrawTickets(OfflinePlayer offlinePlayer, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
         int oldTickets = data.playerTickets.get(uuid);
         int newTickets = oldTickets - amount;

@@ -26,27 +26,26 @@ import static net.riblab.tradecore.Materials.transparentBlocks;
 
 public class UICraftingTable {
 
-    private static final Set<Integer> allowedIngredientSlotSet = Set.of(0,1,2,9,10,11,18,19,20);
-    
+    private static final Set<Integer> allowedIngredientSlotSet = Set.of(0, 1, 2, 9, 10, 11, 18, 19, 20);
+
     /**
      * カテゴリやレシピ選択画面を開く
+     *
      * @param player
      * @param type
      */
-    public static PaginatedGui open(Player player, CraftingScreenType type){
+    public static PaginatedGui open(Player player, CraftingScreenType type) {
         PaginatedGui gui = Gui.paginated()
                 .title(type.getTitle())
                 .rows(3)
                 .disableAllInteractions()
                 .create();
-        
-        if(type == CraftingScreenType.CATEGORY){
+
+        if (type == CraftingScreenType.CATEGORY) {
             addCategoryScreen(gui, player);
-        }
-        else if(type == CraftingScreenType.CRAFTING){
+        } else if (type == CraftingScreenType.CRAFTING) {
             throw new IllegalArgumentException();
-        }
-        else{
+        } else {
             addRecipeListScreen(type, gui, player);
         }
 
@@ -56,13 +55,13 @@ public class UICraftingTable {
         gui.setUpdating(false);
 
         gui.setCloseGuiAction(event -> {
-            if(event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
+            if (event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
                 FakeVillagerService.tryDeSpawnFakeVillager(player);
         });
-        
+
         gui.open(player);
 
-        Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0,1,0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+        Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
         FakeVillagerService.spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }
@@ -70,7 +69,7 @@ public class UICraftingTable {
     /**
      * クラフト確認画面を開く
      */
-    public static PaginatedGui open(Player player, TCRecipe recipe){
+    public static PaginatedGui open(Player player, TCRecipe recipe) {
         PaginatedGui gui = Gui.paginated()
                 .title(CraftingScreenType.CRAFTING.getTitle())
                 .rows(3)
@@ -80,17 +79,17 @@ public class UICraftingTable {
         gui.setUpdating(true);
         gui.setInventory(Bukkit.createInventory(gui, gui.getInventory().getSize(), CraftingScreenType.CRAFTING.getTitle()));
         gui.setUpdating(false);
-        
+
         addCraftingScreen(gui, player, recipe);
 
         gui.setCloseGuiAction(event -> {
-            if(event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
+            if (event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
                 FakeVillagerService.tryDeSpawnFakeVillager(player);
         });
-        
+
         gui.open(player);
 
-        Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0,1,0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+        Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
         FakeVillagerService.spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }
@@ -98,7 +97,7 @@ public class UICraftingTable {
     /**
      * カテゴリ選択画面を実装
      */
-    private static void addCategoryScreen(PaginatedGui gui, Player player){
+    private static void addCategoryScreen(PaginatedGui gui, Player player) {
         ItemStack armorCategory = new ItemCreator(Material.IRON_CHESTPLATE).setName(Component.text("装備品"))
                 .create();
         GuiItem armorButton = new GuiItem(armorCategory,
@@ -127,11 +126,11 @@ public class UICraftingTable {
     /**
      * レシピリスト画面を実装
      */
-    private static void addRecipeListScreen(CraftingScreenType type, PaginatedGui gui, Player player){
+    private static void addRecipeListScreen(CraftingScreenType type, PaginatedGui gui, Player player) {
         List<TCRecipe> recipeList = TCRecipes.getRecipes(type.getRecipeType());
-        if(recipeList == null || recipeList.size() == 0)
+        if (recipeList == null || recipeList.size() == 0)
             return;
-        
+
         recipeList.forEach(tcRecipe -> {
             ItemStack recipeStack = tcRecipe.getResult().clone();
             GuiItem recipeButton = new GuiItem(recipeStack,
@@ -152,17 +151,17 @@ public class UICraftingTable {
     /**
      * クラフト確認画面を実装
      */
-    private static void addCraftingScreen(PaginatedGui gui, Player player, TCRecipe recipe){
+    private static void addCraftingScreen(PaginatedGui gui, Player player, TCRecipe recipe) {
         int slot = 0;
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             ItemStack ingredientStack = entry.getKey().getItemStack();
             ingredientStack.setAmount(entry.getValue());
             GuiItem ingredientDisplay = new GuiItem(ingredientStack);
             gui.setItem(slot, ingredientDisplay);
-            
+
             do {
                 slot++;
-            }while(!allowedIngredientSlotSet.contains(slot));
+            } while (!allowedIngredientSlotSet.contains(slot));
         }
 
         ItemStack resultStack = recipe.getResult().clone();
@@ -187,22 +186,22 @@ public class UICraftingTable {
     /**
      * クラフトの決済処理を行う
      */
-    private static void tryCraft(PaginatedGui gui, Player player, TCRecipe recipe, ItemStack resultStack){
+    private static void tryCraft(PaginatedGui gui, Player player, TCRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             boolean playerHasItem = player.getInventory().containsAtLeast(entry.getKey().getItemStack(), entry.getValue());
-            if(playerHasItem)
+            if (playerHasItem)
                 continue;
-            
+
             missingLore.add(Component.text(entry.getKey().getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
-        
+
         double balance = TradeCore.getInstance().getEconomy().getBalance(player);
-        if(recipe.getFee() > balance){
+        if (recipe.getFee() > balance) {
             missingLore.add(Component.text("所持金が足りません！ " + balance + "/" + recipe.getFee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
-        
-        if(missingLore.size() > 0){
+
+        if (missingLore.size() > 0) {
             ItemStack newResultStack = new ItemCreator(resultStack).setLores(missingLore).create();
             gui.updatePageItem(14, newResultStack);
             gui.update();
@@ -215,14 +214,14 @@ public class UICraftingTable {
             player.getInventory().removeItemAnySlot(itemStack);
         }
         TradeCore.getInstance().getEconomy().withdrawPlayer(player, recipe.getFee());
-        
+
         player.getInventory().addItem(recipe.getResult());
     }
-    
-    private static void close(Player player){
+
+    private static void close(Player player) {
         player.closeInventory();
     }
-    
+
     public enum CraftingScreenType {
         CATEGORY("作業台", TCResourcePackData.UIFont.CRAFTING_TABLE_CATEGORY, null),
         ARMOR("装備品", TCResourcePackData.UIFont.CRAFTING_TABLE_ARMOR, TCRecipes.RecipeType.ARMOR),
@@ -233,7 +232,7 @@ public class UICraftingTable {
 
         @Getter
         private final Component title;
-        
+
         @Getter
         private final TCRecipes.RecipeType recipeType;
 
@@ -248,8 +247,8 @@ public class UICraftingTable {
             this.title = text;
             this.recipeType = recipeType;
         }
-        
-        public static CraftingScreenType titleToType(Component title){
+
+        public static CraftingScreenType titleToType(Component title) {
             return Arrays.stream(CraftingScreenType.values()).filter(type -> type.getTitle().equals(title)).findFirst().orElse(null);
         }
     }

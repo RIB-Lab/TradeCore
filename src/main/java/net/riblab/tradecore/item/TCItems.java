@@ -47,7 +47,7 @@ public enum TCItems {
     BARK_CHESTPLATE(new TCEquipment(Component.text("樹皮のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "bark_chestplate", 2, 32, "bark")),
     BARK_LEGGINGS(new TCEquipment(Component.text("樹皮のレギンス"), Material.CHAINMAIL_LEGGINGS, "bark_leggings", 2, 32, "bark")),
     BARK_BOOTS(new TCEquipment(Component.text("樹皮のブーツ"), Material.CHAINMAIL_BOOTS, "bark_boots", 2, 32, "bark")),
-    
+
     //石器時代
     BIG_STONE(new TCSellableItem(Component.text("大きな石"), Material.STONE, "big_stone", 0, 0.05d)),
     STONE_SWORD(new TCTool(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, TCTool.ToolType.SWORD, 0, 1, 128)),
@@ -79,22 +79,24 @@ public enum TCItems {
     /**
      * アイテムが固有アイテムであった場合その実体を固有アイテムクラスに変換する<br>
      * この際実体特有のNBTなどは失われる
+     *
      * @param itemStack 変換したいアイテム
      * @return 変換された固有アイテム
      */
     @Nullable
-    public static ITCItem toTCItem(ItemStack itemStack){
-        TCItems itcItem = Arrays.stream(TCItems.values()).filter(e-> e.get().isSimilar(itemStack)).findFirst().orElse(null);
+    public static ITCItem toTCItem(ItemStack itemStack) {
+        TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(itemStack)).findFirst().orElse(null);
         return itcItem == null ? null : itcItem.get();
     }
 
     /**
      * 固有アイテムの召喚コマンドを固有アイテムに変換する
+     *
      * @param command 召喚コマンド
      * @return 変換された固有アイテム
      */
     @Nullable
-    public static ITCItem commandToTCItem(String command){
+    public static ITCItem commandToTCItem(String command) {
         TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().getInternalName().equals(command)).findFirst().orElse(null);
         return itcItem == null ? null : itcItem.get();
     }

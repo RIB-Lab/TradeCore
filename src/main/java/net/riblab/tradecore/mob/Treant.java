@@ -12,20 +12,19 @@ import org.bukkit.entity.Mob;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Map;
 
-public class Treant extends TCMob{
+public class Treant extends TCMob {
     public Treant() {
         super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of(TCItems.BARK.get().getItemStack(), 1f));
     }
 
     @Override
-    public void spawn(Mob mob){
+    public void spawn(Mob mob) {
         super.spawn(mob);
         EntityEquipment equipment = mob.getEquipment();
         equipment.setHelmet(new ItemStack(Material.OAK_LOG));
-        
+
         EntityBrain brain = BukkitBrain.getBrain(mob);
         AttributeInstance attributeInstance = brain.getAttributeInstance(EntityAttribute.GENERIC_MOVEMENT_SPEED);
         attributeInstance.setBaseValue(0.1f);

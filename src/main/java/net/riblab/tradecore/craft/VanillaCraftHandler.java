@@ -9,9 +9,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapelessRecipe;
 
 public class VanillaCraftHandler {
-    public VanillaCraftHandler(){
+    public VanillaCraftHandler() {
         Bukkit.clearRecipes();
-        
+
         ItemStack hatchet = TCItems.HATCHET.get().getItemStack();
         ShapelessRecipe hatchetRecipe = new ShapelessRecipe(new NamespacedKey(TradeCore.getInstance(), TCItems.HATCHET.get().getInternalName()), hatchet);
         hatchetRecipe.addIngredient(TCItems.PEBBLE.get().getItemStack());

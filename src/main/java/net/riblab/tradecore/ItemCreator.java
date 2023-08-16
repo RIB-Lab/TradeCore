@@ -231,7 +231,7 @@ public class ItemCreator {
         }
         return this;
     }
-    
+
     /**
      * アイテムの全ての説明文を取得
      *

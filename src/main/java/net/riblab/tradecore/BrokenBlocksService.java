@@ -14,7 +14,7 @@ public class BrokenBlocksService {
     private static final Map<Player, BrokenBlock> brokenBlocks = new HashMap<>();
 
     public static void createBrokenBlock(Block block, Player player) {
-        if (isPlayerAlreadyBreaking(player)){
+        if (isPlayerAlreadyBreaking(player)) {
             removeBrokenBlock(player);
         }
         BrokenBlock brokenBlock = new BrokenBlock(block);

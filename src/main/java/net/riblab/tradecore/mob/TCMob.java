@@ -50,20 +50,21 @@ public class TCMob {
      */
     @Getter
     private final Map<ItemStack, Float> drops;
-    
+
     private static final int lifetime = 6000;
 
     /**
      * エンティティがスポーンするときの処理
+     *
      * @param mob
      */
-    public void spawn(Mob mob){
+    public void spawn(Mob mob) {
         mob.customName(customName);
         mob.setCustomNameVisible(true);
 
         NBTEntity nbtEntity = new NBTEntity(mob);
         nbtEntity.getPersistentDataContainer().setString("TCID", internalName);
-        
+
         EntityBrain brain = BukkitBrain.getBrain(mob);
         //TODO:AIを持ったモブ
 //        EntityAI target = brain.getTargetAI();
@@ -76,20 +77,20 @@ public class TCMob {
         attributeInstance.setBaseValue(baseHealth);
         mob.setHealth(baseHealth);
 
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
-                if(!mob.isDead())
+                if (!mob.isDead())
                     mob.remove();
             }
         }.runTaskLater(TradeCore.getInstance(), lifetime);
     }
-    
-    public void onKilledByPlayer(EntityDeathEvent event){
+
+    public void onKilledByPlayer(EntityDeathEvent event) {
         Random random = new Random();
         drops.forEach((itemStack, aFloat) -> {
             float rand = random.nextFloat();
-            if(rand < aFloat){
+            if (rand < aFloat) {
                 event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), itemStack);
             }
         });
@@ -102,7 +103,7 @@ public class TCMob {
         NBTEntity nbtEntity = new NBTEntity(mob);
         String ID = nbtEntity.getPersistentDataContainer().getString("TCID");
 
-        if(ID == null)
+        if (ID == null)
             return false;
 
         return ID.equals(internalName);

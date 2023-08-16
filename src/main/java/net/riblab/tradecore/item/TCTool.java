@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * プラグインのツールクラス
  */
-public class TCTool extends TCItem{
+public class TCTool extends TCItem {
 
     /**
      * ツールの種類
@@ -40,9 +40,9 @@ public class TCTool extends TCItem{
      */
     @Getter
     private final int baseDurability;
-    
+
     private static final String durabilityTag = "durability";
-    
+
     /**
      * 　固有アイテムの型を作成する
      *
@@ -54,17 +54,17 @@ public class TCTool extends TCItem{
      */
     public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, int baseDurability) {
         super(name, material, internalName, customModelData);
-        
+
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;
         this.baseMiningSpeed = miningSpeed;
         this.baseDurability = baseDurability;
     }
-    
-    public double getActualMiningSpeed(){
+
+    public double getActualMiningSpeed() {
         return Math.log10(baseMiningSpeed) + 0.1d;
     }
-    
+
     @Override
     protected ItemCreator createItem() {
         return super.createItem().setIntNBT(durabilityTag, baseDurability)
@@ -73,12 +73,13 @@ public class TCTool extends TCItem{
 
     /**
      * ツールの説明を生成する
+     *
      * @param durability インスタンスが持つ耐久値
      * @return ツールの説明
      */
-    protected List<Component> getLore(int durability){
+    protected List<Component> getLore(int durability) {
         List<Component> texts = new ArrayList<>();
-        if(baseDurability != -1){
+        if (baseDurability != -1) {
             texts.add(Component.text("耐久値: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
                     .append(Component.text(durability).color(durability == baseDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
                     .append(Component.text("/" + baseDurability).color(NamedTextColor.WHITE)));
@@ -90,24 +91,25 @@ public class TCTool extends TCItem{
 
     /**
      * ツールのインスタンスの耐久値を1減らす
+     *
      * @param instance
      * @return
      */
-    public ItemStack reduceDurability(ItemStack instance){
-        if(!isSimilar(instance))
+    public ItemStack reduceDurability(ItemStack instance) {
+        if (!isSimilar(instance))
             return null;
 
         Integer nbt = new ItemCreator(instance).getIntNBT(durabilityTag);
         int durability = nbt;
 
-        if(durability == -1) //耐久無限
+        if (durability == -1) //耐久無限
             return instance;
-        
+
         durability--;
-        if(durability <= 0) //耐久切れ
+        if (durability <= 0) //耐久切れ
             return null;
-        
-        int damageToSet = (int)(instance.getType().getMaxDurability() * ((float)durability / (float) baseDurability));
+
+        int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) baseDurability));
         int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
         return new ItemCreator(instance).setLores(getLore(durability)).damage(damageToDeal).setIntNBT(durabilityTag, durability).create();
     }
