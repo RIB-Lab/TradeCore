@@ -17,7 +17,7 @@ import java.util.Map;
  * カスタムモブの定義一覧
  */
 public enum TCMobs {
-    BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of(TCItems.BIG_STONE.get().getItemStack(), 1f))),
+    BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of(TCItems.ROUND_STONE.get().getItemStack(), 1f))),
     BASIC_TREANT(new Treant());
 
     private final TCMob tcMob;

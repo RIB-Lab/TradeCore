@@ -35,12 +35,13 @@ public enum TCRecipes {
     STONE_PICKAXE(new TCRecipe(Map.of(TCItems.WIDESTONE.get(), 3, TCItems.WOODEN_COMPONENT.get(), 1, TCItems.STICK.get(), 2), TCItems.STONE_PICKAXE.get().getItemStack(), 1, 3, RecipeType.TOOL)),
     STONE_HOE(new TCRecipe(Map.of(TCItems.WIDESTONE.get(), 2, TCItems.WOODEN_COMPONENT.get(), 1, TCItems.STICK.get(), 2), TCItems.STONE_HOE.get().getItemStack(), 1, 3, RecipeType.TOOL)),
     STONE_SWORD(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 2, TCItems.WOODEN_COMPONENT.get(), 1, TCItems.STICK.get(), 2), TCItems.STONE_SWORD.get().getItemStack(), 1, 3, RecipeType.WEAPON)),
-    FURNACE(new TCRecipe(Map.of(TCItems.BIG_STONE.get(), 3, TCItems.STONE_PICKAXE.get(), 1), new ItemStack(Material.FURNACE), 1, 10, RecipeType.MISC)),
+    FURNACE(new TCRecipe(Map.of(TCItems.ROUND_STONE.get(), 3, TCItems.STONE_PICKAXE.get(), 1), new ItemStack(Material.FURNACE), 1, 10, RecipeType.MISC)),
     FUEL_BALL(new TCRecipe(Map.of(TCItems.DRYGRASS.get(), 32), TCItems.FUEL_BALL.get().getItemStack(), 1, 1, RecipeType.MISC)),
     STONE_HELMET(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 10, TCItems.WIDESTONE.get(), 15, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_HELMET.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
     STONE_CHESTPLATE(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 10, TCItems.WIDESTONE.get(), 30, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_CHESTPLATE.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
     STONE_LEGGINGS(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 30, TCItems.WIDESTONE.get(), 5, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_LEGGINGS.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
-    STONE_BOOTS(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 40, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_BOOTS.get().getItemStack(), 1, 3, RecipeType.ARMOR));
+    STONE_BOOTS(new TCRecipe(Map.of(TCItems.TALLSTONE.get(), 40, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_BOOTS.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
+    STONE_COMPONENT(new TCRecipe(Map.of(TCItems.ROUND_STONE.get(), 10, TCItems.ANDESITE_STONE.get(), 10, TCItems.GRANITE_STONE.get(), 10, TCItems.DIORITE_STONE.get(), 10), TCItems.STONE_COMPONENT.get().getItemStack(), 1, 10, RecipeType.MISC));
 
     @Getter
     private final TCRecipe recipe;
