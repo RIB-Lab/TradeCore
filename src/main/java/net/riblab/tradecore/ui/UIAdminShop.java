@@ -7,10 +7,14 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.ItemCreator;
+import net.riblab.tradecore.Materials;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.TCItems;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 
 /**
  * 臨時アドミンショップのUI。使い捨て
@@ -26,17 +30,39 @@ public class UIAdminShop {
     public static PaginatedGui open(Player player) {
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text("臨時ショップ"))
-                .rows(1)
+                .rows(6)
                 .disableAllInteractions()
                 .create();
 
         GuiItem playTicketButton = new GuiItem(new ItemCreator(TCItems.COIN.get().getItemStack()).setName(Component.text("プレイチケット1枚を" + exchangeRate + "RIBに変換する").decoration(TextDecoration.ITALIC, false)).create(),
                 UIAdminShop::exchange);
-        gui.setItem(3, playTicketButton);
+        gui.addItem(playTicketButton);
         GuiItem foodButton = new GuiItem(new ItemCreator(TCItems.MESI.get().getItemStack()).setName(Component.text("臨時食料を買う").decoration(TextDecoration.ITALIC, false))
                 .setLore(Component.text("料理システムが実装され次第削除されます！").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.RED)).create(),
                 UIAdminShop::buyFood);
-        gui.setItem(4, foodButton);
+        gui.addItem(foodButton);
+
+        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getItemStack(),
+                event -> gui.previous());
+        gui.setItem(48, previousPageButton);
+        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getItemStack(),
+                event -> gui.next());
+        gui.setItem(50, nextPageButton);
+
+        for (Material value : Material.values()) {
+            if(!value.isBlock())
+                continue;
+            
+            if(Materials.unbreakableMaterial.contains(value))
+                continue;
+
+            if(Materials.coreBlock.contains(value))
+                continue;
+
+            GuiItem blockButton = new GuiItem(new ItemCreator(value).setLore(Component.text("1RIB").decoration(TextDecoration.ITALIC, false)).create(),
+                    event -> buyBlock(event, value));
+            gui.addItem(blockButton);
+        }
 
         gui.open(player);
 
@@ -69,5 +95,16 @@ public class UIAdminShop {
         
         TradeCore.getInstance().getEconomy().withdrawPlayer((Player)event.getWhoClicked(), foodPrice);
         event.getWhoClicked().getInventory().addItem(TCItems.MESI.get().getItemStack());
+    }
+
+    public static void buyBlock(InventoryClickEvent event, Material material){
+        double balance = TradeCore.getInstance().getEconomy().getBalance((Player)event.getWhoClicked());
+        if(balance <= 1){
+            event.getWhoClicked().sendMessage("お金を持っていません！");
+            return;
+        }
+
+        TradeCore.getInstance().getEconomy().withdrawPlayer((Player)event.getWhoClicked(), 1);
+        event.getWhoClicked().getInventory().addItem(new ItemStack(material)); 
     }
 }

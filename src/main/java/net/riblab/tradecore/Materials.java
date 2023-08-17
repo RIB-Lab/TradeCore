@@ -48,4 +48,9 @@ public class Materials {
      */
     public static final Set<Material> primitivePlanks = Set.of(Material.ACACIA_PLANKS, Material.BIRCH_PLANKS, Material.BAMBOO_PLANKS, Material.CHERRY_PLANKS, Material.CRIMSON_PLANKS,
             Material.JUNGLE_PLANKS, Material.MANGROVE_PLANKS, Material.OAK_PLANKS, Material.DARK_OAK_PLANKS, Material.SPRUCE_PLANKS);
+
+    /**
+     * 買えたらまずい便利ブロック
+     */
+    public static final Set<Material> coreBlock = Set.of(Material.CRAFTING_TABLE, Material.FURNACE, Material.TORCH);
 }
