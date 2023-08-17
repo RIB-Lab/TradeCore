@@ -7,10 +7,10 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 /**
- * レシピクラス
+ * 精錬レシピクラス
  */
 @Data
-public class TCRecipe {
+public class TCFurnaceRecipe {
     /**
      * レシピ素材。同じ種類のアイテムを複数スロットに入れないこと！
      */
@@ -27,12 +27,7 @@ public class TCRecipe {
     private final int resultAmount;
 
     /**
-     * レシピを実行するための費用
+     * レシピを実行するために消費する燃料の量
      */
-    private final int fee;
-
-    /**
-     * レシピのカテゴリ
-     */
-    private final TCRecipes.RecipeType category;
+    private final int fuelAmount;
 }

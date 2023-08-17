@@ -12,8 +12,8 @@ import net.riblab.tradecore.FakeVillagerService;
 import net.riblab.tradecore.ItemCreator;
 import net.riblab.tradecore.TCResourcePackData;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.craft.TCRecipe;
-import net.riblab.tradecore.craft.TCRecipes;
+import net.riblab.tradecore.craft.TCCraftingRecipe;
+import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import org.bukkit.Bukkit;
@@ -79,7 +79,7 @@ public class UICraftingTable {
     /**
      * クラフト確認画面を開く
      */
-    public static PaginatedGui open(Player player, TCRecipe recipe) {
+    public static PaginatedGui open(Player player, TCCraftingRecipe recipe) {
         PaginatedGui gui = Gui.paginated()
                 .title(CraftingScreenType.CRAFTING.getTitle())
                 .rows(3)
@@ -137,14 +137,14 @@ public class UICraftingTable {
      * レシピリスト画面を実装
      */
     private static void addRecipeListScreen(CraftingScreenType type, PaginatedGui gui, Player player) {
-        List<TCRecipe> recipeList = TCRecipes.getRecipes(type.getRecipeType());
+        List<TCCraftingRecipe> recipeList = TCCraftingRecipes.getRecipes(type.getRecipeType());
         if (recipeList == null || recipeList.size() == 0)
             return;
 
-        recipeList.forEach(tcRecipe -> {
-            ItemStack recipeStack = tcRecipe.getResult().clone();
+        recipeList.forEach(tcCraftingRecipe -> {
+            ItemStack recipeStack = tcCraftingRecipe.getResult().clone();
             GuiItem recipeButton = new GuiItem(recipeStack,
-                    event -> open(player, tcRecipe));
+                    event -> open(player, tcCraftingRecipe));
             gui.addItem(recipeButton);
         });
 
@@ -161,7 +161,7 @@ public class UICraftingTable {
     /**
      * クラフト確認画面を実装
      */
-    private static void addCraftingScreen(PaginatedGui gui, Player player, TCRecipe recipe) {
+    private static void addCraftingScreen(PaginatedGui gui, Player player, TCCraftingRecipe recipe) {
         int slot = 0;
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             ItemStack ingredientStack = entry.getKey().getItemStack();
@@ -184,7 +184,7 @@ public class UICraftingTable {
         });
         gui.setItem(14, craftButton);
 
-        ItemStack feeStack = TCItems.COIN.get().getItemStack(); //カスタムアイテム
+        ItemStack feeStack = TCItems.COIN.get().getItemStack();
         Component name = Component.text("工費: ").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false)
                 .append(Component.text(recipe.getFee()).color(NamedTextColor.YELLOW));
         Component lore = Component.text("職人に報酬を支払います").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY);
@@ -196,7 +196,7 @@ public class UICraftingTable {
     /**
      * クラフトの決済処理を行う
      */
-    private static void tryCraft(PaginatedGui gui, Player player, TCRecipe recipe, ItemStack resultStack) {
+    private static void tryCraft(PaginatedGui gui, Player player, TCCraftingRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             boolean playerHasItem = player.getInventory().containsAtLeast(entry.getKey().getItemStack(), entry.getValue());
@@ -234,19 +234,19 @@ public class UICraftingTable {
 
     public enum CraftingScreenType {
         CATEGORY("作業台", TCResourcePackData.UIFont.CRAFTING_TABLE_CATEGORY, null),
-        ARMOR("装備品", TCResourcePackData.UIFont.CRAFTING_TABLE_ARMOR, TCRecipes.RecipeType.ARMOR),
-        TOOL("ツール", TCResourcePackData.UIFont.CRAFTING_TABLE_TOOL, TCRecipes.RecipeType.TOOL),
-        WEAPON("武器", TCResourcePackData.UIFont.CRAFTING_TABLE_WEAPON, TCRecipes.RecipeType.WEAPON),
-        MISC("その他", TCResourcePackData.UIFont.CRAFTING_TABLE_MISC, TCRecipes.RecipeType.MISC),
+        ARMOR("装備品", TCResourcePackData.UIFont.CRAFTING_TABLE_ARMOR, TCCraftingRecipes.RecipeType.ARMOR),
+        TOOL("ツール", TCResourcePackData.UIFont.CRAFTING_TABLE_TOOL, TCCraftingRecipes.RecipeType.TOOL),
+        WEAPON("武器", TCResourcePackData.UIFont.CRAFTING_TABLE_WEAPON, TCCraftingRecipes.RecipeType.WEAPON),
+        MISC("その他", TCResourcePackData.UIFont.CRAFTING_TABLE_MISC, TCCraftingRecipes.RecipeType.MISC),
         CRAFTING("加工", TCResourcePackData.UIFont.CRAFTING_TABLE_CRAFTING, null);
 
         @Getter
         private final Component title;
 
         @Getter
-        private final TCRecipes.RecipeType recipeType;
+        private final TCCraftingRecipes.RecipeType recipeType;
 
-        CraftingScreenType(String rawTitle, TCResourcePackData.UIFont screenStr, TCRecipes.RecipeType recipeType) {
+        CraftingScreenType(String rawTitle, TCResourcePackData.UIFont screenStr, TCCraftingRecipes.RecipeType recipeType) {
             //タイトル作成
             String neg = TCResourcePackData.UIFont.NEGATIVE_SPACE.get_char();
             String neg2 = TCResourcePackData.UIFont.SUPER_NEGATIVE_SPACE.get_char();

@@ -15,7 +15,9 @@ import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.craft.TCRecipes;
+import net.riblab.tradecore.craft.TCCraftingRecipes;
+import net.riblab.tradecore.craft.TCFurnaceRecipe;
+import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.LootTables;
@@ -75,7 +77,8 @@ public final class TradeCore extends JavaPlugin {
         TCItems.values();
         TCMobs.values();
         LootTables.values();
-        TCRecipes.values();
+        TCCraftingRecipes.values();
+        TCFurnaceRecipes.values();
     }
 
     @Override

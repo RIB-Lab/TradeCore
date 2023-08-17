@@ -3,6 +3,7 @@ package net.riblab.tradecore;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.ui.UICraftingTable;
+import net.riblab.tradecore.ui.UIFurnace;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -84,18 +85,12 @@ public class EventHandler implements Listener {
     }
 
     /**
-     * かまど TODO:ちゃんとGUIとかレシピシステムを作る
+     * カスタムかまど
      */
     public void interactFurnace(PlayerInteractEvent event){
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.FURNACE) {
             event.setCancelled(true);
-            Inventory inv = event.getPlayer().getInventory();
-            if (inv.containsAtLeast(TCItems.FUEL_BALL.get().getItemStack(), 1) &&
-                    inv.containsAtLeast(TCItems.STICK.get().getItemStack(), 1)) {
-                inv.removeItem(TCItems.FUEL_BALL.get().getItemStack());
-                inv.removeItem(TCItems.STICK.get().getItemStack());
-                event.getPlayer().getInventory().addItem(new ItemStack(Material.TORCH));
-            }
+            UIFurnace.open(event.getPlayer());
         }
     }
 

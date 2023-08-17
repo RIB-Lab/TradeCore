@@ -21,7 +21,9 @@ public enum LootTables {
     MOSS(new LootTable(Set.of(Material.FARMLAND), TCTool.ToolType.HOE, 0, Map.of(0.2f, TCItems.MOSS.get(), 1.0f, TCItems.DRYGRASS.get()))),
     ANDESITE(new LootTable(Set.of(Material.ANDESITE), TCTool.ToolType.PICKAXE, 1, Map.of(0.2f, TCItems.ANDESITE_STONE.get()))),
     GRANITE(new LootTable(Set.of(Material.GRANITE), TCTool.ToolType.PICKAXE, 1, Map.of(0.2f, TCItems.GRANITE_STONE.get()))),
-    DIORITE(new LootTable(Set.of(Material.DIORITE), TCTool.ToolType.PICKAXE, 1, Map.of(0.2f, TCItems.DIORITE_STONE.get())));
+    DIORITE(new LootTable(Set.of(Material.DIORITE), TCTool.ToolType.PICKAXE, 1, Map.of(0.2f, TCItems.DIORITE_STONE.get()))),
+    GRAVEL(new LootTable(Set.of(Material.GRAVEL), TCTool.ToolType.SHOVEL, 1, Map.of(0.2f, TCItems.GRAVEL_DUST.get(), 0.02f, TCItems.FLINT.get(), 0.021f, TCItems.METEORIC_IRON_ORE.get()))),
+    SAND(new LootTable(Set.of(Material.SAND), TCTool.ToolType.SHOVEL, 1, Map.of(0.2f, TCItems.SAND_DUST.get(), 0.02f, TCItems.SANDGOLD.get())));
 
     private final LootTable table;
 
