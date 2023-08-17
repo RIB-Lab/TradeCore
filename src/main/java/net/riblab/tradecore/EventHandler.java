@@ -2,6 +2,7 @@ package net.riblab.tradecore;
 
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.mob.CustomMobService;
+import net.riblab.tradecore.ui.UICraftingTable;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

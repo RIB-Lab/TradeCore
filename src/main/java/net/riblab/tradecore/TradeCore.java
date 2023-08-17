@@ -23,6 +23,8 @@ import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
 import net.riblab.tradecore.mob.TCMobs;
+import net.riblab.tradecore.ui.UIAdminShop;
+import net.riblab.tradecore.ui.UISell;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -128,6 +130,13 @@ public final class TradeCore extends JavaPlugin {
                 });
         spawnCommand.setPermission(CommandPermission.OP);
         spawnCommand.register();
+
+        CommandAPICommand shopCommand = new CommandAPICommand("tcshop")
+                .executesPlayer((player, args) -> {
+                    UIAdminShop.open(player);
+                });
+        shopCommand.setPermission(CommandPermission.OP);
+        shopCommand.register();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.ui;
 
 import dev.triumphteam.gui.builder.item.ItemBuilder;
 import dev.triumphteam.gui.guis.Gui;
@@ -8,6 +8,10 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.FakeVillagerService;
+import net.riblab.tradecore.ItemCreator;
+import net.riblab.tradecore.TCResourcePackData;
+import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.TCRecipe;
 import net.riblab.tradecore.craft.TCRecipes;
 import net.riblab.tradecore.item.ITCItem;

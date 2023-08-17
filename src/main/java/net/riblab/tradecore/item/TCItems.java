@@ -59,6 +59,7 @@ public enum TCItems {
     
     //その他
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),
+    MESI((new TCItem(Component.text("COMP"), Material.COOKED_BEEF, "meshi", 0))),
 
     //モブ召喚系は他のアイテムを参照するので必ず最後に配置
     STONE_AXE(new TCEncountableTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, 1.25, 128, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))),
