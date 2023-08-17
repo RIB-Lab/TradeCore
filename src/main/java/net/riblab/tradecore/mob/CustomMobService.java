@@ -36,6 +36,9 @@ public class CustomMobService {
      * @param event
      */
     public static void onEntityDeath(EntityDeathEvent event) {
+        if(event.getEntity() instanceof Player)//プレイヤーの死亡時ドロップは消さない
+            return;
+        
         event.getDrops().clear();//バニラのモブドロップをブロック
 
         if (!(event.getEntity() instanceof Mob) || !spawnedMobs.contains((Mob) event.getEntity()) || event.getEntity().getKiller() == null)
