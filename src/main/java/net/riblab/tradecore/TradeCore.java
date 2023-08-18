@@ -160,6 +160,7 @@ public final class TradeCore extends JavaPlugin {
                     player.sendMessage(text);
                 });
         CommandAPICommand jobSetCommand = new CommandAPICommand("set")
+                .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument("プレイヤー"))
                 .withArguments(JobData.JobType.customJobTypeArgument("職業の種類"))
                 .withArguments(new IntegerArgument("レベル"))
@@ -174,6 +175,7 @@ public final class TradeCore extends JavaPlugin {
                     jobHandler.setJobData(targetPlayer, newData);
                 });
         CommandAPICommand jobResetCommand = new CommandAPICommand("reset")
+                .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument("プレイヤー"))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
