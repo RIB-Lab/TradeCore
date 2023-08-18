@@ -105,7 +105,7 @@ public class EventHandler implements Listener {
      * 投票プラグインでもらえる引換券を右クリックしたときの処理
      */
     public void interactVoteTicket(PlayerInteractEvent event){
-        if (event.getItem() != null && event.getItem().getItemMeta().getDisplayName().equals("投票引換券")) {
+        if (event.getItem() != null && event.getItem().getItemMeta().hasDisplayName() && event.getItem().getItemMeta().getDisplayName().equals("§a投票引換券")) {
             event.setCancelled(true);
             TradeCore.getInstance().getEconomy().depositTickets(event.getPlayer(), 1);
             event.getPlayer().sendMessage(Component.text("投票引換券をプレイチケットと引き換えました！"));
