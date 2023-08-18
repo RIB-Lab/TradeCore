@@ -1,5 +1,6 @@
 package net.riblab.tradecore;
 
+import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.mob.CustomMobService;
@@ -65,10 +66,14 @@ public class EventHandler implements Listener {
             return;
         
         interactFurnace(event);
+        if(event.isCancelled())
+            return;
+        
+        interactVoteTicket(event);
     }
 
     /**
-     * 念のため金床をブロック
+     * 金床をブロック
      */
     public void blockAnvilInteraction(PlayerInteractEvent event) {
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.ANVIL) {
@@ -93,6 +98,18 @@ public class EventHandler implements Listener {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.FURNACE) {
             event.setCancelled(true);
             UIFurnace.open(event.getPlayer());
+        }
+    }
+
+    /**
+     * 投票プラグインでもらえる引換券を右クリックしたときの処理
+     */
+    public void interactVoteTicket(PlayerInteractEvent event){
+        if (event.getItem() != null && event.getItem().getItemMeta().getDisplayName().equals("投票引換券")) {
+            event.setCancelled(true);
+            TradeCore.getInstance().getEconomy().depositTickets(event.getPlayer(), 1);
+            event.getPlayer().sendMessage(Component.text("投票引換券をプレイチケットと引き換えました！"));
+            event.getItem().setAmount(event.getItem().getAmount() - 1);
         }
     }
 
