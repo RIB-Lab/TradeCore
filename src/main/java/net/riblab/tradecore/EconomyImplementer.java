@@ -16,6 +16,11 @@ import java.util.UUID;
 public class EconomyImplementer implements Economy {
     private final ConfigManager.CurrencyData data = TradeCore.getInstance().getConfigManager().getCurrencyData();
 
+    /**
+     * 初期所持金
+     */
+    private static final double startingBalance = 50;
+
     @Override
     public boolean isEnabled() {
         return TradeCore.getInstance().isEnabled();
@@ -279,7 +284,7 @@ public class EconomyImplementer implements Economy {
             return false;
 
         UUID uuid = offlinePlayer.getUniqueId();
-        data.playerBank.put(uuid, 0d);
+        data.playerBank.put(uuid, startingBalance);
         data.playerTickets.put(uuid, 0);
         return true;
     }
@@ -295,7 +300,7 @@ public class EconomyImplementer implements Economy {
             return false;
 
         UUID uuid = offlinePlayer.getUniqueId();
-        data.playerBank.put(uuid, 0d);
+        data.playerBank.put(uuid, startingBalance);
         data.playerTickets.put(uuid, 0);
         return true;
     }
