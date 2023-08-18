@@ -43,7 +43,20 @@ public enum TCCraftingRecipes {
     STONE_BOOTS(new TCCraftingRecipe(Map.of(TCItems.TALLSTONE.get(), 40, TCItems.WOODEN_COMPONENT.get(), 1), TCItems.STONE_BOOTS.get().getItemStack(), 1, 3, RecipeType.ARMOR)),
     STONE_COMPONENT(new TCCraftingRecipe(Map.of(TCItems.ROUND_STONE.get(), 10, TCItems.ANDESITE_STONE.get(), 2, TCItems.GRANITE_STONE.get(), 2, TCItems.DIORITE_STONE.get(), 2), TCItems.STONE_COMPONENT.get().getItemStack(), 1, 10, RecipeType.MISC)),
     IRON_INGOT(new TCCraftingRecipe(Map.of(TCItems.IRON_SHARD.get(), 3), TCItems.IRON_INGOT.get().getItemStack(), 1, 1, RecipeType.MISC)),
-    GOLD_INGOT(new TCCraftingRecipe(Map.of(TCItems.GOLD_SHARD.get(), 3), TCItems.GOLD_INGOT.get().getItemStack(), 1, 1, RecipeType.MISC));
+    GOLD_INGOT(new TCCraftingRecipe(Map.of(TCItems.GOLD_SHARD.get(), 3), TCItems.GOLD_INGOT.get().getItemStack(), 1, 1, RecipeType.MISC)),
+    
+    //鉄器時代
+    REINFORCED_STICK(new TCCraftingRecipe(Map.of(TCItems.STICK.get(), 1, TCItems.SAND_DUST.get(), 10, TCItems.GRAVEL_DUST.get(), 10), TCItems.REINFORCED_STICK.get().getItemStack(), 1, 3, RecipeType.MISC)),
+    IRON_AXE(new TCCraftingRecipe(Map.of(TCItems.IRON_INGOT.get(), 3, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.IRON_AXE.get().getItemStack(), 1, 5, RecipeType.TOOL)),
+    IRON_SHOVEL(new TCCraftingRecipe(Map.of(TCItems.IRON_INGOT.get(), 1, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.IRON_SHOVEL.get().getItemStack(), 1, 5, RecipeType.TOOL)),
+    IRON_PICKAXE(new TCCraftingRecipe(Map.of(TCItems.IRON_INGOT.get(), 3, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.IRON_PICKAXE.get().getItemStack(), 1, 5, RecipeType.TOOL)),
+    IRON_HOE(new TCCraftingRecipe(Map.of(TCItems.IRON_INGOT.get(), 2, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.IRON_HOE.get().getItemStack(), 1, 5, RecipeType.TOOL)),
+    GOLDEN_AXE(new TCCraftingRecipe(Map.of(TCItems.GOLD_INGOT.get(), 3, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.GOLDEN_AXE.get().getItemStack(), 1, 5, RecipeType.TOOL)),
+    GOLDEN_SHOVEL(new TCCraftingRecipe(Map.of(TCItems.GOLD_INGOT.get(), 1, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.GOLDEN_SHOVEL.get().getItemStack(), 1, 5, RecipeType.TOOL)),
+    GOLDEN_PICKAXE(new TCCraftingRecipe(Map.of(TCItems.GOLD_INGOT.get(), 3, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.GOLDEN_PICKAXE.get().getItemStack(), 1, 5, RecipeType.TOOL)),
+    GOLDEN_HOE(new TCCraftingRecipe(Map.of(TCItems.GOLD_INGOT.get(), 2, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.GOLDEN_HOE.get().getItemStack(), 1, 5, RecipeType.TOOL));
+    
+
 
     @Getter
     private final TCCraftingRecipe recipe;

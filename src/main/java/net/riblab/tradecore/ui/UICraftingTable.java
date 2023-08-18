@@ -141,13 +141,7 @@ public class UICraftingTable {
         if (recipeList == null || recipeList.size() == 0)
             return;
 
-        recipeList.forEach(tcCraftingRecipe -> {
-            ItemStack recipeStack = tcCraftingRecipe.getResult().clone();
-            GuiItem recipeButton = new GuiItem(recipeStack,
-                    event -> open(player, tcCraftingRecipe));
-            gui.addItem(recipeButton);
-        });
-
+        gui.setPageSize(9);
         gui.getFiller().fillBetweenPoints(1, 4, 3, 9, ItemBuilder.from(Material.AIR).asGuiItem());
 
         GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getItemStack(),
@@ -156,6 +150,13 @@ public class UICraftingTable {
         GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getItemStack(),
                 event -> gui.next());
         gui.setItem(24, nextPageButton);
+
+        recipeList.forEach(tcCraftingRecipe -> {
+            ItemStack recipeStack = tcCraftingRecipe.getResult().clone();
+            GuiItem recipeButton = new GuiItem(recipeStack,
+                    event -> open(player, tcCraftingRecipe));
+            gui.addItem(recipeButton);
+        });
     }
 
     /**

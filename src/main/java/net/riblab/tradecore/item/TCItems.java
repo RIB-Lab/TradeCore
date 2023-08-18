@@ -71,6 +71,9 @@ public enum TCItems {
     IRON_INGOT(new TCSellableItem(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, 0.05d)),
     GOLD_INGOT(new TCSellableItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, 0.05d)),
     
+    //鉄器時代
+    REINFORCED_STICK(new TCSellableItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, 0.05d)),
+    
     //その他
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),
     MESI((new TCItem(Component.text("COMP"), Material.COOKED_BEEF, "meshi", 0))),
@@ -79,7 +82,15 @@ public enum TCItems {
     STONE_AXE(new TCEncountableTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, 1.25, 128, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))),
     STONE_SHOVEL(new TCTool(Component.text("石のシャベル"), Material.STONE_SHOVEL, "stone_shovel", 0, TCTool.ToolType.SHOVEL, 1, 1.25, 128)),
     STONE_PICKAXE(new TCEncountableTool(Component.text("石のツルハシ"), Material.STONE_PICKAXE, "stone_pickaxe", 0, TCTool.ToolType.PICKAXE, 1, 1.25, 128, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))),
-    STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, 1.25, 128));
+    STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, 1.25, 128)),
+    IRON_AXE(new TCEncountableTool(Component.text("鉄の斧"), Material.IRON_AXE, "iron_axe", 0, TCTool.ToolType.AXE, 4, 1.3, 512, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))),
+    IRON_SHOVEL(new TCTool(Component.text("鉄のシャベル"), Material.IRON_SHOVEL, "iron_shovel", 0, TCTool.ToolType.SHOVEL, 2, 1.3, 512)),
+    IRON_PICKAXE(new TCEncountableTool(Component.text("鉄のツルハシ"), Material.IRON_PICKAXE, "iron_pickaxe", 0, TCTool.ToolType.PICKAXE, 2, 1.3, 512, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))),
+    IRON_HOE(new TCTool(Component.text("鉄のクワ"), Material.IRON_HOE, "iron_hoe", 0, TCTool.ToolType.HOE, 2, 1.3, 512)),
+    GOLDEN_AXE(new TCEncountableTool(Component.text("金の斧"), Material.GOLDEN_AXE, "golden_axe", 0, TCTool.ToolType.AXE, 4, 1.5, 256, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))),
+    GOLDEN_SHOVEL(new TCTool(Component.text("金のシャベル"), Material.GOLDEN_SHOVEL, "golden_shovel", 0, TCTool.ToolType.SHOVEL, 2, 1.5, 256)),
+    GOLDEN_PICKAXE(new TCEncountableTool(Component.text("金のツルハシ"), Material.GOLDEN_PICKAXE, "golden_pickaxe", 0, TCTool.ToolType.PICKAXE, 2, 1.5, 256, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))),
+    GOLDEN_HOE(new TCTool(Component.text("金のクワ"), Material.GOLDEN_HOE, "golden_hoe", 0, TCTool.ToolType.HOE, 2, 1.5, 256));
 
     private final ITCItem tcItem;
 
