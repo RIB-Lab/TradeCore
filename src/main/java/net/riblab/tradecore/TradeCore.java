@@ -16,12 +16,14 @@ import dev.jorel.commandapi.arguments.PlayerArgument;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
-import net.riblab.tradecore.craft.TCFurnaceRecipe;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.TCTool;
+import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.job.JobHandler;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
 import net.riblab.tradecore.mob.TCMobs;
@@ -58,6 +60,8 @@ public final class TradeCore extends JavaPlugin {
     @Getter
     private ProtocolManager protocolManager;
     private EventHandler eventHandler;
+    @Getter
+    private JobHandler jobHandler;
 
     public TradeCore() {
         instance = this;
@@ -79,6 +83,9 @@ public final class TradeCore extends JavaPlugin {
         LootTables.values();
         TCCraftingRecipes.values();
         TCFurnaceRecipes.values();
+        
+        JobData.JobType.values();
+        TCTool.ToolType.values();
     }
 
     @Override
@@ -138,8 +145,20 @@ public final class TradeCore extends JavaPlugin {
                 .executesPlayer((player, args) -> {
                     UIAdminShop.open(player);
                 });
-        shopCommand.setPermission(CommandPermission.OP);
+        shopCommand.setPermission(CommandPermission.NONE);
         shopCommand.register();
+
+        CommandAPICommand jobCommand = new CommandAPICommand("tcjob")
+                .executesPlayer((player, args) -> {
+                    Component text = Component.text("現在の職業レベル:");
+                    for (JobData.JobType value : JobData.JobType.values()) {
+                        JobData data = jobHandler.getJobData(player, value);
+                        text = text.append(Component.text(" " + value.getName() + ":" + data.getLevel()));
+                    }
+                    player.sendMessage(text);
+                });
+        jobCommand.setPermission(CommandPermission.NONE);
+        jobCommand.register();
     }
 
     @Override
@@ -147,6 +166,7 @@ public final class TradeCore extends JavaPlugin {
         configManager = new ConfigManager();
         configManager.load();
         eventHandler = new EventHandler();
+        jobHandler = new JobHandler();
         new VanillaCraftHandler();
 
         economy = new EconomyImplementer();
@@ -219,6 +239,8 @@ public final class TradeCore extends JavaPlugin {
                     }
                 }
         );
+        
+        forceInit(CustomMobService.class);
     }
 
     @Override

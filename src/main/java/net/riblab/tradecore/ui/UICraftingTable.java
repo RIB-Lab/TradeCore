@@ -16,6 +16,7 @@ import net.riblab.tradecore.craft.TCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.job.JobData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -225,6 +226,8 @@ public class UICraftingTable {
             player.getInventory().removeItemAnySlot(itemStack);
         }
         TradeCore.getInstance().getEconomy().withdrawPlayer(player, recipe.getFee());
+
+        TradeCore.getInstance().getJobHandler().addJobExp(player, JobData.JobType.Crafter, (int)recipe.getFee());
 
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.getResult());
         if(remains.size() == 0)

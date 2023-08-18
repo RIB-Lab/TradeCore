@@ -1,6 +1,7 @@
 package net.riblab.tradecore;
 
 import net.riblab.tradecore.item.*;
+import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.ui.UICraftingTable;
 import net.riblab.tradecore.ui.UIFurnace;
@@ -156,9 +157,9 @@ public class EventHandler implements Listener {
             return;
         }
 
-        Map<Float, ITCItem> loots = LootTables.get(block.getType(), (TCTool) itcItem);
-        if (loots.size() == 0) {
-            BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでアイテムがドロップしないなら実質素手
+        int minHardness = LootTables.getMinHardness(block.getType(), (TCTool) itcItem);
+        if (minHardness > ((TCTool) itcItem).getHarvestLevel()) {
+            BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツール採掘できないなら実質素手
             return;
         }
 
@@ -194,24 +195,31 @@ public class EventHandler implements Listener {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
                 TradeCore.dropItemByLootTable(event.getBlock(), table);
+                TradeCore.getInstance().getJobHandler().addJobExp(event.getPlayer(), JobData.JobType.Mower, 1);
                 return;
             }
         }
 
         ITCItem itcItem = TCItems.toTCItem(mainHand);
-        if (itcItem instanceof TCTool) { //ツール
+        if (itcItem instanceof TCTool tool) { //ツール
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
             if (table.size() != 0) {
                 event.setCancelled(true);
-                event.getBlock().setType(Material.AIR);
                 TradeCore.dropItemByLootTable(event.getBlock(), table);
-                ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(mainHand);
+                ItemStack newItemStack = tool.reduceDurability(mainHand);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
                 if (itcItem instanceof TCEncountableTool encountableTool) {
                     TradeCore.trySpawnMob(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable());
                 }
 
+                JobData.JobType jobType = tool.getToolType().getExpType();
+                if(jobType != null){
+                    //硬度によって経験値が決まるが、硬度0でも1は入るようにする
+                    TradeCore.getInstance().getJobHandler().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), (TCTool) itcItem) + 1);
+                }
+
+                event.getBlock().setType(Material.AIR);
                 return;
             }
         }

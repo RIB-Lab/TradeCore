@@ -1,11 +1,13 @@
 package net.riblab.tradecore.item;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.ItemCreator;
+import net.riblab.tradecore.job.JobData;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -118,12 +120,20 @@ public class TCTool extends TCItem {
      * ツールの種類 TODO:SWORDを廃止してTCWeaponに移行
      */
     public enum ToolType {
-        HAND,
-        AXE,
-        PICKAXE,
-        SHOVEL,
-        HOE,
-        SWORD,
-        SHEARS
+        HAND(JobData.JobType.Mower),
+        AXE(JobData.JobType.Woodcutter),
+        PICKAXE(JobData.JobType.Miner),
+        SHOVEL(JobData.JobType.Digger),
+        HOE(null),
+        SWORD(null),
+        SHEARS(null);
+
+
+        @Getter
+        private final JobData.JobType expType;
+        
+        ToolType(JobData.JobType expType){
+            this.expType = expType;
+        }
     }
 }
