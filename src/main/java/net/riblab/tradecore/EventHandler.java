@@ -12,13 +12,11 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.event.player.PlayerAnimationEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -272,6 +270,16 @@ public class EventHandler implements Listener {
         tryReduceWeaponDurability(event);
     }
 
+    @org.bukkit.event.EventHandler
+    public void onPlayerReSpawn(PlayerRespawnEvent event){
+        new BukkitRunnable() { //他のプラグインのエフェクト除去効果を上書き
+            @Override
+            public void run() {
+                TradeCore.addSlowDig(event.getPlayer());
+            }
+        }.runTaskLater(TradeCore.getInstance(), 1);
+    }
+
     /**
      * 攻撃した時に武器の耐久値を減らす
      */
@@ -324,5 +332,12 @@ public class EventHandler implements Listener {
 
         double finalDamage = (5* rawDamage * rawDamage)/(armor + 5* rawDamage);
         event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, finalDamage);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onPlayerConsumeItem(PlayerItemConsumeEvent event){
+        if(event.getPlayer().getInventory().getItemInMainHand().getType() == Material.MILK_BUCKET){ //採掘デバフが剥がれるのを防ぐ
+            event.setCancelled(true);
+        }
     }
 }
