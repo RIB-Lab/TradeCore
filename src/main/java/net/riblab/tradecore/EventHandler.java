@@ -14,7 +14,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -28,6 +27,10 @@ import static net.riblab.tradecore.Materials.unbreakableMaterial;
  * イベント受信システム
  */
 public class EventHandler implements Listener {
+    
+    private static final Set<EntityDamageEvent.DamageCause> unBlockableDamageCause = Set.of(EntityDamageEvent.DamageCause.SUICIDE, EntityDamageEvent.DamageCause.KILL, 
+            EntityDamageEvent.DamageCause.DROWNING, EntityDamageEvent.DamageCause.CUSTOM, EntityDamageEvent.DamageCause.STARVATION, EntityDamageEvent.DamageCause.VOID,
+            EntityDamageEvent.DamageCause.WORLD_BORDER);
 
     public EventHandler() {
         Bukkit.getServer().getPluginManager().registerEvents(this, TradeCore.getInstance());
@@ -312,6 +315,9 @@ public class EventHandler implements Listener {
      */
     public void tryBlockDamageWithCustomArmor(EntityDamageEvent event){
         if(!(event.getEntity() instanceof Player player))
+            return;
+        
+        if(unBlockableDamageCause.contains(event.getCause()))
             return;
 
         if(!event.isApplicable(EntityDamageEvent.DamageModifier.ARMOR)) //アーマーで防御出来ないダメージタイプは無視
