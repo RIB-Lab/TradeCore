@@ -166,7 +166,13 @@ public class UIFurnace {
         fuelStack.setAmount(recipe.getFuelAmount());
         player.getInventory().removeItemAnySlot(fuelStack);
 
-        player.getInventory().addItem(recipe.getResult());
+        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.getResult());
+        if(remains.size() == 0)
+            return;
+
+        remains.forEach((integer, itemStack) -> {
+            player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
+        });
     }
 
     private static void close(Player player) {

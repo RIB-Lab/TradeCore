@@ -226,7 +226,13 @@ public class UICraftingTable {
         }
         TradeCore.getInstance().getEconomy().withdrawPlayer(player, recipe.getFee());
 
-        player.getInventory().addItem(recipe.getResult());
+        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.getResult());
+        if(remains.size() == 0)
+            return;
+        
+        remains.forEach((integer, itemStack) -> {
+            player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
+        });
     }
 
     private static void close(Player player) {
