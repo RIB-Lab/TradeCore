@@ -109,25 +109,25 @@ public class UICraftingTable {
      * カテゴリ選択画面を実装
      */
     private static void addCategoryScreen(PaginatedGui gui, Player player) {
-        ItemStack armorCategory = new ItemCreator(Material.IRON_CHESTPLATE).setName(Component.text("装備品"))
+        ItemStack armorCategory = new ItemCreator(Material.IRON_CHESTPLATE).setName(Component.text("装備品").decoration(TextDecoration.ITALIC, false))
                 .create();
         GuiItem armorButton = new GuiItem(armorCategory,
                 event -> open(player, CraftingScreenType.ARMOR));
         gui.setItem(0, armorButton);
 
-        ItemStack toolCategory = new ItemCreator(Material.IRON_PICKAXE).setName(Component.text("ツール"))
+        ItemStack toolCategory = new ItemCreator(Material.IRON_PICKAXE).setName(Component.text("ツール").decoration(TextDecoration.ITALIC, false))
                 .create();
         GuiItem toolButton = new GuiItem(toolCategory,
                 event -> open(player, CraftingScreenType.TOOL));
         gui.setItem(1, toolButton);
 
-        ItemStack weaponCategory = new ItemCreator(Material.IRON_SWORD).setName(Component.text("武器"))
+        ItemStack weaponCategory = new ItemCreator(Material.IRON_SWORD).setName(Component.text("武器").decoration(TextDecoration.ITALIC, false))
                 .create();
         GuiItem weaponButton = new GuiItem(weaponCategory,
                 event -> open(player, CraftingScreenType.WEAPON));
         gui.setItem(2, weaponButton);
 
-        ItemStack miscCategory = new ItemCreator(Material.FLOWER_POT).setName(Component.text("その他"))
+        ItemStack miscCategory = new ItemCreator(Material.FLOWER_POT).setName(Component.text("その他").decoration(TextDecoration.ITALIC, false))
                 .create();
         GuiItem miscButton = new GuiItem(miscCategory,
                 event -> open(player, CraftingScreenType.MISC));
@@ -210,7 +210,7 @@ public class UICraftingTable {
 
         double balance = TradeCore.getInstance().getEconomy().getBalance(player);
         if (recipe.getFee() > balance) {
-            missingLore.add(Component.text("所持金が足りません！ " + balance + "/" + recipe.getFee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+            missingLore.add(Component.text("所持金が足りません！ " + Math.floor(balance * 100) / 100 + "/" + recipe.getFee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
 
         if (missingLore.size() > 0) {

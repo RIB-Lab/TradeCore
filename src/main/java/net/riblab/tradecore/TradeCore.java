@@ -149,14 +149,38 @@ public final class TradeCore extends JavaPlugin {
         shopCommand.register();
 
         CommandAPICommand jobCommand = new CommandAPICommand("tcjob")
+                .withArguments(new PlayerArgument("プレイヤー"))
                 .executesPlayer((player, args) -> {
+                    Player targetPlayer = (Player) args.get(0);
                     Component text = Component.text("現在の職業レベル:");
                     for (JobData.JobType value : JobData.JobType.values()) {
-                        JobData data = jobHandler.getJobData(player, value);
+                        JobData data = jobHandler.getJobData(targetPlayer, value);
                         text = text.append(Component.text(" " + value.getName() + ":" + data.getLevel()));
                     }
                     player.sendMessage(text);
                 });
+        CommandAPICommand jobSetCommand = new CommandAPICommand("set")
+                .withArguments(new PlayerArgument("プレイヤー"))
+                .withArguments(JobData.JobType.customJobTypeArgument("職業の種類"))
+                .withArguments(new IntegerArgument("レベル"))
+                .executesPlayer((player, args) -> {
+                    Player targetPlayer = (Player) args.get(0);
+                    JobData.JobType jobType = (JobData.JobType) args.get(1);
+                    int level = (int) args.get(2);
+                    JobData newData = new JobData();
+                    newData.setJobType(jobType);
+                    newData.setLevel(level);
+                    newData.setExp(0);
+                    jobHandler.setJobData(targetPlayer, newData);
+                });
+        CommandAPICommand jobResetCommand = new CommandAPICommand("reset")
+                .withArguments(new PlayerArgument("プレイヤー"))
+                .executesPlayer((player, args) -> {
+                    Player targetPlayer = (Player) args.get(0);
+                    jobHandler.resetJobData(targetPlayer);
+                });
+        jobCommand.withSubcommand(jobSetCommand);
+        jobCommand.withSubcommand(jobResetCommand);
         jobCommand.setPermission(CommandPermission.NONE);
         jobCommand.register();
     }

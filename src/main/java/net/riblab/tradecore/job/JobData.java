@@ -1,8 +1,14 @@
 package net.riblab.tradecore.job;
 
 import de.exlll.configlib.Configuration;
+import dev.jorel.commandapi.arguments.Argument;
+import dev.jorel.commandapi.arguments.ArgumentSuggestions;
+import dev.jorel.commandapi.arguments.CustomArgument;
+import dev.jorel.commandapi.arguments.StringArgument;
 import lombok.Data;
 
+import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,6 +48,31 @@ public class JobData {
 
         public String getName() {
             return name;
+        }
+
+        // Function that returns our custom argument
+        public static Argument<JobType> customJobTypeArgument(String nodeName) {
+            
+            return new CustomArgument<JobType, String>(new StringArgument(nodeName), info -> {
+                JobType type = commandToJOBType(info.input());
+
+                if (type == null) {
+                    throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown job: ").appendArgInput());
+                } else {
+                    return type;
+                }
+            }).replaceSuggestions(ArgumentSuggestions.strings(info ->
+                    Arrays.stream(values()).map(Enum::toString).toArray(String[]::new))
+            );
+        }
+
+        /**
+         * コマンド文字列をジョブに変換する
+         */
+        @Nullable
+        public static JobType commandToJOBType(String command) {
+            JobType type = Arrays.stream(JobType.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
+            return type == null ? null : type;
         }
     }
     

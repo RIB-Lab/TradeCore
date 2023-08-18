@@ -84,4 +84,34 @@ public class JobHandler {
 
         return data;
     }
+    
+    public void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet){
+        if(dataToSet == null)
+            return;
+        
+        UUID uuid = offlinePlayer.getUniqueId();
+        List<JobData> datas = datasMap.get(uuid);
+        if (datas == null) {
+            datasMap.put(uuid, new ArrayList<>());
+            datas = datasMap.get(uuid);
+        }
+
+        JobData data = datas.stream().filter(jobData -> jobData.getJobType() == dataToSet.jobType).findAny().orElse(null);
+        if (data == null) {
+            data = initPlayerJobData(offlinePlayer, dataToSet.jobType);
+        }
+        
+        data.setLevel(dataToSet.getLevel());
+        data.setExp(dataToSet.exp);
+    }
+    
+    public void resetJobData(OfflinePlayer offlinePlayer){
+        UUID uuid = offlinePlayer.getUniqueId();
+        List<JobData> datas = datasMap.get(uuid);
+        if (datas == null) {
+            return;
+        }
+        
+        datas.clear();
+    }
 }
