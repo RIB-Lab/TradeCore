@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.ItemCreator;
+import net.riblab.tradecore.TCResourcePackData;
 import net.riblab.tradecore.craft.TCFurnaceRecipe;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.item.ITCItem;
@@ -173,15 +174,21 @@ public class UIFurnace {
     }
 
     public enum SmeltingScreenType {
-        SELECTION("レシピ選択"),
-        SMELTING("加工");
+        SELECTION("レシピ選択", TCResourcePackData.UIFont.FURNACE),
+        SMELTING("加工", TCResourcePackData.UIFont.CRAFTING_TABLE_CRAFTING);
 
         @Getter
         private final Component title;
 
-        SmeltingScreenType(String rawTitle) {
+        SmeltingScreenType(String rawTitle, TCResourcePackData.UIFont screenStr) {
             //タイトル作成
-            this.title = Component.text(rawTitle); //TODO:UIテクスチャ実装
+            String neg = TCResourcePackData.UIFont.NEGATIVE_SPACE.get_char();
+            String neg2 = TCResourcePackData.UIFont.SUPER_NEGATIVE_SPACE.get_char();
+            String main = screenStr.get_char();
+            Component text = Component.text(neg + neg + main).font(TCResourcePackData.uiFontName).color(NamedTextColor.WHITE);
+            text = text.append(Component.text(neg2 + neg2 + neg2 + neg2 + neg + neg).font(TCResourcePackData.uiFontName));
+            text = text.append(Component.text(rawTitle).font(TCResourcePackData.defaultFontName).color(NamedTextColor.BLACK));
+            this.title = text;
         }
 
         public static SmeltingScreenType titleToType(Component title) {

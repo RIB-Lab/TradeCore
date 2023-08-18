@@ -56,7 +56,8 @@ public class TCResourcePackData {
         CRAFTING_TABLE_CRAFTING("\uE002"),
         CRAFTING_TABLE_MISC("\uE003"),
         CRAFTING_TABLE_TOOL("\uE004"),
-        CRAFTING_TABLE_WEAPON("\uE005");
+        CRAFTING_TABLE_WEAPON("\uE005"),
+        FURNACE("\uE006");
 
 
         private final String _char;
