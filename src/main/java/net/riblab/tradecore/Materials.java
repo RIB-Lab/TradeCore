@@ -52,5 +52,5 @@ public class Materials {
     /**
      * 買えたらまずい便利ブロック
      */
-    public static final Set<Material> coreBlock = Set.of(Material.CRAFTING_TABLE, Material.FURNACE, Material.TORCH);
+    public static final Set<Material> coreBlock = Set.of(Material.CRAFTING_TABLE, Material.FURNACE, Material.TORCH, Material.CHEST, Material.ENDER_CHEST, Material.TRAPPED_CHEST);
 }

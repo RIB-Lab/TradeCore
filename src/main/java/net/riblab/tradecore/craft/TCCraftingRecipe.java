@@ -29,7 +29,7 @@ public class TCCraftingRecipe {
     /**
      * レシピを実行するための費用
      */
-    private final int fee;
+    private final double fee;
 
     /**
      * レシピのカテゴリ
