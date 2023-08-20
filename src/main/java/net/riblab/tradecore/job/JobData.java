@@ -6,6 +6,8 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import lombok.Data;
+import lombok.Getter;
+import org.bukkit.Material;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -34,16 +36,19 @@ public class JobData {
     int exp;
     
     public enum JobType{
-        Miner("鉱夫"),
-        Digger("整地師"),
-        Woodcutter("木こり"),
-        Mower("草刈り機"),
-        Crafter("クラフター");
+        Miner("鉱夫", Material.IRON_PICKAXE),
+        Digger("整地師", Material.IRON_SHOVEL),
+        Woodcutter("木こり", Material.IRON_AXE),
+        Mower("草刈り機", Material.GRASS),
+        Crafter("クラフター", Material.CRAFTING_TABLE);
 
         private final String name;
+        @Getter
+        private final Material uiMaterial;
 
-        JobType(String name) {
+        JobType(String name, Material uiMaterial) {
             this.name = name;
+            this.uiMaterial = uiMaterial;
         }
 
         public String getName() {

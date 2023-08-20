@@ -16,14 +16,12 @@ import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.ui.UIAdminShop;
-import net.riblab.tradecore.ui.UIJobSkills;
+import net.riblab.tradecore.ui.UIJobs;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
-
-import java.util.List;
 
 import static net.riblab.tradecore.Materials.transparentBlocks;
 
@@ -102,15 +100,9 @@ public class TCCommands {
         shopCommand.register();
 
         CommandAPICommand jobCommand = new CommandAPICommand("tcjob")
-                .withArguments(new PlayerArgument("プレイヤー"))
+                .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
-                    Player targetPlayer = (Player) args.get(0);
-                    Component text = Component.text("現在の職業レベル:");
-                    for (JobData.JobType value : JobData.JobType.values()) {
-                        JobData data = getJobHandler().getJobData(targetPlayer, value);
-                        text = text.append(Component.text(" " + value.getName() + ":" + data.getLevel()));
-                    }
-                    player.sendMessage(text);
+                    UIJobs.open(player);
                 });
         CommandAPICommand jobSetCommand = new CommandAPICommand("set")
                 .withPermission(CommandPermission.OP)
@@ -136,23 +128,14 @@ public class TCCommands {
                 });
         jobCommand.withSubcommand(jobSetCommand);
         jobCommand.withSubcommand(jobResetCommand);
-        jobCommand.setPermission(CommandPermission.NONE);
         jobCommand.register();
-
-        CommandAPICommand skillCommand = new CommandAPICommand("skill")
-                .withPermission(CommandPermission.NONE)
-                .withArguments(JobData.JobType.customJobTypeArgument("職業の種類"))
-                .executesPlayer((player, args) -> {
-                    JobData.JobType jobType = (JobData.JobType) args.get(0);
-                    UIJobSkills.open(player, jobType);
-                });
-        CommandAPICommand skillResetCommand = new CommandAPICommand("reset")
+        
+        CommandAPICommand skillResetCommand = new CommandAPICommand("resetskill")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     TradeCore.getInstance().getJobSkillHandler().resetPlayerJobSkillData(player);
                 });
-        skillCommand.withSubcommand(skillResetCommand);
-        skillCommand.register();
+        skillResetCommand.register();
     }
     
     public static void onEnable(){
