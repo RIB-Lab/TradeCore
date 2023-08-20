@@ -44,12 +44,12 @@ public class EventHandler implements Listener {
         if (!TradeCore.getInstance().getEconomy().hasAccount(event.getPlayer()))
             TradeCore.getInstance().getEconomy().createPlayerAccount(event.getPlayer());
 
-        TradeCore.addSlowDig(event.getPlayer());
+        Utils.addSlowDig(event.getPlayer());
     }
 
     @org.bukkit.event.EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        TradeCore.removeSlowDig(event.getPlayer());
+        Utils.removeSlowDig(event.getPlayer());
     }
 
     @org.bukkit.event.EventHandler
@@ -211,7 +211,7 @@ public class EventHandler implements Listener {
             if (table.size() != 0) {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
-                TradeCore.dropItemByLootTable(event.getBlock(), table);
+                Utils.dropItemByLootTable(event.getBlock(), table);
                 TradeCore.getInstance().getJobHandler().addJobExp(event.getPlayer(), JobData.JobType.Mower, 1);
                 return;
             }
@@ -222,12 +222,12 @@ public class EventHandler implements Listener {
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
             if (table.size() != 0) {
                 event.setCancelled(true);
-                TradeCore.dropItemByLootTable(event.getBlock(), table);
+                Utils.dropItemByLootTable(event.getBlock(), table);
                 ItemStack newItemStack = tool.reduceDurability(mainHand);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
                 if (itcItem instanceof TCEncountableTool encountableTool) {
-                    TradeCore.trySpawnMob(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable());
+                    Utils.trySpawnMob(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable());
                 }
 
                 JobData.JobType jobType = tool.getToolType().getExpType();
@@ -262,7 +262,7 @@ public class EventHandler implements Listener {
         
         if (event.getBlock().getType() == Material.FARMLAND && itcItem instanceof TCTool) { //耕地を耕したときのドロップ
             Map<Float, ITCItem> table = LootTables.get(Material.FARMLAND, (TCTool) itcItem);
-            TradeCore.dropItemByLootTable(event.getBlock(), table);
+            Utils.dropItemByLootTable(event.getBlock(), table);
             ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(event.getItemInHand());
             if (event.getHand() == EquipmentSlot.HAND)
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
@@ -303,7 +303,7 @@ public class EventHandler implements Listener {
         new BukkitRunnable() { //他のプラグインのエフェクト除去効果を上書き
             @Override
             public void run() {
-                TradeCore.addSlowDig(event.getPlayer());
+                Utils.addSlowDig(event.getPlayer());
             }
         }.runTaskLater(TradeCore.getInstance(), 1);
     }

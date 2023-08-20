@@ -74,8 +74,6 @@ public final class TradeCore extends JavaPlugin {
     @Getter
     private static boolean isWGLoaded;
 
-    public static final String merchantName = "買い取り商";
-
     static {
         //安全にenumを初期化
         TCItems.values();
@@ -90,101 +88,7 @@ public final class TradeCore extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(this).verboseOutput(true)); // Load with verbose output
-
-        CommandAPICommand setMoneyCommand = new CommandAPICommand("setmoney")
-                .withArguments(new PlayerArgument("player"))
-                .withArguments(new DoubleArgument("money", 0, Integer.MAX_VALUE))
-                .executesPlayer((player, args) -> {
-                    Player player1 = (Player) args.get(0);
-                    Double money = (Double) args.get(1);
-
-                    economy.withdrawPlayer(player1, economy.getBalance(player1));
-                    economy.depositPlayer(player1, money);
-                });
-        setMoneyCommand.setPermission(CommandPermission.OP);
-        setMoneyCommand.register();
-
-        CommandAPICommand tcGiveCommand = new CommandAPICommand("tcgive")
-                .withArguments(TCItems.customITCItemArgument("item"))
-                .withArguments(new IntegerArgument("amount", 1, 1000))
-                .executesPlayer((player, args) -> {
-                    ITCItem itcItem = (ITCItem) args.get(0);
-                    int amount = (int) args.get(1);
-                    ItemStack newStack = itcItem.getItemStack();
-                    newStack.setAmount(amount);
-                    player.getInventory().addItem(newStack);
-                });
-        tcGiveCommand.setPermission(CommandPermission.OP);
-        tcGiveCommand.register();
-
-        CommandAPICommand sellCommand = new CommandAPICommand("tcsell")
-                .executesPlayer((player, args) -> {
-                    Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
-                    spawnLocation.setY(player.getLocation().getY());
-
-                    FakeVillagerService.spawnFakeVillager(player, merchantName, spawnLocation);
-                    player.getWorld().spawnParticle(Particle.SMOKE_LARGE, spawnLocation, 10, 1, 1, 1);
-                });
-        sellCommand.setPermission(CommandPermission.NONE);
-        sellCommand.register();
-
-        CommandAPICommand spawnCommand = new CommandAPICommand("tcspawn")
-                .withArguments(TCMobs.customITCMobArgument("mobname"))
-                .executesPlayer((player, args) -> {
-                    TCMob type = (TCMob) args.get(0);
-                    Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
-                    spawnLocation.setY(player.getLocation().getY());
-
-                    CustomMobService.spawn(player, spawnLocation, type);
-                });
-        spawnCommand.setPermission(CommandPermission.OP);
-        spawnCommand.register();
-
-        CommandAPICommand shopCommand = new CommandAPICommand("tcshop")
-                .executesPlayer((player, args) -> {
-                    UIAdminShop.open(player);
-                });
-        shopCommand.setPermission(CommandPermission.NONE);
-        shopCommand.register();
-
-        CommandAPICommand jobCommand = new CommandAPICommand("tcjob")
-                .withArguments(new PlayerArgument("プレイヤー"))
-                .executesPlayer((player, args) -> {
-                    Player targetPlayer = (Player) args.get(0);
-                    Component text = Component.text("現在の職業レベル:");
-                    for (JobData.JobType value : JobData.JobType.values()) {
-                        JobData data = jobHandler.getJobData(targetPlayer, value);
-                        text = text.append(Component.text(" " + value.getName() + ":" + data.getLevel()));
-                    }
-                    player.sendMessage(text);
-                });
-        CommandAPICommand jobSetCommand = new CommandAPICommand("set")
-                .withPermission(CommandPermission.OP)
-                .withArguments(new PlayerArgument("プレイヤー"))
-                .withArguments(JobData.JobType.customJobTypeArgument("職業の種類"))
-                .withArguments(new IntegerArgument("レベル"))
-                .executesPlayer((player, args) -> {
-                    Player targetPlayer = (Player) args.get(0);
-                    JobData.JobType jobType = (JobData.JobType) args.get(1);
-                    int level = (int) args.get(2);
-                    JobData newData = new JobData();
-                    newData.setJobType(jobType);
-                    newData.setLevel(level);
-                    newData.setExp(0);
-                    jobHandler.setJobData(targetPlayer, newData);
-                });
-        CommandAPICommand jobResetCommand = new CommandAPICommand("reset")
-                .withPermission(CommandPermission.OP)
-                .withArguments(new PlayerArgument("プレイヤー"))
-                .executesPlayer((player, args) -> {
-                    Player targetPlayer = (Player) args.get(0);
-                    jobHandler.resetJobData(targetPlayer);
-                });
-        jobCommand.withSubcommand(jobSetCommand);
-        jobCommand.withSubcommand(jobResetCommand);
-        jobCommand.setPermission(CommandPermission.NONE);
-        jobCommand.register();
+        TCCommands.onLoad();
     }
 
     @Override
@@ -200,13 +104,13 @@ public final class TradeCore extends JavaPlugin {
         vaultHook.hook();
         isWGLoaded = getServer().getPluginManager().isPluginEnabled("WorldGuard");
 
-        CommandAPI.onEnable();
+        TCCommands.onEnable();
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             if (!economy.hasAccount(player))
                 economy.createPlayerAccount(player);
 
-            addSlowDig(player);
+            Utils.addSlowDig(player);
         });
 
         protocolManager = ProtocolLibrary.getProtocolManager();
@@ -266,86 +170,17 @@ public final class TradeCore extends JavaPlugin {
                 }
         );
         
-        forceInit(CustomMobService.class);
+        Utils.forceInit(CustomMobService.class);
     }
 
     @Override
     public void onDisable() {
         vaultHook.unhook();
-        CommandAPI.onDisable();
+        TCCommands.onDisable();
         configManager.save();
 
         CustomMobService.deSpawnAll();
 
-        Bukkit.getOnlinePlayers().forEach(player -> removeSlowDig(player));
-    }
-
-    /**
-     * カスタムブロック破壊を実装
-     *
-     * @param player
-     */
-    public static void addSlowDig(Player player) {
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, -1, -1, false, false), true);
-    }
-
-    /**
-     * カスタムブロック破壊を除去
-     *
-     * @param player
-     */
-    public static void removeSlowDig(Player player) {
-        player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-    }
-
-    /**
-     * BukkitのOnDisableでエラーが出ないようにクラスを強制的にロードする
-     *
-     * @param klass
-     * @param <T>
-     * @return
-     */
-    public static <T> Class<T> forceInit(Class<T> klass) {
-        try {
-            Class.forName(klass.getName(), true, klass.getClassLoader());
-        } catch (ClassNotFoundException e) {
-            throw new AssertionError(e);  // Can't happen
-        }
-        return klass;
-    }
-
-    public static void dropItemByLootTable(Block block, Map<Float, ITCItem> table) {
-        Random random = new Random();
-        table.forEach((aFloat, itcItem) -> {
-            float rand = random.nextFloat();
-            if (rand < aFloat) {
-                block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
-            }
-        });
-    }
-
-    public static void trySpawnMob(Player player, Block block, Map<TCMob, Float> table) {
-        Random random = new Random();
-        table.forEach((itcmob, aFloat) -> {
-            float rand = random.nextFloat();
-            if (rand < aFloat) {
-                Location safeLocation = findSafeLocationToSpawn(block, 5);
-                if (safeLocation != null)
-                    CustomMobService.spawn(player, safeLocation, itcmob);
-            }
-        });
-    }
-
-    public static Location findSafeLocationToSpawn(Block block, int radius) {
-        Random random = new Random();
-        for (int i = 0; i < 50; i++) {
-            Block tryBlock = block.getRelative(random.nextInt(radius * 2) - radius + 1, random.nextInt(radius * 2) - radius, random.nextInt(radius * 2) - radius);
-            if (tryBlock.getType() != Material.AIR || tryBlock.getRelative(BlockFace.UP).getType() != Material.AIR)
-                continue;
-
-            return tryBlock.getLocation().add(new Vector(0.5f, 0, 0.5f));
-        }
-
-        return null; //何回探しても安全な場所がなかったらモブのスポーンを諦める
+        Bukkit.getOnlinePlayers().forEach(player -> Utils.removeSlowDig(player));
     }
 }
