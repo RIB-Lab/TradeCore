@@ -8,7 +8,7 @@ public class JSReduceCraftCost extends JobSkill implements ICraftCostModifier{
     public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Crafter);
 
     @Override
-    public Double apply(Double originalPrice) {
-        return originalPrice * (1 - getLevel() * 0.05);
+    public Double apply(Double originalPrice, Double modifiedPrice) {
+        return modifiedPrice * (1 - getLevel() * 0.05);
     }
 }

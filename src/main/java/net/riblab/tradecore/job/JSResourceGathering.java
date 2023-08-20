@@ -8,7 +8,7 @@ public class JSResourceGathering extends JobSkill implements IResourceChanceModi
     public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Miner, JobData.JobType.Woodcutter, JobData.JobType.Digger);
 
     @Override
-    public Float apply(Float originalChance) {
-        return originalChance * (1 + getLevel() * 0.01f);
+    public Float apply(Float originalChance, Float modifiedChance) {
+        return modifiedChance + originalChance * (getLevel() * 0.01f);
     }
 }
