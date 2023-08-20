@@ -15,10 +15,7 @@ public class JobHandler {
     private final Map<UUID, List<JobData>> datasMap = TradeCore.getInstance().getConfigManager().getJobDatas().playerJobs;
 
     /**
-     * プレイヤーのJobデータを初期化する
-     *
-     * @param offlinePlayer
-     * @param type
+     * プレイヤーの特定のJobデータを初期化する
      */
     public JobData initPlayerJobData(OfflinePlayer offlinePlayer, JobData.JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
@@ -33,10 +30,6 @@ public class JobHandler {
 
     /**
      * プレイヤーにJob経験値を加える
-     *
-     * @param offlinePlayer
-     * @param type
-     * @param amount
      */
     public void addJobExp(OfflinePlayer offlinePlayer, JobData.JobType type, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
@@ -69,6 +62,9 @@ public class JobHandler {
         }
     }
 
+    /**
+     * プレイヤーのJobDataを取得する
+     */
     public JobData getJobData(OfflinePlayer offlinePlayer, JobData.JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<JobData> datas = datasMap.get(uuid);
@@ -84,7 +80,12 @@ public class JobHandler {
 
         return data;
     }
-    
+
+    /**
+     * プレイヤーのjobデータを差し替える
+     * @param offlinePlayer
+     * @param dataToSet
+     */
     public void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet){
         if(dataToSet == null)
             return;
@@ -104,7 +105,10 @@ public class JobHandler {
         data.setLevel(dataToSet.getLevel());
         data.setExp(dataToSet.exp);
     }
-    
+
+    /**
+     * プレイヤーの全てのjobデータを削除する
+     */
     public void resetJobData(OfflinePlayer offlinePlayer){
         UUID uuid = offlinePlayer.getUniqueId();
         List<JobData> datas = datasMap.get(uuid);

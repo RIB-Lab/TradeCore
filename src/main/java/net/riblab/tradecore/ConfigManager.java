@@ -5,6 +5,7 @@ import de.exlll.configlib.Configuration;
 import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
 import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.job.JobSkill;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -33,6 +34,9 @@ public class ConfigManager {
     public static class JobDatas {
         @Comment({"職業"})
         public Map<UUID, List<JobData>> playerJobs = new HashMap<>();
+
+        @Comment({"職業スキル"})
+        public Map<UUID, List<JobSkill>> playerJobSkills = new HashMap<>();
     }
 
     /**

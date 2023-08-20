@@ -13,6 +13,8 @@ import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.job.JobHandler;
+import net.riblab.tradecore.job.JobSkill;
+import net.riblab.tradecore.job.JobSkills;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
 import net.riblab.tradecore.mob.TCMobs;
@@ -22,6 +24,8 @@ import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
+import java.util.List;
 
 import static net.riblab.tradecore.Materials.transparentBlocks;
 
@@ -126,8 +130,19 @@ public class TCCommands {
                     Player targetPlayer = (Player) args.get(0);
                     jobHandler.resetJobData(targetPlayer);
                 });
+        CommandAPICommand skillCommand = new CommandAPICommand("skill")
+                .withPermission(CommandPermission.NONE)
+                .withArguments(JobData.JobType.customJobTypeArgument("職業の種類"))
+                .executesPlayer((player, args) -> {
+                    JobData.JobType jobType = (JobData.JobType) args.get(0);
+                    List<Class<? extends JobSkill>> availableSkills = JobSkills.getAvailableSkills(jobType);
+                    for (Class<? extends JobSkill> availableSkill : availableSkills) {
+                        player.sendMessage(JobSkills.getSkillName(availableSkill));
+                    }
+                });
         jobCommand.withSubcommand(jobSetCommand);
         jobCommand.withSubcommand(jobResetCommand);
+        jobCommand.withSubcommand(skillCommand);
         jobCommand.setPermission(CommandPermission.NONE);
         jobCommand.register();
     }
