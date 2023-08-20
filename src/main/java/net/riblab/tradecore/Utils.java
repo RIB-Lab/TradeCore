@@ -1,6 +1,7 @@
 package net.riblab.tradecore;
 
 import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.job.IResourceChanceModifier;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
 import org.bukkit.Location;
@@ -54,11 +55,12 @@ public class Utils {
         return klass;
     }
 
-    public static void dropItemByLootTable(Block block, Map<Float, ITCItem> table) {
+    public static void dropItemByLootTable(Player player, Block block, Map<Float, ITCItem> table) {
         Random random = new Random();
         table.forEach((aFloat, itcItem) -> {
+            float skillAppliedChance = TradeCore.getInstance().getJobSkillHandler().apply(player, aFloat, IResourceChanceModifier.class);
             float rand = random.nextFloat();
-            if (rand < aFloat) {
+            if (rand < skillAppliedChance) {
                 block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
             }
         });

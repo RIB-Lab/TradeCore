@@ -1,5 +1,7 @@
 package net.riblab.tradecore.job;
 
-public interface IResourceChanceModifier {
-    public double apply(double originalChance);
+/**
+ * アイテムのドロップ率に影響を与えるスキル
+ */
+public interface IResourceChanceModifier extends IModifier<Float>{
 }

@@ -16,7 +16,9 @@ import net.riblab.tradecore.craft.TCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.job.ICraftCostModifier;
 import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.job.JobSkillHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -209,7 +211,8 @@ public class UICraftingTable {
         }
 
         double balance = TradeCore.getInstance().getEconomy().getBalance(player);
-        if (recipe.getFee() > balance) {
+        double skillAppliedFee = TradeCore.getInstance().getJobSkillHandler().apply(player, recipe.getFee(), ICraftCostModifier.class);
+        if (skillAppliedFee > balance) {
             missingLore.add(Component.text("所持金が足りません！ " + Math.floor(balance * 100) / 100 + "/" + recipe.getFee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
 
@@ -225,7 +228,7 @@ public class UICraftingTable {
             itemStack.setAmount(entry.getValue());
             player.getInventory().removeItemAnySlot(itemStack);
         }
-        TradeCore.getInstance().getEconomy().withdrawPlayer(player, recipe.getFee());
+        TradeCore.getInstance().getEconomy().withdrawPlayer(player, skillAppliedFee);
 
         TradeCore.getInstance().getJobHandler().addJobExp(player, JobData.JobType.Crafter, (int)recipe.getFee());
 

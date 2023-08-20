@@ -1,5 +1,7 @@
 package net.riblab.tradecore.job;
 
-public interface ICraftCostModifier {
-    public double apply(double originalChance);
+/**
+ * クラフトのコストに影響を与えるスキル
+ */
+public interface ICraftCostModifier extends IModifier<Double>{
 }

@@ -97,7 +97,7 @@ public class JobSkillHandler {
     }
 
     /**
-     * プレイヤーが習得することができるあるスキルのレベルを取得する
+     * プレイヤーが習得することができるあるスキルの現在のレベルを取得する
      */
     public int getSkillLevel(OfflinePlayer offlinePlayer, JobData.JobType jobType, Class<? extends JobSkill> skillType) {
         UUID uuid = offlinePlayer.getUniqueId();
@@ -122,7 +122,6 @@ public class JobSkillHandler {
      * プレイヤーが習得したスキルたちがシリアライズされる際型がJobSkillになってしまうので、internalnameからそれぞれのクラスに戻してあげる
      */
     public void onDeserialize(){
-        
         for (Map.Entry<UUID, List<JobSkill>> uuidListEntry : datasMap.entrySet()) {
             List<JobSkill> extendedJobSkills = new ArrayList<>();
             List<JobSkill> jobSkills = uuidListEntry.getValue();
@@ -141,5 +140,28 @@ public class JobSkillHandler {
             }
             uuidListEntry.setValue(extendedJobSkills);
         }
+    }
+
+    /**
+     * プレイヤーが習得しているスキルを発動させて、変数を修飾する
+     * @param value 修飾したい変数
+     * @param clazz イベントの種類(インターフェース)
+     * @return 修飾された値
+     * @param <T> 変数の型
+     */
+    public <T> T apply(Player player, T value, Class<? extends IModifier<T>> clazz){
+        UUID uuid = player.getUniqueId();
+        List<JobSkill> datas = datasMap.get(uuid);
+        if(datas == null){
+            datas = new ArrayList<>();
+            datasMap.put(uuid, datas);
+        }
+        
+        List<JobSkill> learnedSkillInstances = datas.stream().filter(clazz::isInstance).toList();
+        for (JobSkill learnedSkillInstance : learnedSkillInstances) {
+            value = ((IModifier<T>) learnedSkillInstance).apply(value);
+        }
+        
+        return value;
     }
 }

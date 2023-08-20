@@ -211,7 +211,7 @@ public class EventHandler implements Listener {
             if (table.size() != 0) {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
-                Utils.dropItemByLootTable(event.getBlock(), table);
+                Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
                 TradeCore.getInstance().getJobHandler().addJobExp(event.getPlayer(), JobData.JobType.Mower, 1);
                 return;
             }
@@ -222,7 +222,7 @@ public class EventHandler implements Listener {
             Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
             if (table.size() != 0) {
                 event.setCancelled(true);
-                Utils.dropItemByLootTable(event.getBlock(), table);
+                Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
                 ItemStack newItemStack = tool.reduceDurability(mainHand);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
@@ -262,7 +262,7 @@ public class EventHandler implements Listener {
         
         if (event.getBlock().getType() == Material.FARMLAND && itcItem instanceof TCTool) { //耕地を耕したときのドロップ
             Map<Float, ITCItem> table = LootTables.get(Material.FARMLAND, (TCTool) itcItem);
-            Utils.dropItemByLootTable(event.getBlock(), table);
+            Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
             ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(event.getItemInHand());
             if (event.getHand() == EquipmentSlot.HAND)
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
