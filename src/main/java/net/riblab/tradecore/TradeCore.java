@@ -24,6 +24,7 @@ import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.item.TCTool;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.job.JobHandler;
+import net.riblab.tradecore.job.JobSkillHandler;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
 import net.riblab.tradecore.mob.TCMobs;
@@ -62,6 +63,8 @@ public final class TradeCore extends JavaPlugin {
     private EventHandler eventHandler;
     @Getter
     private JobHandler jobHandler;
+    @Getter
+    private JobSkillHandler jobSkillHandler;
 
     public TradeCore() {
         instance = this;
@@ -97,6 +100,8 @@ public final class TradeCore extends JavaPlugin {
         configManager.load();
         eventHandler = new EventHandler();
         jobHandler = new JobHandler();
+        jobSkillHandler = new JobSkillHandler();
+        jobSkillHandler.onDeserialize();
         new VanillaCraftHandler();
 
         economy = new EconomyImplementer();

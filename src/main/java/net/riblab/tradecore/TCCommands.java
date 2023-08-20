@@ -11,14 +11,12 @@ import net.kyori.adventure.text.Component;
 import net.milkbowl.vault.economy.Economy;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;
-import net.riblab.tradecore.job.JobData;
-import net.riblab.tradecore.job.JobHandler;
-import net.riblab.tradecore.job.JobSkill;
-import net.riblab.tradecore.job.JobSkills;
+import net.riblab.tradecore.job.*;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.ui.UIAdminShop;
+import net.riblab.tradecore.ui.UIJobSkills;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -34,9 +32,15 @@ import static net.riblab.tradecore.Materials.transparentBlocks;
  */
 public class TCCommands {
     
-    private static final Economy economy = TradeCore.getInstance().getEconomy();
-    private static final JobHandler jobHandler = TradeCore.getInstance().getJobHandler();
     public static final String merchantName = "買い取り商";
+
+    private static JobHandler getJobHandler(){
+        return TradeCore.getInstance().getJobHandler();
+    }
+    
+    private static Economy getEconomy(){
+        return TradeCore.getInstance().getEconomy();
+    }
     
     public static void onLoad(){
         CommandAPI.onLoad(new CommandAPIBukkitConfig(TradeCore.getInstance()).verboseOutput(true)); // Load with verbose output
@@ -48,8 +52,8 @@ public class TCCommands {
                     Player player1 = (Player) args.get(0);
                     Double money = (Double) args.get(1);
 
-                    economy.withdrawPlayer(player1, economy.getBalance(player1));
-                    economy.depositPlayer(player1, money);
+                    getEconomy().withdrawPlayer(player1, getEconomy().getBalance(player1));
+                    getEconomy().depositPlayer(player1, money);
                 });
         setMoneyCommand.setPermission(CommandPermission.OP);
         setMoneyCommand.register();
@@ -103,7 +107,7 @@ public class TCCommands {
                     Player targetPlayer = (Player) args.get(0);
                     Component text = Component.text("現在の職業レベル:");
                     for (JobData.JobType value : JobData.JobType.values()) {
-                        JobData data = jobHandler.getJobData(targetPlayer, value);
+                        JobData data = getJobHandler().getJobData(targetPlayer, value);
                         text = text.append(Component.text(" " + value.getName() + ":" + data.getLevel()));
                     }
                     player.sendMessage(text);
@@ -121,30 +125,34 @@ public class TCCommands {
                     newData.setJobType(jobType);
                     newData.setLevel(level);
                     newData.setExp(0);
-                    jobHandler.setJobData(targetPlayer, newData);
+                    getJobHandler().setJobData(targetPlayer, newData);
                 });
         CommandAPICommand jobResetCommand = new CommandAPICommand("reset")
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument("プレイヤー"))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
-                    jobHandler.resetJobData(targetPlayer);
+                    getJobHandler().resetJobData(targetPlayer);
                 });
+        jobCommand.withSubcommand(jobSetCommand);
+        jobCommand.withSubcommand(jobResetCommand);
+        jobCommand.setPermission(CommandPermission.NONE);
+        jobCommand.register();
+
         CommandAPICommand skillCommand = new CommandAPICommand("skill")
                 .withPermission(CommandPermission.NONE)
                 .withArguments(JobData.JobType.customJobTypeArgument("職業の種類"))
                 .executesPlayer((player, args) -> {
                     JobData.JobType jobType = (JobData.JobType) args.get(0);
-                    List<Class<? extends JobSkill>> availableSkills = JobSkills.getAvailableSkills(jobType);
-                    for (Class<? extends JobSkill> availableSkill : availableSkills) {
-                        player.sendMessage(JobSkills.getSkillName(availableSkill));
-                    }
+                    UIJobSkills.open(player, jobType);
                 });
-        jobCommand.withSubcommand(jobSetCommand);
-        jobCommand.withSubcommand(jobResetCommand);
-        jobCommand.withSubcommand(skillCommand);
-        jobCommand.setPermission(CommandPermission.NONE);
-        jobCommand.register();
+        CommandAPICommand skillResetCommand = new CommandAPICommand("reset")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    TradeCore.getInstance().getJobSkillHandler().resetPlayerJobSkillData(player);
+                });
+        skillCommand.withSubcommand(skillResetCommand);
+        skillCommand.register();
     }
     
     public static void onEnable(){
