@@ -2,7 +2,7 @@ package net.riblab.tradecore.job;
 
 import java.util.List;
 
-public class JSReduceCraftCost extends JobSkill implements ICraftCostModifier{
+public class JSReduceCraftCost extends JobSkill implements ICraftFeeModifier {
 
     public static final String name = "クラフトの消費金額削減";
     public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Crafter);

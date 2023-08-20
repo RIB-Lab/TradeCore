@@ -16,9 +16,9 @@ import net.riblab.tradecore.craft.TCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;
-import net.riblab.tradecore.job.ICraftCostModifier;
+import net.riblab.tradecore.job.ICraftFeeModifier;
+import net.riblab.tradecore.job.IIngredientAmountModifier;
 import net.riblab.tradecore.job.JobData;
-import net.riblab.tradecore.job.JobSkillHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -169,7 +169,13 @@ public class UICraftingTable {
         int slot = 0;
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             ItemStack ingredientStack = entry.getKey().getItemStack();
-            ingredientStack.setAmount(entry.getValue());
+            
+            IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
+            packedRecipeData.setRecipe(recipe);
+            packedRecipeData.setAmount(entry.getValue());
+            int amountSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
+            
+            ingredientStack.setAmount(amountSkillApplied);
             GuiItem ingredientDisplay = new GuiItem(ingredientStack);
             gui.setItem(slot, ingredientDisplay);
 
@@ -203,7 +209,12 @@ public class UICraftingTable {
     private static void tryCraft(PaginatedGui gui, Player player, TCCraftingRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
-            boolean playerHasItem = player.getInventory().containsAtLeast(entry.getKey().getItemStack(), entry.getValue());
+            IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
+            packedRecipeData.setRecipe(recipe);
+            packedRecipeData.setAmount(entry.getValue());
+            int amountSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
+            
+            boolean playerHasItem = player.getInventory().containsAtLeast(entry.getKey().getItemStack(), amountSkillApplied);
             if (playerHasItem)
                 continue;
 
@@ -211,7 +222,7 @@ public class UICraftingTable {
         }
 
         double balance = TradeCore.getInstance().getEconomy().getBalance(player);
-        double skillAppliedFee = TradeCore.getInstance().getJobSkillHandler().apply(player, recipe.getFee(), ICraftCostModifier.class);
+        double skillAppliedFee = TradeCore.getInstance().getJobSkillHandler().apply(player, recipe.getFee(), ICraftFeeModifier.class);
         if (skillAppliedFee > balance) {
             missingLore.add(Component.text("所持金が足りません！ " + Math.floor(balance * 100) / 100 + "/" + recipe.getFee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
@@ -225,7 +236,13 @@ public class UICraftingTable {
 
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             ItemStack itemStack = entry.getKey().getItemStack();
-            itemStack.setAmount(entry.getValue());
+
+            IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
+            packedRecipeData.setRecipe(recipe);
+            packedRecipeData.setAmount(entry.getValue());
+            int amountSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
+            
+            itemStack.setAmount(amountSkillApplied);
             player.getInventory().removeItemAnySlot(itemStack);
         }
         TradeCore.getInstance().getEconomy().withdrawPlayer(player, skillAppliedFee);

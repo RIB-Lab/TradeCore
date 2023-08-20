@@ -314,6 +314,10 @@ public class EventHandler implements Listener {
     public void tryReduceWeaponDurability(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player player))
             return;
+        
+        if(player.getInventory().getItemInMainHand().getType() == Material.AIR){
+            return;
+        }
 
         ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
         if (!(item instanceof TCTool)) {

@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 
 public enum JobSkills {
     RESOURCEGATHERING(JSResourceGathering.class),
-    CRAFTCOST(JSReduceCraftCost.class);
+    CRAFTCOST(JSReduceCraftCost.class),
+    CHEAPERFUELBALL(JSCheaperFuelBall.class);
 
     @Getter
     private final Class<? extends JobSkill> skillType;
