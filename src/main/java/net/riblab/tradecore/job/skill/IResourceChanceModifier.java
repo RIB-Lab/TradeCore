@@ -1,4 +1,4 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.skill;
 
 /**
  * アイテムのドロップ率に影響を与えるスキル

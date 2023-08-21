@@ -1,4 +1,4 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.skill;
 
 /**
  * クラフトの所要金額に影響を与えるスキル

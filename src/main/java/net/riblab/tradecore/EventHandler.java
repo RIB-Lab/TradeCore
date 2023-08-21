@@ -3,6 +3,7 @@ package net.riblab.tradecore;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.job.skill.IHandAttackDamageModifier;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.ui.UICraftingTable;
 import net.riblab.tradecore.ui.UIFurnace;
@@ -315,7 +316,9 @@ public class EventHandler implements Listener {
         if (!(event.getDamager() instanceof Player player))
             return;
         
-        if(player.getInventory().getItemInMainHand().getType() == Material.AIR){
+        if(player.getInventory().getItemInMainHand().getType() == Material.AIR){ //素手で攻撃
+            double damage = event.getDamage();
+            event.setDamage(TradeCore.getInstance().getJobSkillHandler().apply(player, damage, IHandAttackDamageModifier.class));
             return;
         }
 

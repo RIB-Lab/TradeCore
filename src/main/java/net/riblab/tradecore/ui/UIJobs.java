@@ -26,7 +26,7 @@ public class UIJobs {
 
     public static PaginatedGui open(Player player){
         PaginatedGui gui = Gui.paginated()
-                .title(Component.text("スキル選択"))
+                .title(Component.text("ジョブ選択"))
                 .rows(3)
                 .disableAllInteractions()
                 .create();

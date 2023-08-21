@@ -1,4 +1,7 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.skill;
+
+import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.job.JobSkill;
 
 import java.util.List;
 

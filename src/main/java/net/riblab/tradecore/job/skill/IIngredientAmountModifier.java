@@ -1,7 +1,6 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.skill;
 
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import net.riblab.tradecore.craft.TCCraftingRecipe;
 
 /**

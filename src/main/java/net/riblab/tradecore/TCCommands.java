@@ -104,7 +104,7 @@ public class TCCommands {
                 .executesPlayer((player, args) -> {
                     UIJobs.open(player);
                 });
-        CommandAPICommand jobSetCommand = new CommandAPICommand("set")
+        CommandAPICommand jobSetCommand = new CommandAPICommand("setjoblv")
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument("プレイヤー"))
                 .withArguments(JobData.JobType.customJobTypeArgument("職業の種類"))
@@ -119,23 +119,22 @@ public class TCCommands {
                     newData.setExp(0);
                     getJobHandler().setJobData(targetPlayer, newData);
                 });
-        CommandAPICommand jobResetCommand = new CommandAPICommand("reset")
+        CommandAPICommand jobResetCommand = new CommandAPICommand("resetjoblv")
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument("プレイヤー"))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
                     getJobHandler().resetJobData(targetPlayer);
                 });
-        jobCommand.withSubcommand(jobSetCommand);
-        jobCommand.withSubcommand(jobResetCommand);
-        jobCommand.register();
-        
-        CommandAPICommand skillResetCommand = new CommandAPICommand("resetskill")
+        CommandAPICommand skillResetCommand = new CommandAPICommand("resetskilllv")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     TradeCore.getInstance().getJobSkillHandler().resetPlayerJobSkillData(player);
                 });
-        skillResetCommand.register();
+        jobCommand.withSubcommand(jobSetCommand);
+        jobCommand.withSubcommand(jobResetCommand);
+        jobCommand.withSubcommand(skillResetCommand);
+        jobCommand.register();
     }
     
     public static void onEnable(){

@@ -1,6 +1,7 @@
 package net.riblab.tradecore.job;
 
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.job.skill.IModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
