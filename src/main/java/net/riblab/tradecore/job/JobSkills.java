@@ -15,7 +15,8 @@ public enum JobSkills {
     CHEAPERFUELBALL(JSCheaperFuelBall.class),
     BETTERHANDATTACK(JSBetterHandAttack.class),
     BETTERTRAINING(JSBetterTraining.class),
-    HEAVYLIFTING(JSHeavyLifting.class);
+    HEAVYLIFTING(JSHeavyLifting.class),
+    MINERALARMOR(JSMineralArmor.class);
 
     @Getter
     private final Class<? extends JobSkill> skillType;

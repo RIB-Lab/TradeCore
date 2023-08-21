@@ -3,6 +3,7 @@ package net.riblab.tradecore;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.job.skill.IArmorModifier;
 import net.riblab.tradecore.job.skill.ICanHitWithToolModifier;
 import net.riblab.tradecore.job.skill.IHandAttackDamageModifier;
 import net.riblab.tradecore.mob.CustomMobService;
@@ -360,7 +361,7 @@ public class EventHandler implements Listener {
             return;
 
         double rawDamage = event.getDamage();
-        int armor = 0;
+        double armor = 0;
         ItemStack[] newArmorContent = new ItemStack[4];
         for (int i = 0; i < player.getInventory().getArmorContents().length; i++) {
             ITCItem itcItem = TCItems.toTCItem(player.getInventory().getArmorContents()[i]);
@@ -372,7 +373,9 @@ public class EventHandler implements Listener {
         }
         player.getInventory().setArmorContents(newArmorContent);
 
-        double finalDamage = (5* rawDamage * rawDamage)/(armor + 5* rawDamage);
+        double armorSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply(player, armor, IArmorModifier.class);
+        
+        double finalDamage = (5* rawDamage * rawDamage)/(armorSkillApplied + 5* rawDamage);
         event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, finalDamage);
     }
 
