@@ -58,6 +58,7 @@ public class UIJobs {
         for (Class<? extends JobSkill> availableSkill : availableSkills) {
             GuiItem skillButton = new GuiItem(new ItemCreator(Material.DIRT).setName(Component.text(JobSkills.getSkillName(availableSkill)).decoration(TextDecoration.ITALIC, false))
                     .setLore(Component.text("現在のレベル:" + skillHandler.getSkillLevel(player, type, availableSkill)).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
+                    .addLore(Component.text("最大レベル:" + JobSkills.getMaxLevel(availableSkill)).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
                     .addLores(JobSkills.getSkillLore(availableSkill)).create(),
                     event -> tryLearnSkill(event, availableSkill, type));
             gui.addItem(skillButton);
@@ -74,6 +75,11 @@ public class UIJobs {
     public static void tryLearnSkill(InventoryClickEvent event, Class<? extends JobSkill> skillType, JobData.JobType type){
         if(skillHandler.getUnSpentSkillPoints((Player)event.getWhoClicked(), type) <= 0){
             event.getWhoClicked().sendMessage(Component.text("スキルポイントが足りません！"));
+            return;
+        }
+        
+        if(skillHandler.getSkillLevel((Player)event.getWhoClicked(),type, skillType) >= JobSkills.getMaxLevel(skillType)){
+            event.getWhoClicked().sendMessage(Component.text("既に最大レベルです！"));
             return;
         }
         

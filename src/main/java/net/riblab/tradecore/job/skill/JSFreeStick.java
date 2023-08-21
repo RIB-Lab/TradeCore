@@ -16,7 +16,8 @@ public class JSFreeStick extends JobSkill implements ICraftFeeModifier {
     public static final String name = "手斧";
     public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Woodcutter);
     public static final List<Component> lore = List.of(Component.text("2ポイント振ると棒系レシピの必要金額が0になる").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY));
-
+    public static final int maxLevel = 2;
+    
     private static final Set<TCCraftingRecipe> appliedRecipes = Set.of(TCCraftingRecipes.STICK.getRecipe(), TCCraftingRecipes.REINFORCED_STICK.getRecipe());
     
     @Override

@@ -24,6 +24,11 @@ public class JobSkill {
      * スキルの紹介文
      */
     public static final List<Component> lore = List.of(Component.text("ダミー"));
+    
+    /**
+     * スキルの最大レベル
+     */
+    public static final int maxLevel = 1;
 
     /**
      * JobSkillのインスタンスのクラス名

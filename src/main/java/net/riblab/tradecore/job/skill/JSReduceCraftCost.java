@@ -13,7 +13,8 @@ public class JSReduceCraftCost extends JobSkill implements ICraftFeeModifier {
     public static final String name = "交渉術";
     public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Crafter);
     public static final List<Component> lore = List.of(Component.text("1レベルごとにクラフトの必要金額が5%減少する").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY));
-
+    public static final int maxLevel = 10;
+    
     @Override
     public PackedCraftFee apply(PackedCraftFee originalFee, PackedCraftFee modifiedFee) {
         PackedCraftFee newFee = new PackedCraftFee();

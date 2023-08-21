@@ -13,7 +13,8 @@ public class JSResourceGathering extends JobSkill implements IResourceChanceModi
     public static final String name = "資源採取効率強化";
     public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Miner, JobData.JobType.Woodcutter, JobData.JobType.Digger);
     public static final List<Component> lore = List.of(Component.text("1レベルごとに全ての資源の採取量が1%増加する").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY));
-
+    public static final int maxLevel = 10;
+    
     @Override
     public Float apply(Float originalChance, Float modifiedChance) {
         return modifiedChance + originalChance * (getLevel() * 0.01f);

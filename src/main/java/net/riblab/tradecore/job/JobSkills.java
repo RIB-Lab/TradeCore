@@ -47,7 +47,6 @@ public enum JobSkills {
 
     /**
      * あるスキルの名前を取得
-     * @return
      */
     public static String getSkillName(Class<? extends JobSkill> skillType){
         Field field;
@@ -65,8 +64,6 @@ public enum JobSkills {
 
     /**
      * あるスキルの解説文を取得
-     * @param skillType
-     * @return
      */
     public static List<Component> getSkillLore(Class<? extends JobSkill> skillType){
         Field field;
@@ -77,6 +74,23 @@ public enum JobSkills {
         }
         try {
             return (List<Component>) field.get(null);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * あるスキルの最大レベルを取得
+     */
+    public static int getMaxLevel(Class<? extends JobSkill> skillType){
+        Field field;
+        try {
+            field = skillType.getDeclaredField("maxLevel");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            return (int) field.get(null);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
