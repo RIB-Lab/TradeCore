@@ -194,9 +194,14 @@ public class UICraftingTable {
         });
         gui.setItem(14, craftButton);
 
+        ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
+        packedCraftFee.setRecipe(recipe);
+        packedCraftFee.setFee(recipe.getFee());
+        double skillAppliedFee = TradeCore.getInstance().getJobSkillHandler().apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
+        
         ItemStack feeStack = TCItems.COIN.get().getItemStack();
         Component name = Component.text("工費: ").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false)
-                .append(Component.text(recipe.getFee()).color(NamedTextColor.YELLOW));
+                .append(Component.text(skillAppliedFee).color(NamedTextColor.YELLOW));
         Component lore = Component.text("職人に報酬を支払います").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY);
         feeStack = new ItemCreator(feeStack).setName(name).setLore(lore).create();
         GuiItem feeDisplay = new GuiItem(feeStack);
@@ -222,7 +227,10 @@ public class UICraftingTable {
         }
 
         double balance = TradeCore.getInstance().getEconomy().getBalance(player);
-        double skillAppliedFee = TradeCore.getInstance().getJobSkillHandler().apply(player, recipe.getFee(), ICraftFeeModifier.class);
+        ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
+        packedCraftFee.setRecipe(recipe);
+        packedCraftFee.setFee(recipe.getFee());
+        double skillAppliedFee = TradeCore.getInstance().getJobSkillHandler().apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
         if (skillAppliedFee > balance) {
             missingLore.add(Component.text("所持金が足りません！ " + Math.floor(balance * 100) / 100 + "/" + recipe.getFee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }

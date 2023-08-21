@@ -11,7 +11,10 @@ public class JSReduceCraftCost extends JobSkill implements ICraftFeeModifier {
     public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Crafter);
 
     @Override
-    public Double apply(Double originalPrice, Double modifiedPrice) {
-        return modifiedPrice * (1 - getLevel() * 0.05);
+    public PackedCraftFee apply(PackedCraftFee originalFee, PackedCraftFee modifiedFee) {
+        PackedCraftFee newFee = new PackedCraftFee();
+        newFee.setRecipe(modifiedFee.getRecipe());
+        newFee.setFee(modifiedFee.getFee() * (1 - getLevel() * 0.05));
+        return newFee;
     }
 }
