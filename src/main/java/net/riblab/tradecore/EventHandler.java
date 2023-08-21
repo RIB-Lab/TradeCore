@@ -3,6 +3,7 @@ package net.riblab.tradecore;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.job.skill.ICanHitWithToolModifier;
 import net.riblab.tradecore.job.skill.IHandAttackDamageModifier;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.ui.UICraftingTable;
@@ -329,8 +330,11 @@ public class EventHandler implements Listener {
         }
 
         if (!(((TCTool) item).getToolType() == TCTool.ToolType.SWORD)) {
-            event.setCancelled(true);
-            return;
+            boolean canhitWithTool = TradeCore.getInstance().getJobSkillHandler().apply(player, false, ICanHitWithToolModifier.class);
+            if(!canhitWithTool){
+                event.setCancelled(true);
+                return;
+            }
         }
 
         ItemStack newItemStack = ((TCTool) item).reduceDurability(player.getInventory().getItemInMainHand());

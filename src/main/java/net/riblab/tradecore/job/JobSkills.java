@@ -1,10 +1,7 @@
 package net.riblab.tradecore.job;
 
 import lombok.Getter;
-import net.riblab.tradecore.job.skill.JSBetterHandAttack;
-import net.riblab.tradecore.job.skill.JSCheaperFuelBall;
-import net.riblab.tradecore.job.skill.JSReduceCraftCost;
-import net.riblab.tradecore.job.skill.JSResourceGathering;
+import net.riblab.tradecore.job.skill.*;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -16,7 +13,9 @@ public enum JobSkills {
     RESOURCEGATHERING(JSResourceGathering.class),
     CRAFTCOST(JSReduceCraftCost.class),
     CHEAPERFUELBALL(JSCheaperFuelBall.class),
-    BETTERHANDATTACK(JSBetterHandAttack.class);
+    BETTERHANDATTACK(JSBetterHandAttack.class),
+    BETTERTRAINING(JSBetterTraining.class),
+    HEAVYLIFTING(JSHeavyLifting.class);
 
     @Getter
     private final Class<? extends JobSkill> skillType;
