@@ -57,7 +57,8 @@ public class UIJobs {
         List<Class<? extends JobSkill>> availableSkills = JobSkills.getAvailableSkills(type);
         for (Class<? extends JobSkill> availableSkill : availableSkills) {
             GuiItem skillButton = new GuiItem(new ItemCreator(Material.DIRT).setName(Component.text(JobSkills.getSkillName(availableSkill)).decoration(TextDecoration.ITALIC, false))
-                    .setLore(Component.text("現在のレベル:" + skillHandler.getSkillLevel(player, type, availableSkill)).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)).create(),
+                    .setLore(Component.text("現在のレベル:" + skillHandler.getSkillLevel(player, type, availableSkill)).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
+                    .addLores(JobSkills.getSkillLore(availableSkill)).create(),
                     event -> tryLearnSkill(event, availableSkill, type));
             gui.addItem(skillButton);
         }

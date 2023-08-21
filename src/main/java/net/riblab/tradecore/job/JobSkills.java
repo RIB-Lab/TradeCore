@@ -1,6 +1,7 @@
 package net.riblab.tradecore.job;
 
 import lombok.Getter;
+import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.job.skill.*;
 
 import java.lang.reflect.Field;
@@ -49,7 +50,7 @@ public enum JobSkills {
      * @return
      */
     public static String getSkillName(Class<? extends JobSkill> skillType){
-        Field field = null;
+        Field field;
         try {
             field = skillType.getDeclaredField("name");
         } catch (NoSuchFieldException e) {
@@ -57,6 +58,25 @@ public enum JobSkills {
         }
         try {
             return (String) field.get(null);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * あるスキルの解説文を取得
+     * @param skillType
+     * @return
+     */
+    public static List<Component> getSkillLore(Class<? extends JobSkill> skillType){
+        Field field;
+        try {
+            field = skillType.getDeclaredField("lore");
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            return (List<Component>) field.get(null);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }

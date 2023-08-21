@@ -3,6 +3,7 @@ package net.riblab.tradecore.job;
 import de.exlll.configlib.Configuration;
 import lombok.Getter;
 import lombok.Setter;
+import net.kyori.adventure.text.Component;
 
 import java.util.List;
 
@@ -18,6 +19,11 @@ public class JobSkill {
      * このスキルを習得可能なJobのリスト。必ず子クラスで定義する！
      */
     public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Miner);
+
+    /**
+     * スキルの紹介文
+     */
+    public static final List<Component> lore = List.of(Component.text("ダミー"));
 
     /**
      * JobSkillのインスタンスのクラス名
