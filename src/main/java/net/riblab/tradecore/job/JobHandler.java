@@ -2,6 +2,7 @@ package net.riblab.tradecore.job;
 
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.job.skill.IJobExpModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -48,8 +49,16 @@ public class JobHandler {
             data.setExp(0);
             return;
         }
-
-        int newExp = data.getExp() + amount;
+        
+        int newExp;
+        if(!(offlinePlayer instanceof Player)){
+            newExp = data.getExp() + amount;
+        }
+        else{
+            int amountSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply((Player) offlinePlayer, amount, IJobExpModifier.class);
+            newExp = data.getExp() + amountSkillApplied;
+        }
+                
         double expRequiredForNextLevel = JobData.requiredExp.get(data.getLevel());
         if (newExp > expRequiredForNextLevel) {
             int newLevel = data.getLevel() + 1;

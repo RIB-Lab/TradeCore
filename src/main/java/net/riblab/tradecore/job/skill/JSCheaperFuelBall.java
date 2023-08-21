@@ -12,7 +12,7 @@ import java.util.List;
 public class JSCheaperFuelBall extends JobSkill implements IIngredientAmountModifier {
 
     public static final String name = "燃料玉の材料削減";
-    public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Crafter);
+    public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Mower);
 
     @Override
     public PackedRecipeData apply(PackedRecipeData originalValue, PackedRecipeData modifiedValue) {
