@@ -6,11 +6,10 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.ItemCreator;
+import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.Materials;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.TCItems;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -99,7 +98,7 @@ public class UIAdminShop {
 
     public static void buyBlock(InventoryClickEvent event, Material material){
         double balance = TradeCore.getInstance().getEconomy().getBalance((Player)event.getWhoClicked());
-        if(balance <= 1){
+        if(balance < 1){
             event.getWhoClicked().sendMessage("お金を持っていません！");
             return;
         }

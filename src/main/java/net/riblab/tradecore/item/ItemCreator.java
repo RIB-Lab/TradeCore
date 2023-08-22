@@ -1,4 +1,4 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.item;
 
 import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;

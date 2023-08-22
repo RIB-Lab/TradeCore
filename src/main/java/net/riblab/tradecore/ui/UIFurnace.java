@@ -8,7 +8,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.ItemCreator;
+import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.TCResourcePackData;
 import net.riblab.tradecore.craft.TCFurnaceRecipe;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;

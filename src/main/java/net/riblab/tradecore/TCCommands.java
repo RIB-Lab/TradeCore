@@ -17,6 +17,7 @@ import net.riblab.tradecore.mob.TCMob;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.ui.UIAdminShop;
 import net.riblab.tradecore.ui.UIJobs;
+import net.riblab.tradecore.ui.UIShop;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
@@ -93,11 +94,20 @@ public class TCCommands {
         spawnCommand.register();
 
         CommandAPICommand shopCommand = new CommandAPICommand("tcshop")
+                .withPermission(CommandPermission.OP)
+                .withArguments(Shops.customShopDataArgument("ショップの種類"))
+                .executesPlayer((player, args) -> {
+                    ShopData data = (ShopData) args.get(0);
+                    UIShop.open(player, data);
+                });
+        shopCommand.register();
+
+        CommandAPICommand adminShopCommand = new CommandAPICommand("tcadminshop")
+                .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
                     UIAdminShop.open(player);
                 });
-        shopCommand.setPermission(CommandPermission.NONE);
-        shopCommand.register();
+        adminShopCommand.register();
 
         CommandAPICommand jobCommand = new CommandAPICommand("tcjob")
                 .withPermission(CommandPermission.NONE)
