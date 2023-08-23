@@ -3,6 +3,7 @@ package net.riblab.tradecore;
 import net.riblab.tradecore.item.EquipmentHandler;
 import net.riblab.tradecore.job.JobSkillHandler;
 import net.riblab.tradecore.modifier.IArmorModifier;
+import net.riblab.tradecore.modifier.IHPModifier;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -44,7 +45,10 @@ public class PlayerStatsHandler {
         double armor = getEquipmentHandler().apply(player, PlayerStats.getDefaultArmor(), IArmorModifier.class);
         armor = getJSHandler().apply(player, armor, IArmorModifier.class);
         playerStats.setArmor(armor);
-        //TODO:HPと移動速度の修飾
+        int hp = getEquipmentHandler().apply(player, PlayerStats.getDefaultMaxHP(), IHPModifier.class);
+        hp = getJSHandler().apply(player, hp, IHPModifier.class);
+        playerStats.setMaxHp(hp);
+        //TODO:移動速度の修飾
         
         apply(player);
     }

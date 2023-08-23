@@ -97,6 +97,7 @@ public final class TradeCore extends JavaPlugin {
                 economy.createPlayerAccount(player);
 
             Utils.addSlowDig(player);
+            equipmentHandler.update(player);
         });
 
         protocolManager = ProtocolLibrary.getProtocolManager();

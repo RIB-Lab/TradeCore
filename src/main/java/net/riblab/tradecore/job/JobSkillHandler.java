@@ -36,6 +36,9 @@ public class JobSkillHandler {
         else{
             datasMap.put(uuid, new ArrayList<>());
         }
+
+        if(offlinePlayer instanceof Player player)
+            onJobSkillChanged.forEach(playerConsumer -> playerConsumer.accept(player));
     }
 
     /**
@@ -85,6 +88,9 @@ public class JobSkillHandler {
         
         if(learnedSkillInstance != null){ //既にスキルを習得済みの場合、スキルのレベルを1上げる
             learnedSkillInstance.setLevel(learnedSkillInstance.getLevel() + 1);
+
+            if(offlinePlayer instanceof Player player)
+                onJobSkillChanged.forEach(playerConsumer -> playerConsumer.accept(player));
             return;
         }
 

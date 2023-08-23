@@ -18,7 +18,8 @@ public enum JobSkills {
     BETTERTRAINING(JSBetterTraining.class),
     HEAVYLIFTING(JSHeavyLifting.class),
     MINERALARMOR(JSMineralArmor.class),
-    FREESTICK(JSFreeStick.class);
+    FREESTICK(JSFreeStick.class),
+    MOREHEALTH(JSMoreHealth.class);
 
     @Getter
     private final Class<? extends JobSkill> skillType;
