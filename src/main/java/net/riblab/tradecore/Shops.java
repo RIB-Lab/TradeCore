@@ -16,7 +16,10 @@ import java.util.List;
  */
 public enum Shops {
     WEAPON(new ShopData("武器屋(仮置き)", List.of(new ShopData.ShopItem(TCItems.WOODEN_SWORD.get().getItemStack(), 100)))),
-    EQUIPMENT(new ShopData("装備屋(仮置き)", List.of(new ShopData.ShopItem(TCItems.BARK_CHESTPLATE.get().getItemStack(), 100)))),
+    EQUIPMENT(new ShopData("装備屋", List.of(new ShopData.ShopItem(TCItems.EMERALD_HELMET.get().getItemStack(), 100),
+            new ShopData.ShopItem(TCItems.EMERALD_CHESTPLATE.get().getItemStack(), 100),
+            new ShopData.ShopItem(TCItems.EMERALD_LEGGINGS.get().getItemStack(), 100),
+            new ShopData.ShopItem(TCItems.EMERALD_BOOTS.get().getItemStack(), 100)))),
     TOOL(new ShopData("ツール屋(仮置き)", List.of(new ShopData.ShopItem(TCItems.WOODEN_PICKAXE.get().getItemStack(), 100))));
     
     @Getter

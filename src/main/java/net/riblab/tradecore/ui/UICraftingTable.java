@@ -202,7 +202,7 @@ public class UICraftingTable {
         
         ItemStack feeStack = TCItems.COIN.get().getItemStack();
         Component name = Component.text("工費: ").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false)
-                .append(Component.text(skillAppliedFee).color(NamedTextColor.YELLOW));
+                .append(Component.text(Math.floor(skillAppliedFee * 100) / 100).color(NamedTextColor.YELLOW));
         Component lore = Component.text("職人に報酬を支払います").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY);
         feeStack = new ItemCreator(feeStack).setName(name).setLore(lore).create();
         GuiItem feeDisplay = new GuiItem(feeStack);

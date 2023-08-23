@@ -7,6 +7,7 @@ import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.mod.ModAddArmor;
+import net.riblab.tradecore.item.mod.ModReduceCraftCost;
 import net.riblab.tradecore.item.mod.ModWalkSpeed;
 import net.riblab.tradecore.mob.TCMobs;
 import org.bukkit.Material;
@@ -76,6 +77,12 @@ public enum TCItems {
     
     //鉄器時代
     REINFORCED_STICK(new TCSellableItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, 0.05d)),
+    
+    //店売り限定
+    EMERALD_HELMET(new TCEquipment(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
+    EMERALD_CHESTPLATE(new TCEquipment(Component.text("エメラルドのチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "emerald_chestplate", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
+    EMERALD_LEGGINGS(new TCEquipment(Component.text("エメラルドのレギンス"), Material.CHAINMAIL_LEGGINGS, "emerald_leggings", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
+    EMERALD_BOOTS(new TCEquipment(Component.text("エメラルドのブーツ"), Material.CHAINMAIL_BOOTS, "emerald_boots", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
     
     //その他
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),

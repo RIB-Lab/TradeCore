@@ -33,7 +33,7 @@ public class UIShop {
         gui.setItem(50, nextPageButton);
 
         for (ShopData.ShopItem shopItem : data.shopItemList) {
-            GuiItem blockButton = new GuiItem(new ItemCreator(shopItem.getItemStack()).addLore(Component.text(shopItem.getPrice() + "RIB").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)).create(),
+            GuiItem blockButton = new GuiItem(new ItemCreator(shopItem.getItemStack().clone()).addLore(Component.text(shopItem.getPrice() + "RIB").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)).create(),
                     event -> buy(event, shopItem));
             gui.addItem(blockButton);
         }
