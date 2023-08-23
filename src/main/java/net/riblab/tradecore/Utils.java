@@ -1,7 +1,7 @@
 package net.riblab.tradecore;
 
 import net.riblab.tradecore.item.ITCItem;
-import net.riblab.tradecore.job.skill.IResourceChanceModifier;
+import net.riblab.tradecore.modifier.IResourceChanceModifier;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
 import org.bukkit.Location;

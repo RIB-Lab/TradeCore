@@ -71,7 +71,7 @@ public class TCMob {
         EntityBrain brain = BukkitBrain.getBrain(mob);
         //TODO:AIを持ったモブ
 //        EntityAI target = brain.getTargetAI();
-//        target.clear();
+//        target.remove();
 //        PathfinderLeapAtTarget pathfinder = new PathfinderLeapAtTarget(entity, 0.5f);
 //        target.put(pathfinder, 0);
 //        PathfinderNearestAttackableTarget<Player> pathfinder2 = new PathfinderNearestAttackableTarget<>(entity, Player.class, 10, true, false);

@@ -3,7 +3,7 @@ package net.riblab.tradecore.ui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.FakeVillagerService;
+import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.item.TCItems;

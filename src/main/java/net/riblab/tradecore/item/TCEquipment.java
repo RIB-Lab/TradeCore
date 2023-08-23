@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.item.mod.ItemMod;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,10 +20,10 @@ import java.util.List;
 public class TCEquipment extends TCItem {
 
     /**
-     * 装備の持つアーマー
+     * 装備が既定で持つmodのリスト
      */
     @Getter
-    private final int armor;
+    private final List<ItemMod> defaultMods;
 
     /**
      * 装備の基礎耐久値。-1で無限
@@ -54,9 +55,9 @@ public class TCEquipment extends TCItem {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCEquipment(TextComponent name, Material material, String internalName, int armor, int baseDurability, String trimName) {
+    public TCEquipment(TextComponent name, Material material, String internalName, List<ItemMod> mod, int baseDurability, String trimName) {
         super(name, material, internalName, 0);
-        this.armor = armor;
+        this.defaultMods = mod;
         this.baseDurability = baseDurability;
         this.trimName = trimName;
     }
@@ -74,8 +75,9 @@ public class TCEquipment extends TCItem {
                     .append(Component.text(durability).color(durability == baseDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
                     .append(Component.text("/" + baseDurability).color(NamedTextColor.WHITE)));
         }
-        texts.add(Component.text("アーマー: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
-                .append(Component.text((Math.floor(armor * 10)) / 10)));
+        for (ItemMod defaultMod : defaultMods) {
+            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        }
         return texts;
     }
 

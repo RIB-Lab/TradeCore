@@ -1,4 +1,4 @@
-package net.riblab.tradecore.job.skill;
+package net.riblab.tradecore.modifier;
 
 /**
  * ツールで敵を殴れるかどうかを変更するスキル

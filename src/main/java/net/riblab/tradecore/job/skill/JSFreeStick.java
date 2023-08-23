@@ -7,6 +7,7 @@ import net.riblab.tradecore.craft.TCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.job.JobSkill;
+import net.riblab.tradecore.modifier.ICraftFeeModifier;
 
 import java.util.List;
 import java.util.Set;

@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.job.JobSkill;
+import net.riblab.tradecore.modifier.IArmorModifier;
 
 import java.util.List;
 

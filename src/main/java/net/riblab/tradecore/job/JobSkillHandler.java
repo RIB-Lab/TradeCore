@@ -1,7 +1,8 @@
 package net.riblab.tradecore.job;
 
+import net.riblab.tradecore.PlayerStatsHandler;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.job.skill.IModifier;
+import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 /**
  * スキルデータベースの操作クラス
@@ -18,6 +20,11 @@ public class JobSkillHandler {
 
     private final Map<UUID, List<JobSkill>> datasMap = TradeCore.getInstance().getConfigManager().getJobDatas().playerJobSkills;
 
+    /**
+     * プレイヤーのJobSkilが変更された時のイベント
+     */
+    public List<Consumer<Player>> onJobSkillChanged = new ArrayList<>();
+    
     /**
      * プレイヤーのJobスキルデータを初期化する
      */
@@ -93,6 +100,9 @@ public class JobSkillHandler {
         newSkillInstance.setInternalName(skillType.getCanonicalName());
         
         datas.add(newSkillInstance);
+        
+        if(offlinePlayer instanceof Player player)
+            onJobSkillChanged.forEach(playerConsumer -> playerConsumer.accept(player));
     }
 
     /**

@@ -2,7 +2,7 @@ package net.riblab.tradecore.job;
 
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.job.skill.IJobExpModifier;
+import net.riblab.tradecore.modifier.IJobExpModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 

@@ -1,11 +1,12 @@
 package net.riblab.tradecore;
 
+import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.job.JobData;
-import net.riblab.tradecore.job.skill.IArmorModifier;
-import net.riblab.tradecore.job.skill.ICanHitWithToolModifier;
-import net.riblab.tradecore.job.skill.IHandAttackDamageModifier;
+import net.riblab.tradecore.modifier.IArmorModifier;
+import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
+import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.ui.UICraftingTable;
 import net.riblab.tradecore.ui.UIFurnace;
@@ -48,11 +49,14 @@ public class EventHandler implements Listener {
             TradeCore.getInstance().getEconomy().createPlayerAccount(event.getPlayer());
 
         Utils.addSlowDig(event.getPlayer());
+        TradeCore.getInstance().getEquipmentHandler().update(event.getPlayer());
     }
 
     @org.bukkit.event.EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Utils.removeSlowDig(event.getPlayer());
+        TradeCore.getInstance().getEquipmentHandler().remove(event.getPlayer());
+        TradeCore.getInstance().getPlayerStatsHandler().remove(event.getPlayer());
     }
 
     @org.bukkit.event.EventHandler
@@ -361,21 +365,18 @@ public class EventHandler implements Listener {
             return;
 
         double rawDamage = event.getDamage();
-        double armor = 0;
         ItemStack[] newArmorContent = new ItemStack[4];
         for (int i = 0; i < player.getInventory().getArmorContents().length; i++) {
             ITCItem itcItem = TCItems.toTCItem(player.getInventory().getArmorContents()[i]);
             if(!(itcItem instanceof TCEquipment equipment))
                 continue;
-
-            armor += equipment.getArmor();
             newArmorContent[i] = equipment.reduceDurability(player.getInventory().getArmorContents()[i]);
         }
         player.getInventory().setArmorContents(newArmorContent);
 
-        double armorSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply(player, armor, IArmorModifier.class);
+        double armor = TradeCore.getInstance().getPlayerStatsHandler().get(player).getArmor();
         
-        double finalDamage = (5* rawDamage * rawDamage)/(armorSkillApplied + 5* rawDamage);
+        double finalDamage = (5* rawDamage * rawDamage)/(armor + 5* rawDamage);
         event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, finalDamage);
     }
 
@@ -384,5 +385,10 @@ public class EventHandler implements Listener {
         if(event.getPlayer().getInventory().getItemInMainHand().getType() == Material.MILK_BUCKET){ //採掘デバフが剥がれるのを防ぐ
             event.setCancelled(true);
         }
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onPlayerChangeArmor(PlayerArmorChangeEvent event){
+        TradeCore.getInstance().getEquipmentHandler().update(event.getPlayer());
     }
 }

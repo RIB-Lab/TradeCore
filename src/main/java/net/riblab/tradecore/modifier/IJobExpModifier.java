@@ -1,4 +1,4 @@
-package net.riblab.tradecore.job.skill;
+package net.riblab.tradecore.modifier;
 
 /**
  * ジョブ経験値を増減させるスキル
