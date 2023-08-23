@@ -20,9 +20,11 @@ import net.riblab.tradecore.job.JobSkillHandler;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.mob.TCMobs;
+import net.riblab.tradecore.modifier.IEveryMinuteDurabilityModifier;
 import net.riblab.tradecore.ui.UISell;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -159,6 +161,21 @@ public final class TradeCore extends JavaPlugin {
                     }
                 }
         );
+        
+        //毎分発動するmodifier系イベント
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Bukkit.getOnlinePlayers().forEach(player -> {
+                    int repairAmount = Utils.apply(player, 0, IEveryMinuteDurabilityModifier.class);
+                    ItemStack itemStack = player.getInventory().getItemInMainHand();
+                    ITCItem itcItem = TCItems.toTCItem(itemStack);
+                    if(itcItem instanceof IHasDurability iHasDurability){
+                        player.getInventory().setItemInMainHand(iHasDurability.reduceDurability(itemStack, -repairAmount));
+                    }
+                });
+            }
+        }.runTaskTimer(this, 0, 1200);
         
         Utils.forceInit(CustomMobService.class);
     }

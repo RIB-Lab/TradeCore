@@ -55,7 +55,7 @@ public class TCWeapon extends TCItem implements ITCWeapon{
     }
     
     @Override
-    public ItemStack reduceDurability(ItemStack instance) {
+    public ItemStack reduceDurability(ItemStack instance, int amount) {
         if (!isSimilar(instance))
             return null;
 
@@ -65,9 +65,13 @@ public class TCWeapon extends TCItem implements ITCWeapon{
         if (durability == -1) //耐久無限
             return instance;
 
-        durability--;
+        durability -= amount;
+
         if (durability <= 0) //耐久切れ
             return null;
+
+        if (durability > baseDurability) //耐久MAX
+            durability = baseDurability;
 
         int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) baseDurability));
         int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;

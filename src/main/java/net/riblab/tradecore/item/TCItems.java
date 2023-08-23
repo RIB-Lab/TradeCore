@@ -30,11 +30,11 @@ public enum TCItems {
     DRYGRASS(new TCSellableItem(Component.text("干し草"), Material.PAPER, "drygrass", 2, 0.02d)),
 
     //原木時代
-    WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, 1.2, 32, List.of())),
-    WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, 1.2, 32, List.of())),
-    WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, 1.2, 32, List.of())),
-    WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, 32, List.of())),
-    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0,  32, List.of())),
+    WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, 1.2, 32, List.of(new ModEcology(1)))),
+    WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, 1.2, 32, List.of(new ModEcology(1)))),
+    WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, 1.2, 32, List.of(new ModEcology(1)))),
+    WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, 32, List.of(new ModEcology(1)))),
+    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0,  32, List.of(new ModEcology(1)))),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1)),
     DUST(new TCSellableItem(Component.text("塵"), Material.DIRT, "dust", 1, 0.04d)),
     MUD(new TCSellableItem(Component.text("泥"), Material.DIRT, "mud", 2, 0.04d)),

@@ -234,7 +234,7 @@ public class EventHandler implements Listener {
             if (table.size() != 0) {
                 event.setCancelled(true);
                 Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-                ItemStack newItemStack = tool.reduceDurability(mainHand);
+                ItemStack newItemStack = tool.reduceDurability(mainHand, 1);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
                 if (itcItem instanceof ICanSpawnMobOnUse encountableTool) {
@@ -274,7 +274,7 @@ public class EventHandler implements Listener {
         if (event.getBlock().getType() == Material.FARMLAND && itcItem instanceof ITCTool tool) { //耕地を耕したときのドロップ
             Multimap<Float, ITCItem> table = LootTables.get(Material.FARMLAND, tool);
             Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-            ItemStack newItemStack = tool.reduceDurability(event.getItemInHand());
+            ItemStack newItemStack = tool.reduceDurability(event.getItemInHand(), 1);
             if (event.getHand() == EquipmentSlot.HAND)
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
             else {
@@ -350,7 +350,7 @@ public class EventHandler implements Listener {
         }
 
         if(item instanceof IHasDurability){
-            ItemStack newItemStack = ((IHasDurability) item).reduceDurability(player.getInventory().getItemInMainHand());
+            ItemStack newItemStack = ((IHasDurability) item).reduceDurability(player.getInventory().getItemInMainHand(), 1);
             player.getInventory().setItemInMainHand(newItemStack);
         }
     }

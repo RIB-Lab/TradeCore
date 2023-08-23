@@ -15,10 +15,10 @@ public interface IHasDurability {
     int getBaseDurability();
 
     /**
-     * ツールのインスタンスの耐久値を1減らす
+     * ツールのインスタンスの耐久値を減らす / 回復させる
      *
      * @param instance
      * @return
      */
-    ItemStack reduceDurability(ItemStack instance);
+    ItemStack reduceDurability(ItemStack instance, int amount);
 }
