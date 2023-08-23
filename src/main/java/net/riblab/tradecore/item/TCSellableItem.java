@@ -10,7 +10,7 @@ import org.bukkit.Material;
 /**
  * 売却可能な(素材)アイテム
  */
-public class TCSellableItem extends TCItem {
+public class TCSellableItem extends TCItem implements ISellable {
 
     @Getter
     private final double sellPrice;

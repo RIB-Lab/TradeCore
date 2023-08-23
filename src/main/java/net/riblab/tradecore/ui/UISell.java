@@ -3,6 +3,7 @@ package net.riblab.tradecore.ui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.item.ISellable;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.ITCItem;
@@ -48,12 +49,12 @@ public class UISell {
                 continue;
 
             ITCItem itcItem = TCItems.toTCItem(content);
-            if (!(itcItem instanceof TCSellableItem)) {
+            if (!(itcItem instanceof ISellable)) {
                 event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
                 continue;
             }
 
-            totalGain += ((TCSellableItem) itcItem).getSellPrice() * content.getAmount();
+            totalGain += ((ISellable) itcItem).getSellPrice() * content.getAmount();
         }
 
         if (totalGain != 0)

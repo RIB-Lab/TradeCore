@@ -230,7 +230,7 @@ public class EventHandler implements Listener {
 
         ITCItem itcItem = TCItems.toTCItem(mainHand);
         if (itcItem instanceof ITCTool tool) { //ツール
-            Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
+            Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), tool);
             if (table.size() != 0) {
                 event.setCancelled(true);
                 Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
