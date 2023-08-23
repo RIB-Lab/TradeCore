@@ -324,7 +324,11 @@ public class EventHandler implements Listener {
         
         if(player.getInventory().getItemInMainHand().getType() == Material.AIR){ //素手で攻撃
             double damage = event.getDamage();
-            event.setDamage(Utils.apply(player, damage, IHandAttackDamageModifier.class));
+            double newDamage = Utils.apply(player, damage, IHandAttackDamageModifier.class);
+            event.setDamage(newDamage);
+            if(event.getDamage() == 0)
+                event.setCancelled(true);
+            
             return;
         }
 
