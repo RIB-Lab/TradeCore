@@ -48,15 +48,18 @@ public class JobHandler {
 
         if (data.getLevel() >= JobData.requiredExp.size()) {
             data.setExp(0);
+            if(offlinePlayer instanceof Player player){
+                player.sendExperienceChange(0, data.getLevel());
+            }
             return;
         }
         
         int newExp;
-        if(!(offlinePlayer instanceof Player)){
+        if(!(offlinePlayer instanceof Player player)){
             newExp = data.getExp() + amount;
         }
         else{
-            int amountSkillApplied = Utils.apply((Player) offlinePlayer, amount, IJobExpModifier.class);
+            int amountSkillApplied = Utils.apply(player, amount, IJobExpModifier.class);
             newExp = data.getExp() + amountSkillApplied;
         }
                 
@@ -65,10 +68,15 @@ public class JobHandler {
             int newLevel = data.getLevel() + 1;
             data.setLevel(newLevel);
             data.setExp(0);
-            if (offlinePlayer instanceof Player)
-                ((Player) offlinePlayer).sendMessage(Component.text(type.getName() + "のレベルが" + newLevel + "に上がりました！"));
+            if (offlinePlayer instanceof Player player){
+                player.sendMessage(Component.text(type.getName() + "のレベルが" + newLevel + "に上がりました！"));
+                player.sendExperienceChange(0, newLevel);
+            }
         } else {
             data.setExp(newExp);
+            if(offlinePlayer instanceof Player player){
+                player.sendExperienceChange((float)( newExp / expRequiredForNextLevel), data.getLevel());
+            }
         }
     }
 

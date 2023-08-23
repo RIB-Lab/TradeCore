@@ -237,7 +237,7 @@ public class EventHandler implements Listener {
                 ItemStack newItemStack = tool.reduceDurability(mainHand);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
-                if (itcItem instanceof TCEncountableTool encountableTool) {
+                if (itcItem instanceof ICanSpawnMobOnUse encountableTool) {
                     Utils.trySpawnMob(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable());
                 }
 

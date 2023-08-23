@@ -12,11 +12,8 @@ import java.util.Map;
 /**
  * 使用時に確率で敵が沸くツール
  */
-public class TCEncountableTool extends TCTool {
-
-    /**
-     * 沸く敵の種類と確率(0~1)のテーブル
-     */
+public class TCEncountableTool extends TCTool implements ICanSpawnMobOnUse {
+    
     @Getter
     private final Map<TCMob, Float> spawnTable;
 
