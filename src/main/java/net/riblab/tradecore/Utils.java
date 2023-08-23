@@ -97,7 +97,7 @@ public class Utils {
      */
     public static  <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz){
         T modifiedValue = TradeCore.getInstance().getEquipmentHandler().apply(player, originalValue, clazz);
-        modifiedValue = TradeCore.getInstance().getJobSkillHandler().apply(player, modifiedValue, clazz);
+        modifiedValue = TradeCore.getInstance().getJobSkillHandler().apply(player, originalValue, modifiedValue, clazz);
         return modifiedValue;
     }
 }

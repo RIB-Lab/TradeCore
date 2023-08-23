@@ -160,11 +160,12 @@ public class JobSkillHandler {
     /**
      * プレイヤーが習得しているスキルを発動させて、変数を修飾する
      * @param originalValue 修飾したい変数
+     * @param modifiedValue 他の要因で既に値が変更された修飾したい変数
      * @param clazz イベントの種類(インターフェース)
      * @return 修飾された値
      * @param <T> 変数の型
      */
-    public <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz){
+    public <T> T apply(Player player, T originalValue, T modifiedValue, Class<? extends IModifier<T>> clazz){
         UUID uuid = player.getUniqueId();
         List<JobSkill> datas = datasMap.get(uuid);
         if(datas == null){
@@ -173,7 +174,6 @@ public class JobSkillHandler {
         }
         
         List<JobSkill> learnedSkillInstances = datas.stream().filter(clazz::isInstance).toList();
-        T modifiedValue = originalValue;
         for (JobSkill learnedSkillInstance : learnedSkillInstances) {
             modifiedValue = ((IModifier<T>) learnedSkillInstance).apply(originalValue, modifiedValue);
         }

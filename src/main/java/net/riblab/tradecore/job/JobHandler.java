@@ -46,7 +46,7 @@ public class JobHandler {
             data = initPlayerJobData(offlinePlayer, type);
         }
 
-        if (data.getLevel() > JobData.requiredExp.size()) {
+        if (data.getLevel() >= JobData.requiredExp.size()) {
             data.setExp(0);
             return;
         }

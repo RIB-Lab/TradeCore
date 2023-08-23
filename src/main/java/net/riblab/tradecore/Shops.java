@@ -23,7 +23,8 @@ public enum Shops {
             new ShopData.ShopItem(TCItems.WORKER_HELMET.get().getItemStack(), 30),
             new ShopData.ShopItem(TCItems.WORKER_CHESTPLATE.get().getItemStack(), 30),
             new ShopData.ShopItem(TCItems.WORKER_LEGGINGS.get().getItemStack(), 30),
-            new ShopData.ShopItem(TCItems.WORKER_BOOTS.get().getItemStack(), 30)
+            new ShopData.ShopItem(TCItems.WORKER_BOOTS.get().getItemStack(), 30),
+            new ShopData.ShopItem(TCItems.WATER_HELMET.get().getItemStack(), 30)
             ))),
     
     TOOL(new ShopData("ツール屋(仮置き)", List.of(new ShopData.ShopItem(TCItems.WOODEN_PICKAXE.get().getItemStack(), 100))));

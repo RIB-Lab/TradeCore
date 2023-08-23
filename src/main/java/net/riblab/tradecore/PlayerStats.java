@@ -21,4 +21,11 @@ public class PlayerStats {
      * 歩行速度
      */
     private float walkSpeed = 0.2f;
+
+    @Getter
+    private static final int defaultWaterBreatheLevel = 0;
+    /**
+     * 水中呼吸レベル
+     */
+    private int waterBreatheLevel = 0;
 }

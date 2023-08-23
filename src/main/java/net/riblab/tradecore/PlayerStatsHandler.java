@@ -5,7 +5,10 @@ import net.riblab.tradecore.job.JobSkillHandler;
 import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.IHPModifier;
 import net.riblab.tradecore.modifier.IWalkSpeedModifier;
+import net.riblab.tradecore.modifier.IWaterBreatheLevelModifier;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,12 +46,9 @@ public class PlayerStatsHandler {
             playerStatsMap.put(player, playerStats);
         }
         
-        int hp = getEquipmentHandler().apply(player, PlayerStats.getDefaultMaxHP(), IHPModifier.class);
-        hp = getJSHandler().apply(player, hp, IHPModifier.class);
-        playerStats.setMaxHp(hp);
-        float walkSpeed = getEquipmentHandler().apply(player, PlayerStats.getDefaultWalkSpeed(), IWalkSpeedModifier.class);
-        walkSpeed = getJSHandler().apply(player, walkSpeed, IWalkSpeedModifier.class);
-        playerStats.setWalkSpeed(walkSpeed);
+        playerStats.setMaxHp(Utils.apply(player, PlayerStats.getDefaultMaxHP(), IHPModifier.class));
+        playerStats.setWalkSpeed(Utils.apply(player, PlayerStats.getDefaultWalkSpeed(), IWalkSpeedModifier.class));
+        playerStats.setWaterBreatheLevel(Utils.apply(player, PlayerStats.getDefaultWaterBreatheLevel(), IWaterBreatheLevelModifier.class));
         
         apply(player);
     }
@@ -68,6 +68,13 @@ public class PlayerStatsHandler {
         
         player.setMaxHealth(playerStats.getMaxHp());
         player.setWalkSpeed(playerStats.getWalkSpeed());
+        
+        if(playerStats.getWaterBreatheLevel() > 0){
+            player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, -1, playerStats.getWaterBreatheLevel() - 1, false, false), true);
+        }
+        else{
+            player.removePotionEffect(PotionEffectType.WATER_BREATHING);
+        }
     }
 
     /**

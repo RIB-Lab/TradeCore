@@ -85,6 +85,7 @@ public enum TCItems {
     WORKER_CHESTPLATE(new TCEquipment(Component.text("作業チェストプレート"), Material.CHAINMAIL_CHESTPLATE, "worker_chestplate", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "template")),
     WORKER_LEGGINGS(new TCEquipment(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "template")),
     WORKER_BOOTS(new TCEquipment(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "template")),
+    WATER_HELMET(new TCEquipment(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", List.of(new ModWaterBreath(1)), 64, "template")),
     
     //その他
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),
