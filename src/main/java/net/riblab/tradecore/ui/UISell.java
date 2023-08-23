@@ -43,6 +43,7 @@ public class UISell {
             return;
 
         double totalGain = 0;
+        int totalAmount = 0;
 
         for (ItemStack content : event.getInventory().getContents()) {
             if (content == null)
@@ -55,10 +56,13 @@ public class UISell {
             }
 
             totalGain += ((ISellable) itcItem).getSellPrice() * content.getAmount();
+            totalAmount += content.getAmount();
         }
 
-        if (totalGain != 0)
+        if (totalGain != 0){
             TradeCore.getInstance().getEconomy().depositPlayer((Player) event.getPlayer(), totalGain);
+            event.getPlayer().sendMessage(Component.text(totalAmount + "個のアイテムを売って、" + Math.floor(totalGain * 100) / 100 + "RIB入手しました"));
+        }
 
         FakeVillagerService.tryDeSpawnFakeVillager((Player) event.getPlayer());
     }
