@@ -1,6 +1,7 @@
 package net.riblab.tradecore;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
+import com.google.common.collect.Multimap;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.*;
@@ -179,20 +180,20 @@ public class EventHandler implements Listener {
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
 
         ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
-        if (!(itcItem instanceof TCTool)) {
+        if (!(itcItem instanceof ITCTool tool)) {
             BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでないアイテムを持っているなら実質素手
             return;
         }
 
-        int minHardness = LootTables.getMinHardness(block.getType(), (TCTool) itcItem);
-        if (minHardness > ((TCTool) itcItem).getHarvestLevel()) {
-            BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツール採掘できないなら実質素手
+        int minHardness = LootTables.getMinHardness(block.getType(), tool);
+        if (minHardness > tool.getHarvestLevel()) {
+            BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールで採掘できないなら実質素手
             return;
         }
 
         SoundGroup soundGroup = block.getBlockData().getSoundGroup();
         player.playSound(block.getLocation(), soundGroup.getHitSound(), SoundCategory.BLOCKS, 1f, 1f);
-        BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, ((TCTool) itcItem).getActualMiningSpeed());
+        BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, tool.getActualMiningSpeed());
     }
 
     @org.bukkit.event.EventHandler
@@ -217,7 +218,7 @@ public class EventHandler implements Listener {
 
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
         if (mainHand.getType() == Material.AIR) {//素手
-            Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), TCTool.ToolType.HAND);
+            Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), ITCTool.ToolType.HAND);
             if (table.size() != 0) {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
@@ -228,8 +229,8 @@ public class EventHandler implements Listener {
         }
 
         ITCItem itcItem = TCItems.toTCItem(mainHand);
-        if (itcItem instanceof TCTool tool) { //ツール
-            Map<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
+        if (itcItem instanceof ITCTool tool) { //ツール
+            Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), (TCTool) itcItem);
             if (table.size() != 0) {
                 event.setCancelled(true);
                 Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
@@ -270,10 +271,10 @@ public class EventHandler implements Listener {
         if (itcItem == null)
             return;
         
-        if (event.getBlock().getType() == Material.FARMLAND && itcItem instanceof TCTool) { //耕地を耕したときのドロップ
-            Map<Float, ITCItem> table = LootTables.get(Material.FARMLAND, (TCTool) itcItem);
+        if (event.getBlock().getType() == Material.FARMLAND && itcItem instanceof ITCTool tool) { //耕地を耕したときのドロップ
+            Multimap<Float, ITCItem> table = LootTables.get(Material.FARMLAND, tool);
             Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-            ItemStack newItemStack = ((TCTool) itcItem).reduceDurability(event.getItemInHand());
+            ItemStack newItemStack = tool.reduceDurability(event.getItemInHand());
             if (event.getHand() == EquipmentSlot.HAND)
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
             else {
@@ -305,7 +306,7 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
-        tryReduceWeaponDurability(event);
+        tryProcessAttack(event);
     }
 
     @org.bukkit.event.EventHandler
@@ -319,9 +320,9 @@ public class EventHandler implements Listener {
     }
 
     /**
-     * 攻撃した時に武器の耐久値を減らす
+     * 素手・ツール・武器で攻撃した時の処理
      */
-    public void tryReduceWeaponDurability(EntityDamageByEntityEvent event) {
+    public void tryProcessAttack(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player player))
             return;
         
@@ -336,21 +337,22 @@ public class EventHandler implements Listener {
         }
 
         ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-        if (!(item instanceof TCTool)) {
-            event.setCancelled(true);
-            return;
-        }
-
-        if (!(((TCTool) item).getToolType() == TCTool.ToolType.SWORD)) {
+        if (item instanceof TCTool) { //ツールで攻撃
             boolean canhitWithTool = Utils.apply(player, false, ICanHitWithToolModifier.class);
             if(!canhitWithTool){
                 event.setCancelled(true);
                 return;
             }
         }
+        
+        if(item instanceof TCWeapon weapon){
+            //TODO ここにカスタム武器の処理
+        }
 
-        ItemStack newItemStack = ((TCTool) item).reduceDurability(player.getInventory().getItemInMainHand());
-        player.getInventory().setItemInMainHand(newItemStack);
+        if(item instanceof IHasDurability){
+            ItemStack newItemStack = ((IHasDurability) item).reduceDurability(player.getInventory().getItemInMainHand());
+            player.getInventory().setItemInMainHand(newItemStack);
+        }
     }
 
     @org.bukkit.event.EventHandler

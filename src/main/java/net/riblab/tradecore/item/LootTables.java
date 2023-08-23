@@ -1,5 +1,8 @@
 package net.riblab.tradecore.item;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import lombok.Data;
 import net.riblab.tradecore.Materials;
 import org.bukkit.Material;
@@ -44,11 +47,11 @@ public enum LootTables {
      *
      * @return ルートテーブル
      */
-    public static Map<Float, ITCItem> get(Material material, TCTool.ToolType toolType) {
-        Map<Float, ITCItem> itemMap = new HashMap<>();
+    public static Multimap<Float, ITCItem> get(Material material, TCTool.ToolType toolType) {
+        Multimap<Float, ITCItem> itemMap = ArrayListMultimap.create();
         List<Map<Float, ITCItem>> itemMaps = Arrays.stream(LootTables.values()).map(LootTables::get).filter(table1 -> table1.getMaterial().contains(material)).filter(table1 -> table1.getToolType() == toolType)
                 .map(LootTable::getDropChanceMap).toList();
-        itemMaps.forEach(itemMap::putAll);
+        itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach(itemMap::put));
         return itemMap;
     }
 
@@ -57,22 +60,22 @@ public enum LootTables {
      *
      * @return ルートテーブル
      */
-    public static Map<Float, ITCItem> get(Material material, TCTool tool) {
-        Map<Float, ITCItem> itemMap = new HashMap<>();
+    public static Multimap<Float, ITCItem> get(Material material, ITCTool tool) {
+        Multimap<Float, ITCItem> itemMultiMap = ArrayListMultimap.create();
         List<Map<Float, ITCItem>> itemMaps = Arrays.stream(LootTables.values())
                 .map(LootTables::get)
                 .filter(table1 -> table1.getMaterial().contains(material))
                 .filter(table1 -> table1.getToolType() == tool.getToolType())
                 .filter(lootTable -> lootTable.getHarvestLevel() <= tool.getHarvestLevel())
                 .map(LootTable::getDropChanceMap).toList();
-        itemMaps.forEach(itemMap::putAll);
-        return itemMap;
+        itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach(itemMultiMap::put));
+        return itemMultiMap;
     }
 
     /**
      * あるマテリアルをあるツールで掘るために必要な最小硬度を取得
      */
-    public static int getMinHardness(Material material, TCTool tool){
+    public static int getMinHardness(Material material, ITCTool tool){
         List<Integer> hardnessList = Arrays.stream(LootTables.values())
                 .map(LootTables::get)
                 .filter(table1 -> table1.getMaterial().contains(material))

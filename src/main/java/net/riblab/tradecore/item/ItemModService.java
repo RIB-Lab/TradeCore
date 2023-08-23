@@ -51,8 +51,8 @@ public class ItemModService {
      */
     public void updateMainHand(Player player, int newSlot){
         ITCItem tcItem = TCItems.toTCItem(player.getInventory().getItem(newSlot));
-        if(tcItem instanceof TCTool tool){
-            playerMainHandModMap.put(player, tool.getDefaultMods());
+        if(tcItem instanceof IHasItemMod modItem){
+            playerMainHandModMap.put(player, modItem.getDefaultMods());
         }
         else{
             playerMainHandModMap.remove(player);

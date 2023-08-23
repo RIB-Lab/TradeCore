@@ -34,7 +34,7 @@ public enum TCItems {
     WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, 1.2, 32, List.of())),
     WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, 1.2, 32, List.of())),
     WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, 32, List.of())),
-    WOODEN_SWORD(new TCTool(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, TCTool.ToolType.SWORD, 0, 1, 32, List.of())),
+    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0,  32, List.of())),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1)),
     DUST(new TCSellableItem(Component.text("塵"), Material.DIRT, "dust", 1, 0.02d)),
     MUD(new TCSellableItem(Component.text("泥"), Material.DIRT, "mud", 2, 0.02d)),
@@ -52,7 +52,7 @@ public enum TCItems {
 
     //石器時代
     ROUND_STONE(new TCSellableItem(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, 0.05d)),
-    STONE_SWORD(new TCTool(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, TCTool.ToolType.SWORD, 0, 1, 128, List.of())),
+    STONE_SWORD(new TCWeapon(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, 128, List.of())),
     FUEL_BALL(new TCSellableItem(Component.text("燃料玉"), Material.HAY_BLOCK, "fuel_ball", 1, 0.05d)),
     STONE_HELMET(new TCEquipment(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", List.of(new ModAddArmor(4), new ModWalkSpeed(-1)), 128, "stone")),
     STONE_CHESTPLATE(new TCEquipment(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", List.of(new ModAddArmor(4), new ModWalkSpeed(-1)), 128, "stone")),

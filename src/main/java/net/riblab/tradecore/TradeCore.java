@@ -67,7 +67,7 @@ public final class TradeCore extends JavaPlugin {
         TCFurnaceRecipes.values();
         
         JobData.JobType.values();
-        TCTool.ToolType.values();
+        ITCTool.ToolType.values();
     }
 
     @Override

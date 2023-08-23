@@ -1,5 +1,6 @@
 package net.riblab.tradecore;
 
+import com.google.common.collect.Multimap;
 import net.riblab.tradecore.item.ITCItem;
 import net.riblab.tradecore.modifier.IModifier;
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
@@ -56,7 +57,7 @@ public class Utils {
         return klass;
     }
 
-    public static void dropItemByLootTable(Player player, Block block, Map<Float, ITCItem> table) {
+    public static void dropItemByLootTable(Player player, Block block, Multimap<Float, ITCItem> table) {
         Random random = new Random();
         table.forEach((aFloat, itcItem) -> {
             float skillAppliedChance = Utils.apply(player, aFloat, IResourceChanceModifier.class);
