@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.block.BlockStateEventHandler;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
@@ -39,7 +40,8 @@ public final class TradeCore extends JavaPlugin {
     private ConfigManager configManager;
     @Getter
     private ProtocolManager protocolManager;
-    private EventHandler eventHandler;
+    private GeneralEventHandler eventHandler;
+    private BlockStateEventHandler blockStateEventHandler;
     @Getter
     private JobHandler jobHandler;
     @Getter
@@ -48,6 +50,7 @@ public final class TradeCore extends JavaPlugin {
     private ItemModService itemModService;
     @Getter
     private PlayerStatsHandler playerStatsHandler;
+    private TCTasks tcTasks;
 
     public TradeCore() {
         instance = this;
@@ -81,7 +84,8 @@ public final class TradeCore extends JavaPlugin {
     public void onEnable() {
         configManager = new ConfigManager();
         configManager.load();
-        eventHandler = new EventHandler();
+        eventHandler = new GeneralEventHandler();
+        blockStateEventHandler = new BlockStateEventHandler();
         jobHandler = new JobHandler();
         jobSkillHandler = new JobSkillHandler();
         jobSkillHandler.onDeserialize();
@@ -107,39 +111,7 @@ public final class TradeCore extends JavaPlugin {
 
         protocolManager = ProtocolLibrary.getProtocolManager();
 
-        //所持金と投票券表示
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                String negativeSpace = TCResourcePackData.IconsFont.NEGATIVE_SPACE.get_char();
-                Bukkit.getOnlinePlayers().forEach(player -> {
-                    int balance = (int) economy.getBalance(player);
-                    int tickets = economy.getPlayTickets(player);
-                    Component text = Component.text("");
-                    text = text.append(Component.text(negativeSpace + negativeSpace + negativeSpace + negativeSpace + TCResourcePackData.IconsFont.COIN.get_char()).font(TCResourcePackData.iconsFontName));
-                    text = text.append(Component.text(" " + balance).font(TCResourcePackData.yPlus12FontName));
-                    text = text.append(Component.text("                         " + TCResourcePackData.IconsFont.VOTE_TICKET.get_char()).font(TCResourcePackData.iconsFontName));
-                    text = text.append(Component.text(" " + tickets).font(TCResourcePackData.yPlus12FontName));
-                    player.sendActionBar(text);
-                });
-            }
-        }.runTaskTimer(this, 0, 20);
-
-        //定期的にコンフィグを保存
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                configManager.save();
-            }
-        }.runTaskTimer(this, 0, 3600);
-
-        //10分に1回プレイチケット配布
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.getOnlinePlayers().forEach(player -> economy.depositTickets(player, 1));
-            }
-        }.runTaskTimer(this, 0, 12000);
+        tcTasks = new TCTasks();
 
         //買い取り商人
         ProtocolLibrary.getProtocolManager().addPacketListener(
@@ -161,21 +133,6 @@ public final class TradeCore extends JavaPlugin {
                     }
                 }
         );
-        
-        //毎分発動するmodifier系イベント
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                Bukkit.getOnlinePlayers().forEach(player -> {
-                    int repairAmount = Utils.apply(player, 0, IEveryMinuteDurabilityModifier.class);
-                    ItemStack itemStack = player.getInventory().getItemInMainHand();
-                    ITCItem itcItem = TCItems.toTCItem(itemStack);
-                    if(itcItem instanceof IHasDurability iHasDurability){
-                        player.getInventory().setItemInMainHand(iHasDurability.reduceDurability(itemStack, -repairAmount));
-                    }
-                });
-            }
-        }.runTaskTimer(this, 0, 1200);
         
         Utils.forceInit(CustomMobService.class);
     }

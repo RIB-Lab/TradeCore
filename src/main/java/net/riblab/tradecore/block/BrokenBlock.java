@@ -1,9 +1,10 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.block;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import lombok.Getter;
+import net.riblab.tradecore.TradeCore;
 import org.bukkit.SoundCategory;
 import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;

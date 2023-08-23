@@ -1,4 +1,4 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.block;
 
 import lombok.Getter;
 import org.bukkit.Location;
