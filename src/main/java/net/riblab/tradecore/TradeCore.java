@@ -11,6 +11,8 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
+import net.riblab.tradecore.integration.EconomyImplementer;
+import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.job.JobHandler;
@@ -18,7 +20,6 @@ import net.riblab.tradecore.job.JobSkillHandler;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.mob.TCMobs;
-import net.riblab.tradecore.modifier.IModifier;
 import net.riblab.tradecore.ui.UISell;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public final class TradeCore extends JavaPlugin {
     @Getter
     private JobSkillHandler jobSkillHandler;
     @Getter
-    private EquipmentHandler equipmentHandler;
+    private ItemModService itemModService;
     @Getter
     private PlayerStatsHandler playerStatsHandler;
 
@@ -82,7 +83,7 @@ public final class TradeCore extends JavaPlugin {
         jobHandler = new JobHandler();
         jobSkillHandler = new JobSkillHandler();
         jobSkillHandler.onDeserialize();
-        equipmentHandler = new EquipmentHandler();
+        itemModService = new ItemModService();
         playerStatsHandler = new PlayerStatsHandler();
         new VanillaCraftHandler();
 
@@ -98,7 +99,8 @@ public final class TradeCore extends JavaPlugin {
                 economy.createPlayerAccount(player);
 
             Utils.addSlowDig(player);
-            equipmentHandler.update(player);
+            itemModService.updateEquipment(player);
+            itemModService.updateMainHand(player, player.getInventory().getHeldItemSlot());
         });
 
         protocolManager = ProtocolLibrary.getProtocolManager();

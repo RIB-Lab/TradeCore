@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.item.mod.ItemMod;
 import net.riblab.tradecore.job.JobData;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -44,6 +45,12 @@ public class TCTool extends TCItem {
     private static final String durabilityTag = "durability";
 
     /**
+     * ツールが既定で持つmodのリスト
+     */
+    @Getter
+    private final List<ItemMod> defaultMods;
+
+    /**
      * 　固有アイテムの型を作成する
      *
      * @param name            作りたい固有アイテムの名前(ユーザーが読むので必ず日本語にすること)
@@ -51,14 +58,16 @@ public class TCTool extends TCItem {
      * @param internalName    作りたい固有アイテムの内部的な名前<br>
      *                        召喚コマンドで使われるので必ず半角英数字にしてスペースの代わりに_を使うこと
      * @param customModelData 固有アイテムにセットするカスタムモデルデータ
+     * @param mods
      */
-    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, int baseDurability) {
+    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, int baseDurability, List<ItemMod> mods) {
         super(name, material, internalName, customModelData);
 
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;
         this.baseMiningSpeed = miningSpeed;
         this.baseDurability = baseDurability;
+        this.defaultMods = mods;
     }
 
     public double getActualMiningSpeed() {
@@ -86,6 +95,9 @@ public class TCTool extends TCItem {
         }
         texts.add(Component.text("採掘速度: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
                 .append(Component.text((Math.floor(baseMiningSpeed * 100)) / 100)));
+        for (ItemMod defaultMod : defaultMods) {
+            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        }
         return texts;
     }
 

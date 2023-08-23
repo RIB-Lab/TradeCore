@@ -96,7 +96,7 @@ public class Utils {
      * プレイヤーの起こした行動によって発生した値をジョブスキルや装備modによって修飾する
      */
     public static  <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz){
-        T modifiedValue = TradeCore.getInstance().getEquipmentHandler().apply(player, originalValue, clazz);
+        T modifiedValue = TradeCore.getInstance().getItemModService().apply(player, originalValue, clazz);
         modifiedValue = TradeCore.getInstance().getJobSkillHandler().apply(player, originalValue, modifiedValue, clazz);
         return modifiedValue;
     }

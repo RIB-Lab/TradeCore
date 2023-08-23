@@ -1,6 +1,7 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.integration;
 
 import net.milkbowl.vault.economy.Economy;
+import net.riblab.tradecore.TradeCore;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.ServicePriority;

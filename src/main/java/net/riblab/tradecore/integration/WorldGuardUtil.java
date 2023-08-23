@@ -1,4 +1,4 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.integration;
 
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.math.BlockVector3;
@@ -7,6 +7,7 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.ApplicableRegionSet;
 import com.sk89q.worldguard.protection.flags.Flags;
 import com.sk89q.worldguard.protection.managers.RegionManager;
+import net.riblab.tradecore.TradeCore;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 

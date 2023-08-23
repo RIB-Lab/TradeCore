@@ -2,6 +2,7 @@ package net.riblab.tradecore;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.modifier.IArmorModifier;
@@ -18,6 +19,7 @@ import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -49,13 +51,14 @@ public class EventHandler implements Listener {
             TradeCore.getInstance().getEconomy().createPlayerAccount(event.getPlayer());
 
         Utils.addSlowDig(event.getPlayer());
-        TradeCore.getInstance().getEquipmentHandler().update(event.getPlayer());
+        TradeCore.getInstance().getItemModService().updateEquipment(event.getPlayer());
+        TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
     }
 
     @org.bukkit.event.EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Utils.removeSlowDig(event.getPlayer());
-        TradeCore.getInstance().getEquipmentHandler().remove(event.getPlayer());
+        TradeCore.getInstance().getItemModService().remove(event.getPlayer());
         TradeCore.getInstance().getPlayerStatsHandler().remove(event.getPlayer());
     }
 
@@ -393,6 +396,36 @@ public class EventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onPlayerChangeArmor(PlayerArmorChangeEvent event){
-        TradeCore.getInstance().getEquipmentHandler().update(event.getPlayer());
+        TradeCore.getInstance().getItemModService().updateEquipment(event.getPlayer());
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onPlayerItemHeld(PlayerItemHeldEvent event){
+        TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getNewSlot());
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onInventoryClick(InventoryClickEvent event){
+        int mainhandSlot = event.getWhoClicked().getInventory().getHeldItemSlot();
+        if((event.getSlot() == mainhandSlot || (event.isShiftClick() && !event.getClickedInventory().equals(event.getWhoClicked().getInventory()))) && event.getWhoClicked() instanceof Player player){
+            new BukkitRunnable(){
+
+                @Override
+                public void run() {
+                    TradeCore.getInstance().getItemModService().updateMainHand(player, mainhandSlot);
+                }
+            }.runTaskLater(TradeCore.getInstance(), 0);
+        }
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onPlayerSwapItem(PlayerSwapHandItemsEvent event){
+        new BukkitRunnable(){
+
+            @Override
+            public void run() {
+                TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
+            }
+        }.runTaskLater(TradeCore.getInstance(), 0);
     }
 }

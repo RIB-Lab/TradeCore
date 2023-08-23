@@ -21,7 +21,7 @@ public class JobSkillHandler {
     private final Map<UUID, List<JobSkill>> datasMap = TradeCore.getInstance().getConfigManager().getJobDatas().playerJobSkills;
 
     /**
-     * プレイヤーのJobSkilが変更された時のイベント
+     * プレイヤーのJobSkillが変更された時のイベント
      */
     public List<Consumer<Player>> onJobSkillChanged = new ArrayList<>();
     

@@ -1,8 +1,7 @@
 package net.riblab.tradecore;
 
-import net.riblab.tradecore.item.EquipmentHandler;
+import net.riblab.tradecore.item.ItemModService;
 import net.riblab.tradecore.job.JobSkillHandler;
-import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.IHPModifier;
 import net.riblab.tradecore.modifier.IWalkSpeedModifier;
 import net.riblab.tradecore.modifier.IWaterBreatheLevelModifier;
@@ -27,13 +26,13 @@ public class PlayerStatsHandler {
         return TradeCore.getInstance().getJobSkillHandler();
     }
     
-    private static EquipmentHandler getEquipmentHandler(){
-        return TradeCore.getInstance().getEquipmentHandler();
+    private static ItemModService getEquipmentHandler(){
+        return TradeCore.getInstance().getItemModService();
     }
 
     public PlayerStatsHandler(){
         getJSHandler().onJobSkillChanged.add(this::update);
-        getEquipmentHandler().onEquipmentModUpdated.add(this::update);
+        getEquipmentHandler().onItemModUpdated.add(this::update);
     }
     
     /**
