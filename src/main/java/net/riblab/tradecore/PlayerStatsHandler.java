@@ -4,6 +4,7 @@ import net.riblab.tradecore.item.EquipmentHandler;
 import net.riblab.tradecore.job.JobSkillHandler;
 import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.IHPModifier;
+import net.riblab.tradecore.modifier.IWalkSpeedModifier;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -48,7 +49,9 @@ public class PlayerStatsHandler {
         int hp = getEquipmentHandler().apply(player, PlayerStats.getDefaultMaxHP(), IHPModifier.class);
         hp = getJSHandler().apply(player, hp, IHPModifier.class);
         playerStats.setMaxHp(hp);
-        //TODO:移動速度の修飾
+        float walkSpeed = getEquipmentHandler().apply(player, PlayerStats.getDefaultWalkSpeed(), IWalkSpeedModifier.class);
+        walkSpeed = getJSHandler().apply(player, walkSpeed, IWalkSpeedModifier.class);
+        playerStats.setWalkSpeed(walkSpeed);
         
         apply(player);
     }
@@ -67,6 +70,7 @@ public class PlayerStatsHandler {
         }
         
         player.setMaxHealth(playerStats.getMaxHp());
+        player.setWalkSpeed(playerStats.getWalkSpeed());
         player.setWalkSpeed(playerStats.getWalkSpeed());
     }
 
