@@ -324,7 +324,7 @@ public class EventHandler implements Listener {
         
         if(player.getInventory().getItemInMainHand().getType() == Material.AIR){ //素手で攻撃
             double damage = event.getDamage();
-            event.setDamage(TradeCore.getInstance().getJobSkillHandler().apply(player, damage, IHandAttackDamageModifier.class));
+            event.setDamage(Utils.apply(player, damage, IHandAttackDamageModifier.class));
             return;
         }
 
@@ -335,7 +335,7 @@ public class EventHandler implements Listener {
         }
 
         if (!(((TCTool) item).getToolType() == TCTool.ToolType.SWORD)) {
-            boolean canhitWithTool = TradeCore.getInstance().getJobSkillHandler().apply(player, false, ICanHitWithToolModifier.class);
+            boolean canhitWithTool = Utils.apply(player, false, ICanHitWithToolModifier.class);
             if(!canhitWithTool){
                 event.setCancelled(true);
                 return;
@@ -374,7 +374,7 @@ public class EventHandler implements Listener {
         }
         player.getInventory().setArmorContents(newArmorContent);
 
-        double armor = TradeCore.getInstance().getPlayerStatsHandler().get(player).getArmor();
+        double armor = Utils.apply(player, 0d, IArmorModifier.class); //アーマーの基礎値は0
         
         double finalDamage = (5* rawDamage * rawDamage)/(armor + 5* rawDamage);
         event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, finalDamage);

@@ -1,6 +1,7 @@
 package net.riblab.tradecore;
 
 import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.modifier.IModifier;
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.TCMob;
@@ -58,7 +59,7 @@ public class Utils {
     public static void dropItemByLootTable(Player player, Block block, Map<Float, ITCItem> table) {
         Random random = new Random();
         table.forEach((aFloat, itcItem) -> {
-            float skillAppliedChance = TradeCore.getInstance().getJobSkillHandler().apply(player, aFloat, IResourceChanceModifier.class);
+            float skillAppliedChance = Utils.apply(player, aFloat, IResourceChanceModifier.class);
             float rand = random.nextFloat();
             if (rand < skillAppliedChance) {
                 block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
@@ -89,5 +90,14 @@ public class Utils {
         }
 
         return null; //何回探しても安全な場所がなかったらモブのスポーンを諦める
+    }
+    
+    /**
+     * プレイヤーの起こした行動によって発生した値をジョブスキルや装備modによって修飾する
+     */
+    public static  <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz){
+        T modifiedValue = TradeCore.getInstance().getEquipmentHandler().apply(player, originalValue, clazz);
+        modifiedValue = TradeCore.getInstance().getJobSkillHandler().apply(player, modifiedValue, clazz);
+        return modifiedValue;
     }
 }

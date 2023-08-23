@@ -14,13 +14,6 @@ public class PlayerStats {
      * 最大HP
      */
     private int maxHp = 20;
-
-    @Getter
-    private static final double defaultArmor = 0f;
-    /**
-     * アーマー値
-     */
-    private double armor = 0;
     
     @Getter
     private static final float defaultWalkSpeed = 0.2f;

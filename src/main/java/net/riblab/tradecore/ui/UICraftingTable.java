@@ -8,6 +8,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.Utils;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.TCResourcePackData;
@@ -173,7 +174,7 @@ public class UICraftingTable {
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
             packedRecipeData.setRecipe(recipe);
             packedRecipeData.setAmount(entry.getValue());
-            int amountSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
+            int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
             
             ingredientStack.setAmount(amountSkillApplied);
             GuiItem ingredientDisplay = new GuiItem(ingredientStack);
@@ -197,7 +198,7 @@ public class UICraftingTable {
         ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
         packedCraftFee.setRecipe(recipe);
         packedCraftFee.setFee(recipe.getFee());
-        double skillAppliedFee = TradeCore.getInstance().getJobSkillHandler().apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
+        double skillAppliedFee = Utils.apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
         
         ItemStack feeStack = TCItems.COIN.get().getItemStack();
         Component name = Component.text("工費: ").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false)
@@ -217,7 +218,7 @@ public class UICraftingTable {
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
             packedRecipeData.setRecipe(recipe);
             packedRecipeData.setAmount(entry.getValue());
-            int amountSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
+            int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
             
             boolean playerHasItem = player.getInventory().containsAtLeast(entry.getKey().getItemStack(), amountSkillApplied);
             if (playerHasItem)
@@ -230,7 +231,7 @@ public class UICraftingTable {
         ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
         packedCraftFee.setRecipe(recipe);
         packedCraftFee.setFee(recipe.getFee());
-        double skillAppliedFee = TradeCore.getInstance().getJobSkillHandler().apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
+        double skillAppliedFee = Utils.apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
         if (skillAppliedFee > balance) {
             missingLore.add(Component.text("所持金が足りません！ " + Math.floor(balance * 100) / 100 + "/" + recipe.getFee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
@@ -248,7 +249,7 @@ public class UICraftingTable {
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
             packedRecipeData.setRecipe(recipe);
             packedRecipeData.setAmount(entry.getValue());
-            int amountSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
+            int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
             
             itemStack.setAmount(amountSkillApplied);
             player.getInventory().removeItemAnySlot(itemStack);

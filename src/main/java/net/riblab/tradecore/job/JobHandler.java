@@ -2,6 +2,7 @@ package net.riblab.tradecore.job;
 
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.Utils;
 import net.riblab.tradecore.modifier.IJobExpModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -55,7 +56,7 @@ public class JobHandler {
             newExp = data.getExp() + amount;
         }
         else{
-            int amountSkillApplied = TradeCore.getInstance().getJobSkillHandler().apply((Player) offlinePlayer, amount, IJobExpModifier.class);
+            int amountSkillApplied = Utils.apply((Player) offlinePlayer, amount, IJobExpModifier.class);
             newExp = data.getExp() + amountSkillApplied;
         }
                 

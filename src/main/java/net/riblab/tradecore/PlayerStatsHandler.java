@@ -34,7 +34,7 @@ public class PlayerStatsHandler {
     }
     
     /**
-     * 装備やジョブスキルでプレイヤーステータスを修飾し、それをプレイヤーに反映する
+     * 装備やジョブスキルが更新された時、それらでプレイヤーステータスを修飾し、それをプレイヤーに反映する
      */
     public void update(Player player){
         PlayerStats playerStats = playerStatsMap.get(player);
@@ -43,9 +43,6 @@ public class PlayerStatsHandler {
             playerStatsMap.put(player, playerStats);
         }
         
-        double armor = getEquipmentHandler().apply(player, PlayerStats.getDefaultArmor(), IArmorModifier.class);
-        armor = getJSHandler().apply(player, armor, IArmorModifier.class);
-        playerStats.setArmor(armor);
         int hp = getEquipmentHandler().apply(player, PlayerStats.getDefaultMaxHP(), IHPModifier.class);
         hp = getJSHandler().apply(player, hp, IHPModifier.class);
         playerStats.setMaxHp(hp);
@@ -70,7 +67,6 @@ public class PlayerStatsHandler {
         }
         
         player.setMaxHealth(playerStats.getMaxHp());
-        player.setWalkSpeed(playerStats.getWalkSpeed());
         player.setWalkSpeed(playerStats.getWalkSpeed());
     }
 
