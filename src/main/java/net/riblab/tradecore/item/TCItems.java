@@ -9,6 +9,8 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.mod.*;
 import net.riblab.tradecore.item.weapon.TCWeapon;
+import net.riblab.tradecore.item.weapon.WeaponAttributeDagger;
+import net.riblab.tradecore.item.weapon.WeaponAttributeSpear;
 import net.riblab.tradecore.item.weapon.WeaponAttributeSword;
 import net.riblab.tradecore.mob.TCMobs;
 import org.bukkit.Material;
@@ -56,6 +58,8 @@ public enum TCItems {
     //石器時代
     ROUND_STONE(new TCSellableItem(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, 0.10d)),
     STONE_SWORD(new TCWeapon(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, 128, List.of(), new WeaponAttributeSword(5))),
+    STONE_SPEAR(new TCWeapon(Component.text("石の槍"), Material.STONE_SWORD, "stone_spear", 0, 128, List.of(), new WeaponAttributeSpear(3.5))),
+    STONE_DAGGER(new TCWeapon(Component.text("石の短剣"), Material.STONE_SWORD, "stone_dagger", 0, 128, List.of(), new WeaponAttributeDagger(4))),
     FUEL_BALL(new TCSellableItem(Component.text("燃料玉"), Material.HAY_BLOCK, "fuel_ball", 1, 0.10d)),
     STONE_HELMET(new TCEquipment(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", List.of(new ModAddArmor(4), new ModWalkSpeed(-1)), 128, "stone")),
     STONE_CHESTPLATE(new TCEquipment(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", List.of(new ModAddArmor(4), new ModWalkSpeed(-1)), 128, "stone")),
