@@ -5,12 +5,13 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.item.attribute.ISellable;
 import net.riblab.tradecore.item.mod.ItemMod;
 import org.bukkit.Material;
 
 import java.util.List;
 
-public class Pebble extends TCTool implements ISellable{
+public class Pebble extends TCTool implements ISellable {
 
     @Getter
     private final double sellPrice;

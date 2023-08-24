@@ -1,4 +1,4 @@
-package net.riblab.tradecore.item;
+package net.riblab.tradecore.item.attribute;
 
 import lombok.Getter;
 import net.riblab.tradecore.job.JobData;

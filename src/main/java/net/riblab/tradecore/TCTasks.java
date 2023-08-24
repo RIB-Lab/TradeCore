@@ -2,8 +2,8 @@ package net.riblab.tradecore;
 
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.integration.EconomyImplementer;
-import net.riblab.tradecore.item.IHasDurability;
-import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.item.attribute.IHasDurability;
+import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.modifier.IEveryMinuteDurabilityModifier;
 import org.bukkit.Bukkit;

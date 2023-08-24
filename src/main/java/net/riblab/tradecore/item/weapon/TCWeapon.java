@@ -1,10 +1,12 @@
-package net.riblab.tradecore.item;
+package net.riblab.tradecore.item.weapon;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.item.ItemCreator;
+import net.riblab.tradecore.item.TCItem;
 import net.riblab.tradecore.item.mod.ItemMod;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -12,27 +14,31 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TCWeapon extends TCItem implements ITCWeapon{
+public class TCWeapon extends TCItem implements ITCWeapon {
 
     @Getter
     private final int baseDurability;
 
     @Getter
     private final List<ItemMod> defaultMods;
+    
+    @Getter
+    private final IWeaponAttribute attribute;
 
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, int baseDurability, List<ItemMod> defaultMods) {
+    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, int baseDurability, List<ItemMod> defaultMods, IWeaponAttribute attribute) {
         super(name, material, internalName, customModelData);
         this.baseDurability = baseDurability;
         this.defaultMods = defaultMods;
+        this.attribute = attribute;
     }
 
     @Override
     protected ItemCreator createItem() {
         return super.createItem().setIntNBT(durabilityTag, baseDurability)
-                .setLores(getLore(baseDurability));
+                .setLores(getLore(baseDurability)).setAttackSpeed(attribute.getAttackSpeed());
     }
 
     /**

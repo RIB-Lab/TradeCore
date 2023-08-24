@@ -15,7 +15,7 @@ import net.riblab.tradecore.TCResourcePackData;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.TCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
-import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
 import net.riblab.tradecore.modifier.IIngredientAmountModifier;

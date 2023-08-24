@@ -2,6 +2,7 @@ package net.riblab.tradecore.item;
 
 import lombok.Getter;
 import net.kyori.adventure.text.TextComponent;
+import net.riblab.tradecore.item.attribute.ICanSpawnMobOnUse;
 import net.riblab.tradecore.item.mod.ItemMod;
 import net.riblab.tradecore.mob.TCMob;
 import org.bukkit.Material;

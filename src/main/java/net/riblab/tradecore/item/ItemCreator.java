@@ -3,6 +3,8 @@ package net.riblab.tradecore.item;
 import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -373,5 +375,21 @@ public class ItemCreator {
     public int getCustomModelData() {
         ItemMeta meta = itemStack.getItemMeta();
         return meta.getCustomModelData();
+    }
+    
+    public ItemCreator setAttackDamage(double value){
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("generic.attackDamage", value, AttributeModifier.Operation.ADD_NUMBER));
+        itemStack.setItemMeta(meta);
+        return this;
+    }
+
+    public ItemCreator setAttackSpeed(double value){
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
+        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier("generic.attackSpeed", value, AttributeModifier.Operation.ADD_NUMBER));
+        itemStack.setItemMeta(meta);
+        return this;
     }
 }

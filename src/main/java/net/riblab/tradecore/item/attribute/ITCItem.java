@@ -1,4 +1,4 @@
-package net.riblab.tradecore.item;
+package net.riblab.tradecore.item.attribute;
 
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.Material;

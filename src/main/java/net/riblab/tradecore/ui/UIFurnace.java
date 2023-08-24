@@ -12,7 +12,7 @@ import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.TCResourcePackData;
 import net.riblab.tradecore.craft.TCFurnaceRecipe;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
-import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

@@ -1,5 +1,7 @@
 package net.riblab.tradecore.item;
 
+import net.riblab.tradecore.item.attribute.IHasItemMod;
+import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.mod.ItemMod;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.entity.Player;

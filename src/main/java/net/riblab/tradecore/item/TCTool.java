@@ -5,8 +5,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.item.attribute.ITCTool;
 import net.riblab.tradecore.item.mod.ItemMod;
-import net.riblab.tradecore.job.JobData;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

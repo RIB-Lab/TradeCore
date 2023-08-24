@@ -1,11 +1,11 @@
 package net.riblab.tradecore;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
-import com.google.common.collect.Multimap;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.*;
-import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.item.attribute.IHasDurability;
+import net.riblab.tradecore.item.attribute.ITCItem;
+import net.riblab.tradecore.item.weapon.ITCWeapon;
 import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
@@ -13,7 +13,6 @@ import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.ui.UICraftingTable;
 import net.riblab.tradecore.ui.UIFurnace;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
@@ -26,10 +25,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
 import java.util.Set;
-
-import static net.riblab.tradecore.Materials.unbreakableMaterial;
 
 /**
  * イベント受信システム
@@ -64,6 +60,13 @@ public class GeneralEventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void OnPlayerInteract(PlayerInteractEvent event) {
+        if(event.getHand() == EquipmentSlot.OFF_HAND)
+            return;
+        
+        swingWeapon(event);
+        if(event.isCancelled())
+            return;
+        
         if (event.getPlayer().isSneaking())
             return;
         
@@ -123,6 +126,27 @@ public class GeneralEventHandler implements Listener {
         }
     }
 
+    /**
+     * 宙に向かって武器を振ったとき
+     * @param event
+     */
+    public void swingWeapon(PlayerInteractEvent event){
+        if(event.getItem() == null)
+            return;
+        
+        if(event.getPlayer().getAttackCooldown() != 1)
+            return;
+        
+        ITCItem itcItem = TCItems.toTCItem(event.getItem());
+        if(itcItem instanceof ITCWeapon weapon){
+            event.setCancelled(true);
+            if(weapon.getAttribute().attack(event.getPlayer())){
+                ItemStack newItemStack = weapon.reduceDurability(event.getPlayer().getInventory().getItemInMainHand(), 1);
+                event.getPlayer().getInventory().setItemInMainHand(newItemStack);
+            }
+        }
+    }
+
     @org.bukkit.event.EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         CustomMobService.onEntityDeath(event);
@@ -130,7 +154,10 @@ public class GeneralEventHandler implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onEntityDamage(EntityDamageByEntityEvent event) {
-        tryProcessAttack(event);
+        if (!(event.getDamager() instanceof Player))
+            return; //TODO:ここでprojectile攻撃の処理分岐
+        
+        tryProcessMeleeAttack(event);
     }
 
     @org.bukkit.event.EventHandler
@@ -144,11 +171,10 @@ public class GeneralEventHandler implements Listener {
     }
 
     /**
-     * 素手・ツール・武器で攻撃した時の処理
+     * 素手・ツール・武器で近接攻撃した時の処理
      */
-    public void tryProcessAttack(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player player))
-            return;
+    public void tryProcessMeleeAttack(EntityDamageByEntityEvent event) {
+        Player player = (Player) event.getDamager();
         
         if(player.getInventory().getItemInMainHand().getType() == Material.AIR){ //素手で攻撃
             double damage = event.getDamage();
@@ -167,15 +193,20 @@ public class GeneralEventHandler implements Listener {
                 event.setCancelled(true);
                 return;
             }
-        }
-        
-        if(item instanceof ITCWeapon weapon){
-            //TODO ここにカスタム武器の処理
-        }
 
-        if(item instanceof IHasDurability){
             ItemStack newItemStack = ((IHasDurability) item).reduceDurability(player.getInventory().getItemInMainHand(), 1);
             player.getInventory().setItemInMainHand(newItemStack);
+        }
+        
+        if(item instanceof ITCWeapon weapon){ //武器で攻撃
+            event.setCancelled(true);
+            if(player.getAttackCooldown() != 1)
+                return;
+            
+            if(weapon.getAttribute().attack(player)){
+                ItemStack newItemStack = ((IHasDurability) item).reduceDurability(player.getInventory().getItemInMainHand(), 1);
+                player.getInventory().setItemInMainHand(newItemStack);
+            }
         }
     }
 

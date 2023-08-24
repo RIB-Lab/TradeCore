@@ -8,7 +8,7 @@ import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import net.milkbowl.vault.economy.Economy;
-import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.job.*;
 import net.riblab.tradecore.mob.CustomMobService;

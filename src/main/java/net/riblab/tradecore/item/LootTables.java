@@ -2,9 +2,10 @@ package net.riblab.tradecore.item;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
 import lombok.Data;
 import net.riblab.tradecore.Materials;
+import net.riblab.tradecore.item.attribute.ITCItem;
+import net.riblab.tradecore.item.attribute.ITCTool;
 import org.bukkit.Material;
 
 import java.util.*;

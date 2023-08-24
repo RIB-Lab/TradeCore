@@ -1,7 +1,7 @@
 package net.riblab.tradecore.craft;
 
 import lombok.Data;
-import net.riblab.tradecore.item.ITCItem;
+import net.riblab.tradecore.item.attribute.ITCItem;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
