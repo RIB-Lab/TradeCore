@@ -1,6 +1,7 @@
 package net.riblab.tradecore;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
+import com.fren_gor.ultimateAdvancementAPI.events.PlayerLoadingCompletedEvent;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.attribute.IHasDurability;

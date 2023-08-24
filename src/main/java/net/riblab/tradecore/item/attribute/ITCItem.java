@@ -46,6 +46,8 @@ public interface ITCItem {
      */
     boolean isSimilar(ItemStack itemStack);
 
+    boolean isSimilar(String tcID);
+
     /**
      * 固有アイテムの実体をプレイヤーに渡すイベントが発火された時の挙動<br>
      * ここをオーバーライドして固有アイテムの実体に色んなデータを書きこんでからプレイヤーに渡すことができる

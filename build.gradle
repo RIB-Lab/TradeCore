@@ -29,6 +29,7 @@ repositories {
     maven { url "https://repo.dmulloy2.net/repository/public/" }
     maven { url "https://maven.enginehub.org/repo/" }
     maven { url 'https://repo.codemc.io/repository/maven-snapshots/' }
+    maven { url 'https://nexus.frengor.com/repository/public/' }
 }
 
 dependencies {
@@ -42,6 +43,7 @@ dependencies {
     implementation 'dev.triumphteam:triumph-gui:3.1.4'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.9'
     implementation(fileTree(dir: 'libs', include: ['mobchip-bukkit-*.jar']))
+    compileOnly(fileTree(dir: 'libs', include: ['UltimateAdvancementAPI-*.jar']))
 }
 
 def targetJavaVersion = 17

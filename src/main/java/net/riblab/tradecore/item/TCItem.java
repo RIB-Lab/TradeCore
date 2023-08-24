@@ -101,4 +101,11 @@ public class TCItem implements ITCItem {
 
         return ID.equals(internalName);
     }
+
+    public boolean isSimilar(@Nullable String tcID) {
+        if(tcID == null)
+            return false;
+        
+        return tcID.equals(internalName);
+    }
 }

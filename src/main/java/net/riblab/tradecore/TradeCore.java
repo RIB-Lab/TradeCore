@@ -6,6 +6,7 @@ import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
+import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import lombok.Getter;
 import net.riblab.tradecore.block.BlockStateEventHandler;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
@@ -48,6 +49,10 @@ public final class TradeCore extends JavaPlugin {
     private ItemModService itemModService;
     @Getter
     private PlayerStatsHandler playerStatsHandler;
+    @Getter
+    private UltimateAdvancementAPI advancementAPI;
+    @Getter
+    private AdvancementService advancementService;
     private TCTasks tcTasks;
 
     public TradeCore() {
@@ -95,6 +100,7 @@ public final class TradeCore extends JavaPlugin {
         vaultHook = new VaultHook();
         vaultHook.hook();
         isWGLoaded = getServer().getPluginManager().isPluginEnabled("WorldGuard");
+        advancementAPI = UltimateAdvancementAPI.getInstance(this);
 
         TCCommands.onEnable();
 
@@ -110,6 +116,7 @@ public final class TradeCore extends JavaPlugin {
         protocolManager = ProtocolLibrary.getProtocolManager();
 
         tcTasks = new TCTasks();
+        advancementService = new AdvancementService();
 
         //買い取り商人
         ProtocolLibrary.getProtocolManager().addPacketListener(

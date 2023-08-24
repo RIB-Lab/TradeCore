@@ -129,7 +129,11 @@ public enum TCItems {
      */
     @Nullable
     public static ITCItem toTCItem(ItemStack itemStack) {
-        TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(itemStack)).findFirst().orElse(null);
+        if(itemStack == null || itemStack.getType() == Material.AIR)
+            return null;
+        
+        String id = new ItemCreator(itemStack).getStrNBT("TCID");
+        TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(id)).findFirst().orElse(null);
         return itcItem == null ? null : itcItem.get();
     }
 
@@ -141,7 +145,7 @@ public enum TCItems {
      */
     @Nullable
     public static ITCItem commandToTCItem(String command) {
-        TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().getInternalName().equals(command)).findFirst().orElse(null);
+        TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(command)).findFirst().orElse(null);
         return itcItem == null ? null : itcItem.get();
     }
 
