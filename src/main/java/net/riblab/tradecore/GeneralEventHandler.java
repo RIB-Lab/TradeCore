@@ -23,6 +23,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -294,5 +295,10 @@ public class GeneralEventHandler implements Listener {
                 TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
             }
         }.runTaskLater(TradeCore.getInstance(), 0);
+    }
+
+    @org.bukkit.event.EventHandler
+    public void onWorldInit(WorldInitEvent event){
+        TradeCore.getInstance().getDungeonService().onDungeonInit(event);
     }
 }

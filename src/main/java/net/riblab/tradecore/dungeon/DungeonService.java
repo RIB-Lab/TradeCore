@@ -1,34 +1,47 @@
 package net.riblab.tradecore.dungeon;
 
+import io.papermc.lib.PaperLib;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.util.Vector;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DungeonService {
     
+    private static final String tmpDirName = "dungeontemplate";
     private static final List<World> dungeons = new ArrayList<>();
     private static final Map<Player, Location> locationsOnEnter = new HashMap<>();
     
     private static final Vector spawnLoc = new Vector(0,100,0);
     
-    public World create(String name){
+    public void create(String name){
         String dungeonName = getPrefixedDungeonName(name);
+        
+        Bukkit.getLogger().info("ワールドを生成中");
+        
+        File destDir = new File(dungeonName);
+        try {
+            Utils.copyFolder(tmpDirName, destDir);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File file = new File( dungeonName + "/uid.dat");
+        file.delete();
         WorldCreator wc = new WorldCreator(dungeonName, new NamespacedKey(TradeCore.getInstance(), name));
         wc.generator(new EmptyChunkGenerator());
-        World world = wc.createWorld();
+        World world = Bukkit.getServer().createWorld(wc);
+        Bukkit.getLogger().info("ワールドを生成完了");
+        
         world.setAutoSave(false);
-        world.setKeepSpawnInMemory(false);
         world.setGameRule(GameRule.KEEP_INVENTORY, true);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
@@ -36,7 +49,6 @@ public class DungeonService {
         world.setTime(6000);
         world.setSpawnLocation(new Location(world, spawnLoc.getX(),  spawnLoc.getY(), spawnLoc.getZ()));
         dungeons.add(world);
-        return world;
     }
     
     public boolean isDungeonExist(String name){
@@ -61,7 +73,8 @@ public class DungeonService {
         
         Location locationOnEnter = player.getLocation().clone();
         locationsOnEnter.put(player, locationOnEnter);
-        player.teleport(new Location(world, spawnLoc.getX(),  spawnLoc.getY(), spawnLoc.getZ()));
+
+        PaperLib.teleportAsync(player, new Location(world, spawnLoc.getX(),  spawnLoc.getY(), spawnLoc.getZ()));
     }
     
     public void tryLeave(Player player){
@@ -134,5 +147,9 @@ public class DungeonService {
     public void killEmptyDungeons(){
         List<World> nobodyDungeons = dungeons.stream().filter(world -> world.getPlayers().size() == 0).collect(Collectors.toList());
         nobodyDungeons.forEach(this::destroySpecific);
+    }
+    
+    public void onDungeonInit(WorldInitEvent event){
+        event.getWorld().setKeepSpawnInMemory(false);
     }
 }

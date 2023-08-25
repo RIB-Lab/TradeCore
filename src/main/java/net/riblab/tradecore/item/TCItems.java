@@ -86,11 +86,11 @@ public enum TCItems {
     EMERALD_CHESTPLATE(new TCEquipment(Component.text("エメラルドのチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "emerald_chestplate", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
     EMERALD_LEGGINGS(new TCEquipment(Component.text("エメラルドのレギンス"), Material.CHAINMAIL_LEGGINGS, "emerald_leggings", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
     EMERALD_BOOTS(new TCEquipment(Component.text("エメラルドのブーツ"), Material.CHAINMAIL_BOOTS, "emerald_boots", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
-    WORKER_HELMET(new TCEquipment(Component.text("作業ヘルメット"), Material.CHAINMAIL_HELMET, "worker_helmet", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "template")),
-    WORKER_CHESTPLATE(new TCEquipment(Component.text("作業チェストプレート"), Material.CHAINMAIL_CHESTPLATE, "worker_chestplate", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "template")),
-    WORKER_LEGGINGS(new TCEquipment(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "template")),
-    WORKER_BOOTS(new TCEquipment(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "template")),
-    WATER_HELMET(new TCEquipment(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", List.of(new ModWaterBreath(1)), 64, "template")),
+    WORKER_HELMET(new TCEquipment(Component.text("作業ヘルメット"), Material.CHAINMAIL_HELMET, "worker_helmet", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "dungeontemplate")),
+    WORKER_CHESTPLATE(new TCEquipment(Component.text("作業チェストプレート"), Material.CHAINMAIL_CHESTPLATE, "worker_chestplate", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "dungeontemplate")),
+    WORKER_LEGGINGS(new TCEquipment(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "dungeontemplate")),
+    WORKER_BOOTS(new TCEquipment(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "dungeontemplate")),
+    WATER_HELMET(new TCEquipment(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", List.of(new ModWaterBreath(1)), 64, "dungeontemplate")),
     
     //その他
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),

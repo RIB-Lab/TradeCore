@@ -6,5 +6,6 @@ depend:
   - Vault
   - ProtocolLib
   - UltimateAdvancementAPI
+  - FastAsyncWorldEdit
 softdepend:
   - WorldGuard
