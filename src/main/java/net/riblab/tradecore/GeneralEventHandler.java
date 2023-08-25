@@ -132,6 +132,9 @@ public class GeneralEventHandler implements Listener {
      * @param event
      */
     public void swingWeapon(PlayerInteractEvent event){
+        if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)
+            return;
+        
         if(event.getItem() == null)
             return;
         
