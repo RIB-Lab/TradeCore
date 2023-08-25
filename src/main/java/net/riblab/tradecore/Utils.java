@@ -15,11 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-import org.codehaus.plexus.util.FileUtils;
 
 import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Random;
@@ -142,5 +139,42 @@ public class Utils {
             }
         }
         jar.close();
+    }
+
+    public static boolean copyFile(String srcFileName, File destDir) throws IOException {
+        final File jarFile = new File("plugins/TradeCore.jar");
+        JarFile jar = null;
+        boolean copied = false;
+        try {
+            jar = new JarFile(jarFile);
+        } catch (FileNotFoundException e){
+            Bukkit.getLogger().severe("プラグインの名前を変えないで下さい！リソースが展開できません！");
+            e.printStackTrace();
+        }
+        for (Enumeration<JarEntry> entries = jar.entries(); entries.hasMoreElements();) {
+            JarEntry entry = entries.nextElement();
+            if (entry.getName().equals(srcFileName) && !entry.isDirectory()) {
+                File parent = destDir.getParentFile();
+                if (parent != null) {
+                    parent.mkdirs();
+                }
+                FileOutputStream out = new FileOutputStream(destDir);
+                InputStream in = jar.getInputStream(entry);
+                try {
+                    byte[] buffer = new byte[8 * 1024];
+                    int s = 0;
+                    while ((s = in.read(buffer)) > 0) {
+                        out.write(buffer, 0, s);
+                    }
+                } finally {
+                    in.close();
+                    out.close();
+                }
+                copied = true;
+                break;
+            }
+        }
+        jar.close();
+        return copied;
     }
 }

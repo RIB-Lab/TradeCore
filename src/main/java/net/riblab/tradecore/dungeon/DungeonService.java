@@ -1,5 +1,16 @@
 package net.riblab.tradecore.dungeon;
 
+import com.sk89q.worldedit.EditSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.extent.clipboard.Clipboard;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormats;
+import com.sk89q.worldedit.extent.clipboard.io.ClipboardReader;
+import com.sk89q.worldedit.function.operation.Operation;
+import com.sk89q.worldedit.function.operation.Operations;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.session.ClipboardHolder;
 import io.papermc.lib.PaperLib;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.Utils;
@@ -11,35 +22,71 @@ import org.bukkit.util.Vector;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class DungeonService {
     
     private static final String tmpDirName = "dungeontemplate";
+    private static final String dungeonPrefix = "dungeons_";
+    private static final String copySchemDir = "schematics";
+    private static final File pasteSchemDir = TradeCore.getInstance().getDataFolder();
     private static final List<World> dungeons = new ArrayList<>();
     private static final Map<Player, Location> locationsOnEnter = new HashMap<>();
     
-    private static final Vector spawnLoc = new Vector(0,100,0);
+    private static final Vector fallBackSpawnLoc = new Vector(0,100,0);
     
     public void create(String name){
         String dungeonName = getPrefixedDungeonName(name);
         
-        Bukkit.getLogger().info("ワールドを生成中");
-        
+        //ワールドをresourceからコピー
         File destDir = new File(dungeonName);
         try {
             Utils.copyFolder(tmpDirName, destDir);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File file = new File( dungeonName + "/uid.dat");
-        file.delete();
+        File uidFile = new File( dungeonName + "/uid.dat");
+        uidFile.delete();
         WorldCreator wc = new WorldCreator(dungeonName, new NamespacedKey(TradeCore.getInstance(), name));
         wc.generator(new EmptyChunkGenerator());
         World world = Bukkit.getServer().createWorld(wc);
-        Bukkit.getLogger().info("ワールドを生成完了");
+
+        //ダンジョン名に対応したschemをresourceからコピーする
+        File instantiatedSchemFile = new File(pasteSchemDir + "/" + dungeonName + ".schem");
+        boolean fileHasCopied = false;
+        try {
+            fileHasCopied = Utils.copyFile(copySchemDir + "/" + dungeonName + ".schem", instantiatedSchemFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        if(!fileHasCopied){
+            Bukkit.getLogger().severe("schemファイルが見つかりません：" + copySchemDir + "/" + dungeonName + ".schem");
+            dungeons.add(world);
+            return;
+        }
+        
+        //schemから地形生成
+        Clipboard clipboard = null;
+        ClipboardFormat format = ClipboardFormats.findByFile(instantiatedSchemFile);
+        try (ClipboardReader reader = format.getReader(new FileInputStream(instantiatedSchemFile))) {
+            clipboard = reader.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        com.sk89q.worldedit.world.World weWorld = BukkitAdapter.adapt(world);
+        try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
+            Operation operation = new ClipboardHolder(clipboard)
+                    .createPaste(editSession)
+                    .to(BlockVector3.at(fallBackSpawnLoc.getX(), fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()))
+                    .copyEntities(true)
+                    .build();
+            Operations.complete(operation);
+        }
         
         world.setAutoSave(false);
         world.setGameRule(GameRule.KEEP_INVENTORY, true);
@@ -47,7 +94,7 @@ public class DungeonService {
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
         world.setTime(6000);
-        world.setSpawnLocation(new Location(world, spawnLoc.getX(),  spawnLoc.getY(), spawnLoc.getZ()));
+        world.setSpawnLocation(new Location(world, fallBackSpawnLoc.getX(),  fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()));
         dungeons.add(world);
     }
     
@@ -74,7 +121,7 @@ public class DungeonService {
         Location locationOnEnter = player.getLocation().clone();
         locationsOnEnter.put(player, locationOnEnter);
 
-        PaperLib.teleportAsync(player, new Location(world, spawnLoc.getX(),  spawnLoc.getY(), spawnLoc.getZ()));
+        PaperLib.teleportAsync(player, new Location(world, fallBackSpawnLoc.getX(),  fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()));
     }
     
     public void tryLeave(Player player){
@@ -95,7 +142,7 @@ public class DungeonService {
     public void evacuate(Player player){
         if(!locationsOnEnter.containsKey(player)){
             player.sendMessage("ダンジョン進入時の座標が見つかりませんでした");
-            player.teleport(new Location(Bukkit.getWorld("world"), spawnLoc.getX(),  spawnLoc.getY(), spawnLoc.getZ()));
+            player.teleport(new Location(Bukkit.getWorld("world"), fallBackSpawnLoc.getX(),  fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()));
             return;
         }
 
@@ -137,11 +184,11 @@ public class DungeonService {
         if(!dungeons.contains(event.getPlayer().getWorld()))
             return;
         
-        event.setRespawnLocation(new Location(event.getPlayer().getLocation().getWorld(), spawnLoc.getX(),  spawnLoc.getY(), spawnLoc.getZ()));
+        event.setRespawnLocation(new Location(event.getPlayer().getLocation().getWorld(), fallBackSpawnLoc.getX(),  fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()));
     }
     
     private String getPrefixedDungeonName(String name){
-        return "dungeons_" + name;
+        return dungeonPrefix + name;
     }
     
     public void killEmptyDungeons(){
