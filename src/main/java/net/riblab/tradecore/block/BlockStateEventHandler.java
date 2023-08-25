@@ -117,7 +117,7 @@ public class BlockStateEventHandler implements Listener {
      * @param event
      */
     public void tryHarvestBlockWithCustomTool(BlockBreakEvent event) {
-        if (unbreakableMaterial.contains(event.getBlock().getType())) {
+        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && unbreakableMaterial.contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
         }
