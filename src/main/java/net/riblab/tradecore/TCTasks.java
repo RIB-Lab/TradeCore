@@ -68,5 +68,13 @@ public class TCTasks {
                 });
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 1200);
+
+        //誰もいないダンジョン削除
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                TradeCore.getInstance().getDungeonService().killEmptyDungeons();
+            }
+        }.runTaskTimer(TradeCore.getInstance(), 0, 6000);
     }
 }

@@ -3,6 +3,7 @@ package net.riblab.tradecore;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import com.fren_gor.ultimateAdvancementAPI.events.PlayerLoadingCompletedEvent;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.attribute.IHasDurability;
 import net.riblab.tradecore.item.attribute.ITCItem;
@@ -55,8 +56,11 @@ public class GeneralEventHandler implements Listener {
     @org.bukkit.event.EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Utils.removeSlowDig(event.getPlayer());
+        
         TradeCore.getInstance().getItemModService().remove(event.getPlayer());
         TradeCore.getInstance().getPlayerStatsHandler().remove(event.getPlayer());
+        
+        TradeCore.getInstance().getDungeonService().tryLeave(event.getPlayer());
     }
 
     @org.bukkit.event.EventHandler
@@ -172,6 +176,8 @@ public class GeneralEventHandler implements Listener {
                 Utils.addSlowDig(event.getPlayer());
             }
         }.runTaskLater(TradeCore.getInstance(), 1);
+
+        TradeCore.getInstance().getDungeonService().tryProcessDungeonSpawn(event);
     }
 
     /**

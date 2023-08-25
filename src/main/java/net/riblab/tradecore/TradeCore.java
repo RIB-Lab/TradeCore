@@ -12,6 +12,7 @@ import net.riblab.tradecore.block.BlockStateEventHandler;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
+import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.integration.EconomyImplementer;
 import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.item.*;
@@ -53,6 +54,8 @@ public final class TradeCore extends JavaPlugin {
     private UltimateAdvancementAPI advancementAPI;
     @Getter
     private AdvancementService advancementService;
+    @Getter
+    private DungeonService dungeonService;
     private TCTasks tcTasks;
 
     public TradeCore() {
@@ -95,6 +98,7 @@ public final class TradeCore extends JavaPlugin {
         itemModService = new ItemModService();
         playerStatsHandler = new PlayerStatsHandler();
         new VanillaCraftHandler();
+        dungeonService = new DungeonService();
 
         economy = new EconomyImplementer();
         vaultHook = new VaultHook();
@@ -151,5 +155,7 @@ public final class TradeCore extends JavaPlugin {
         CustomMobService.deSpawnAll();
 
         Bukkit.getOnlinePlayers().forEach(player -> Utils.removeSlowDig(player));
+        
+        dungeonService.destroyAll();
     }
 }

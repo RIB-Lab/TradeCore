@@ -23,13 +23,13 @@ import java.util.Map;
  */
 public enum TCItems {
     //原始時代
-    PEBBLE(new Pebble(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0, 1.1, -1, List.of(), 0.02d)),
+    PEBBLE(new Pebble(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0, 1.1, -1, List.of(), 0.01d)),
     HATCHET(new TCTool(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, TCTool.ToolType.AXE, 1, 1.2, 10, List.of())),
     STICK(new TCSellableItem(Component.text("木の棒"), Material.STICK, "stick", 0, 0.02d)),
     BARK(new TCSellableItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1, 0.02d)),
     TWIG(new TCSellableItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3, 0.02d)),
     ROUND_TRUNK(new TCSellableItem(Component.text("丸太"), Material.OAK_LOG, "round_trunk", 2, 0.04d)),
-    DRYGRASS(new TCSellableItem(Component.text("干し草"), Material.PAPER, "drygrass", 2, 0.02d)),
+    DRYGRASS(new TCSellableItem(Component.text("干し草"), Material.PAPER, "drygrass", 2, 0.01d)),
 
     //原木時代
     WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, 1.2, 32, List.of(new ModEcology(1)))),

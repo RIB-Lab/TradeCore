@@ -7,7 +7,9 @@ import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
+import dev.jorel.commandapi.arguments.StringArgument;
 import net.milkbowl.vault.economy.Economy;
+import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.job.*;
@@ -145,6 +147,34 @@ public class TCCommands {
         jobCommand.withSubcommand(jobResetCommand);
         jobCommand.withSubcommand(skillResetCommand);
         jobCommand.register();
+
+        CommandAPICommand enterDungeonCommand = new CommandAPICommand("enterdungeon")
+                .withPermission(CommandPermission.OP)
+                .withArguments(new StringArgument("name"))
+                .executesPlayer((player, args) -> {
+                    String name = (String) args.get(0);
+                    DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
+                    if(!dungeonService.isDungeonExist(name))
+                        dungeonService.create(name);
+                    dungeonService.enter(player, name);
+                });
+        enterDungeonCommand.register();
+
+        CommandAPICommand leaveDungeonCommand = new CommandAPICommand("leavedungeon")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
+                    dungeonService.tryLeave(player);
+                });
+        leaveDungeonCommand.register();
+
+        CommandAPICommand dungeonEvacuationCommand = new CommandAPICommand("evacuatedungeon")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
+                    dungeonService.evacuate(player);
+                });
+        dungeonEvacuationCommand.register();
     }
     
     public static void onEnable(){
