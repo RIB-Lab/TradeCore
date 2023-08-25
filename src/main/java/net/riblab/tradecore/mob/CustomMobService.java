@@ -41,7 +41,7 @@ public class CustomMobService {
         
         event.getDrops().clear();//バニラのモブドロップをブロック
 
-        if (!(event.getEntity() instanceof Mob) || !spawnedMobs.contains((Mob) event.getEntity()) || event.getEntity().getKiller() == null)
+        if (!(event.getEntity() instanceof Mob) || !spawnedMobs.contains((Mob) event.getEntity()))
             return;
 
         spawnedMobs.remove((Mob) event.getEntity());

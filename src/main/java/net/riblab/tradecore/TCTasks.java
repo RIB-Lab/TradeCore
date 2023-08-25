@@ -76,5 +76,13 @@ public class TCTasks {
                 TradeCore.getInstance().getDungeonService().killEmptyDungeons();
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 6000);
+
+        //ダンジョンのオブジェクト処理を行う
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                TradeCore.getInstance().getDungeonEventHandler().onDungeonTick();
+            }
+        }.runTaskTimer(TradeCore.getInstance(), 0, 20);
     }
 }

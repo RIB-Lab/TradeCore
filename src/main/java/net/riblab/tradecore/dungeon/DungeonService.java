@@ -14,12 +14,15 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import io.papermc.lib.PaperLib;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.Utils;
+import net.riblab.tradecore.mob.CustomMobService;
+import net.riblab.tradecore.mob.TCMob;
+import net.riblab.tradecore.mob.TCMobs;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.util.Vector;
-import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -113,6 +116,7 @@ public class DungeonService {
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
+        world.setGameRule(GameRule.MOB_GRIEFING, false);
         world.setTime(6000);
         Vector loc = data.getSpawnPoint();
         world.setSpawnLocation(new Location(world, loc.getX(),  loc.getY(), loc.getZ()));
@@ -224,6 +228,10 @@ public class DungeonService {
     
     private String getPrefixedDungeonName(String name){
         return dungeonPrefix + "_" + name;
+    }
+    
+    public String getUnfixedDungeonName(String affixedDungeonName){
+        return affixedDungeonName.split("_")[1];
     }
     
     private String getFirstAvailableAffixedDungeonName(String name){

@@ -9,6 +9,7 @@ import net.riblab.tradecore.mob.TCMob;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -19,10 +20,7 @@ import org.bukkit.util.Vector;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
@@ -190,5 +188,46 @@ public class Utils {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static List<Block> getBlocksInRadius(Player player, int radius, Material material) {
+        Location playerLocation = player.getLocation();
+        World world = player.getWorld();
+        int xCenter = playerLocation.getBlockX();
+        int yCenter = playerLocation.getBlockY();
+        int zCenter = playerLocation.getBlockZ();
+
+        int startX = xCenter - radius;
+        int startY = yCenter - radius;
+        int startZ = zCenter - radius;
+
+        int endX = xCenter + radius;
+        int endY = yCenter + radius;
+        int endZ = zCenter + radius;
+
+        List<Block> blocks = new ArrayList<>();
+
+        for (int x = startX; x <= endX; x++) {
+            for (int y = startY; y <= endY; y++) {
+                for (int z = startZ; z <= endZ; z++) {
+                    Block block = world.getBlockAt(x, y, z);
+                    if(block.getType() == material)
+                        blocks.add(block);
+                }
+            }
+        }
+
+        return blocks;
+    }
+
+    public static Location randomizeLocation(Location location, int range) {
+        Random random = new Random();
+        double randomOffsetX = (random.nextDouble() * range * 2) - range;
+        double randomOffsetZ = (random.nextDouble() * range * 2) - range; 
+
+        double newX = location.getX() + randomOffsetX;
+        double newZ = location.getZ() + randomOffsetZ;
+
+        return new Location(location.getWorld(), newX, location.getY(), newZ);
     }
 }

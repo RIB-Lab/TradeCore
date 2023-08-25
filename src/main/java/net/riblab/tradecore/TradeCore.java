@@ -12,6 +12,7 @@ import net.riblab.tradecore.block.BlockStateEventHandler;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
+import net.riblab.tradecore.dungeon.DungeonEventHandler;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.integration.EconomyImplementer;
 import net.riblab.tradecore.integration.VaultHook;
@@ -56,6 +57,8 @@ public final class TradeCore extends JavaPlugin {
     private AdvancementService advancementService;
     @Getter
     private DungeonService dungeonService;
+    @Getter
+    private DungeonEventHandler dungeonEventHandler;
     private TCTasks tcTasks;
 
     public TradeCore() {
@@ -99,6 +102,7 @@ public final class TradeCore extends JavaPlugin {
         playerStatsHandler = new PlayerStatsHandler();
         new VanillaCraftHandler();
         dungeonService = new DungeonService();
+        dungeonEventHandler = new DungeonEventHandler();
 
         economy = new EconomyImplementer();
         vaultHook = new VaultHook();
