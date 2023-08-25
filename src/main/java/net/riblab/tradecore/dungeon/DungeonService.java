@@ -36,18 +36,19 @@ public class DungeonService {
     private static final List<World> dungeons = new ArrayList<>();
     private static final Map<Player, Location> locationsOnEnter = new HashMap<>();
     
-    private static final Vector fallBackSpawnLoc = new Vector(0,100,0);
+    private static final Vector dungeonGenerateLoc = new Vector(0,100,0);
     
-    public void create(String name){
-        create(name, -1);
+    public void create(DungeonData data){
+        create(data, -1);
     }
-
+    
     /**
      * ダンジョンを作る
-     * @param name 名前
+     * @param data 名前
      * @param instanceID インスタンスのID。0未満なら0以上の最初に空いているインスタンス
      */
-    public World create(String name, int instanceID){
+    public World create(DungeonData data, int instanceID){
+        String name = data.getName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
         if(instanceID >= 0){
@@ -101,7 +102,7 @@ public class DungeonService {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
-                    .to(BlockVector3.at(fallBackSpawnLoc.getX(), fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()))
+                    .to(BlockVector3.at(dungeonGenerateLoc.getX(), dungeonGenerateLoc.getY(), dungeonGenerateLoc.getZ()))
                     .copyEntities(true)
                     .build();
             Operations.complete(operation);
@@ -113,37 +114,49 @@ public class DungeonService {
         world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
         world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
         world.setTime(6000);
-        world.setSpawnLocation(new Location(world, fallBackSpawnLoc.getX(),  fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()));
+        Vector loc = data.getSpawnPoint();
+        world.setSpawnLocation(new Location(world, loc.getX(),  loc.getY(), loc.getZ()));
         dungeons.add(world);
         
         return world;
     }
+
+    public boolean isDungeonExist(DungeonData data, int id){
+        return isDungeonExist(data.getName(), id);
+    }
     
-    public boolean isDungeonExist(String name, int id){
+    private boolean isDungeonExist(String name, int id){
         String dungeonName = getAffixedDungeonName(name, id);
         return dungeons.stream().filter(world -> world.getName().equals(dungeonName)).findFirst().orElse(null) != null;
     }
     
-    public void enter(Player player, String name, int id){
-        String dungeonName = getAffixedDungeonName(name, id);
-        enter(player, Bukkit.getWorld(dungeonName));
+    private World getDungeonWorld(String name, int id){
+        return getDungeonWorld(getAffixedDungeonName(name, id));
+    }
+    
+    private World getDungeonWorld(String affixedDungeonName){
+        return dungeons.stream().filter(world -> world.getName().equals(affixedDungeonName)).findFirst().orElse(null);
+    }
+    
+    public void enter(Player player, DungeonData data, int id){
+        enter(player, getDungeonWorld(data.getName(), id));
     }
     
     public void enter(Player player, World world){
-        if(isPlayerInDungeon(player)){
-            PaperLib.teleportAsync(player, new Location(world, fallBackSpawnLoc.getX(),  fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()));
+        if(world == null){
+            player.sendMessage("その名前またはインスタンスIDのダンジョンは存在しません");
             return;
         }
         
-        if(!dungeons.contains(world)){
-            player.sendMessage("その名前またはインスタンスIDのダンジョンは存在しません");
+        if(isPlayerInDungeon(player)){
+            PaperLib.teleportAsync(player, world.getSpawnLocation());
             return;
         }
         
         Location locationOnEnter = player.getLocation().clone();
         locationsOnEnter.put(player, locationOnEnter);
 
-        PaperLib.teleportAsync(player, new Location(world, fallBackSpawnLoc.getX(),  fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()));
+        PaperLib.teleportAsync(player, world.getSpawnLocation());
     }
     
     public void tryLeave(Player player){
@@ -164,7 +177,7 @@ public class DungeonService {
     public void evacuate(Player player){
         if(!locationsOnEnter.containsKey(player)){
             player.sendMessage("復帰できる座標が見つかりませんでした");
-            player.teleport(new Location(Bukkit.getWorld("world"), fallBackSpawnLoc.getX(),  fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()));
+            player.teleport(new Location(Bukkit.getWorlds().get(0), 0,  0, 0));
             return;
         }
 
@@ -177,7 +190,7 @@ public class DungeonService {
     }
     
     public void destroyAll(){
-        dungeons.forEach(this::killInsance);
+        dungeons.forEach(this::killInstance);
         dungeons.clear();
     }
     
@@ -186,27 +199,23 @@ public class DungeonService {
             return;
         }
         
-        killInsance(world);
+        killInstance(world);
         
         dungeons.remove(world);
     }
     
-    public void killInsance(World world){
-        world.getPlayers().forEach(this::tryLeave);
+    private void killInstance(World world){
+        world.getPlayers().forEach(this::evacuate);
         File folder = world.getWorldFolder();
         Bukkit.unloadWorld(world, false);
-        try {
-            FileUtils.deleteDirectory(folder);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        Utils.deleteFolder(folder);
     }
     
     public void tryProcessDungeonSpawn(PlayerRespawnEvent event){
         if(!dungeons.contains(event.getPlayer().getWorld()))
             return;
         
-        event.setRespawnLocation(new Location(event.getPlayer().getLocation().getWorld(), fallBackSpawnLoc.getX(),  fallBackSpawnLoc.getY(), fallBackSpawnLoc.getZ()));
+        event.setRespawnLocation(event.getPlayer().getWorld().getSpawnLocation());
     }
     
     private String getAffixedDungeonName(String name, int id){

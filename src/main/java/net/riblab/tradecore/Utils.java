@@ -17,11 +17,15 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Random;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
+import java.util.stream.Stream;
 
 /**
  * 汎用関数を詰めたユーティリティクラス
@@ -176,5 +180,15 @@ public class Utils {
         }
         jar.close();
         return copied;
+    }
+    
+    public static boolean deleteFolder(File file) {
+        try (Stream<Path> files = Files.walk(file.toPath())) {
+            files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

@@ -9,6 +9,8 @@ import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import net.milkbowl.vault.economy.Economy;
+import net.riblab.tradecore.dungeon.DungeonData;
+import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
@@ -155,18 +157,18 @@ public class TCCommands {
                 });
         CommandAPICommand enterDungeonCommand = new CommandAPICommand("enter")
                 .withPermission(CommandPermission.OP)
-                .withArguments(new StringArgument("name"))
+                .withArguments(DungeonDatas.customDungeonDataArgument("ダンジョン名"))
                 .withArguments(new IntegerArgument("インスタンスID。-1で新規作成"))
                 .executesPlayer((player, args) -> {
-                    String name = (String) args.get(0);
+                    DungeonData data = (DungeonData) args.get(0);
                     int id = (int) args.get(1);
                     DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
-                    if(!dungeonService.isDungeonExist(name, id)){
-                        World newDungeon = dungeonService.create(name, id);
+                    if(!dungeonService.isDungeonExist(data, id)){
+                        World newDungeon = dungeonService.create(data, id);
                         dungeonService.enter(player, newDungeon);
                     }
                     else {
-                        dungeonService.enter(player, name, id);
+                        dungeonService.enter(player, data, id);
                     }
                 });
         CommandAPICommand leaveDungeonCommand = new CommandAPICommand("leave")
