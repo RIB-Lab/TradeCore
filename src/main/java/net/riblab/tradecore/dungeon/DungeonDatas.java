@@ -14,6 +14,10 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * ダンジョンのデータ管理クラス
+ * 必ず dungeons_ + ダンジョン名 のschematicをresourceフォルダに同梱すること！
+ */
 public enum DungeonDatas {
     TEST(new DungeonData("test", new Vector(-17, 97, -24), List.of(TCMobs.BASIC_TREANT.get(), TCMobs.BASIC_SILVERFISH.get()), 3));
     

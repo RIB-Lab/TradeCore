@@ -55,7 +55,7 @@ public class UIAdminShop {
             if(Materials.unbreakableMaterial.contains(value))
                 continue;
 
-            if(Materials.coreBlock.contains(value))
+            if(Materials.bannedFromShop.contains(value))
                 continue;
 
             GuiItem blockButton = new GuiItem(new ItemCreator(value).setLore(Component.text("1RIB").decoration(TextDecoration.ITALIC, false)).create(),

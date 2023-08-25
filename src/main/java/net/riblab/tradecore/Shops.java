@@ -31,7 +31,7 @@ public enum Shops {
             new ShopData.ShopItem(TCItems.WATER_HELMET.get().getItemStack(), 30)
             ))),
     
-    TOOL(new ShopData("ツール屋(仮置き)", List.of(new ShopData.ShopItem(TCItems.WOODEN_PICKAXE.get().getItemStack(), 100))));
+    TOOL(new ShopData("ツール屋", List.of(new ShopData.ShopItem(TCItems.DESTRUCTORS_WAND.get().getItemStack(), 1))));
     
     @Getter
     private final ShopData shop;
