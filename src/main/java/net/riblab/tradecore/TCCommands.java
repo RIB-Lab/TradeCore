@@ -22,6 +22,7 @@ import net.riblab.tradecore.ui.UIJobs;
 import net.riblab.tradecore.ui.UIShop;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -148,33 +149,50 @@ public class TCCommands {
         jobCommand.withSubcommand(skillResetCommand);
         jobCommand.register();
 
-        CommandAPICommand enterDungeonCommand = new CommandAPICommand("enterdungeon")
+        CommandAPICommand dungeonCommand = new CommandAPICommand("tcdungeon")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                });
+        CommandAPICommand enterDungeonCommand = new CommandAPICommand("enter")
                 .withPermission(CommandPermission.OP)
                 .withArguments(new StringArgument("name"))
+                .withArguments(new IntegerArgument("インスタンスID。-1で新規作成"))
                 .executesPlayer((player, args) -> {
                     String name = (String) args.get(0);
+                    int id = (int) args.get(1);
                     DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
-                    if(!dungeonService.isDungeonExist(name))
-                        dungeonService.create(name);
-                    dungeonService.enter(player, name);
+                    if(!dungeonService.isDungeonExist(name, id)){
+                        World newDungeon = dungeonService.create(name, id);
+                        dungeonService.enter(player, newDungeon);
+                    }
+                    else {
+                        dungeonService.enter(player, name, id);
+                    }
                 });
-        enterDungeonCommand.register();
-
-        CommandAPICommand leaveDungeonCommand = new CommandAPICommand("leavedungeon")
+        CommandAPICommand leaveDungeonCommand = new CommandAPICommand("leave")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
                     dungeonService.tryLeave(player);
                 });
-        leaveDungeonCommand.register();
-
-        CommandAPICommand dungeonEvacuationCommand = new CommandAPICommand("evacuatedungeon")
+        CommandAPICommand evacuateDungeonCommand = new CommandAPICommand("evacuate")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
                     dungeonService.evacuate(player);
                 });
-        dungeonEvacuationCommand.register();
+        CommandAPICommand dungeonListCommand = new CommandAPICommand("list")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    player.sendMessage("～ダンジョンリスト～");
+                    DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
+                    dungeonService.getDungeonListInfo().forEach(s -> player.sendMessage(s));
+                });
+        dungeonCommand.withSubcommand(enterDungeonCommand);
+        dungeonCommand.withSubcommand(leaveDungeonCommand);
+        dungeonCommand.withSubcommand(evacuateDungeonCommand);
+        dungeonCommand.withSubcommand(dungeonListCommand);
+        dungeonCommand.register();
     }
     
     public static void onEnable(){
