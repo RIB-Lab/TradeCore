@@ -8,14 +8,13 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import lombok.Getter;
-import net.riblab.tradecore.block.BlockStateEventHandler;
 import net.riblab.tradecore.block.BrokenBlocksService;
 import net.riblab.tradecore.block.IBrokenBlocksService;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
-import net.riblab.tradecore.dungeon.DungeonEventHandler;
 import net.riblab.tradecore.dungeon.DungeonService;
+import net.riblab.tradecore.dungeon.IDungeonService;
 import net.riblab.tradecore.integration.EconomyImplementer;
 import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.item.*;
@@ -58,7 +57,7 @@ public final class TradeCore extends JavaPlugin {
     @Getter
     private AdvancementService advancementService;
     @Getter
-    private DungeonService dungeonService;
+    private IDungeonService IDungeonService;
     @Getter
     private IBrokenBlocksService brokenBlocksService;
     private TCTasks tcTasks;
@@ -108,7 +107,7 @@ public final class TradeCore extends JavaPlugin {
         itemModService = new ItemModService();
         playerStatsHandler = new PlayerStatsHandler();
         new VanillaCraftHandler();
-        dungeonService = new DungeonService();
+        IDungeonService = new DungeonService();
         brokenBlocksService = new BrokenBlocksService();
 
         economy = new EconomyImplementer();
@@ -167,6 +166,6 @@ public final class TradeCore extends JavaPlugin {
 
         Bukkit.getOnlinePlayers().forEach(player -> Utils.removeSlowDig(player));
         
-        dungeonService.destroyAll();
+        IDungeonService.destroyAll();
     }
 }

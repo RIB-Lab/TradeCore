@@ -18,7 +18,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
-import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -49,7 +48,7 @@ public class GeneralEventHandler {
         TradeCore.getInstance().getItemModService().remove(event.getPlayer());
         TradeCore.getInstance().getPlayerStatsHandler().remove(event.getPlayer());
         
-        TradeCore.getInstance().getDungeonService().tryLeave(event.getPlayer());
+        TradeCore.getInstance().getIDungeonService().tryLeave(event.getPlayer());
     }
     
     public void processPlayerInteract(PlayerInteractEvent event) {

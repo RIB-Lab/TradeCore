@@ -8,9 +8,9 @@ import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import net.milkbowl.vault.economy.Economy;
-import net.riblab.tradecore.dungeon.DungeonData;
+import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.dungeon.DungeonDatas;
-import net.riblab.tradecore.dungeon.DungeonService;
+import net.riblab.tradecore.dungeon.IDungeonService;
 import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.job.*;
@@ -179,35 +179,35 @@ public class TCCommands {
                 .withArguments(DungeonDatas.customDungeonDataArgument("ダンジョン名"))
                 .withArguments(new IntegerArgument("インスタンスID。-1で新規作成"))
                 .executesPlayer((player, args) -> {
-                    DungeonData data = (DungeonData) args.get(0);
+                    IDungeonData data = (IDungeonData) args.get(0);
                     int id = (int) args.get(1);
-                    DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
-                    if(!dungeonService.isDungeonExist(data, id)){
-                        World newDungeon = dungeonService.create(data, id);
-                        dungeonService.enter(player, newDungeon);
+                    IDungeonService IDungeonService = TradeCore.getInstance().getIDungeonService();
+                    if(!IDungeonService.isDungeonExist(data, id)){
+                        World newDungeon = IDungeonService.create(data, id);
+                        IDungeonService.enter(player, newDungeon);
                     }
                     else {
-                        dungeonService.enter(player, data, id);
+                        IDungeonService.enter(player, data, id);
                     }
                 });
         CommandAPICommand leaveDungeonCommand = new CommandAPICommand("leave")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
-                    dungeonService.tryLeave(player);
+                    IDungeonService IDungeonService = TradeCore.getInstance().getIDungeonService();
+                    IDungeonService.tryLeave(player);
                 });
         CommandAPICommand evacuateDungeonCommand = new CommandAPICommand("evacuate")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
-                    dungeonService.evacuate(player);
+                    IDungeonService IDungeonService = TradeCore.getInstance().getIDungeonService();
+                    IDungeonService.evacuate(player);
                 });
         CommandAPICommand dungeonListCommand = new CommandAPICommand("list")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     player.sendMessage("～ダンジョンリスト～");
-                    DungeonService dungeonService = TradeCore.getInstance().getDungeonService();
-                    dungeonService.getDungeonListInfo().forEach(s -> player.sendMessage(s));
+                    IDungeonService IDungeonService = TradeCore.getInstance().getIDungeonService();
+                    IDungeonService.getDungeonListInfo().forEach(s -> player.sendMessage(s));
                 });
         dungeonCommand.withSubcommand(enterDungeonCommand);
         dungeonCommand.withSubcommand(leaveDungeonCommand);

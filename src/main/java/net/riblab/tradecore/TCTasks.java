@@ -1,6 +1,5 @@
 package net.riblab.tradecore;
 
-import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.integration.EconomyImplementer;
 import net.riblab.tradecore.item.attribute.IHasDurability;
 import net.riblab.tradecore.item.attribute.ITCItem;
@@ -55,7 +54,7 @@ public class TCTasks {
         new BukkitRunnable() {
             @Override
             public void run() {
-                TradeCore.getInstance().getDungeonService().killEmptyDungeons();
+                TradeCore.getInstance().getIDungeonService().killEmptyDungeons();
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 6000);
 

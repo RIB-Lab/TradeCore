@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 @Data
-public class DungeonData{
+public class DungeonData implements IDungeonData {
     private final String name;
     private final Vector spawnPoint;
     private final List<TCMob> spawnTable;

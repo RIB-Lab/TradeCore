@@ -84,7 +84,7 @@ public class UICraftingTable {
     /**
      * クラフト確認画面を開く
      */
-    public static PaginatedGui open(Player player, TCCraftingRecipe recipe) {
+    public static PaginatedGui open(Player player, ITCCraftingRecipe recipe) {
         PaginatedGui gui = Gui.paginated()
                 .title(CraftingScreenType.CRAFTING.getTitle())
                 .rows(3)
@@ -167,7 +167,7 @@ public class UICraftingTable {
     /**
      * クラフト確認画面を実装
      */
-    private static void addCraftingScreen(PaginatedGui gui, Player player, TCCraftingRecipe recipe) {
+    private static void addCraftingScreen(PaginatedGui gui, Player player, ITCCraftingRecipe recipe) {
         int slot = 0;
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             ItemStack ingredientStack = entry.getKey().getItemStack();
@@ -213,7 +213,7 @@ public class UICraftingTable {
     /**
      * クラフトの決済処理を行う
      */
-    private static void tryCraft(PaginatedGui gui, Player player, TCCraftingRecipe recipe, ItemStack resultStack) {
+    private static void tryCraft(PaginatedGui gui, Player player, ITCCraftingRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();

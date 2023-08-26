@@ -14,14 +14,8 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import io.papermc.lib.PaperLib;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.Utils;
-import net.riblab.tradecore.mob.CustomMobService;
-import net.riblab.tradecore.mob.TCMob;
-import net.riblab.tradecore.mob.TCMobs;
 import org.bukkit.*;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -30,27 +24,17 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class DungeonService {
-    
-    private static final String tmpDirName = "dungeontemplate";
-    private static final String dungeonPrefix = "dungeons";
-    private static final String copySchemDir = "schematics";
-    private static final File pasteSchemDir = TradeCore.getInstance().getDataFolder();
+public class DungeonService implements IDungeonService {
     private static final List<World> dungeons = new ArrayList<>();
     private static final Map<Player, Location> locationsOnEnter = new HashMap<>();
     
-    private static final Vector dungeonGenerateLoc = new Vector(0,100,0);
-    
-    public void create(DungeonData data){
+    @Override
+    public void create(IDungeonData data){
         create(data, -1);
     }
     
-    /**
-     * ダンジョンを作る
-     * @param data 名前
-     * @param instanceID インスタンスのID。0未満なら0以上の最初に空いているインスタンス
-     */
-    public World create(DungeonData data, int instanceID){
+    @Override
+    public World create(IDungeonData data, int instanceID){
         String name = data.getName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
@@ -125,7 +109,8 @@ public class DungeonService {
         return world;
     }
 
-    public boolean isDungeonExist(DungeonData data, int id){
+    @Override
+    public boolean isDungeonExist(IDungeonData data, int id){
         return isDungeonExist(data.getName(), id);
     }
     
@@ -142,10 +127,12 @@ public class DungeonService {
         return dungeons.stream().filter(world -> world.getName().equals(affixedDungeonName)).findFirst().orElse(null);
     }
     
-    public void enter(Player player, DungeonData data, int id){
+    @Override
+    public void enter(Player player, IDungeonData data, int id){
         enter(player, getDungeonWorld(data.getName(), id));
     }
     
+    @Override
     public void enter(Player player, World world){
         if(world == null){
             player.sendMessage("その名前またはインスタンスIDのダンジョンは存在しません");
@@ -163,6 +150,7 @@ public class DungeonService {
         PaperLib.teleportAsync(player, world.getSpawnLocation());
     }
     
+    @Override
     public void tryLeave(Player player){
         if(!isPlayerInDungeon(player)){
             return;
@@ -178,6 +166,7 @@ public class DungeonService {
         locationsOnEnter.remove(player);
     }
     
+    @Override
     public void evacuate(Player player){
         if(!locationsOnEnter.containsKey(player)){
             player.sendMessage("復帰できる座標が見つかりませんでした");
@@ -189,15 +178,18 @@ public class DungeonService {
         locationsOnEnter.remove(player);
     }
     
+    @Override
     public boolean isPlayerInDungeon(Player player){
         return dungeons.stream().filter(world -> player.getWorld().equals(world)).findAny().orElse(null) != null;
     }
     
+    @Override
     public void destroyAll(){
         dungeons.forEach(this::killInstance);
         dungeons.clear();
     }
     
+    @Override
     public void destroySpecific(World world){
         if(!dungeons.contains(world)){
             return;
@@ -223,6 +215,7 @@ public class DungeonService {
         return dungeonPrefix + "_" + name;
     }
     
+    @Override
     public String getUnfixedDungeonName(String affixedDungeonName){
         return affixedDungeonName.split("_")[1];
     }
@@ -238,6 +231,7 @@ public class DungeonService {
         throw new StackOverflowError("ダンジョンのインスタンス数が1000を超えました。嘘だろ");
     }
     
+    @Override
     public List<String> getDungeonListInfo(){
         List<String> info = new ArrayList<>();
         dungeons.forEach(world -> {
@@ -247,6 +241,7 @@ public class DungeonService {
         return info;
     }
     
+    @Override
     public void killEmptyDungeons(){
         List<World> nobodyDungeons = dungeons.stream().filter(world -> world.getPlayers().size() == 0).collect(Collectors.toList());
         nobodyDungeons.forEach(this::destroySpecific);

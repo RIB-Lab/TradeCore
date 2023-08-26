@@ -19,8 +19,8 @@ import java.util.Random;
  * ダンジョンで起こるイベントのハンドラ
  */
 public class DungeonEventHandler {
-    public static DungeonService getservice(){
-        return TradeCore.getInstance().getDungeonService();
+    public static IDungeonService getservice(){
+        return TradeCore.getInstance().getIDungeonService();
     }
 
     public void tryProcessDungeonSpawn(PlayerRespawnEvent event){
@@ -36,7 +36,7 @@ public class DungeonEventHandler {
                 return;
 
             String unfixedName = getservice().getUnfixedDungeonName(player.getWorld().getName());
-            DungeonData data = DungeonDatas.nameToDungeonData(unfixedName);
+            IDungeonData data = DungeonDatas.nameToDungeonData(unfixedName);
             trySpawnMob(player, data);
         });
     }
@@ -44,7 +44,7 @@ public class DungeonEventHandler {
     /**
      * ダンジョンにいるプレイヤー周辺のスポナーからダンジョンに応じたモブをスポーンさせる
      */
-    private void trySpawnMob(Player player, DungeonData data){
+    private void trySpawnMob(Player player, IDungeonData data){
         List<Block> activatedSpawner = Utils.getBlocksInRadius(player, 8, Material.REDSTONE_BLOCK);
         for (Block block : activatedSpawner) {
             for (int i = 0; i < data.getBasePackSize(); i++) {
