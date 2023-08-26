@@ -1,13 +1,19 @@
 package net.riblab.tradecore.craft;
 
-public interface ITCCraftingRecipe {
-    java.util.Map<net.riblab.tradecore.item.base.ITCItem, Integer> getIngredients();
+import net.riblab.tradecore.craft.TCCraftingRecipes.RecipeType;
+import net.riblab.tradecore.item.base.ITCItem;
+import org.bukkit.inventory.ItemStack;
 
-    org.bukkit.inventory.ItemStack getResult();
+import java.util.Map;
+
+public interface ITCCraftingRecipe {
+    Map<ITCItem, Integer> getIngredients();
+
+    ItemStack getResult();
 
     int getResultAmount();
 
     double getFee();
 
-    TCCraftingRecipes.RecipeType getCategory();
+    RecipeType getCategory();
 }

@@ -1,5 +1,8 @@
 package net.riblab.tradecore.config;
 
+import net.riblab.tradecore.config.ConfigServiceImpl.CurrencyData;
+import net.riblab.tradecore.config.ConfigServiceImpl.JobDatas;
+
 public interface ConfigService {
     /**
      * コンフィグを保存する
@@ -11,7 +14,7 @@ public interface ConfigService {
      */
     void load();
 
-    ConfigServiceImpl.CurrencyData getCurrencyData();
+    CurrencyData getCurrencyData();
 
-    ConfigServiceImpl.JobDatas getJobDatas();
+    JobDatas getJobDatas();
 }

@@ -8,8 +8,8 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.utils.Utils;
-import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.TradeCore;
@@ -29,7 +29,7 @@ import org.bukkit.util.Vector;
 
 import java.util.*;
 
-import static net.riblab.tradecore.utils.Materials.transparentBlocks;
+import static net.riblab.tradecore.general.utils.Materials.transparentBlocks;
 
 /**
  * 作業台UI

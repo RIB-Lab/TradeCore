@@ -1,7 +1,7 @@
 package net.riblab.tradecore.item.base;
 
 import lombok.Getter;
-import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.job.data.JobData;
 
 public interface ITCTool extends IHasDurability, IHasItemMod {
 

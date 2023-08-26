@@ -1,9 +1,7 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.data;
 
 import de.exlll.configlib.Configuration;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * プレイヤーが配列で持つジョブ一つ分のデータ

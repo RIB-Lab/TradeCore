@@ -1,6 +1,7 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.skill;
 
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.job.data.JobData;
 
 import java.util.List;
 

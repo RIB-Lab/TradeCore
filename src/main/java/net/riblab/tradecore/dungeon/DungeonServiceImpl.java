@@ -13,7 +13,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import io.papermc.lib.PaperLib;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.utils.Utils;
+import net.riblab.tradecore.general.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;

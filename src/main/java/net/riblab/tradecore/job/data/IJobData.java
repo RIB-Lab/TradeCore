@@ -1,4 +1,4 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.data;
 
 import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.arguments.ArgumentSuggestions;

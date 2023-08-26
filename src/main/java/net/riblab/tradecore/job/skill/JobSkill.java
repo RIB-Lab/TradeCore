@@ -1,8 +1,9 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.skill;
 
 import de.exlll.configlib.Configuration;
 import lombok.Getter;
 import lombok.Setter;
+import net.riblab.tradecore.job.data.JobData;
 
 @Configuration
 public class JobSkill implements IJobSkill {

@@ -4,14 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
+
 public interface IShopData {
     String getName();
 
-    java.util.List<ShopItem> getShopItemList();
+    List<ShopItem> getShopItemList();
 
     @Data
     @AllArgsConstructor
-    public static class ShopItem {
+    class ShopItem {
         ItemStack itemStack;
         double price;
     }

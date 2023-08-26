@@ -14,7 +14,8 @@ import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
-import net.riblab.tradecore.job.*;
+import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.mob.ITCMob;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.shop.ShopData;
@@ -30,7 +31,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import static net.riblab.tradecore.utils.Materials.transparentBlocks;
+import static net.riblab.tradecore.general.utils.Materials.transparentBlocks;
 
 /**
  * コマンド登録クラス

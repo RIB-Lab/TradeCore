@@ -1,9 +1,13 @@
 package net.riblab.tradecore.craft;
 
-public interface ITCFurnaceRecipe {
-    java.util.Map<net.riblab.tradecore.item.base.ITCItem, Integer> getIngredients();
+import org.bukkit.inventory.ItemStack;
 
-    org.bukkit.inventory.ItemStack getResult();
+import java.util.Map;
+
+public interface ITCFurnaceRecipe {
+    Map<net.riblab.tradecore.item.base.ITCItem, Integer> getIngredients();
+
+    ItemStack getResult();
 
     int getResultAmount();
 

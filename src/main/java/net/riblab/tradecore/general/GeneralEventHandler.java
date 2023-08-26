@@ -3,6 +3,7 @@ package net.riblab.tradecore.general;
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.base.IHasDurability;
@@ -15,7 +16,7 @@ import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
 import net.riblab.tradecore.ui.UICraftingTable;
 import net.riblab.tradecore.ui.UIFurnace;
-import net.riblab.tradecore.utils.Utils;
+import net.riblab.tradecore.general.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.*;
@@ -42,13 +43,13 @@ public class GeneralEventHandler {
         if (!TradeCore.getInstance().getEconomy().hasAccount(event.getPlayer()))
             TradeCore.getInstance().getEconomy().createPlayerAccount(event.getPlayer());
 
-        Utils.addSlowDig(event.getPlayer());
+        BlockUtils.addSlowDig(event.getPlayer());
         TradeCore.getInstance().getItemModService().updateEquipment(event.getPlayer());
         TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
     }
     
     public void processPlayerQuit(PlayerQuitEvent event) {
-        Utils.removeSlowDig(event.getPlayer());
+        BlockUtils.removeSlowDig(event.getPlayer());
         
         TradeCore.getInstance().getItemModService().remove(event.getPlayer());
         TradeCore.getInstance().getPlayerStatsService().remove(event.getPlayer());
@@ -158,7 +159,7 @@ public class GeneralEventHandler {
         new BukkitRunnable() { //他のプラグインのエフェクト除去効果を上書き
             @Override
             public void run() {
-                Utils.addSlowDig(event.getPlayer());
+                BlockUtils.addSlowDig(event.getPlayer());
             }
         }.runTaskLater(TradeCore.getInstance(), 1);
     }

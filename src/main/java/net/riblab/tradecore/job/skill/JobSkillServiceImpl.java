@@ -1,7 +1,8 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.skill;
 
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

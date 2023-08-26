@@ -5,10 +5,10 @@ import de.exlll.configlib.Configuration;
 import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.job.IJobData;
-import net.riblab.tradecore.job.IJobSkill;
-import net.riblab.tradecore.job.JobData;
-import net.riblab.tradecore.job.JobSkill;
+import net.riblab.tradecore.job.data.IJobData;
+import net.riblab.tradecore.job.skill.IJobSkill;
+import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.skill.JobSkill;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -20,7 +20,7 @@ import java.util.UUID;
 /**
  * コンフィグ管理システム
  */
-public class ConfigServiceImpl implements ConfigService {
+public final class ConfigServiceImpl implements ConfigService {
 
     /**
      * 保存するコンフィグの型

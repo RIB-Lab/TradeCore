@@ -2,14 +2,15 @@ package net.riblab.tradecore.block;
 
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.utils.Utils;
+import net.riblab.tradecore.mob.MobUtils;
+import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.base.ICanSpawnMobOnUse;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.item.base.TCTool;
-import net.riblab.tradecore.job.JobData;
+import net.riblab.tradecore.job.data.JobData;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -25,7 +26,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashSet;
 import java.util.Set;
 
-import static net.riblab.tradecore.utils.Materials.unbreakableMaterial;
+import static net.riblab.tradecore.general.utils.Materials.unbreakableMaterial;
 
 /**
  * ブロックの状態変更関連のイベントハンドラ
@@ -134,7 +135,7 @@ public class BlockStateEventHandler implements Listener {
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
                 if (itcItem instanceof ICanSpawnMobOnUse encountableTool) {
-                    Utils.trySpawnMob(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable());
+                    MobUtils.trySpawnMobInRandomArea(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable(), 5);
                 }
 
                 JobData.JobType jobType = tool.getToolType().getExpType();

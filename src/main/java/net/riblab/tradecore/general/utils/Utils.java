@@ -1,21 +1,21 @@
-package net.riblab.tradecore.utils;
+package net.riblab.tradecore.general.utils;
 
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.craft.TCCraftingRecipes;
+import net.riblab.tradecore.craft.TCFurnaceRecipes;
+import net.riblab.tradecore.item.LootTables;
+import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.ITCTool;
+import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.modifier.IModifier;
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
-import net.riblab.tradecore.mob.ITCMob;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -29,24 +29,6 @@ import java.util.stream.Stream;
  * 汎用関数を詰めたユーティリティクラス
  */
 public class Utils {
-
-    /**
-     * カスタムブロック破壊を実装
-     *
-     * @param player
-     */
-    public static void addSlowDig(Player player) {
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, -1, -1, false, false), true);
-    }
-
-    /**
-     * カスタムブロック破壊を除去
-     *
-     * @param player
-     */
-    public static void removeSlowDig(Player player) {
-        player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
-    }
 
     /**
      * BukkitのOnDisableでエラーが出ないようにクラスを強制的にロードする
@@ -73,31 +55,6 @@ public class Utils {
                 block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
             }
         });
-    }
-
-    public static void trySpawnMob(Player player, Block block, Map<ITCMob, Float> table) {
-        Random random = new Random();
-        table.forEach((itcmob, aFloat) -> {
-            float rand = random.nextFloat();
-            if (rand < aFloat) {
-                Location safeLocation = findSafeLocationToSpawn(block, 5);
-                if (safeLocation != null)
-                    TradeCore.getInstance().getCustomMobService().spawn(player, safeLocation, itcmob);
-            }
-        });
-    }
-
-    public static Location findSafeLocationToSpawn(Block block, int radius) {
-        Random random = new Random();
-        for (int i = 0; i < 50; i++) {
-            Block tryBlock = block.getRelative(random.nextInt(radius * 2) - radius + 1, random.nextInt(radius * 2) - radius, random.nextInt(radius * 2) - radius);
-            if (tryBlock.getType() != Material.AIR || tryBlock.getRelative(BlockFace.UP).getType() != Material.AIR)
-                continue;
-
-            return tryBlock.getLocation().add(new Vector(0.5f, 0, 0.5f));
-        }
-
-        return null; //何回探しても安全な場所がなかったらモブのスポーンを諦める
     }
     
     /**
@@ -190,36 +147,6 @@ public class Utils {
         }
     }
 
-    public static List<Block> getBlocksInRadius(Player player, int radius, Material material) {
-        Location playerLocation = player.getLocation();
-        World world = player.getWorld();
-        int xCenter = playerLocation.getBlockX();
-        int yCenter = playerLocation.getBlockY();
-        int zCenter = playerLocation.getBlockZ();
-
-        int startX = xCenter - radius;
-        int startY = yCenter - radius;
-        int startZ = zCenter - radius;
-
-        int endX = xCenter + radius;
-        int endY = yCenter + radius;
-        int endZ = zCenter + radius;
-
-        List<Block> blocks = new ArrayList<>();
-
-        for (int x = startX; x <= endX; x++) {
-            for (int y = startY; y <= endY; y++) {
-                for (int z = startZ; z <= endZ; z++) {
-                    Block block = world.getBlockAt(x, y, z);
-                    if(block.getType() == material)
-                        blocks.add(block);
-                }
-            }
-        }
-
-        return blocks;
-    }
-
     public static Location randomizeLocation(Location location, int range) {
         Random random = new Random();
         double randomOffsetX = (random.nextDouble() * range * 2) - range;
@@ -229,5 +156,19 @@ public class Utils {
         double newZ = location.getZ() + randomOffsetZ;
 
         return new Location(location.getWorld(), newX, location.getY(), newZ);
+    }
+
+    /**
+     * ロード順によって競合の可能性のあるenumを安全に初期化する
+     */
+    public static void initializeEnumSafely(){
+        TCItems.values();
+        TCMobs.values();
+        LootTables.values();
+        TCCraftingRecipes.values();
+        TCFurnaceRecipes.values();
+
+        JobData.JobType.values();
+        ITCTool.ToolType.values();
     }
 }

@@ -1,8 +1,8 @@
-package net.riblab.tradecore.job;
+package net.riblab.tradecore.job.data;
 
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.utils.Utils;
+import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.modifier.IJobExpModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

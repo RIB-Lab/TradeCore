@@ -6,7 +6,7 @@ import net.riblab.tradecore.item.base.IHasDurability;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.modifier.IEveryMinuteDurabilityModifier;
-import net.riblab.tradecore.utils.Utils;
+import net.riblab.tradecore.general.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;

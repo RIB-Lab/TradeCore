@@ -4,8 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
-import net.riblab.tradecore.job.JobData;
-import net.riblab.tradecore.job.JobSkill;
+import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.modifier.IIngredientAmountModifier;
 
 import java.util.List;
