@@ -31,6 +31,10 @@ public class BrokenBlock {
         this.block = block;
     }
 
+    private IBrokenBlocksService getService(){
+        return TradeCore.getInstance().getBrokenBlocksService();
+    }
+    
     /**
      * ブロックの破壊度を上げる
      * @param from ブロックを破壊しているプレイヤー
@@ -62,7 +66,7 @@ public class BrokenBlock {
     public void breakBlock(Player breaker) {
         damage = -1;
         sendBreakPacket(breaker);
-        BrokenBlocksService.getBrokenBlocks().remove(breaker);
+        getService().removePlayerFromMap(breaker);
 //        SoundPlayerUtils.playBlockSound(block);
         if (breaker == null) return;
 
@@ -77,7 +81,7 @@ public class BrokenBlock {
     public void resetBlockObject(Player player) {
         damage = -1;
         sendBreakPacket(player);
-        BrokenBlocksService.getBrokenBlocks().remove(player);
+        getService().removePlayerFromMap(player);
     }
 
     /**

@@ -9,6 +9,8 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import lombok.Getter;
 import net.riblab.tradecore.block.BlockStateEventHandler;
+import net.riblab.tradecore.block.BrokenBlocksService;
+import net.riblab.tradecore.block.IBrokenBlocksService;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
@@ -57,6 +59,8 @@ public final class TradeCore extends JavaPlugin {
     private AdvancementService advancementService;
     @Getter
     private DungeonService dungeonService;
+    @Getter
+    private IBrokenBlocksService brokenBlocksService;
     private TCTasks tcTasks;
 
     public TradeCore() {
@@ -105,6 +109,7 @@ public final class TradeCore extends JavaPlugin {
         playerStatsHandler = new PlayerStatsHandler();
         new VanillaCraftHandler();
         dungeonService = new DungeonService();
+        brokenBlocksService = new BrokenBlocksService();
 
         economy = new EconomyImplementer();
         vaultHook = new VaultHook();

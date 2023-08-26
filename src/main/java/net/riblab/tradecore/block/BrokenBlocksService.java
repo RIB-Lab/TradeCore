@@ -11,12 +11,12 @@ import java.util.Map;
 /**
  * ワールド中の破壊中のブロックを管理するサービス
  */
-public class BrokenBlocksService {
-
-    @Getter
+public class BrokenBlocksService implements IBrokenBlocksService {
+    
     private static final Map<Player, BrokenBlock> brokenBlocks = new HashMap<>();
 
-    public static void createBrokenBlock(Block block, Player player) {
+    @Override
+    public void createBrokenBlock(Block block, Player player) {
         if (isPlayerAlreadyBreaking(player)) {
             removeBrokenBlock(player);
         }
@@ -24,20 +24,28 @@ public class BrokenBlocksService {
         brokenBlocks.put(player, brokenBlock);
     }
 
-    public static void removeBrokenBlock(Player player) {
+    private void removeBrokenBlock(Player player) {
         brokenBlocks.get(player).resetBlockObject(player);
     }
 
-    public static BrokenBlock getBrokenBlock(Player player) {
+    @Override
+    public BrokenBlock getBrokenBlock(Player player) {
         return brokenBlocks.get(player);
     }
 
-    public static boolean isPlayerAlreadyBreaking(Player player) {
+    @Override
+    public boolean isPlayerAlreadyBreaking(Player player) {
         return brokenBlocks.containsKey(player);
     }
 
-    public static boolean isPlayerBreakingAnotherBlock(Player player, Location location) {
+    @Override
+    public boolean isPlayerBreakingAnotherBlock(Player player, Location location) {
         return brokenBlocks.containsKey(player) && !brokenBlocks.get(player).getBlock().getLocation().equals(location);
+    }
+    
+    @Override
+    public BrokenBlock removePlayerFromMap(Player player){
+        return brokenBlocks.remove(player);
     }
 }
  

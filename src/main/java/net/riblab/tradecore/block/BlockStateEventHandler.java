@@ -31,6 +31,10 @@ import static net.riblab.tradecore.Materials.unbreakableMaterial;
  */
 public class BlockStateEventHandler implements Listener {
 
+    private IBrokenBlocksService getService(){
+        return TradeCore.getInstance().getBrokenBlocksService();
+    }
+    
     /**
      * ブロックにサーバー側でひびを入れることを試みる
      */
@@ -51,7 +55,7 @@ public class BlockStateEventHandler implements Listener {
             return;
         }
 
-        BrokenBlocksService.createBrokenBlock(event.getBlock(), event.getPlayer());
+        getService().createBrokenBlock(event.getBlock(), event.getPlayer());
     }
 
     /**
@@ -66,8 +70,8 @@ public class BlockStateEventHandler implements Listener {
         Block block = player.getTargetBlock(transparentBlocks, 5);
         Location blockPosition = block.getLocation();
 
-        if (!BrokenBlocksService.getBrokenBlocks().containsKey(player)) return;
-        if (BrokenBlocksService.isPlayerBreakingAnotherBlock(event.getPlayer(), blockPosition)) return;
+        if (!getService().isPlayerAlreadyBreaking(player)) return;
+        if (getService().isPlayerBreakingAnotherBlock(event.getPlayer(), blockPosition)) return;
 
         double distanceX = blockPosition.getX() - player.getLocation().x();
         double distanceY = blockPosition.getY() - player.getLocation().y();
@@ -77,19 +81,19 @@ public class BlockStateEventHandler implements Listener {
 
         ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
         if (!(itcItem instanceof ITCTool tool)) {
-            BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでないアイテムを持っているなら実質素手
+            getService().getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでないアイテムを持っているなら実質素手
             return;
         }
 
         int minHardness = LootTables.getMinHardness(block.getType(), tool);
         if (minHardness > tool.getHarvestLevel()) {
-            BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールで採掘できないなら実質素手
+            getService().getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールで採掘できないなら実質素手
             return;
         }
 
         SoundGroup soundGroup = block.getBlockData().getSoundGroup();
         player.playSound(block.getLocation(), soundGroup.getHitSound(), SoundCategory.BLOCKS, 1f, 1f);
-        BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, tool.getActualMiningSpeed());
+        getService().getBrokenBlock(player).incrementDamage(player, tool.getActualMiningSpeed());
     }
 
     /**
