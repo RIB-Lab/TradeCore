@@ -2,8 +2,7 @@ package net.riblab.tradecore.dungeon;
 
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.Utils;
-import net.riblab.tradecore.mob.CustomMobService;
-import net.riblab.tradecore.mob.TCMob;
+import net.riblab.tradecore.mob.ITCMob;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,9 +47,9 @@ public class DungeonEventHandler {
         List<Block> activatedSpawner = Utils.getBlocksInRadius(player, 8, Material.REDSTONE_BLOCK);
         for (Block block : activatedSpawner) {
             for (int i = 0; i < data.getBasePackSize(); i++) {
-                TCMob mobToSpawn = data.getSpawnTable().get(new Random().nextInt(data.getSpawnTable().size()));
+                ITCMob mobToSpawn = data.getSpawnTable().get(new Random().nextInt(data.getSpawnTable().size()));
                 Location randomizedSpawnLocation = Utils.randomizeLocation(block.getLocation().add(0.5d, 0, 0.5d), 1);
-                CustomMobService.spawn(player, randomizedSpawnLocation, mobToSpawn);
+                TradeCore.getInstance().getCustomMobService().spawn(player, randomizedSpawnLocation, mobToSpawn);
             }
             block.setType(Material.AIR);
         }

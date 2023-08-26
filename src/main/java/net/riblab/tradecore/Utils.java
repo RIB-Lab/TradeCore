@@ -4,8 +4,7 @@ import com.google.common.collect.Multimap;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.modifier.IModifier;
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
-import net.riblab.tradecore.mob.CustomMobService;
-import net.riblab.tradecore.mob.TCMob;
+import net.riblab.tradecore.mob.ITCMob;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -75,14 +74,14 @@ public class Utils {
         });
     }
 
-    public static void trySpawnMob(Player player, Block block, Map<TCMob, Float> table) {
+    public static void trySpawnMob(Player player, Block block, Map<ITCMob, Float> table) {
         Random random = new Random();
         table.forEach((itcmob, aFloat) -> {
             float rand = random.nextFloat();
             if (rand < aFloat) {
                 Location safeLocation = findSafeLocationToSpawn(block, 5);
                 if (safeLocation != null)
-                    CustomMobService.spawn(player, safeLocation, itcmob);
+                    TradeCore.getInstance().getCustomMobService().spawn(player, safeLocation, itcmob);
             }
         });
     }

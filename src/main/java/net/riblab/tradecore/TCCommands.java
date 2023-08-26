@@ -14,9 +14,7 @@ import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.job.*;
-import net.riblab.tradecore.mob.CustomMobService;
-import net.riblab.tradecore.mob.FakeVillagerService;
-import net.riblab.tradecore.mob.TCMob;
+import net.riblab.tradecore.mob.ITCMob;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.ui.UIAdminShop;
 import net.riblab.tradecore.ui.UIJobs;
@@ -80,7 +78,7 @@ public class TCCommands {
                     Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
 
-                    FakeVillagerService.spawnFakeVillager(player, merchantName, spawnLocation);
+                    TradeCore.getInstance().getFakeVillagerService().spawnFakeVillager(player, merchantName, spawnLocation);
                     player.getWorld().spawnParticle(Particle.SMOKE_LARGE, spawnLocation, 10, 1, 1, 1);
                 });
         sellCommand.setPermission(CommandPermission.NONE);
@@ -95,16 +93,16 @@ public class TCCommands {
                 .withPermission(CommandPermission.OP)
                 .withArguments(TCMobs.customITCMobArgument("mobname"))
                 .executesPlayer((player, args) -> {
-                    TCMob type = (TCMob) args.get(0);
+                    ITCMob type = (ITCMob) args.get(0);
                     Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
 
-                    CustomMobService.spawn(player, spawnLocation, type);
+                    TradeCore.getInstance().getCustomMobService().spawn(player, spawnLocation, type);
                 });
         CommandAPICommand mobResetCommand = new CommandAPICommand("reset")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    CustomMobService.deSpawnAll();
+                    TradeCore.getInstance().getCustomMobService().deSpawnAll();
                     player.sendMessage("モブシステムをリセットしました");
                 });
         mobCommand.withSubcommand(spawnCommand);

@@ -63,6 +63,6 @@ public class UISell {
             event.getPlayer().sendMessage(Component.text(totalAmount + "個のアイテムを売って、" + Math.floor(totalGain * 100) / 100 + "RIB入手しました"));
         }
 
-        FakeVillagerService.tryDeSpawnFakeVillager((Player) event.getPlayer());
+        TradeCore.getInstance().getFakeVillagerService().tryDeSpawnFakeVillager((Player) event.getPlayer());
     }
 }

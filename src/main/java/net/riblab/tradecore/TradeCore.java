@@ -22,9 +22,7 @@ import net.riblab.tradecore.integration.VaultHookImpl;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.job.*;
-import net.riblab.tradecore.mob.CustomMobService;
-import net.riblab.tradecore.mob.FakeVillagerService;
-import net.riblab.tradecore.mob.TCMobs;
+import net.riblab.tradecore.mob.*;
 import net.riblab.tradecore.ui.UISell;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -60,6 +58,10 @@ public final class TradeCore extends JavaPlugin {
     private DungeonService IDungeonService;
     @Getter
     private BrokenBlocksService brokenBlocksService;
+    @Getter
+    private CustomMobService customMobService;
+    @Getter
+    private FakeVillagerService fakeVillagerService;
     private TCTasks tcTasks;
 
     public TradeCore() {
@@ -109,6 +111,8 @@ public final class TradeCore extends JavaPlugin {
         new VanillaCraftHandler();
         IDungeonService = new DungeonServiceImpl();
         brokenBlocksService = new BrokenBlocksServiceImpl();
+        customMobService = new CustomMobServiceImpl();
+        fakeVillagerService = new FakeVillagerServiceImpl();
 
         economy = new EconomyImpl();
         vaultHook = new VaultHookImpl();
@@ -140,7 +144,7 @@ public final class TradeCore extends JavaPlugin {
                         Player player = event.getPlayer();
                         PacketContainer packet = event.getPacket();
                         int id = packet.getIntegers().read(0);
-                        Integer integer = FakeVillagerService.getCurrentID(player);
+                        Integer integer = TradeCore.getInstance().getFakeVillagerService().getCurrentID(player);
                         if (integer != null && id == integer) {
                             new BukkitRunnable() {
                                 @Override
@@ -152,8 +156,6 @@ public final class TradeCore extends JavaPlugin {
                     }
                 }
         );
-        
-        Utils.forceInit(CustomMobService.class);
     }
 
     @Override
@@ -162,7 +164,7 @@ public final class TradeCore extends JavaPlugin {
         TCCommands.onDisable();
         configManager.save();
 
-        CustomMobService.deSpawnAll();
+        customMobService.deSpawnAll();
 
         Bukkit.getOnlinePlayers().forEach(player -> Utils.removeSlowDig(player));
         

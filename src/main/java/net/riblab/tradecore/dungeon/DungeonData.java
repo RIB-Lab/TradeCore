@@ -1,7 +1,7 @@
 package net.riblab.tradecore.dungeon;
 
 import lombok.Data;
-import net.riblab.tradecore.mob.TCMob;
+import net.riblab.tradecore.mob.ITCMob;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -10,6 +10,6 @@ import java.util.List;
 public class DungeonData implements IDungeonData {
     private final String name;
     private final Vector spawnPoint;
-    private final List<TCMob> spawnTable;
+    private final List<ITCMob> spawnTable;
     private final int basePackSize;
 }

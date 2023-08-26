@@ -22,7 +22,7 @@ import java.util.Random;
  * カスタムモブの基礎クラス
  */
 @RequiredArgsConstructor
-public class TCMob {
+public class TCMob implements ITCMob {
 
     /**
      * エンティティの種族
@@ -56,11 +56,7 @@ public class TCMob {
 
     private static final int lifetime = 6000;
 
-    /**
-     * エンティティがスポーンするときの処理
-     *
-     * @param mob
-     */
+    @Override
     public void spawn(Mob mob) {
         mob.customName(customName);
         mob.setCustomNameVisible(true);
@@ -84,17 +80,14 @@ public class TCMob {
             @Override
             public void run() {
                 if (!mob.isDead()){
-                    CustomMobService.setLootableTag(mob, false);
+                    TradeCore.getInstance().getCustomMobService().setLootableTag(mob, false);
                     mob.remove();
                 }
             }
         }.runTaskLater(TradeCore.getInstance(), lifetime);
     }
 
-    /**
-     * カスタムモブが死んだときの処理
-     * @param event
-     */
+    @Override
     public void onKilledByPlayer(EntityDeathEvent event) {
         Random random = new Random();
         drops.forEach((itemStack, aFloat) -> {
@@ -105,9 +98,7 @@ public class TCMob {
         });
     }
 
-    /**
-     * 引数のモブがこのカスタムモブであるかどうか
-     */
+    @Override
     public boolean isSimilar(Mob mob) {
         if (mob == null)
             return false;

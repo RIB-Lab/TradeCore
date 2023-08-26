@@ -70,13 +70,13 @@ public class UICraftingTable {
 
         gui.setCloseGuiAction(event -> {
             if (event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
-                FakeVillagerService.tryDeSpawnFakeVillager(player);
+                TradeCore.getInstance().getFakeVillagerService().tryDeSpawnFakeVillager(player);
         });
 
         gui.open(player);
 
         Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
-        FakeVillagerService.spawnFakeVillager(player, "職人", spawnLocation);
+        TradeCore.getInstance().getFakeVillagerService().spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }
 
@@ -98,13 +98,13 @@ public class UICraftingTable {
 
         gui.setCloseGuiAction(event -> {
             if (event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
-                FakeVillagerService.tryDeSpawnFakeVillager(player);
+                TradeCore.getInstance().getFakeVillagerService().tryDeSpawnFakeVillager(player);
         });
 
         gui.open(player);
 
         Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
-        FakeVillagerService.spawnFakeVillager(player, "職人", spawnLocation);
+        TradeCore.getInstance().getFakeVillagerService().spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }
 
