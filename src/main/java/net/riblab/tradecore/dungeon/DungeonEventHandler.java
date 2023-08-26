@@ -19,7 +19,7 @@ import java.util.Random;
  * ダンジョンで起こるイベントのハンドラ
  */
 public class DungeonEventHandler {
-    public static IDungeonService getservice(){
+    public static DungeonService getservice(){
         return TradeCore.getInstance().getIDungeonService();
     }
 

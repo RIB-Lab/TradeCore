@@ -31,7 +31,7 @@ public class BrokenBlock {
         this.block = block;
     }
 
-    private IBrokenBlocksService getService(){
+    private BrokenBlocksService getService(){
         return TradeCore.getInstance().getBrokenBlocksService();
     }
     

@@ -31,7 +31,7 @@ import static net.riblab.tradecore.Materials.unbreakableMaterial;
  */
 public class BlockStateEventHandler implements Listener {
 
-    private IBrokenBlocksService getService(){
+    private BrokenBlocksService getService(){
         return TradeCore.getInstance().getBrokenBlocksService();
     }
     
