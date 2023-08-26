@@ -21,6 +21,7 @@ import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.ui.UIAdminShop;
 import net.riblab.tradecore.ui.UIJobs;
 import net.riblab.tradecore.ui.UIShop;
+import net.riblab.tradecore.ui.UISkillRespec;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
@@ -117,14 +118,20 @@ public class TCCommands {
                     ShopData data = (ShopData) args.get(0);
                     UIShop.open(player, data);
                 });
-        shopCommand.register();
-
-        CommandAPICommand adminShopCommand = new CommandAPICommand("tcadminshop")
+        CommandAPICommand adminShopCommand = new CommandAPICommand("admin")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     UIAdminShop.open(player);
                 });
-        adminShopCommand.register();
+        shopCommand.withSubcommand(adminShopCommand);
+        CommandAPICommand respecShopCommand = new CommandAPICommand("respec")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    UISkillRespec.open(player);
+                });
+        shopCommand.withSubcommand(adminShopCommand);
+        shopCommand.withSubcommand(respecShopCommand);
+        shopCommand.register();
 
         CommandAPICommand jobCommand = new CommandAPICommand("tcjob")
                 .withPermission(CommandPermission.NONE)
