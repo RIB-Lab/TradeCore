@@ -108,7 +108,7 @@ public class TCCommands {
         shopCommand.register();
 
         CommandAPICommand adminShopCommand = new CommandAPICommand("tcadminshop")
-                .withPermission(CommandPermission.NONE)
+                .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     UIAdminShop.open(player);
                 });

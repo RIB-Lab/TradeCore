@@ -1,5 +1,6 @@
 package net.riblab.tradecore.mob;
 
+import de.tr7zw.nbtapi.NBTEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
@@ -18,6 +19,7 @@ public class CustomMobService {
      * このプラグインが現在スポーンさせているモブのリスト
      */
     public static List<Mob> spawnedMobs = new ArrayList<>();
+    private static final String lootableTag = "lootable";
 
     /**
      * 指定した場所にカスタムモブをスポーンさせる
@@ -41,12 +43,17 @@ public class CustomMobService {
         
         event.getDrops().clear();//バニラのモブドロップをブロック
 
-        if (!(event.getEntity() instanceof Mob) || !spawnedMobs.contains((Mob) event.getEntity()))
+        if (!(event.getEntity() instanceof Mob mob) || !spawnedMobs.contains(mob))
             return;
 
-        spawnedMobs.remove((Mob) event.getEntity());
+        NBTEntity nbtEntity = new NBTEntity(mob);
+        boolean isLootable =  nbtEntity.getPersistentDataContainer().getBoolean(lootableTag);
+        if(!isLootable)
+            return;
 
-        TCMob tcMob = TCMobs.toTCMob((Mob) event.getEntity());
+        spawnedMobs.remove(mob);
+
+        TCMob tcMob = TCMobs.toTCMob(mob);
         if (tcMob == null)
             return;
 
@@ -57,7 +64,15 @@ public class CustomMobService {
      * 全てのカスタムモブをデスポーンさせる
      */
     public static void deSpawnAll() {
-        spawnedMobs.forEach(Entity::remove);
+        spawnedMobs.forEach(mob -> {
+            setLootableTag(mob, false);
+            mob.remove();
+        });
         spawnedMobs.clear();
+    }
+    
+    public static void setLootableTag(Mob mob, boolean flag){
+        NBTEntity nbtEntity = new NBTEntity(mob);
+        nbtEntity.getPersistentDataContainer().setBoolean(lootableTag, flag);
     }
 }

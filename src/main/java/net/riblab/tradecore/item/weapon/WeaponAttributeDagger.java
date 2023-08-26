@@ -1,8 +1,10 @@
 package net.riblab.tradecore.item.weapon;
 
 import lombok.Getter;
+import net.riblab.tradecore.mob.CustomMobService;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -40,11 +42,12 @@ public class WeaponAttributeDagger implements IWeaponAttribute{
             if(!(playerDir.angle(diff) * 180 / Math.PI < angle)) //敵がプレイヤーの視線を軸としたコーン状の範囲内にいるか判定
                 continue;
 
-            if(!(nearbyEntity instanceof LivingEntity livingEntity))
+            if(!(nearbyEntity instanceof Mob livingEntity))
                 continue;
 
             livingEntity.damage(attackDamage);
             livingEntity.setVelocity(diff.normalize().multiply(0.5f));
+            CustomMobService.setLootableTag(livingEntity, true);
             isHit = true;
         }
 

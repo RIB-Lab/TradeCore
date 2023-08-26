@@ -1,6 +1,7 @@
 package net.riblab.tradecore.item.weapon;
 
 import lombok.Getter;
+import net.riblab.tradecore.mob.CustomMobService;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
@@ -49,6 +50,7 @@ public class WeaponAttributeSpear implements IWeaponAttribute{
 
             livingEntity.damage(attackDamage);
             livingEntity.setVelocity(diff.normalize().multiply(0.5f));
+            CustomMobService.setLootableTag(livingEntity, true);
             isHit = true;
         }
 

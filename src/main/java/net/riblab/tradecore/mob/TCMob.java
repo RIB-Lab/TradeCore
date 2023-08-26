@@ -83,8 +83,10 @@ public class TCMob {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!mob.isDead())
+                if (!mob.isDead()){
+                    CustomMobService.setLootableTag(mob, false);
                     mob.remove();
+                }
             }
         }.runTaskLater(TradeCore.getInstance(), lifetime);
     }

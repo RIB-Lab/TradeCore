@@ -1,5 +1,6 @@
 package net.riblab.tradecore.mob;
 
+import de.tr7zw.nbtapi.NBTEntity;
 import dev.jorel.commandapi.arguments.Argument;
 import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.CustomArgument;
@@ -35,7 +36,13 @@ public enum TCMobs {
      */
     @Nullable
     public static TCMob toTCMob(Mob mob) {
-        TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().isSimilar(mob)).findFirst().orElse(null);
+        if(mob == null)
+            return null;
+
+        NBTEntity nbtEntity = new NBTEntity(mob);
+        String ID = nbtEntity.getPersistentDataContainer().getString("TCID");
+        
+        TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(ID)).findFirst().orElse(null);
         return itcMob == null ? null : itcMob.get();
     }
 
