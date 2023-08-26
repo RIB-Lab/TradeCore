@@ -15,8 +15,9 @@ import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.craft.VanillaCraftHandler;
 import net.riblab.tradecore.dungeon.DungeonServiceImpl;
 import net.riblab.tradecore.dungeon.DungeonService;
-import net.riblab.tradecore.integration.EconomyImplementer;
+import net.riblab.tradecore.integration.EconomyImpl;
 import net.riblab.tradecore.integration.VaultHook;
+import net.riblab.tradecore.integration.VaultHookImpl;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.attribute.ITCTool;
 import net.riblab.tradecore.job.JobData;
@@ -36,7 +37,7 @@ public final class TradeCore extends JavaPlugin {
 
     private static TradeCore instance;
     @Getter
-    private EconomyImplementer economy;
+    private EconomyImpl economy;
     private VaultHook vaultHook;
     @Getter
     private ConfigManager configManager;
@@ -110,8 +111,8 @@ public final class TradeCore extends JavaPlugin {
         IDungeonService = new DungeonServiceImpl();
         brokenBlocksService = new BrokenBlocksServiceImpl();
 
-        economy = new EconomyImplementer();
-        vaultHook = new VaultHook();
+        economy = new EconomyImpl();
+        vaultHook = new VaultHookImpl();
         vaultHook.hook();
         isWGLoaded = getServer().getPluginManager().isPluginEnabled("WorldGuard");
         advancementAPI = UltimateAdvancementAPI.getInstance(this);

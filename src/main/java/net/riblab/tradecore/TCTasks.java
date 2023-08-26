@@ -1,6 +1,6 @@
 package net.riblab.tradecore;
 
-import net.riblab.tradecore.integration.EconomyImplementer;
+import net.riblab.tradecore.integration.EconomyImpl;
 import net.riblab.tradecore.item.attribute.IHasDurability;
 import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class TCTasks {
     
-    private EconomyImplementer getEconomy(){
+    private EconomyImpl getEconomy(){
         return TradeCore.getInstance().getEconomy();
     }
     
