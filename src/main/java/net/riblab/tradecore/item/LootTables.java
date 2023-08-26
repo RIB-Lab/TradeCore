@@ -4,8 +4,9 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Data;
 import net.riblab.tradecore.Materials;
-import net.riblab.tradecore.item.attribute.ITCItem;
-import net.riblab.tradecore.item.attribute.ITCTool;
+import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.ITCTool;
+import net.riblab.tradecore.item.base.TCTool;
 import org.bukkit.Material;
 
 import java.util.*;

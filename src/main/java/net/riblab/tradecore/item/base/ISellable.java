@@ -1,4 +1,4 @@
-package net.riblab.tradecore.item.attribute;
+package net.riblab.tradecore.item.base;
 
 public interface ISellable {
     

@@ -6,8 +6,8 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.TCItem;
-import net.riblab.tradecore.item.mod.ItemMod;
+import net.riblab.tradecore.item.base.TCItem;
+import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,7 +20,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     private final int baseDurability;
 
     @Getter
-    private final List<ItemMod> defaultMods;
+    private final List<IItemMod> defaultMods;
     
     @Getter
     private final IWeaponAttribute attribute;
@@ -28,7 +28,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, int baseDurability, List<ItemMod> defaultMods, IWeaponAttribute attribute) {
+    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, int baseDurability, List<IItemMod> defaultMods, IWeaponAttribute attribute) {
         super(name, material, internalName, customModelData);
         this.baseDurability = baseDurability;
         this.defaultMods = defaultMods;
@@ -54,7 +54,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
                     .append(Component.text(durability).color(durability == baseDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
                     .append(Component.text("/" + baseDurability).color(NamedTextColor.WHITE)));
         }
-        for (ItemMod defaultMod : defaultMods) {
+        for (IItemMod defaultMod : defaultMods) {
             texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
         return texts;

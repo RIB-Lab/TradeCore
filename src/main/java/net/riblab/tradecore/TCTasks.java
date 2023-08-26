@@ -1,8 +1,8 @@
 package net.riblab.tradecore;
 
 import net.riblab.tradecore.integration.EconomyImpl;
-import net.riblab.tradecore.item.attribute.IHasDurability;
-import net.riblab.tradecore.item.attribute.ITCItem;
+import net.riblab.tradecore.item.base.IHasDurability;
+import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.modifier.IEveryMinuteDurabilityModifier;
 import org.bukkit.Bukkit;

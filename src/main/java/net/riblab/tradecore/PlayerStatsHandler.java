@@ -1,6 +1,6 @@
 package net.riblab.tradecore;
 
-import net.riblab.tradecore.item.ItemModService;
+import net.riblab.tradecore.item.ItemModServiceImpl;
 import net.riblab.tradecore.job.JobSkillHandler;
 import net.riblab.tradecore.modifier.IHPModifier;
 import net.riblab.tradecore.modifier.IWalkSpeedModifier;
@@ -26,7 +26,7 @@ public class PlayerStatsHandler {
         return TradeCore.getInstance().getJobSkillHandler();
     }
     
-    private static ItemModService getEquipmentHandler(){
+    private static ItemModServiceImpl getEquipmentHandler(){
         return TradeCore.getInstance().getItemModService();
     }
 

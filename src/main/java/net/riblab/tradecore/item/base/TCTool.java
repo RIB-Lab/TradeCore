@@ -1,12 +1,12 @@
-package net.riblab.tradecore.item;
+package net.riblab.tradecore.item.base;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.item.attribute.ITCTool;
-import net.riblab.tradecore.item.mod.ItemMod;
+import net.riblab.tradecore.item.ItemCreator;
+import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -31,7 +31,7 @@ public class TCTool extends TCItem implements ITCTool {
     private final int baseDurability;
     
     @Getter
-    private final List<ItemMod> defaultMods;
+    private final List<IItemMod> defaultMods;
 
     /**
      * 　固有アイテムの型を作成する
@@ -43,7 +43,7 @@ public class TCTool extends TCItem implements ITCTool {
      * @param customModelData 固有アイテムにセットするカスタムモデルデータ
      * @param mods
      */
-    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, int baseDurability, List<ItemMod> mods) {
+    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, int baseDurability, List<IItemMod> mods) {
         super(name, material, internalName, customModelData);
 
         this.toolType = toolType;
@@ -74,7 +74,7 @@ public class TCTool extends TCItem implements ITCTool {
         }
         texts.add(Component.text("採掘速度: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
                 .append(Component.text((Math.floor(baseMiningSpeed * 100)) / 100)));
-        for (ItemMod defaultMod : defaultMods) {
+        for (IItemMod defaultMod : defaultMods) {
             texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
         return texts;

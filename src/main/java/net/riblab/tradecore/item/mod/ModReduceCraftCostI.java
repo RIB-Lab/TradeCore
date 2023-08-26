@@ -2,9 +2,9 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
 
-public class ModReduceCraftCost extends ItemMod implements ICraftFeeModifier {
+public class ModReduceCraftCostI extends ItemMod implements ICraftFeeModifier {
 
-    public ModReduceCraftCost(int level) {
+    public ModReduceCraftCostI(int level) {
         super(level);
     }
 

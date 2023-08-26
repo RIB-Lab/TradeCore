@@ -2,9 +2,9 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IArmorModifier;
 
-public class ModAddArmor extends ItemMod implements IArmorModifier {
+public class ModAddArmorI extends ItemMod implements IArmorModifier {
 
-    public ModAddArmor(int level) {
+    public ModAddArmorI(int level) {
         super(level);
     }
 

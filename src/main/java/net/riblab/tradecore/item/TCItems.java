@@ -6,7 +6,7 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.item.attribute.ITCItem;
+import net.riblab.tradecore.item.base.*;
 import net.riblab.tradecore.item.mod.*;
 import net.riblab.tradecore.item.weapon.*;
 import net.riblab.tradecore.mob.TCMobs;
@@ -32,11 +32,11 @@ public enum TCItems {
     DRYGRASS(new TCSellableItem(Component.text("干し草"), Material.PAPER, "drygrass", 2, 0.01d)),
 
     //原木時代
-    WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, 1.2, 32, List.of(new ModEcology(1)))),
-    WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, 1.2, 32, List.of(new ModEcology(1)))),
-    WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, 1.2, 32, List.of(new ModEcology(1)))),
-    WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, 32, List.of(new ModEcology(1)))),
-    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0,  32, List.of(new ModEcology(1)), new WeaponAttributeSword(3))),
+    WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, 1.2, 32, List.of(new ModEcologyI(1)))),
+    WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, 1.2, 32, List.of(new ModEcologyI(1)))),
+    WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, 1.2, 32, List.of(new ModEcologyI(1)))),
+    WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, 32, List.of(new ModEcologyI(1)))),
+    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0,  32, List.of(new ModEcologyI(1)), new WeaponAttributeSword(3))),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1)),
     DUST(new TCSellableItem(Component.text("塵"), Material.DIRT, "dust", 1, 0.04d)),
     MUD(new TCSellableItem(Component.text("泥"), Material.DIRT, "mud", 2, 0.04d)),
@@ -47,10 +47,10 @@ public enum TCItems {
     WOODEN_COMPONENT(new TCSellableItem(Component.text("木の強化資材"), Material.OAK_PLANKS, "wooden_component", 2, 0.10d)),
     NEXT_PAGE(new TCItem(Component.text("次のページ"), Material.ARROW, "nextpage", 1)),
     PREVIOUS_PAGE(new TCItem(Component.text("前のページ"), Material.ARROW, "previouspage", 2)),
-    BARK_HELMET(new TCEquipment(Component.text("樹皮のヘルメット"), Material.CHAINMAIL_HELMET, "bark_helmet", List.of(new ModAddArmor(2)), 32, "bark")),
-    BARK_CHESTPLATE(new TCEquipment(Component.text("樹皮のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "bark_chestplate", List.of(new ModAddArmor(2)), 32, "bark")),
-    BARK_LEGGINGS(new TCEquipment(Component.text("樹皮のレギンス"), Material.CHAINMAIL_LEGGINGS, "bark_leggings", List.of(new ModAddArmor(2)), 32, "bark")),
-    BARK_BOOTS(new TCEquipment(Component.text("樹皮のブーツ"), Material.CHAINMAIL_BOOTS, "bark_boots", List.of(new ModAddArmor(2)), 32, "bark")),
+    BARK_HELMET(new TCEquipment(Component.text("樹皮のヘルメット"), Material.CHAINMAIL_HELMET, "bark_helmet", List.of(new ModAddArmorI(2)), 32, "bark")),
+    BARK_CHESTPLATE(new TCEquipment(Component.text("樹皮のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "bark_chestplate", List.of(new ModAddArmorI(2)), 32, "bark")),
+    BARK_LEGGINGS(new TCEquipment(Component.text("樹皮のレギンス"), Material.CHAINMAIL_LEGGINGS, "bark_leggings", List.of(new ModAddArmorI(2)), 32, "bark")),
+    BARK_BOOTS(new TCEquipment(Component.text("樹皮のブーツ"), Material.CHAINMAIL_BOOTS, "bark_boots", List.of(new ModAddArmorI(2)), 32, "bark")),
 
     //石器時代
     ROUND_STONE(new TCSellableItem(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, 0.10d)),
@@ -59,10 +59,10 @@ public enum TCItems {
     STONE_DAGGER(new TCWeapon(Component.text("石の短剣"), Material.STONE_SWORD, "stone_dagger", 2, 128, List.of(), new WeaponAttributeDagger(4))),
     STONE_BATTLEAXE(new TCWeapon(Component.text("石の大斧"), Material.STONE_SWORD, "stone_battleaxe", 3, 128, List.of(), new WeaponAttributeBattleAxe(8))),
     FUEL_BALL(new TCSellableItem(Component.text("燃料玉"), Material.HAY_BLOCK, "fuel_ball", 1, 0.10d)),
-    STONE_HELMET(new TCEquipment(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", List.of(new ModAddArmor(4), new ModWalkSpeed(-1)), 128, "stone")),
-    STONE_CHESTPLATE(new TCEquipment(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", List.of(new ModAddArmor(4), new ModWalkSpeed(-1)), 128, "stone")),
-    STONE_LEGGINGS(new TCEquipment(Component.text("石のレギンス"), Material.CHAINMAIL_LEGGINGS, "stone_leggings", List.of(new ModAddArmor(4), new ModWalkSpeed(-1)), 128, "stone")),
-    STONE_BOOTS(new TCEquipment(Component.text("石のブーツ"), Material.CHAINMAIL_BOOTS, "stone_boots", List.of(new ModAddArmor(4), new ModWalkSpeed(-1)), 128, "stone")),
+    STONE_HELMET(new TCEquipment(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", List.of(new ModAddArmorI(4), new ModWalkSpeedI(-1)), 128, "stone")),
+    STONE_CHESTPLATE(new TCEquipment(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", List.of(new ModAddArmorI(4), new ModWalkSpeedI(-1)), 128, "stone")),
+    STONE_LEGGINGS(new TCEquipment(Component.text("石のレギンス"), Material.CHAINMAIL_LEGGINGS, "stone_leggings", List.of(new ModAddArmorI(4), new ModWalkSpeedI(-1)), 128, "stone")),
+    STONE_BOOTS(new TCEquipment(Component.text("石のブーツ"), Material.CHAINMAIL_BOOTS, "stone_boots", List.of(new ModAddArmorI(4), new ModWalkSpeedI(-1)), 128, "stone")),
     ANDESITE_STONE(new TCSellableItem(Component.text("安山石"), Material.COBBLESTONE, "andesite_stone", 3, 0.10d)),
     GRANITE_STONE(new TCSellableItem(Component.text("花崗石"), Material.COBBLESTONE, "granite_stone", 4, 0.10d)),
     DIORITE_STONE(new TCSellableItem(Component.text("閃緑石"), Material.COBBLESTONE, "diorite_stone", 5, 0.10d)),
@@ -82,15 +82,15 @@ public enum TCItems {
     REINFORCED_STICK(new TCSellableItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, 0.10d)),
     
     //店売り限定
-    EMERALD_HELMET(new TCEquipment(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
-    EMERALD_CHESTPLATE(new TCEquipment(Component.text("エメラルドのチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "emerald_chestplate", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
-    EMERALD_LEGGINGS(new TCEquipment(Component.text("エメラルドのレギンス"), Material.CHAINMAIL_LEGGINGS, "emerald_leggings", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
-    EMERALD_BOOTS(new TCEquipment(Component.text("エメラルドのブーツ"), Material.CHAINMAIL_BOOTS, "emerald_boots", List.of(new ModReduceCraftCost(3)), 256, "emerald")),
-    WORKER_HELMET(new TCEquipment(Component.text("作業ヘルメット"), Material.CHAINMAIL_HELMET, "worker_helmet", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "dungeontemplate")),
-    WORKER_CHESTPLATE(new TCEquipment(Component.text("作業チェストプレート"), Material.CHAINMAIL_CHESTPLATE, "worker_chestplate", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "dungeontemplate")),
-    WORKER_LEGGINGS(new TCEquipment(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "dungeontemplate")),
-    WORKER_BOOTS(new TCEquipment(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", List.of(new ModZeroHandAttackDamage(), new ModWalkSpeed(-10), new ModResouceChance(3)), 64, "dungeontemplate")),
-    WATER_HELMET(new TCEquipment(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", List.of(new ModWaterBreath(1)), 64, "dungeontemplate")),
+    EMERALD_HELMET(new TCEquipment(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", List.of(new ModReduceCraftCostI(3)), 256, "emerald")),
+    EMERALD_CHESTPLATE(new TCEquipment(Component.text("エメラルドのチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "emerald_chestplate", List.of(new ModReduceCraftCostI(3)), 256, "emerald")),
+    EMERALD_LEGGINGS(new TCEquipment(Component.text("エメラルドのレギンス"), Material.CHAINMAIL_LEGGINGS, "emerald_leggings", List.of(new ModReduceCraftCostI(3)), 256, "emerald")),
+    EMERALD_BOOTS(new TCEquipment(Component.text("エメラルドのブーツ"), Material.CHAINMAIL_BOOTS, "emerald_boots", List.of(new ModReduceCraftCostI(3)), 256, "emerald")),
+    WORKER_HELMET(new TCEquipment(Component.text("作業ヘルメット"), Material.CHAINMAIL_HELMET, "worker_helmet", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), 64, "dungeontemplate")),
+    WORKER_CHESTPLATE(new TCEquipment(Component.text("作業チェストプレート"), Material.CHAINMAIL_CHESTPLATE, "worker_chestplate", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), 64, "dungeontemplate")),
+    WORKER_LEGGINGS(new TCEquipment(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), 64, "dungeontemplate")),
+    WORKER_BOOTS(new TCEquipment(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), 64, "dungeontemplate")),
+    WATER_HELMET(new TCEquipment(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", List.of(new ModWaterBreathI(1)), 64, "dungeontemplate")),
     
     //その他
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),

@@ -11,7 +11,7 @@ import net.milkbowl.vault.economy.Economy;
 import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
-import net.riblab.tradecore.item.attribute.ITCItem;
+import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.job.*;
 import net.riblab.tradecore.mob.CustomMobService;

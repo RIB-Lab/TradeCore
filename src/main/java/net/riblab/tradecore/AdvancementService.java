@@ -10,7 +10,7 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameT
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.MultiTasksAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.TaskAdvancement;
 import net.riblab.tradecore.item.TCItems;
-import net.riblab.tradecore.item.attribute.ITCItem;
+import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

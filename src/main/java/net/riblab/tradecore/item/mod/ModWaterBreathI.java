@@ -2,9 +2,9 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IWaterBreatheLevelModifier;
 
-public class ModWaterBreath extends ItemMod implements IWaterBreatheLevelModifier {
+public class ModWaterBreathI extends ItemMod implements IWaterBreatheLevelModifier {
 
-    public ModWaterBreath(int level) {
+    public ModWaterBreathI(int level) {
         super(level);
     }
 

@@ -1,11 +1,10 @@
 package net.riblab.tradecore.item.mod;
 
-import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.IWalkSpeedModifier;
 
-public class ModWalkSpeed extends ItemMod implements IWalkSpeedModifier {
+public class ModWalkSpeedI extends ItemMod implements IWalkSpeedModifier {
 
-    public ModWalkSpeed(int level) {
+    public ModWalkSpeedI(int level) {
         super(level);
     }
 

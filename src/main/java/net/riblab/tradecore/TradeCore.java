@@ -8,6 +8,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import lombok.Getter;
+import net.milkbowl.vault.economy.Economy;
 import net.riblab.tradecore.block.BrokenBlocksServiceImpl;
 import net.riblab.tradecore.block.BrokenBlocksService;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
@@ -19,7 +20,7 @@ import net.riblab.tradecore.integration.EconomyImpl;
 import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.integration.VaultHookImpl;
 import net.riblab.tradecore.item.*;
-import net.riblab.tradecore.item.attribute.ITCTool;
+import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.job.JobHandler;
 import net.riblab.tradecore.job.JobSkillHandler;
@@ -37,7 +38,7 @@ public final class TradeCore extends JavaPlugin {
 
     private static TradeCore instance;
     @Getter
-    private EconomyImpl economy;
+    private Economy economy;
     private VaultHook vaultHook;
     @Getter
     private ConfigManager configManager;
@@ -105,7 +106,7 @@ public final class TradeCore extends JavaPlugin {
         jobHandler = new JobHandler();
         jobSkillHandler = new JobSkillHandler();
         jobSkillHandler.onDeserialize();
-        itemModService = new ItemModService();
+        itemModService = new ItemModServiceImpl();
         playerStatsHandler = new PlayerStatsHandler();
         new VanillaCraftHandler();
         IDungeonService = new DungeonServiceImpl();

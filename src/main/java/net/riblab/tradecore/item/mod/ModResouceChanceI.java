@@ -2,9 +2,9 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
 
-public class ModResouceChance extends ItemMod implements IResourceChanceModifier {
+public class ModResouceChanceI extends ItemMod implements IResourceChanceModifier {
 
-    public ModResouceChance(int level) {
+    public ModResouceChanceI(int level) {
         super(level);
     }
 
