@@ -3,7 +3,13 @@ package net.riblab.tradecore.item;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.entity.Player;
 
+import java.util.List;
+import java.util.function.Consumer;
+
 public interface ItemModService {
+
+    List<Consumer<Player>> getOnItemModUpdated();
+    
     /**
      * プレイヤーをスキャンして装備modをリストアップして保存する
      */

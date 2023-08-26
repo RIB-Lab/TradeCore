@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * 他プラグインと連携するためにVaultが定義した経済システムを実装する
  */
-public class EconomyImpl implements Economy {
+public class EconomyImpl implements TCEconomy{
     private final ConfigManager.CurrencyData data = TradeCore.getInstance().getConfigManager().getCurrencyData();
 
     /**
@@ -310,6 +310,7 @@ public class EconomyImpl implements Economy {
     /**
      * プレイヤーの所持チケットを確認
      */
+    @Override
     public int getPlayTickets(OfflinePlayer offlinePlayer) {
         return data.playerTickets.get(offlinePlayer.getUniqueId());
     }
@@ -317,6 +318,7 @@ public class EconomyImpl implements Economy {
     /**
      * プレイヤーにチケットを与える
      */
+    @Override
     public void depositTickets(OfflinePlayer offlinePlayer, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
         int oldTickets = data.playerTickets.get(uuid);
@@ -327,6 +329,7 @@ public class EconomyImpl implements Economy {
     /**
      * プレイヤーからチケットを引く
      */
+    @Override
     public void withdrawTickets(OfflinePlayer offlinePlayer, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
         int oldTickets = data.playerTickets.get(uuid);

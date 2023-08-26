@@ -1,5 +1,6 @@
 package net.riblab.tradecore;
 
+import net.riblab.tradecore.item.ItemModService;
 import net.riblab.tradecore.item.ItemModServiceImpl;
 import net.riblab.tradecore.job.JobSkillHandler;
 import net.riblab.tradecore.modifier.IHPModifier;
@@ -26,13 +27,13 @@ public class PlayerStatsHandler {
         return TradeCore.getInstance().getJobSkillHandler();
     }
     
-    private static ItemModServiceImpl getEquipmentHandler(){
+    private static ItemModService getEquipmentHandler(){
         return TradeCore.getInstance().getItemModService();
     }
 
     public PlayerStatsHandler(){
         getJSHandler().onJobSkillChanged.add(this::update);
-        getEquipmentHandler().onItemModUpdated.add(this::update);
+        getEquipmentHandler().getOnItemModUpdated().add(this::update);
     }
     
     /**

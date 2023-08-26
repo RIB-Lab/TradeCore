@@ -1,5 +1,6 @@
 package net.riblab.tradecore.item;
 
+import lombok.Getter;
 import net.riblab.tradecore.item.base.IHasItemMod;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCEquipment;
@@ -29,7 +30,8 @@ public class ItemModServiceImpl implements ItemModService {
     /**
      * プレイヤーのアイテムmodが変更された時のイベント
      */
-    public List<Consumer<Player>> onItemModUpdated = new ArrayList<>();
+    @Getter
+    private List<Consumer<Player>> onItemModUpdated = new ArrayList<>();
 
     @Override
     public void updateEquipment(Player player){

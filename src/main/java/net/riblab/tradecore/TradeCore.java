@@ -17,6 +17,7 @@ import net.riblab.tradecore.craft.VanillaCraftHandler;
 import net.riblab.tradecore.dungeon.DungeonServiceImpl;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.integration.EconomyImpl;
+import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.integration.VaultHookImpl;
 import net.riblab.tradecore.item.*;
@@ -38,7 +39,7 @@ public final class TradeCore extends JavaPlugin {
 
     private static TradeCore instance;
     @Getter
-    private Economy economy;
+    private TCEconomy economy;
     private VaultHook vaultHook;
     @Getter
     private ConfigManager configManager;
