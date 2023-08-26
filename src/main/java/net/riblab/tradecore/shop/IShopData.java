@@ -1,4 +1,4 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.shop;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

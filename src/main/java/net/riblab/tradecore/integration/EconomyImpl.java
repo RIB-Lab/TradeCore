@@ -2,7 +2,7 @@ package net.riblab.tradecore.integration;
 
 
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.riblab.tradecore.ConfigServiceImpl;
+import net.riblab.tradecore.config.ConfigServiceImpl;
 import net.riblab.tradecore.TradeCore;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

@@ -1,9 +1,9 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.general;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
+import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.block.BlockStateEventHandler;
 import net.riblab.tradecore.dungeon.DungeonEventHandler;
-import net.riblab.tradecore.mob.CustomMobService;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;

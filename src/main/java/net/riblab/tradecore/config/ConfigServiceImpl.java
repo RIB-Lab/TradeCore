@@ -1,9 +1,10 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.config;
 
 import de.exlll.configlib.Comment;
 import de.exlll.configlib.Configuration;
 import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
+import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.job.IJobData;
 import net.riblab.tradecore.job.IJobSkill;
 import net.riblab.tradecore.job.JobData;

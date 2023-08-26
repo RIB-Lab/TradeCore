@@ -1,7 +1,6 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.playerstats;
 
 import lombok.Data;
-import lombok.Getter;
 
 /**
  * あるプレイヤーのこのサーバー内でのステータス

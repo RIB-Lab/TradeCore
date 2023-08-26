@@ -2,7 +2,7 @@ package net.riblab.tradecore.block;
 
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.Utils;
+import net.riblab.tradecore.utils.Utils;
 import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.base.ICanSpawnMobOnUse;
@@ -25,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashSet;
 import java.util.Set;
 
-import static net.riblab.tradecore.Materials.unbreakableMaterial;
+import static net.riblab.tradecore.utils.Materials.unbreakableMaterial;
 
 /**
  * ブロックの状態変更関連のイベントハンドラ

@@ -1,4 +1,4 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.utils;
 
 import org.bukkit.Material;
 

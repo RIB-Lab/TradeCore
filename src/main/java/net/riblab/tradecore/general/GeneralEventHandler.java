@@ -1,7 +1,9 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.general;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.base.IHasDurability;
 import net.riblab.tradecore.item.base.ITCItem;
@@ -13,6 +15,7 @@ import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
 import net.riblab.tradecore.ui.UICraftingTable;
 import net.riblab.tradecore.ui.UIFurnace;
+import net.riblab.tradecore.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.*;
@@ -50,7 +53,7 @@ public class GeneralEventHandler {
         TradeCore.getInstance().getItemModService().remove(event.getPlayer());
         TradeCore.getInstance().getPlayerStatsService().remove(event.getPlayer());
         
-        TradeCore.getInstance().getIDungeonService().tryLeave(event.getPlayer());
+        TradeCore.getInstance().getDungeonService().tryLeave(event.getPlayer());
     }
     
     public void processPlayerInteract(PlayerInteractEvent event) {

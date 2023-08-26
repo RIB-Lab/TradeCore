@@ -3,7 +3,7 @@ package net.riblab.tradecore.item;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Data;
-import net.riblab.tradecore.Materials;
+import net.riblab.tradecore.utils.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.item.base.TCTool;

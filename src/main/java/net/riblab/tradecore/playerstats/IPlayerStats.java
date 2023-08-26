@@ -1,4 +1,4 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.playerstats;
 
 public interface IPlayerStats {
 

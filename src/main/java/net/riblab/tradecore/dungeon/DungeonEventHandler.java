@@ -1,7 +1,7 @@
 package net.riblab.tradecore.dungeon;
 
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.Utils;
+import net.riblab.tradecore.utils.Utils;
 import net.riblab.tradecore.mob.ITCMob;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -19,7 +19,7 @@ import java.util.Random;
  */
 public class DungeonEventHandler {
     public static DungeonService getservice(){
-        return TradeCore.getInstance().getIDungeonService();
+        return TradeCore.getInstance().getDungeonService();
     }
 
     public void tryProcessDungeonSpawn(PlayerRespawnEvent event){

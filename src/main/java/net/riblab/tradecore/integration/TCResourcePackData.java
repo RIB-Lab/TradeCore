@@ -1,9 +1,9 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.integration;
 
 import net.kyori.adventure.key.Key;
 
-public class TCResourcePackData {
-    public TCResourcePackData() {
+public final class TCResourcePackData {
+    private TCResourcePackData() {
 
     }
 

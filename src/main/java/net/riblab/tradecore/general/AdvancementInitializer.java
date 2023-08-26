@@ -1,4 +1,4 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.general;
 
 import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
@@ -9,6 +9,7 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDispla
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.MultiTasksAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.TaskAdvancement;
+import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.Bukkit;

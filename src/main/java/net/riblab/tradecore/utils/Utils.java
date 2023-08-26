@@ -1,6 +1,7 @@
-package net.riblab.tradecore;
+package net.riblab.tradecore.utils;
 
 import com.google.common.collect.Multimap;
+import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.modifier.IModifier;
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
