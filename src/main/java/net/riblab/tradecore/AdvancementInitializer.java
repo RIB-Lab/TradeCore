@@ -21,14 +21,14 @@ import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 /**
  * 進捗管理クラス
  */
-public class AdvancementService {
+public class AdvancementInitializer {
 
     private AdvancementTab primitiveAgeTab;
     private UltimateAdvancementAPI getAPI(){
         return TradeCore.getInstance().getAdvancementAPI();
     };
     
-    public AdvancementService(){
+    public AdvancementInitializer(){
         getAPI().disableVanillaAdvancements();
         
         primitiveAgeTab = getAPI().createAdvancementTab("primitive_age");

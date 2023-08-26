@@ -12,7 +12,7 @@ import net.riblab.tradecore.block.BrokenBlocksServiceImpl;
 import net.riblab.tradecore.block.BrokenBlocksService;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
-import net.riblab.tradecore.craft.VanillaCraftHandler;
+import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonServiceImpl;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.integration.EconomyImpl;
@@ -37,7 +37,7 @@ public final class TradeCore extends JavaPlugin {
     private TCEconomy economy;
     private VaultHook vaultHook;
     @Getter
-    private ConfigManager configManager;
+    private ConfigService configService;
     @Getter
     private ProtocolManager protocolManager;
     @Getter
@@ -49,11 +49,11 @@ public final class TradeCore extends JavaPlugin {
     @Getter
     private ItemModService itemModService;
     @Getter
-    private PlayerStatsHandler playerStatsHandler;
+    private PlayerStatsService playerStatsService;
     @Getter
     private UltimateAdvancementAPI advancementAPI;
     @Getter
-    private AdvancementService advancementService;
+    private AdvancementInitializer advancementInitializer;
     @Getter
     private DungeonService IDungeonService;
     @Getter
@@ -62,7 +62,7 @@ public final class TradeCore extends JavaPlugin {
     private CustomMobService customMobService;
     @Getter
     private FakeVillagerService fakeVillagerService;
-    private TCTasks tcTasks;
+    private TCTasksInitializer tcTasksInitializer;
 
     public TradeCore() {
         instance = this;
@@ -100,15 +100,15 @@ public final class TradeCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        configManager = new ConfigManager();
-        configManager.load();
+        configService = new ConfigServiceImpl();
+        configService.load();
         eventReciever = new EventReciever();
         jobService = new JobDataDataServiceImpl();
         jobSkillService = new JobSkillServiceImpl();
         jobSkillService.onDeserialize();
         itemModService = new ItemModServiceImpl();
-        playerStatsHandler = new PlayerStatsHandler();
-        new VanillaCraftHandler();
+        playerStatsService = new PlayerStatsServiceImpl();
+        new VanillaCraftInitializer();
         IDungeonService = new DungeonServiceImpl();
         brokenBlocksService = new BrokenBlocksServiceImpl();
         customMobService = new CustomMobServiceImpl();
@@ -133,8 +133,8 @@ public final class TradeCore extends JavaPlugin {
 
         protocolManager = ProtocolLibrary.getProtocolManager();
 
-        tcTasks = new TCTasks();
-        advancementService = new AdvancementService();
+        tcTasksInitializer = new TCTasksInitializer();
+        advancementInitializer = new AdvancementInitializer();
 
         //買い取り商人
         ProtocolLibrary.getProtocolManager().addPacketListener(
@@ -162,7 +162,7 @@ public final class TradeCore extends JavaPlugin {
     public void onDisable() {
         vaultHook.unhook();
         TCCommands.onDisable();
-        configManager.save();
+        configService.save();
 
         customMobService.deSpawnAll();
 

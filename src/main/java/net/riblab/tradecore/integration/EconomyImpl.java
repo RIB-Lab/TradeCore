@@ -1,9 +1,8 @@
 package net.riblab.tradecore.integration;
 
 
-import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.riblab.tradecore.ConfigManager;
+import net.riblab.tradecore.ConfigServiceImpl;
 import net.riblab.tradecore.TradeCore;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -16,7 +15,7 @@ import java.util.UUID;
  * 他プラグインと連携するためにVaultが定義した経済システムを実装する
  */
 public class EconomyImpl implements TCEconomy{
-    private final ConfigManager.CurrencyData data = TradeCore.getInstance().getConfigManager().getCurrencyData();
+    private final ConfigServiceImpl.CurrencyData data = TradeCore.getInstance().getConfigService().getCurrencyData();
 
     /**
      * 初期所持金

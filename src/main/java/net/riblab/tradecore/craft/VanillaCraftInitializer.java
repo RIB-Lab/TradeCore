@@ -11,8 +11,8 @@ import org.bukkit.inventory.ShapelessRecipe;
 /**
  * バニラレシピの削除・登録クラス
  */
-public class VanillaCraftHandler {
-    public VanillaCraftHandler() {
+public class VanillaCraftInitializer {
+    public VanillaCraftInitializer() {
         Bukkit.clearRecipes();
 
         ItemStack hatchet = TCItems.HATCHET.get().getItemStack();

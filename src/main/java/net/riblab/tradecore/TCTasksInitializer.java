@@ -1,7 +1,5 @@
 package net.riblab.tradecore;
 
-import net.milkbowl.vault.economy.Economy;
-import net.riblab.tradecore.integration.EconomyImpl;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.base.IHasDurability;
 import net.riblab.tradecore.item.base.ITCItem;
@@ -14,18 +12,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * プラグイン起動時から走り続けるBukkitRunnableのタスクたち
  */
-public class TCTasks {
+public class TCTasksInitializer {
     
     private TCEconomy getEconomy(){
         return TradeCore.getInstance().getEconomy();
     }
     
-    public TCTasks(){
+    public TCTasksInitializer(){
         //定期的にコンフィグを保存
         new BukkitRunnable() {
             @Override
             public void run() {
-                TradeCore.getInstance().getConfigManager().save();
+                TradeCore.getInstance().getConfigService().save();
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 3600);
 

@@ -48,7 +48,7 @@ public class GeneralEventHandler {
         Utils.removeSlowDig(event.getPlayer());
         
         TradeCore.getInstance().getItemModService().remove(event.getPlayer());
-        TradeCore.getInstance().getPlayerStatsHandler().remove(event.getPlayer());
+        TradeCore.getInstance().getPlayerStatsService().remove(event.getPlayer());
         
         TradeCore.getInstance().getIDungeonService().tryLeave(event.getPlayer());
     }

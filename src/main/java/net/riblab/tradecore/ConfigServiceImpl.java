@@ -15,12 +15,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * コンフィグ管理システム
  */
-public class ConfigManager {
+public class ConfigServiceImpl implements ConfigService {
 
     /**
      * 保存するコンフィグの型
@@ -74,17 +73,13 @@ public class ConfigManager {
      */
     private static final Path jobsConfigFile = new File(TradeCore.getInstance().getDataFolder(), "jobs.yml").toPath();
 
-    /**
-     * コンフィグを保存する
-     */
+    @Override
     public void save() {
         YamlConfigurations.save(currencyConfigFile, CurrencyData.class, currencyData);
         YamlConfigurations.save(jobsConfigFile, JobDatas.class, jobDatas);
     }
 
-    /**
-     * コンフィグをロードする
-     */
+    @Override
     public void load() {
         // Load a new instance from the configuration file
         currencyData = YamlConfigurations.update(currencyConfigFile, CurrencyData.class);

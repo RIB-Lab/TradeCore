@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class JobDataDataServiceImpl implements JobDataService {
 
-    private final Map<UUID, List<IJobData>> datasMap = TradeCore.getInstance().getConfigManager().getJobDatas().getPlayerJobs();
+    private final Map<UUID, List<IJobData>> datasMap = TradeCore.getInstance().getConfigService().getJobDatas().getPlayerJobs();
 
     @Override
     public IJobData initPlayerJobData(OfflinePlayer offlinePlayer, JobData.JobType type) {

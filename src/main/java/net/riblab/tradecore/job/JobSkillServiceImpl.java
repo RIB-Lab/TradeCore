@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  */
 public class JobSkillServiceImpl implements JobSkillService {
 
-    private final Map<UUID, List<IJobSkill>> datasMap = TradeCore.getInstance().getConfigManager().getJobDatas().getPlayerJobSkills();
+    private final Map<UUID, List<IJobSkill>> datasMap = TradeCore.getInstance().getConfigService().getJobDatas().getPlayerJobSkills();
 
     /**
      * プレイヤーのJobSkillが変更された時のイベント

@@ -34,9 +34,9 @@ public enum Shops {
     TOOL(new ShopData("ツール屋", List.of(new ShopData.ShopItem(TCItems.DESTRUCTORS_WAND.get().getItemStack(), 1))));
     
     @Getter
-    private final ShopData shop;
+    private final IShopData shop;
 
-    Shops(ShopData shop) {
+    Shops(IShopData shop) {
         this.shop = shop;
     }
 
@@ -44,18 +44,18 @@ public enum Shops {
      * コマンド文字列をカスタムショップに変換する
      */
     @Nullable
-    public static ShopData commandToShop(String command) {
+    public static IShopData commandToShop(String command) {
         Shops data = Arrays.stream(Shops.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
         return data == null ? null : data.getShop();
     }
 
     // Function that returns our custom argument
-    public static Argument<ShopData> customShopDataArgument(String nodeName) {
+    public static Argument<IShopData> customShopDataArgument(String nodeName) {
 
         // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<ShopData, String>(new StringArgument(nodeName), info -> {
+        return new CustomArgument<IShopData, String>(new StringArgument(nodeName), info -> {
             // Parse the data from our input
-            ShopData data = commandToShop(info.input());
+            IShopData data = commandToShop(info.input());
 
             if (data == null) {
                 throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown shop: ").appendArgInput());
