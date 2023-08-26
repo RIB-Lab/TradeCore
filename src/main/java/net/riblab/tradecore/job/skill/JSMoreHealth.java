@@ -6,10 +6,8 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.job.JobSkill;
 import net.riblab.tradecore.modifier.IHPModifier;
-import net.riblab.tradecore.modifier.IJobExpModifier;
 
 import java.util.List;
-import java.util.Random;
 
 public class JSMoreHealth extends JobSkill implements IHPModifier {
 

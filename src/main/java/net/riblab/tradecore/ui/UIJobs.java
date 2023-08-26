@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class UIJobs {
 
-    private static final JobHandler jobHandler = TradeCore.getInstance().getJobHandler();
-    private static final JobSkillHandler skillHandler = TradeCore.getInstance().getJobSkillHandler();
+    private static final JobDataService JOB_SERVICE = TradeCore.getInstance().getJobService();
+    private static final JobSkillService skillHandler = TradeCore.getInstance().getJobSkillService();
 
     public static PaginatedGui open(Player player){
         PaginatedGui gui = Gui.paginated()
@@ -32,10 +32,10 @@ public class UIJobs {
                 .create();
 
         for (JobData.JobType type : JobData.JobType.values()) {
-            JobData jobData = jobHandler.getJobData(player, type);
+            IJobData IJobData = JOB_SERVICE.getJobData(player, type);
             ItemStack jobIcon = new ItemCreator(type.getUiMaterial()).setName(Component.text(type.getName()).decoration(TextDecoration.ITALIC, false))
                     .hideAttributes()
-                    .setLore(Component.text("現在のレベル:" + jobData.getLevel()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))//TODO:次のレベルまでの経験値を表示
+                    .setLore(Component.text("現在のレベル:" + IJobData.getLevel()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))//TODO:次のレベルまでの経験値を表示
                     .create();
             GuiItem jobButton = new GuiItem(jobIcon,
                     event -> open(player, type));
@@ -54,8 +54,8 @@ public class UIJobs {
                 .disableAllInteractions()
                 .create();
 
-        List<Class<? extends JobSkill>> availableSkills = JobSkills.getAvailableSkills(type);
-        for (Class<? extends JobSkill> availableSkill : availableSkills) {
+        List<Class<? extends IJobSkill>> availableSkills = JobSkills.getAvailableSkills(type);
+        for (Class<? extends IJobSkill> availableSkill : availableSkills) {
             GuiItem skillButton = new GuiItem(new ItemCreator(Material.DIRT).setName(Component.text(JobSkills.getSkillName(availableSkill)).decoration(TextDecoration.ITALIC, false))
                     .setLore(Component.text("現在のレベル:" + skillHandler.getSkillLevel(player, type, availableSkill)).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
                     .addLore(Component.text("最大レベル:" + JobSkills.getMaxLevel(availableSkill)).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
@@ -72,7 +72,7 @@ public class UIJobs {
     /**
      * スキルを習得しようとする
      */
-    public static void tryLearnSkill(InventoryClickEvent event, Class<? extends JobSkill> skillType, JobData.JobType type){
+    public static void tryLearnSkill(InventoryClickEvent event, Class<? extends IJobSkill> skillType, JobData.JobType type){
         if(skillHandler.getUnSpentSkillPoints((Player)event.getWhoClicked(), type) <= 0){
             event.getWhoClicked().sendMessage(Component.text("スキルポイントが足りません！"));
             return;

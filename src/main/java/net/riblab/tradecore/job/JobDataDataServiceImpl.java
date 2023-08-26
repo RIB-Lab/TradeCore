@@ -12,16 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class JobHandler {
+public class JobDataDataServiceImpl implements JobDataService {
 
-    private final Map<UUID, List<JobData>> datasMap = TradeCore.getInstance().getConfigManager().getJobDatas().playerJobs;
+    private final Map<UUID, List<IJobData>> datasMap = TradeCore.getInstance().getConfigManager().getJobDatas().getPlayerJobs();
 
-    /**
-     * プレイヤーの特定のJobデータを初期化する
-     */
-    public JobData initPlayerJobData(OfflinePlayer offlinePlayer, JobData.JobType type) {
+    @Override
+    public IJobData initPlayerJobData(OfflinePlayer offlinePlayer, JobData.JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
-        List<JobData> datas = datasMap.get(uuid);
+        List<IJobData> datas = datasMap.get(uuid);
         JobData data = new JobData();
         data.jobType = type;
         data.level = 0;
@@ -30,18 +28,16 @@ public class JobHandler {
         return data;
     }
 
-    /**
-     * プレイヤーにJob経験値を加える
-     */
+    @Override
     public void addJobExp(OfflinePlayer offlinePlayer, JobData.JobType type, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
-        List<JobData> datas = datasMap.get(uuid);
+        List<IJobData> datas = datasMap.get(uuid);
         if (datas == null) {
             datasMap.put(uuid, new ArrayList<>());
             datas = datasMap.get(uuid);
         }
 
-        JobData data = datas.stream().filter(jobData -> jobData.getJobType() == type).findAny().orElse(null);
+        IJobData data = datas.stream().filter(jobData -> jobData.getJobType() == type).findAny().orElse(null);
         if (data == null) {
             data = initPlayerJobData(offlinePlayer, type);
         }
@@ -80,18 +76,16 @@ public class JobHandler {
         }
     }
 
-    /**
-     * プレイヤーのJobDataを取得する
-     */
-    public JobData getJobData(OfflinePlayer offlinePlayer, JobData.JobType type) {
+    @Override
+    public IJobData getJobData(OfflinePlayer offlinePlayer, JobData.JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
-        List<JobData> datas = datasMap.get(uuid);
+        List<IJobData> datas = datasMap.get(uuid);
         if (datas == null) {
             datasMap.put(uuid, new ArrayList<>());
             datas = datasMap.get(uuid);
         }
 
-        JobData data = datas.stream().filter(jobData -> jobData.getJobType() == type).findAny().orElse(null);
+        IJobData data = datas.stream().filter(jobData -> jobData.getJobType() == type).findAny().orElse(null);
         if (data == null) {
             data = initPlayerJobData(offlinePlayer, type);
         }
@@ -99,23 +93,19 @@ public class JobHandler {
         return data;
     }
 
-    /**
-     * プレイヤーのjobデータを差し替える
-     * @param offlinePlayer
-     * @param dataToSet
-     */
+    @Override
     public void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet){
         if(dataToSet == null)
             return;
         
         UUID uuid = offlinePlayer.getUniqueId();
-        List<JobData> datas = datasMap.get(uuid);
+        List<IJobData> datas = datasMap.get(uuid);
         if (datas == null) {
             datasMap.put(uuid, new ArrayList<>());
             datas = datasMap.get(uuid);
         }
 
-        JobData data = datas.stream().filter(jobData -> jobData.getJobType() == dataToSet.jobType).findAny().orElse(null);
+        IJobData data = datas.stream().filter(jobData -> jobData.getJobType() == dataToSet.jobType).findAny().orElse(null);
         if (data == null) {
             data = initPlayerJobData(offlinePlayer, dataToSet.jobType);
         }
@@ -124,12 +114,10 @@ public class JobHandler {
         data.setExp(dataToSet.exp);
     }
 
-    /**
-     * プレイヤーの全てのjobデータを削除する
-     */
+    @Override
     public void resetJobData(OfflinePlayer offlinePlayer){
         UUID uuid = offlinePlayer.getUniqueId();
-        List<JobData> datas = datasMap.get(uuid);
+        List<IJobData> datas = datasMap.get(uuid);
         if (datas == null) {
             return;
         }

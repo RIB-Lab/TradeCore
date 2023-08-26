@@ -4,6 +4,8 @@ import de.exlll.configlib.Comment;
 import de.exlll.configlib.Configuration;
 import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
+import net.riblab.tradecore.job.IJobData;
+import net.riblab.tradecore.job.IJobSkill;
 import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.job.JobSkill;
 
@@ -13,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * コンフィグ管理システム
@@ -33,10 +36,24 @@ public class ConfigManager {
     @Configuration
     public static class JobDatas {
         @Comment({"職業"})
-        public Map<UUID, List<JobData>> playerJobs = new HashMap<>();
+        private Map<UUID, List<JobData>> playerJobs = new HashMap<>();
 
         @Comment({"職業スキル"})
-        public Map<UUID, List<JobSkill>> playerJobSkills = new HashMap<>();
+        private Map<UUID, List<JobSkill>> playerJobSkills = new HashMap<>();
+
+        /**
+         * プレイヤーのJobを操作するときはインターフェース経由で
+         */
+        public Map<UUID, List<IJobData>> getPlayerJobs(){
+            return (Map<UUID, List<IJobData>>) (Object)playerJobs;
+        }
+
+        /**
+         * プレイヤーのJobスキルを操作するときはインターフェース経由で
+         */
+        public Map<UUID, List<IJobSkill>> getPlayerJobSkills(){
+            return (Map<UUID, List<IJobSkill>>) (Object)playerJobSkills;
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.Utils;
+import net.riblab.tradecore.job.JobData;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.TCResourcePackData;
@@ -19,7 +20,6 @@ import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
 import net.riblab.tradecore.modifier.IIngredientAmountModifier;
-import net.riblab.tradecore.job.JobData;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -256,7 +256,7 @@ public class UICraftingTable {
         }
         TradeCore.getInstance().getEconomy().withdrawPlayer(player, skillAppliedFee);
 
-        TradeCore.getInstance().getJobHandler().addJobExp(player, JobData.JobType.Crafter, (int)recipe.getFee());
+        TradeCore.getInstance().getJobService().addJobExp(player, JobData.JobType.Crafter, (int)recipe.getFee());
 
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.getResult());
         if(remains.size() == 0)

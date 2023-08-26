@@ -119,7 +119,7 @@ public class BlockStateEventHandler implements Listener {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
                 Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-                TradeCore.getInstance().getJobHandler().addJobExp(event.getPlayer(), JobData.JobType.Mower, 1);
+                TradeCore.getInstance().getJobService().addJobExp(event.getPlayer(), JobData.JobType.Mower, 1);
                 return;
             }
         }
@@ -140,7 +140,7 @@ public class BlockStateEventHandler implements Listener {
                 JobData.JobType jobType = tool.getToolType().getExpType();
                 if(jobType != null){
                     //硬度によって経験値が決まるが、硬度0でも1は入るようにする
-                    TradeCore.getInstance().getJobHandler().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), (TCTool) itcItem) + 1);
+                    TradeCore.getInstance().getJobService().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), (TCTool) itcItem) + 1);
                 }
 
                 event.getBlock().setType(Material.AIR);

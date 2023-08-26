@@ -8,7 +8,6 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import lombok.Getter;
-import net.milkbowl.vault.economy.Economy;
 import net.riblab.tradecore.block.BrokenBlocksServiceImpl;
 import net.riblab.tradecore.block.BrokenBlocksService;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
@@ -22,9 +21,7 @@ import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.integration.VaultHookImpl;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.base.ITCTool;
-import net.riblab.tradecore.job.JobData;
-import net.riblab.tradecore.job.JobHandler;
-import net.riblab.tradecore.job.JobSkillHandler;
+import net.riblab.tradecore.job.*;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.mob.TCMobs;
@@ -48,9 +45,9 @@ public final class TradeCore extends JavaPlugin {
     @Getter
     private EventReciever eventReciever;
     @Getter
-    private JobHandler jobHandler;
+    private JobDataService jobService;
     @Getter
-    private JobSkillHandler jobSkillHandler;
+    private JobSkillService jobSkillService;
     @Getter
     private ItemModService itemModService;
     @Getter
@@ -104,9 +101,9 @@ public final class TradeCore extends JavaPlugin {
         configManager = new ConfigManager();
         configManager.load();
         eventReciever = new EventReciever();
-        jobHandler = new JobHandler();
-        jobSkillHandler = new JobSkillHandler();
-        jobSkillHandler.onDeserialize();
+        jobService = new JobDataDataServiceImpl();
+        jobSkillService = new JobSkillServiceImpl();
+        jobSkillService.onDeserialize();
         itemModService = new ItemModServiceImpl();
         playerStatsHandler = new PlayerStatsHandler();
         new VanillaCraftHandler();

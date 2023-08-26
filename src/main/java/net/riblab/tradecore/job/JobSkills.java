@@ -22,9 +22,9 @@ public enum JobSkills {
     MOREHEALTH(JSMoreHealth.class);
 
     @Getter
-    private final Class<? extends JobSkill> skillType;
+    private final Class<? extends IJobSkill> skillType;
 
-    JobSkills(Class<? extends JobSkill> skiiType) {
+    JobSkills(Class<? extends IJobSkill> skiiType) {
         this.skillType = skiiType;
     }
 
@@ -33,7 +33,7 @@ public enum JobSkills {
      * @param jobType ジョブの種類
      * @return 習得可能なスキルのリスト
      */
-    public static List<Class<? extends JobSkill>> getAvailableSkills(JobData.JobType jobType){
+    public static List<Class<? extends IJobSkill>> getAvailableSkills(JobData.JobType jobType){
         return Arrays.stream(JobSkills.values()).map(jobSkills -> jobSkills.skillType).filter(skillType -> {
             List<JobData.JobType> skillTypes = new ArrayList<>();
             try {
@@ -49,7 +49,7 @@ public enum JobSkills {
     /**
      * あるスキルの名前を取得
      */
-    public static String getSkillName(Class<? extends JobSkill> skillType){
+    public static String getSkillName(Class<? extends IJobSkill> skillType){
         Field field;
         try {
             field = skillType.getDeclaredField("name");
@@ -66,7 +66,7 @@ public enum JobSkills {
     /**
      * あるスキルの解説文を取得
      */
-    public static List<Component> getSkillLore(Class<? extends JobSkill> skillType){
+    public static List<Component> getSkillLore(Class<? extends IJobSkill> skillType){
         Field field;
         try {
             field = skillType.getDeclaredField("lore");
@@ -83,7 +83,7 @@ public enum JobSkills {
     /**
      * あるスキルの最大レベルを取得
      */
-    public static int getMaxLevel(Class<? extends JobSkill> skillType){
+    public static int getMaxLevel(Class<? extends IJobSkill> skillType){
         Field field;
         try {
             field = skillType.getDeclaredField("maxLevel");

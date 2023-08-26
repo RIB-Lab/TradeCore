@@ -38,8 +38,8 @@ public class TCCommands {
     
     public static final String merchantName = "買い取り商";
 
-    private static JobHandler getJobHandler(){
-        return TradeCore.getInstance().getJobHandler();
+    private static JobDataService getJobHandler(){
+        return TradeCore.getInstance().getJobService();
     }
     
     private static Economy getEconomy(){
@@ -163,7 +163,7 @@ public class TCCommands {
         CommandAPICommand skillResetCommand = new CommandAPICommand("resetskilllv")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    TradeCore.getInstance().getJobSkillHandler().resetPlayerJobSkillData(player);
+                    TradeCore.getInstance().getJobSkillService().resetPlayerJobSkillData(player);
                 });
         jobCommand.withSubcommand(jobSetCommand);
         jobCommand.withSubcommand(jobResetCommand);

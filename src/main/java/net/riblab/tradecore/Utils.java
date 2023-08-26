@@ -105,7 +105,7 @@ public class Utils {
      */
     public static  <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz){
         T modifiedValue = TradeCore.getInstance().getItemModService().apply(player, originalValue, clazz);
-        modifiedValue = TradeCore.getInstance().getJobSkillHandler().apply(player, originalValue, modifiedValue, clazz);
+        modifiedValue = TradeCore.getInstance().getJobSkillService().apply(player, originalValue, modifiedValue, clazz);
         return modifiedValue;
     }
 
