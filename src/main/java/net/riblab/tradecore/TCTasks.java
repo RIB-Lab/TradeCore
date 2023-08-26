@@ -20,24 +20,6 @@ public class TCTasks {
     }
     
     public TCTasks(){
-        //所持金と投票券表示
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                String negativeSpace = TCResourcePackData.IconsFont.NEGATIVE_SPACE.get_char();
-                Bukkit.getOnlinePlayers().forEach(player -> {
-                    int balance = (int) getEconomy().getBalance(player);
-                    int tickets = getEconomy().getPlayTickets(player);
-                    Component text = Component.text("");
-                    text = text.append(Component.text(negativeSpace + negativeSpace + negativeSpace + negativeSpace + TCResourcePackData.IconsFont.COIN.get_char()).font(TCResourcePackData.iconsFontName));
-                    text = text.append(Component.text(" " + balance).font(TCResourcePackData.yPlus12FontName));
-                    text = text.append(Component.text("                         " + TCResourcePackData.IconsFont.VOTE_TICKET.get_char()).font(TCResourcePackData.iconsFontName));
-                    text = text.append(Component.text(" " + tickets).font(TCResourcePackData.yPlus12FontName));
-                    player.sendActionBar(text);
-                });
-            }
-        }.runTaskTimer(TradeCore.getInstance(), 0, 20);
-
         //定期的にコンフィグを保存
         new BukkitRunnable() {
             @Override
@@ -77,11 +59,11 @@ public class TCTasks {
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 6000);
 
-        //ダンジョンのオブジェクト処理を行う
+        //イベントレシーバに1秒が経ったことを伝える
         new BukkitRunnable() {
             @Override
             public void run() {
-                TradeCore.getInstance().getDungeonEventHandler().onDungeonTick();
+                TradeCore.getInstance().getEventReciever().onSecondPassed();
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 20);
     }

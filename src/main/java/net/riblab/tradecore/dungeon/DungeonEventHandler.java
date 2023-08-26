@@ -9,6 +9,8 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.world.WorldInitEvent;
 
 import java.util.List;
 import java.util.Random;
@@ -20,8 +22,15 @@ public class DungeonEventHandler {
     public static DungeonService getservice(){
         return TradeCore.getInstance().getDungeonService();
     }
+
+    public void tryProcessDungeonSpawn(PlayerRespawnEvent event){
+        if(!getservice().isPlayerInDungeon(event.getPlayer()))
+            return;
+
+        event.setRespawnLocation(event.getPlayer().getWorld().getSpawnLocation());
+    }
     
-    public void onDungeonTick(){
+    public void onDungeonSecondPassed(){
         Bukkit.getOnlinePlayers().forEach(player -> {
             if(!getservice().isPlayerInDungeon(player))
                 return;
@@ -31,7 +40,10 @@ public class DungeonEventHandler {
             trySpawnMob(player, data);
         });
     }
-    
+
+    /**
+     * ダンジョンにいるプレイヤー周辺のスポナーからダンジョンに応じたモブをスポーンさせる
+     */
     private void trySpawnMob(Player player, DungeonData data){
         List<Block> activatedSpawner = Utils.getBlocksInRadius(player, 8, Material.REDSTONE_BLOCK);
         for (Block block : activatedSpawner) {
@@ -42,5 +54,9 @@ public class DungeonEventHandler {
             }
             block.setType(Material.AIR);
         }
+    }
+
+    public void onDungeonInit(WorldInitEvent event){
+        event.getWorld().setKeepSpawnInMemory(false);
     }
 }

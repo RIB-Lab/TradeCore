@@ -1,9 +1,7 @@
 package net.riblab.tradecore;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
-import com.fren_gor.ultimateAdvancementAPI.events.PlayerLoadingCompletedEvent;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.attribute.IHasDurability;
 import net.riblab.tradecore.item.attribute.ITCItem;
@@ -11,16 +9,13 @@ import net.riblab.tradecore.item.weapon.ITCWeapon;
 import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
-import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.ui.UICraftingTable;
 import net.riblab.tradecore.ui.UIFurnace;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.world.WorldInitEvent;
@@ -33,19 +28,13 @@ import java.util.Set;
 /**
  * イベント受信システム
  */
-public class GeneralEventHandler implements Listener {
+public class GeneralEventHandler {
     
     private static final Set<EntityDamageEvent.DamageCause> unBlockableDamageCause = Set.of(EntityDamageEvent.DamageCause.SUICIDE, EntityDamageEvent.DamageCause.KILL, 
             EntityDamageEvent.DamageCause.DROWNING, EntityDamageEvent.DamageCause.CUSTOM, EntityDamageEvent.DamageCause.STARVATION, EntityDamageEvent.DamageCause.VOID,
             EntityDamageEvent.DamageCause.WORLD_BORDER);
-
-    public GeneralEventHandler() {
-        Bukkit.getServer().getPluginManager().registerEvents(this, TradeCore.getInstance());
-    }
-
-
-    @org.bukkit.event.EventHandler
-    public void OnPlayerJoin(PlayerJoinEvent event) {
+    
+    public void processPlayerJoin(PlayerJoinEvent event) {
         if (!TradeCore.getInstance().getEconomy().hasAccount(event.getPlayer()))
             TradeCore.getInstance().getEconomy().createPlayerAccount(event.getPlayer());
 
@@ -53,9 +42,8 @@ public class GeneralEventHandler implements Listener {
         TradeCore.getInstance().getItemModService().updateEquipment(event.getPlayer());
         TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
     }
-
-    @org.bukkit.event.EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
+    
+    public void processPlayerQuit(PlayerQuitEvent event) {
         Utils.removeSlowDig(event.getPlayer());
         
         TradeCore.getInstance().getItemModService().remove(event.getPlayer());
@@ -63,9 +51,8 @@ public class GeneralEventHandler implements Listener {
         
         TradeCore.getInstance().getDungeonService().tryLeave(event.getPlayer());
     }
-
-    @org.bukkit.event.EventHandler
-    public void OnPlayerInteract(PlayerInteractEvent event) {
+    
+    public void processPlayerInteract(PlayerInteractEvent event) {
         if(event.getHand() == EquipmentSlot.OFF_HAND)
             return;
         
@@ -155,30 +142,21 @@ public class GeneralEventHandler implements Listener {
             }
         }
     }
-
-    @org.bukkit.event.EventHandler
-    public void onEntityDeath(EntityDeathEvent event) {
-        CustomMobService.onEntityDeath(event);
-    }
-
-    @org.bukkit.event.EventHandler
-    public void onEntityDamage(EntityDamageByEntityEvent event) {
+    
+    public void processEntityDamageByEntity(EntityDamageByEntityEvent event) {
         if (!(event.getDamager() instanceof Player))
             return; //TODO:ここでprojectile攻撃の処理分岐
         
         tryProcessMeleeAttack(event);
     }
-
-    @org.bukkit.event.EventHandler
-    public void onPlayerReSpawn(PlayerRespawnEvent event){
+    
+    public void processPlayerRespawn(PlayerRespawnEvent event){
         new BukkitRunnable() { //他のプラグインのエフェクト除去効果を上書き
             @Override
             public void run() {
                 Utils.addSlowDig(event.getPlayer());
             }
         }.runTaskLater(TradeCore.getInstance(), 1);
-
-        TradeCore.getInstance().getDungeonService().tryProcessDungeonSpawn(event);
     }
 
     /**
@@ -220,9 +198,8 @@ public class GeneralEventHandler implements Listener {
             }
         }
     }
-
-    @org.bukkit.event.EventHandler
-    public void onPlayerDamage(EntityDamageEvent event){
+    
+    public void processEntityDamage(EntityDamageEvent event){
         tryBlockDamageWithCustomArmor(event);
     }
 
@@ -254,26 +231,36 @@ public class GeneralEventHandler implements Listener {
         double finalDamage = (5* rawDamage * rawDamage)/(armor + 5* rawDamage);
         event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, finalDamage);
     }
+    
+    public void processPlayerConsumeItem(PlayerItemConsumeEvent event){
+        preventMiningDebuffRemoved(event);
+    }
 
-    @org.bukkit.event.EventHandler
-    public void onPlayerConsumeItem(PlayerItemConsumeEvent event){
-        if(event.getPlayer().getInventory().getItemInMainHand().getType() == Material.MILK_BUCKET){ //採掘デバフが剥がれるのを防ぐ
+    /**
+     * 採掘デバフが剥がれるのを防ぐ
+     */
+    private void preventMiningDebuffRemoved(PlayerItemConsumeEvent event){
+        if(event.getPlayer().getInventory().getItemInMainHand().getType() == Material.MILK_BUCKET){ 
             event.setCancelled(true);
         }
     }
-
-    @org.bukkit.event.EventHandler
-    public void onPlayerChangeArmor(PlayerArmorChangeEvent event){
+    
+    public void processPlayerArmorChange(PlayerArmorChangeEvent event){
         TradeCore.getInstance().getItemModService().updateEquipment(event.getPlayer());
     }
-
-    @org.bukkit.event.EventHandler
-    public void onPlayerItemHeld(PlayerItemHeldEvent event){
+    
+    public void processPlayerItemHeld(PlayerItemHeldEvent event){
         TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getNewSlot());
     }
+    
+    public void processInventoryClick(InventoryClickEvent event){
+        checkMainHandItemUpdate(event);
+    }
 
-    @org.bukkit.event.EventHandler
-    public void onInventoryClick(InventoryClickEvent event){
+    /**
+     * メインハンドのアイテムが更新されたらmodサービスに通知する
+     */
+    private void checkMainHandItemUpdate(InventoryClickEvent event){
         int mainhandSlot = event.getWhoClicked().getInventory().getHeldItemSlot();
         if((event.getSlot() == mainhandSlot || (event.isShiftClick() && !event.getClickedInventory().equals(event.getWhoClicked().getInventory()))) && event.getWhoClicked() instanceof Player player){
             new BukkitRunnable(){
@@ -285,9 +272,15 @@ public class GeneralEventHandler implements Listener {
             }.runTaskLater(TradeCore.getInstance(), 0);
         }
     }
+    
+    public void processPlayerSwapHandItems(PlayerSwapHandItemsEvent event){
+        checkMainHandItemUpdate(event);
+    }
 
-    @org.bukkit.event.EventHandler
-    public void onPlayerSwapItem(PlayerSwapHandItemsEvent event){
+    /**
+     * メインハンドのアイテムが更新されたらmodサービスに通知する
+     */
+    private void checkMainHandItemUpdate(PlayerSwapHandItemsEvent event){
         new BukkitRunnable(){
 
             @Override
@@ -296,9 +289,25 @@ public class GeneralEventHandler implements Listener {
             }
         }.runTaskLater(TradeCore.getInstance(), 0);
     }
+    
+    public void processSecondPassed(){
+        updateActionBar();
+    }
 
-    @org.bukkit.event.EventHandler
-    public void onWorldInit(WorldInitEvent event){
-        TradeCore.getInstance().getDungeonService().onDungeonInit(event);
+    /**
+     * 所持金と投票券表示
+     */
+    private void updateActionBar(){
+        String negativeSpace = TCResourcePackData.IconsFont.NEGATIVE_SPACE.get_char();
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            int balance = (int) TradeCore.getInstance().getEconomy().getBalance(player);
+            int tickets = TradeCore.getInstance().getEconomy().getPlayTickets(player);
+            Component text = Component.text("");
+            text = text.append(Component.text(negativeSpace + negativeSpace + negativeSpace + negativeSpace + TCResourcePackData.IconsFont.COIN.get_char()).font(TCResourcePackData.iconsFontName));
+            text = text.append(Component.text(" " + balance).font(TCResourcePackData.yPlus12FontName));
+            text = text.append(Component.text("                         " + TCResourcePackData.IconsFont.VOTE_TICKET.get_char()).font(TCResourcePackData.iconsFontName));
+            text = text.append(Component.text(" " + tickets).font(TCResourcePackData.yPlus12FontName));
+            player.sendActionBar(text);
+        });
     }
 }

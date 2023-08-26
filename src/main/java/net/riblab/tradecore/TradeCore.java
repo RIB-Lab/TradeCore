@@ -41,8 +41,8 @@ public final class TradeCore extends JavaPlugin {
     private ConfigManager configManager;
     @Getter
     private ProtocolManager protocolManager;
-    private GeneralEventHandler eventHandler;
-    private BlockStateEventHandler blockStateEventHandler;
+    @Getter
+    private EventReciever eventReciever;
     @Getter
     private JobHandler jobHandler;
     @Getter
@@ -57,8 +57,6 @@ public final class TradeCore extends JavaPlugin {
     private AdvancementService advancementService;
     @Getter
     private DungeonService dungeonService;
-    @Getter
-    private DungeonEventHandler dungeonEventHandler;
     private TCTasks tcTasks;
 
     public TradeCore() {
@@ -73,13 +71,19 @@ public final class TradeCore extends JavaPlugin {
     private static boolean isWGLoaded;
 
     static {
-        //安全にenumを初期化
+        initializeEnumSafely();
+    }
+
+    /**
+     * ロード順によって競合の可能性のあるenumを安全に初期化する
+     */
+    private static void initializeEnumSafely(){
         TCItems.values();
         TCMobs.values();
         LootTables.values();
         TCCraftingRecipes.values();
         TCFurnaceRecipes.values();
-        
+
         JobData.JobType.values();
         ITCTool.ToolType.values();
     }
@@ -93,8 +97,7 @@ public final class TradeCore extends JavaPlugin {
     public void onEnable() {
         configManager = new ConfigManager();
         configManager.load();
-        eventHandler = new GeneralEventHandler();
-        blockStateEventHandler = new BlockStateEventHandler();
+        eventReciever = new EventReciever();
         jobHandler = new JobHandler();
         jobSkillHandler = new JobSkillHandler();
         jobSkillHandler.onDeserialize();
@@ -102,7 +105,6 @@ public final class TradeCore extends JavaPlugin {
         playerStatsHandler = new PlayerStatsHandler();
         new VanillaCraftHandler();
         dungeonService = new DungeonService();
-        dungeonEventHandler = new DungeonEventHandler();
 
         economy = new EconomyImplementer();
         vaultHook = new VaultHook();

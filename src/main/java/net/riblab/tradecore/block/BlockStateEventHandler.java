@@ -31,15 +31,6 @@ import static net.riblab.tradecore.Materials.unbreakableMaterial;
  */
 public class BlockStateEventHandler implements Listener {
 
-    public BlockStateEventHandler() {
-        Bukkit.getServer().getPluginManager().registerEvents(this, TradeCore.getInstance());
-    }
-
-    @org.bukkit.event.EventHandler
-    public void onBlockDamage(BlockDamageEvent event) {
-        tryCreateBrokenBlock(event);
-    }
-
     /**
      * ブロックにサーバー側でひびを入れることを試みる
      */
@@ -61,11 +52,6 @@ public class BlockStateEventHandler implements Listener {
         }
 
         BrokenBlocksService.createBrokenBlock(event.getBlock(), event.getPlayer());
-    }
-    
-    @org.bukkit.event.EventHandler
-    public void onPlayerAnimation(PlayerAnimationEvent event) {
-        tryIncrementBlockDamage(event);
     }
 
     /**
@@ -104,12 +90,6 @@ public class BlockStateEventHandler implements Listener {
         SoundGroup soundGroup = block.getBlockData().getSoundGroup();
         player.playSound(block.getLocation(), soundGroup.getHitSound(), SoundCategory.BLOCKS, 1f, 1f);
         BrokenBlocksService.getBrokenBlock(player).incrementDamage(player, tool.getActualMiningSpeed());
-    }
-
-
-    @org.bukkit.event.EventHandler
-    public void onPlayerBreakBlock(BlockBreakEvent event) {
-        tryHarvestBlockWithCustomTool(event);
     }
 
     /**
@@ -167,11 +147,6 @@ public class BlockStateEventHandler implements Listener {
         event.setDropItems(false);
     }
 
-    @org.bukkit.event.EventHandler
-    public void onPlayerPlaceBlock(BlockPlaceEvent event) {
-        tryProcessHoeDrop(event);
-    }
-
     /**
      * クワの耕地ドロップ処理を実行すると同時にITCItemが設置されるのを防止する
      * @param event
@@ -195,11 +170,6 @@ public class BlockStateEventHandler implements Listener {
         }
 
         event.setCancelled(true);
-    }
-
-    @org.bukkit.event.EventHandler
-    public void onLeavesDecay(LeavesDecayEvent event) {
-        preventVanillaStickFromDropping(event);
     }
 
     /**

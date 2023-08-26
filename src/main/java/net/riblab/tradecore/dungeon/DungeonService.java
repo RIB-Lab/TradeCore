@@ -215,13 +215,6 @@ public class DungeonService {
         Utils.deleteFolder(folder);
     }
     
-    public void tryProcessDungeonSpawn(PlayerRespawnEvent event){
-        if(!dungeons.contains(event.getPlayer().getWorld()))
-            return;
-        
-        event.setRespawnLocation(event.getPlayer().getWorld().getSpawnLocation());
-    }
-    
     private String getAffixedDungeonName(String name, int id){
         return dungeonPrefix + "_" + name + "_" + id;
     }
@@ -257,9 +250,5 @@ public class DungeonService {
     public void killEmptyDungeons(){
         List<World> nobodyDungeons = dungeons.stream().filter(world -> world.getPlayers().size() == 0).collect(Collectors.toList());
         nobodyDungeons.forEach(this::destroySpecific);
-    }
-    
-    public void onDungeonInit(WorldInitEvent event){
-        event.getWorld().setKeepSpawnInMemory(false);
     }
 }
