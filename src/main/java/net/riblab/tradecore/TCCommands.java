@@ -7,7 +7,6 @@ import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
-import dev.jorel.commandapi.arguments.StringArgument;
 import net.milkbowl.vault.economy.Economy;
 import net.riblab.tradecore.dungeon.DungeonData;
 import net.riblab.tradecore.dungeon.DungeonDatas;
@@ -86,7 +85,13 @@ public class TCCommands {
         sellCommand.setPermission(CommandPermission.NONE);
         sellCommand.register();
 
-        CommandAPICommand spawnCommand = new CommandAPICommand("tcspawn")
+        CommandAPICommand mobCommand = new CommandAPICommand("tcmobs")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                });
+
+        CommandAPICommand spawnCommand = new CommandAPICommand("spawn")
+                .withPermission(CommandPermission.OP)
                 .withArguments(TCMobs.customITCMobArgument("mobname"))
                 .executesPlayer((player, args) -> {
                     TCMob type = (TCMob) args.get(0);
@@ -95,8 +100,15 @@ public class TCCommands {
 
                     CustomMobService.spawn(player, spawnLocation, type);
                 });
-        spawnCommand.setPermission(CommandPermission.OP);
-        spawnCommand.register();
+        CommandAPICommand mobResetCommand = new CommandAPICommand("reset")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    CustomMobService.deSpawnAll();
+                    player.sendMessage("モブシステムをリセットしました");
+                });
+        mobCommand.withSubcommand(spawnCommand);
+        mobCommand.withSubcommand(mobResetCommand);
+        mobCommand.register();
 
         CommandAPICommand shopCommand = new CommandAPICommand("tcshop")
                 .withPermission(CommandPermission.OP)
