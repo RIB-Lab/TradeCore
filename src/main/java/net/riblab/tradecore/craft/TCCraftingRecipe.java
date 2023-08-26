@@ -10,7 +10,7 @@ import java.util.Map;
  * レシピクラス
  */
 @Data
-public class TCCraftingRecipe {
+public class TCCraftingRecipe implements ITCCraftingRecipe {
     /**
      * レシピ素材。同じ種類のアイテムを複数スロットに入れないこと！
      */

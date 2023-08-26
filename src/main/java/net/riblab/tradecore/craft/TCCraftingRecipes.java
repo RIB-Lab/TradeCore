@@ -59,16 +59,16 @@ public enum TCCraftingRecipes {
 
 
     @Getter
-    private final TCCraftingRecipe recipe;
+    private final ITCCraftingRecipe recipe;
 
-    TCCraftingRecipes(TCCraftingRecipe recipe) {
+    TCCraftingRecipes(ITCCraftingRecipe recipe) {
         this.recipe = recipe;
     }
 
     /**
      * ある種類のレシピを全て取得する
      */
-    public static List<TCCraftingRecipe> getRecipes(RecipeType type) {
+    public static List<ITCCraftingRecipe> getRecipes(RecipeType type) {
         return Arrays.stream(TCCraftingRecipes.values()).map(TCCraftingRecipes::getRecipe).filter(tcCraftingRecipe -> tcCraftingRecipe.getCategory() == type).collect(Collectors.toList());
     }
 

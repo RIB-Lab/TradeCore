@@ -9,11 +9,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.Utils;
+import net.riblab.tradecore.craft.TCCraftingRecipe;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.TCResourcePackData;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.craft.TCCraftingRecipe;
+import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
@@ -141,7 +142,7 @@ public class UICraftingTable {
      * レシピリスト画面を実装
      */
     private static void addRecipeListScreen(CraftingScreenType type, PaginatedGui gui, Player player) {
-        List<TCCraftingRecipe> recipeList = TCCraftingRecipes.getRecipes(type.getRecipeType());
+        List<ITCCraftingRecipe> recipeList = TCCraftingRecipes.getRecipes(type.getRecipeType());
         if (recipeList == null || recipeList.size() == 0)
             return;
 

@@ -17,9 +17,9 @@ public enum TCFurnaceRecipes {
     GOLD_SHARD(new TCFurnaceRecipe(Map.of(TCItems.SANDGOLD.get(), 1, TCItems.ASH.get(), 1), TCItems.GOLD_SHARD.get().getItemStack(), 1, 3));
 
     @Getter
-    private final TCFurnaceRecipe recipe;
+    private final ITCFurnaceRecipe recipe;
 
-    TCFurnaceRecipes(TCFurnaceRecipe recipe) {
+    TCFurnaceRecipes(ITCFurnaceRecipe recipe) {
         this.recipe = recipe;
     }
 }

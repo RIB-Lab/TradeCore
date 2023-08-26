@@ -10,7 +10,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.TCResourcePackData;
-import net.riblab.tradecore.craft.TCFurnaceRecipe;
+import net.riblab.tradecore.craft.ITCFurnaceRecipe;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.item.attribute.ITCItem;
 import net.riblab.tradecore.item.TCItems;
@@ -54,7 +54,7 @@ public class UIFurnace {
     /**
      * クラフト確認画面を開く
      */
-    public static PaginatedGui open(Player player, TCFurnaceRecipe recipe) {
+    public static PaginatedGui open(Player player, ITCFurnaceRecipe recipe) {
         PaginatedGui gui = Gui.paginated()
                 .title(SmeltingScreenType.SMELTING.getTitle())
                 .rows(3)
@@ -75,7 +75,7 @@ public class UIFurnace {
      * レシピリスト画面を実装
      */
     private static void addRecipeListScreen(PaginatedGui gui, Player player) {
-        List<TCFurnaceRecipe> recipeList = Arrays.stream(TCFurnaceRecipes.values()).map(TCFurnaceRecipes::getRecipe).toList();
+        List<ITCFurnaceRecipe> recipeList = Arrays.stream(TCFurnaceRecipes.values()).map(TCFurnaceRecipes::getRecipe).toList();
         if (recipeList.size() == 0)
             return;
 
@@ -100,7 +100,7 @@ public class UIFurnace {
     /**
      * クラフト確認画面を実装
      */
-    private static void addSmeltingScreen(PaginatedGui gui, Player player, TCFurnaceRecipe recipe) {
+    private static void addSmeltingScreen(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe) {
         int slot = 0;
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             ItemStack ingredientStack = entry.getKey().getItemStack();
@@ -135,7 +135,7 @@ public class UIFurnace {
     /**
      * 精錬の決済処理を行う
      */
-    private static void trySmelt(PaginatedGui gui, Player player, TCFurnaceRecipe recipe, ItemStack resultStack) {
+    private static void trySmelt(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
         for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
             boolean playerHasItem = player.getInventory().containsAtLeast(entry.getKey().getItemStack(), entry.getValue());
