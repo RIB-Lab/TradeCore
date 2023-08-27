@@ -29,7 +29,7 @@ public class BrokenBlocksServiceImpl implements BrokenBlocksService {
 
     @Override
     public void incrementDamage(Player player, double amount) {
-        if(isPlayerAlreadyBreaking(player))
+        if(!isPlayerAlreadyBreaking(player))
             return;
         
         brokenBlocks.get(player).incrementDamage(player, amount);
