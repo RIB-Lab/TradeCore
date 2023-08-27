@@ -3,6 +3,7 @@ package net.riblab.tradecore.item.weapon;
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.mob.CustomMobService;
+import net.riblab.tradecore.mob.MobUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Mob;
@@ -41,7 +42,7 @@ public class WeaponAttributeBattleAxe implements IWeaponAttribute{
 
             livingEntity.damage(attackDamage);
             livingEntity.setVelocity(diff.normalize().multiply(2f));
-            TradeCore.getInstance().getCustomMobService().setLootableTag(livingEntity, true);
+            MobUtils.setLootableTag(livingEntity, true);
             isHit = true;
         }
 

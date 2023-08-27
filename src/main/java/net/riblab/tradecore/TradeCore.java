@@ -25,7 +25,7 @@ import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.integration.VaultHookImpl;
 import net.riblab.tradecore.item.*;
-import net.riblab.tradecore.job.data.JobDataDataServiceImpl;
+import net.riblab.tradecore.job.data.JobDataServiceImpl;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.job.skill.JobSkillServiceImpl;
@@ -98,7 +98,7 @@ public final class TradeCore extends JavaPlugin {
         configService = new ConfigServiceImpl();
         configService.load();
         eventReciever = new EventReciever();
-        jobService = new JobDataDataServiceImpl();
+        jobService = new JobDataServiceImpl();
         jobSkillService = new JobSkillServiceImpl();
         jobSkillService.onDeserialize();
         itemModService = new ItemModServiceImpl();

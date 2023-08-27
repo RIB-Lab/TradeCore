@@ -51,11 +51,6 @@ public class PlayerStatsServiceImpl implements PlayerStatsService {
         
         apply(player);
     }
-    
-    @Override
-    public IPlayerStats get(Player player){
-        return playerStatsMap.get(player);
-    }
 
     @Override
     public void apply(Player player){

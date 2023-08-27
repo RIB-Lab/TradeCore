@@ -80,7 +80,7 @@ public class TCMob implements ITCMob {
             @Override
             public void run() {
                 if (!mob.isDead()){
-                    TradeCore.getInstance().getCustomMobService().setLootableTag(mob, false);
+                    MobUtils.setLootableTag(mob, false);
                     mob.remove();
                 }
             }

@@ -83,19 +83,19 @@ public class BlockStateEventHandler implements Listener {
 
         ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
         if (!(itcItem instanceof ITCTool tool)) {
-            getService().getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールでないアイテムを持っているなら実質素手
+            getService().incrementDamage(player, 0.1d); //ツールでないアイテムを持っているなら実質素手
             return;
         }
 
         int minHardness = LootTables.getMinHardness(block.getType(), tool);
         if (minHardness > tool.getHarvestLevel()) {
-            getService().getBrokenBlock(player).incrementDamage(player, 0.1d); //ツールで採掘できないなら実質素手
+            getService().incrementDamage(player, 0.1d); //ツールで採掘できないなら実質素手
             return;
         }
 
         SoundGroup soundGroup = block.getBlockData().getSoundGroup();
         player.playSound(block.getLocation(), soundGroup.getHitSound(), SoundCategory.BLOCKS, 1f, 1f);
-        getService().getBrokenBlock(player).incrementDamage(player, tool.getActualMiningSpeed());
+        getService().incrementDamage(player, tool.getActualMiningSpeed());
     }
 
     /**

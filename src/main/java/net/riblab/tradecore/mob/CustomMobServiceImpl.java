@@ -39,8 +39,8 @@ public class CustomMobServiceImpl implements CustomMobService {
         if (!(event.getEntity() instanceof Mob mob) || !spawnedMobs.contains(mob))
             return;
 
-        NBTEntity nbtEntity = new NBTEntity(mob);
-        boolean isLootable =  nbtEntity.getPersistentDataContainer().getBoolean(lootableTag);
+       
+        boolean isLootable = MobUtils.isLootable(mob);
         if(!isLootable)
             return;
 
@@ -56,15 +56,9 @@ public class CustomMobServiceImpl implements CustomMobService {
     @Override
     public void deSpawnAll() {
         spawnedMobs.forEach(mob -> {
-            setLootableTag(mob, false);
+            MobUtils.setLootableTag(mob, false);
             mob.remove();
         });
         spawnedMobs.clear();
-    }
-    
-    @Override
-    public void setLootableTag(Mob mob, boolean flag){
-        NBTEntity nbtEntity = new NBTEntity(mob);
-        nbtEntity.getPersistentDataContainer().setBoolean(lootableTag, flag);
     }
 }

@@ -8,8 +8,6 @@ public interface PlayerStatsService {
      */
     void update(Player player);
 
-    IPlayerStats get(Player player);
-
     /**
      * プレイヤーステータスをプレイヤーに反映する
      */

@@ -1,10 +1,12 @@
 package net.riblab.tradecore.mob;
 
+import de.tr7zw.nbtapi.NBTEntity;
 import net.riblab.tradecore.TradeCore;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -15,6 +17,8 @@ import java.util.Random;
  * モブ関連のユーティリティクラス
  */
 public class MobUtils {
+    
+    private static final String lootableTag = "lootable";
     
     private MobUtils(){
         
@@ -43,5 +47,15 @@ public class MobUtils {
         }
 
         return null; //何回探しても安全な場所がなかったらモブのスポーンを諦める
+    }
+
+    public static void setLootableTag(Mob mob, boolean flag){
+        NBTEntity nbtEntity = new NBTEntity(mob);
+        nbtEntity.getPersistentDataContainer().setBoolean(lootableTag, flag);
+    }
+    
+    public static boolean isLootable(Mob mob){
+        NBTEntity nbtEntity = new NBTEntity(mob);
+        return nbtEntity.getPersistentDataContainer().getBoolean(lootableTag);
     }
 }

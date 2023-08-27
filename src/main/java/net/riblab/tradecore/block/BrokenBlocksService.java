@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public interface BrokenBlocksService {
     void createBrokenBlock(Block block, Player player);
 
-    BrokenBlock getBrokenBlock(Player player);
+    void incrementDamage(Player player, double amount);
 
     boolean isPlayerAlreadyBreaking(Player player);
 

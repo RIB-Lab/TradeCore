@@ -6,8 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 public interface CustomMobService {
-
-    String lootableTag = "lootable";
     
     /**
      * 指定した場所にカスタムモブをスポーンさせる
@@ -25,6 +23,4 @@ public interface CustomMobService {
      * 全てのカスタムモブをデスポーンさせる
      */
     void deSpawnAll();
-
-    void setLootableTag(Mob mob, boolean flag);
 }

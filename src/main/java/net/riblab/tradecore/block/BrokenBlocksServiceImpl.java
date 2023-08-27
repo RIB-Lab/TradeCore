@@ -28,8 +28,11 @@ public class BrokenBlocksServiceImpl implements BrokenBlocksService {
     }
 
     @Override
-    public BrokenBlock getBrokenBlock(Player player) {
-        return brokenBlocks.get(player);
+    public void incrementDamage(Player player, double amount) {
+        if(isPlayerAlreadyBreaking(player))
+            return;
+        
+        brokenBlocks.get(player).incrementDamage(player, amount);
     }
 
     @Override
