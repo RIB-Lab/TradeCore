@@ -50,9 +50,7 @@ public class WeaponAttributeSpear implements IWeaponAttribute{
             if(!(nearbyEntity instanceof Mob livingEntity))
                 continue;
 
-            livingEntity.damage(attackDamage);
-            livingEntity.setVelocity(diff.normalize().multiply(0.5f));
-            MobUtils.setLootableTag(livingEntity, true);
+            MobUtils.tryDealDamageByPlayer(livingEntity, attackDamage, diff.normalize().multiply(0.5f));
             isHit = true;
         }
 

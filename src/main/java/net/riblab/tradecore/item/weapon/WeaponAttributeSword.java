@@ -49,9 +49,7 @@ public class WeaponAttributeSword implements IWeaponAttribute {
             if(!(nearbyEntity instanceof Mob livingEntity))
                 continue;
             
-            livingEntity.damage(attackDamage);
-            livingEntity.setVelocity(diff.normalize());
-            MobUtils.setLootableTag(livingEntity, true);
+            MobUtils.tryDealDamageByPlayer(livingEntity, attackDamage, diff.normalize());
             isHit = true;
         }
         

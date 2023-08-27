@@ -40,9 +40,7 @@ public class WeaponAttributeBattleAxe implements IWeaponAttribute{
             if(!(nearbyEntity instanceof Mob livingEntity))
                 continue;
 
-            livingEntity.damage(attackDamage);
-            livingEntity.setVelocity(diff.normalize().multiply(2f));
-            MobUtils.setLootableTag(livingEntity, true);
+            MobUtils.tryDealDamageByPlayer(livingEntity, attackDamage, diff.normalize().multiply(2));
             isHit = true;
         }
 
