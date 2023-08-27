@@ -7,11 +7,11 @@ import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
-import net.milkbowl.vault.economy.Economy;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
+import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.job.data.JobData;
@@ -27,17 +27,22 @@ import net.riblab.tradecore.ui.UIShop;
 import net.riblab.tradecore.ui.UISkillRespec;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import static net.riblab.tradecore.general.CommandArgDescs.*;
+import static net.riblab.tradecore.general.CommandNames.*;
 import static net.riblab.tradecore.general.utils.Materials.transparentBlocks;
 
 /**
- * コマンド登録クラス
+ * コマンド登録クラス。プラグインのonEnableの前に呼ぶ必要があるのでインスタンスを生成させない。
  */
 public class TCCommands {
+    
+    private TCCommands(){
+        throw new AssertionError();
+    }
     
     public static final String merchantName = "買い取り商";
 
@@ -45,16 +50,28 @@ public class TCCommands {
         return TradeCore.getInstance().getJobService();
     }
     
-    private static Economy getEconomy(){
+    private static TCEconomy getEconomy(){
         return TradeCore.getInstance().getEconomy();
     }
     
     public static void onLoad(){
+        registerCommands();
+    }
+
+    /**
+     * このプラグインで使う全てのコマンドを登録する
+     */
+    private static void registerCommands(){
         CommandAPI.onLoad(new CommandAPIBukkitConfig(TradeCore.getInstance()).verboseOutput(true)); // Load with verbose output
 
-        CommandAPICommand setMoneyCommand = new CommandAPICommand("setmoney")
-                .withArguments(new PlayerArgument("player"))
-                .withArguments(new DoubleArgument("money", 0, Integer.MAX_VALUE))
+        CommandAPICommand currencyCommand = new CommandAPICommand(CURRENCY.get())
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                });
+        CommandAPICommand setMoneyCommand = new CommandAPICommand(CURRENCY_SETMONEY.get())
+                .withPermission(CommandPermission.OP)
+                .withArguments(new PlayerArgument(PLAYER.get()))
+                .withArguments(new DoubleArgument(MONEY.get(), 0, Integer.MAX_VALUE))
                 .executesPlayer((player, args) -> {
                     Player player1 = (Player) args.get(0);
                     Double money = (Double) args.get(1);
@@ -62,12 +79,24 @@ public class TCCommands {
                     getEconomy().withdrawPlayer(player1, getEconomy().getBalance(player1));
                     getEconomy().depositPlayer(player1, money);
                 });
-        setMoneyCommand.setPermission(CommandPermission.OP);
-        setMoneyCommand.register();
+        CommandAPICommand setPlayTicketCommand = new CommandAPICommand(CURRENCY_SETTICKET.get())
+                .withPermission(CommandPermission.OP)
+                .withArguments(new PlayerArgument(PLAYER.get()))
+                .withArguments(new IntegerArgument(TICKET.get(), 0, Integer.MAX_VALUE))
+                .executesPlayer((player, args) -> {
+                    Player player1 = (Player) args.get(0);
+                    int ticket = (int) args.get(1);
 
-        CommandAPICommand tcGiveCommand = new CommandAPICommand("tcgive")
-                .withArguments(TCItems.customITCItemArgument("item"))
-                .withArguments(new IntegerArgument("amount", 1, 1000))
+                    getEconomy().withdrawPlayer(player1, getEconomy().getPlayTickets(player1));
+                    getEconomy().depositPlayer(player1, ticket);
+                });
+        currencyCommand.withSubcommand(setMoneyCommand);
+        currencyCommand.withSubcommand(setPlayTicketCommand);
+        currencyCommand.register();
+
+        CommandAPICommand tcGiveCommand = new CommandAPICommand(GIVE.get())
+                .withArguments(TCItems.customITCItemArgument(TCITEM.get()))
+                .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
                 .executesPlayer((player, args) -> {
                     ITCItem itcItem = (ITCItem) args.get(0);
                     int amount = (int) args.get(1);
@@ -78,7 +107,7 @@ public class TCCommands {
         tcGiveCommand.setPermission(CommandPermission.OP);
         tcGiveCommand.register();
 
-        CommandAPICommand sellCommand = new CommandAPICommand("tcsell")
+        CommandAPICommand sellCommand = new CommandAPICommand(SELL.get())
                 .executesPlayer((player, args) -> {
                     Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
@@ -89,14 +118,14 @@ public class TCCommands {
         sellCommand.setPermission(CommandPermission.NONE);
         sellCommand.register();
 
-        CommandAPICommand mobCommand = new CommandAPICommand("tcmobs")
+        CommandAPICommand mobCommand = new CommandAPICommand(MOBS.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                 });
 
-        CommandAPICommand spawnCommand = new CommandAPICommand("spawn")
+        CommandAPICommand spawnCommand = new CommandAPICommand(MOBS_SPAWN.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(TCMobs.customITCMobArgument("mobname"))
+                .withArguments(TCMobs.customITCMobArgument(MOBNAME.get()))
                 .executesPlayer((player, args) -> {
                     ITCMob type = (ITCMob) args.get(0);
                     Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
@@ -104,7 +133,7 @@ public class TCCommands {
 
                     TradeCore.getInstance().getCustomMobService().spawn(player, spawnLocation, type);
                 });
-        CommandAPICommand mobResetCommand = new CommandAPICommand("reset")
+        CommandAPICommand mobResetCommand = new CommandAPICommand(MOBS_RESET.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     TradeCore.getInstance().getCustomMobService().deSpawnAll();
@@ -114,20 +143,20 @@ public class TCCommands {
         mobCommand.withSubcommand(mobResetCommand);
         mobCommand.register();
 
-        CommandAPICommand shopCommand = new CommandAPICommand("tcshop")
+        CommandAPICommand shopCommand = new CommandAPICommand(SHOP.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(Shops.customShopDataArgument("ショップの種類"))
+                .withArguments(Shops.customShopDataArgument(SHOPDATA.get()))
                 .executesPlayer((player, args) -> {
                     ShopData data = (ShopData) args.get(0);
                     UIShop.open(player, data);
                 });
-        CommandAPICommand adminShopCommand = new CommandAPICommand("admin")
+        CommandAPICommand adminShopCommand = new CommandAPICommand(SHOP_ADMIN.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     UIAdminShop.open(player);
                 });
         shopCommand.withSubcommand(adminShopCommand);
-        CommandAPICommand respecShopCommand = new CommandAPICommand("respec")
+        CommandAPICommand respecShopCommand = new CommandAPICommand(SHOP_RESPEC.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     UISkillRespec.open(player);
@@ -136,16 +165,16 @@ public class TCCommands {
         shopCommand.withSubcommand(respecShopCommand);
         shopCommand.register();
 
-        CommandAPICommand jobCommand = new CommandAPICommand("tcjob")
+        CommandAPICommand jobCommand = new CommandAPICommand(JOB.get())
                 .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
                     UIJobs.open(player);
                 });
-        CommandAPICommand jobSetCommand = new CommandAPICommand("setjoblv")
+        CommandAPICommand jobSetCommand = new CommandAPICommand(JOB_SETJOBLV.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(new PlayerArgument("プレイヤー"))
-                .withArguments(JobType.customJobTypeArgument("職業の種類"))
-                .withArguments(new IntegerArgument("レベル"))
+                .withArguments(new PlayerArgument(PLAYER.get()))
+                .withArguments(JobType.customJobTypeArgument(JOBTYPE.get()))
+                .withArguments(new IntegerArgument(LEVEL.get()))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
                     JobType jobType = (JobType) args.get(1);
@@ -156,14 +185,14 @@ public class TCCommands {
                     newData.setExp(0);
                     getJobHandler().setJobData(targetPlayer, newData);
                 });
-        CommandAPICommand jobResetCommand = new CommandAPICommand("resetjoblv")
+        CommandAPICommand jobResetCommand = new CommandAPICommand(JOB_RESETJOBLV.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(new PlayerArgument("プレイヤー"))
+                .withArguments(new PlayerArgument(PLAYER.get()))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
                     getJobHandler().resetJobData(targetPlayer);
                 });
-        CommandAPICommand skillResetCommand = new CommandAPICommand("resetskilllv")
+        CommandAPICommand skillResetCommand = new CommandAPICommand(JOB_RESETSKILLLV.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     TradeCore.getInstance().getJobSkillService().resetPlayerJobSkillData(player);
@@ -173,14 +202,14 @@ public class TCCommands {
         jobCommand.withSubcommand(skillResetCommand);
         jobCommand.register();
 
-        CommandAPICommand dungeonCommand = new CommandAPICommand("tcdungeon")
+        CommandAPICommand dungeonCommand = new CommandAPICommand(DUNGEON.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                 });
-        CommandAPICommand enterDungeonCommand = new CommandAPICommand("enter")
+        CommandAPICommand enterDungeonCommand = new CommandAPICommand(DUNGEON_ENTER.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(DungeonDatas.customDungeonDataArgument("ダンジョン名"))
-                .withArguments(new IntegerArgument("インスタンスID。-1で新規作成"))
+                .withArguments(DungeonDatas.customDungeonDataArgument(DUNGEONDATA.get()))
+                .withArguments(new IntegerArgument(INSTANCEID.get()))
                 .executesPlayer((player, args) -> {
                     IDungeonData data = (IDungeonData) args.get(0);
                     int id = (int) args.get(1);
@@ -193,19 +222,19 @@ public class TCCommands {
                         IDungeonService.enter(player, data, id);
                     }
                 });
-        CommandAPICommand leaveDungeonCommand = new CommandAPICommand("leave")
+        CommandAPICommand leaveDungeonCommand = new CommandAPICommand(DUNGEON_LEAVE.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
                     IDungeonService.tryLeave(player);
                 });
-        CommandAPICommand evacuateDungeonCommand = new CommandAPICommand("evacuate")
+        CommandAPICommand evacuateDungeonCommand = new CommandAPICommand(DUNGEON_EVACUATE.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
                     IDungeonService.evacuate(player);
                 });
-        CommandAPICommand dungeonListCommand = new CommandAPICommand("list")
+        CommandAPICommand dungeonListCommand = new CommandAPICommand(DUNGEON_LIST.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     player.sendMessage("～ダンジョンリスト～");
