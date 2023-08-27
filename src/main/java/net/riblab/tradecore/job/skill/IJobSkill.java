@@ -2,6 +2,7 @@ package net.riblab.tradecore.job.skill;
 
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface IJobSkill {
     /**
      * このスキルを習得可能なJobのリスト。必ず子クラスで定義する！
      */
-    List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Miner);
+    List<JobType> availableSkillType = List.of(JobType.Miner);
     /**
      * スキルの紹介文
      */
@@ -27,11 +28,11 @@ public interface IJobSkill {
 
     int getLevel();
 
-    JobData.JobType getLearnedJobType();
+    JobType getLearnedJobType();
 
     void setInternalName(String internalName);
 
     void setLevel(int level);
 
-    void setLearnedJobType(JobData.JobType learnedJobType);
+    void setLearnedJobType(JobType learnedJobType);
 }

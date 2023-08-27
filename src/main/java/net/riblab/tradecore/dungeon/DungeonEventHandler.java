@@ -49,7 +49,7 @@ public class DungeonEventHandler {
         for (Block block : activatedSpawner) {
             for (int i = 0; i < data.getBasePackSize(); i++) {
                 ITCMob mobToSpawn = data.getSpawnTable().get(new Random().nextInt(data.getSpawnTable().size()));
-                Location randomizedSpawnLocation = Utils.randomizeLocation(block.getLocation().add(0.5d, 0, 0.5d), 1);
+                Location randomizedSpawnLocation = Utils.randomizeLocationXZ(block.getLocation().add(0.5d, 0, 0.5d), 1);
                 TradeCore.getInstance().getCustomMobService().spawn(player, randomizedSpawnLocation, mobToSpawn);
             }
             block.setType(Material.AIR);

@@ -1,7 +1,10 @@
 package net.riblab.tradecore.mob;
 
+import net.kyori.adventure.text.Component;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 public interface ITCMob {
     /**
@@ -23,13 +26,13 @@ public interface ITCMob {
      */
     boolean isSimilar(Mob mob);
 
-    org.bukkit.entity.EntityType getBaseType();
+    EntityType getBaseType();
 
-    net.kyori.adventure.text.Component getCustomName();
+    Component getCustomName();
 
     double getBaseHealth();
 
     String getInternalName();
 
-    java.util.Map<org.bukkit.inventory.ItemStack, Float> getDrops();
+    java.util.Map<ItemStack, Float> getDrops();
 }

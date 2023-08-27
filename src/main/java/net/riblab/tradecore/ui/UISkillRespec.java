@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -20,7 +21,7 @@ public class UISkillRespec {
 
     public static PaginatedGui open(Player player) {
         //リスペック費用 ＝ 習得したスキルの数 * 100
-        double fee = Arrays.stream(JobData.JobType.values()).mapToDouble(value -> TradeCore.getInstance().getJobSkillService().getLearntSkillCount(player, value) * 100).sum();
+        double fee = Arrays.stream(JobType.values()).mapToDouble(value -> TradeCore.getInstance().getJobSkillService().getLearntSkillCount(player, value) * 100).sum();
         if(fee == 0){
             player.sendMessage("スキルを何も習得していません！");
             return null;

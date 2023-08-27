@@ -17,7 +17,7 @@ public class JobDataServiceImpl implements JobDataService {
     private final Map<UUID, List<IJobData>> datasMap = TradeCore.getInstance().getConfigService().getJobDatas().getPlayerJobs();
 
     @Override
-    public IJobData initPlayerJobData(OfflinePlayer offlinePlayer, JobData.JobType type) {
+    public IJobData initPlayerJobData(OfflinePlayer offlinePlayer, JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
         JobData data = new JobData();
@@ -29,7 +29,7 @@ public class JobDataServiceImpl implements JobDataService {
     }
 
     @Override
-    public void addJobExp(OfflinePlayer offlinePlayer, JobData.JobType type, int amount) {
+    public void addJobExp(OfflinePlayer offlinePlayer, JobType type, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
         if (datas == null) {
@@ -77,7 +77,7 @@ public class JobDataServiceImpl implements JobDataService {
     }
 
     @Override
-    public IJobData getJobData(OfflinePlayer offlinePlayer, JobData.JobType type) {
+    public IJobData getJobData(OfflinePlayer offlinePlayer, JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
         if (datas == null) {

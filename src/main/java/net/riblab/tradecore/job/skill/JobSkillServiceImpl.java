@@ -3,6 +3,7 @@ package net.riblab.tradecore.job.skill;
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -42,12 +43,12 @@ public class JobSkillServiceImpl implements JobSkillService {
     }
 
     @Override
-    public int getUnSpentSkillPoints(OfflinePlayer offlinePlayer, JobData.JobType type){
+    public int getUnSpentSkillPoints(OfflinePlayer offlinePlayer, JobType type){
         return TradeCore.getInstance().getJobService().getJobData(offlinePlayer, type).getLevel() / 10 - getLearntSkillCount(offlinePlayer, type);
     }
 
     @Override
-    public int getLearntSkillCount(OfflinePlayer offlinePlayer, JobData.JobType type){
+    public int getLearntSkillCount(OfflinePlayer offlinePlayer, JobType type){
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
         if(datas == null){
@@ -64,7 +65,7 @@ public class JobSkillServiceImpl implements JobSkillService {
     }
 
     @Override
-    public void learnSkill(OfflinePlayer offlinePlayer, JobData.JobType jobType, Class<? extends IJobSkill> skillType) {
+    public void learnSkill(OfflinePlayer offlinePlayer, JobType jobType, Class<? extends IJobSkill> skillType) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
         if(datas == null){
@@ -102,7 +103,7 @@ public class JobSkillServiceImpl implements JobSkillService {
     }
 
     @Override
-    public int getSkillLevel(OfflinePlayer offlinePlayer, JobData.JobType jobType, Class<? extends IJobSkill> skillType) {
+    public int getSkillLevel(OfflinePlayer offlinePlayer, JobType jobType, Class<? extends IJobSkill> skillType) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
         if(datas == null){

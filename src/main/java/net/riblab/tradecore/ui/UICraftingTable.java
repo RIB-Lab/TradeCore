@@ -17,6 +17,7 @@ import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
 import net.riblab.tradecore.modifier.IIngredientAmountModifier;
 import org.bukkit.Bukkit;
@@ -255,7 +256,7 @@ public class UICraftingTable {
         }
         TradeCore.getInstance().getEconomy().withdrawPlayer(player, skillAppliedFee);
 
-        TradeCore.getInstance().getJobService().addJobExp(player, JobData.JobType.Crafter, (int)recipe.getFee());
+        TradeCore.getInstance().getJobService().addJobExp(player, JobType.Crafter, (int)recipe.getFee());
 
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.getResult());
         if(remains.size() == 0)

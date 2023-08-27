@@ -3,6 +3,7 @@ package net.riblab.tradecore.job.skill;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -33,12 +34,12 @@ public enum JobSkills {
      * @param jobType ジョブの種類
      * @return 習得可能なスキルのリスト
      */
-    public static List<Class<? extends IJobSkill>> getAvailableSkills(JobData.JobType jobType){
+    public static List<Class<? extends IJobSkill>> getAvailableSkills(JobType jobType){
         return Arrays.stream(JobSkills.values()).map(jobSkills -> jobSkills.skillType).filter(skillType -> {
-            List<JobData.JobType> skillTypes = new ArrayList<>();
+            List<JobType> skillTypes = new ArrayList<>();
             try {
                 Field field = skillType.getDeclaredField("availableSkillType");
-                skillTypes = (List<JobData.JobType>)field.get(null);
+                skillTypes = (List<JobType>)field.get(null);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }

@@ -36,6 +36,13 @@ public class BlockUtils {
         player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
     }
 
+    /**
+     * あるプレイヤー周辺にあるとあるマテリアルのブロックを洗い出す
+     * @param player プレイヤー
+     * @param radius 半径
+     * @param material マテリアル
+     * @return 見つかったブロック
+     */
     public static List<Block> getBlocksInRadius(Player player, int radius, Material material) {
         Location playerLocation = player.getLocation();
         World world = player.getWorld();

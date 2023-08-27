@@ -6,17 +6,17 @@ public interface JobDataService {
     /**
      * プレイヤーの特定のJobデータを初期化する
      */
-    IJobData initPlayerJobData(OfflinePlayer offlinePlayer, JobData.JobType type);
+    IJobData initPlayerJobData(OfflinePlayer offlinePlayer, JobType type);
 
     /**
      * プレイヤーにJob経験値を加える
      */
-    void addJobExp(OfflinePlayer offlinePlayer, JobData.JobType type, int amount);
+    void addJobExp(OfflinePlayer offlinePlayer, JobType type, int amount);
 
     /**
      * プレイヤーのJobDataを取得する
      */
-    IJobData getJobData(OfflinePlayer offlinePlayer, JobData.JobType type);
+    IJobData getJobData(OfflinePlayer offlinePlayer, JobType type);
 
     /**
      * プレイヤーのjobデータを差し替える

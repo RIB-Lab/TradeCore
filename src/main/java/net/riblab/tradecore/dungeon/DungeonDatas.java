@@ -26,6 +26,9 @@ public enum DungeonDatas {
         this.data = data;
     }
 
+    /**
+     * コマンド文字列をダンジョンデータにする
+     */
     @Nullable
     public static IDungeonData commandToDungeonData(String command) {
         DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
@@ -46,6 +49,9 @@ public enum DungeonDatas {
         );
     }
 
+    /**
+     * ダンジョン名をダンジョンデータにする
+     */
     @Nullable
     public static IDungeonData nameToDungeonData(String name) {
         DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.getData().getName().equals(name)).findFirst().orElse(null);

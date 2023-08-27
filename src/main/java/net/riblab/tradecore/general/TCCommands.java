@@ -16,6 +16,7 @@ import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
+import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.mob.ITCMob;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.shop.ShopData;
@@ -143,11 +144,11 @@ public class TCCommands {
         CommandAPICommand jobSetCommand = new CommandAPICommand("setjoblv")
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument("プレイヤー"))
-                .withArguments(JobData.JobType.customJobTypeArgument("職業の種類"))
+                .withArguments(JobType.customJobTypeArgument("職業の種類"))
                 .withArguments(new IntegerArgument("レベル"))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
-                    JobData.JobType jobType = (JobData.JobType) args.get(1);
+                    JobType jobType = (JobType) args.get(1);
                     int level = (int) args.get(2);
                     JobData newData = new JobData();
                     newData.setJobType(jobType);
@@ -185,8 +186,8 @@ public class TCCommands {
                     int id = (int) args.get(1);
                     DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
                     if(!IDungeonService.isDungeonExist(data, id)){
-                        World newDungeon = IDungeonService.create(data, id);
-                        IDungeonService.enter(player, newDungeon);
+                        IDungeonService.create(data, id);
+                        IDungeonService.enter(player, data, id);
                     }
                     else {
                         IDungeonService.enter(player, data, id);

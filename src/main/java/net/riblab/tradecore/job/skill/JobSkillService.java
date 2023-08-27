@@ -1,6 +1,7 @@
 package net.riblab.tradecore.job.skill;
 
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -19,14 +20,14 @@ public interface JobSkillService {
     /**
      * プレイヤーがまだ消費していないスキルポイントの数を取得する
      */
-    int getUnSpentSkillPoints(OfflinePlayer offlinePlayer, JobData.JobType type);
+    int getUnSpentSkillPoints(OfflinePlayer offlinePlayer, JobType type);
 
     /**
      * プレイヤーが既に習得したあるジョブのスキルの数を取得する
      *
      * @return
      */
-    int getLearntSkillCount(OfflinePlayer offlinePlayer, JobData.JobType type);
+    int getLearntSkillCount(OfflinePlayer offlinePlayer, JobType type);
 
     /**
      * プレイヤーにスキルを1レベル分習得させる
@@ -35,12 +36,12 @@ public interface JobSkillService {
      * @param jobType       スキルを習得したジョブの種類
      * @param skillType     スキルの種類
      */
-    void learnSkill(OfflinePlayer offlinePlayer, JobData.JobType jobType, Class<? extends IJobSkill> skillType);
+    void learnSkill(OfflinePlayer offlinePlayer, JobType jobType, Class<? extends IJobSkill> skillType);
 
     /**
      * プレイヤーが習得することができるあるスキルの現在のレベルを取得する
      */
-    int getSkillLevel(OfflinePlayer offlinePlayer, JobData.JobType jobType, Class<? extends IJobSkill> skillType);
+    int getSkillLevel(OfflinePlayer offlinePlayer, JobType jobType, Class<? extends IJobSkill> skillType);
 
     /**
      * プレイヤーが習得したスキルたちがシリアライズされる際型がJobSkillになってしまうので、internalnameからそれぞれのクラスに戻してあげる

@@ -4,6 +4,7 @@ import de.exlll.configlib.Configuration;
 import lombok.Getter;
 import lombok.Setter;
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
 
 @Configuration
 public class JobSkill implements IJobSkill {
@@ -24,5 +25,5 @@ public class JobSkill implements IJobSkill {
      * 現在このスキルをどのジョブで習得したか
      */
     @Getter @Setter
-    private JobData.JobType learnedJobType;
+    private JobType learnedJobType;
 }

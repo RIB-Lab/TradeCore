@@ -13,8 +13,8 @@ public interface ConfigService {
      * コンフィグをロードする
      */
     void load();
-
+    
     CurrencyData getCurrencyData();
-
+    
     JobDatas getJobDatas();
 }

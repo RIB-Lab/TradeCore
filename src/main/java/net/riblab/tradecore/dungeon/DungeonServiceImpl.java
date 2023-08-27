@@ -25,7 +25,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DungeonServiceImpl implements DungeonService {
+
+    /**
+     * ダンジョンのインスタンス達
+     */
     private static final List<World> dungeons = new ArrayList<>();
+
+    /**
+     * プレイヤーがダンジョンに入る前いた場所
+     */
     private static final Map<Player, Location> locationsOnEnter = new HashMap<>();
     
     @Override
@@ -34,13 +42,13 @@ public class DungeonServiceImpl implements DungeonService {
     }
     
     @Override
-    public World create(IDungeonData data, int instanceID){
+    public void create(IDungeonData data, int instanceID){
         String name = data.getName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
         if(instanceID >= 0){
             if(isDungeonExist(name, instanceID))
-                return null;
+                return;
             
             affixedDungeonName = getAffixedDungeonName(name, instanceID);
         }
@@ -74,7 +82,6 @@ public class DungeonServiceImpl implements DungeonService {
         if(!fileHasCopied){
             Bukkit.getLogger().severe("schemファイルが見つかりません：" + copySchemDir + "/" + prefixedDungeonName + ".schem");
             dungeons.add(world);
-            return world;
         }
         
         //schemから地形生成
@@ -105,8 +112,6 @@ public class DungeonServiceImpl implements DungeonService {
         Vector loc = data.getSpawnPoint();
         world.setSpawnLocation(new Location(world, loc.getX(),  loc.getY(), loc.getZ()));
         dungeons.add(world);
-        
-        return world;
     }
 
     @Override
@@ -118,7 +123,10 @@ public class DungeonServiceImpl implements DungeonService {
         String dungeonName = getAffixedDungeonName(name, id);
         return dungeons.stream().filter(world -> world.getName().equals(dungeonName)).findFirst().orElse(null) != null;
     }
-    
+
+    /**
+     * ダンジョンの名前からインスタンスのワールドを取得
+     */
     private World getDungeonWorld(String name, int id){
         return getDungeonWorld(getAffixedDungeonName(name, id));
     }
@@ -132,8 +140,7 @@ public class DungeonServiceImpl implements DungeonService {
         enter(player, getDungeonWorld(data.getName(), id));
     }
     
-    @Override
-    public void enter(Player player, World world){
+    private void enter(Player player, World world){
         if(world == null){
             player.sendMessage("その名前またはインスタンスIDのダンジョンは存在しません");
             return;
@@ -199,18 +206,28 @@ public class DungeonServiceImpl implements DungeonService {
         
         dungeons.remove(world);
     }
-    
+
+    /**
+     * ダンジョンのインスタンスを削除する
+     * @param world
+     */
     private void killInstance(World world){
         world.getPlayers().forEach(this::evacuate);
         File folder = world.getWorldFolder();
         Bukkit.unloadWorld(world, false);
         Utils.deleteFolder(folder);
     }
-    
+
+    /**
+     * 接辞がついたダンジョン名を取得
+     */
     private String getAffixedDungeonName(String name, int id){
         return dungeonPrefix + "_" + name + "_" + id;
     }
-    
+
+    /**
+     * 接頭辞だけついたダンジョン名を取得
+     */
     private String getPrefixedDungeonName(String name){
         return dungeonPrefix + "_" + name;
     }
@@ -219,16 +236,19 @@ public class DungeonServiceImpl implements DungeonService {
     public String getUnfixedDungeonName(String affixedDungeonName){
         return affixedDungeonName.split("_")[1];
     }
-    
+
+    /**
+     * 利用可能な最初の空いているダンジョン名を取得する
+     */
     private String getFirstAvailableAffixedDungeonName(String name){
         List<String> instances = dungeons.stream().map(World::getName).filter(worldName -> worldName.startsWith(dungeonPrefix + "_" + name + "_")).toList();
         for (int i = 0; i < 1000; i++) {
-            String predicate = dungeonPrefix + "_" + name + "_" + i;
+            String predicate = getAffixedDungeonName(name, i);
             if(!instances.contains(predicate)){
                 return predicate;
             }
         }
-        throw new StackOverflowError("ダンジョンのインスタンス数が1000を超えました。嘘だろ");
+        throw new RuntimeException("ダンジョンのインスタンス数が1000を超えました。嘘だろ");
     }
     
     @Override

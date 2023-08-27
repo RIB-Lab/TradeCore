@@ -2,6 +2,7 @@ package net.riblab.tradecore.item.base;
 
 import lombok.Getter;
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
 
 public interface ITCTool extends IHasDurability, IHasItemMod {
 
@@ -28,18 +29,18 @@ public interface ITCTool extends IHasDurability, IHasItemMod {
      * ツールの種類 TODO:SWORDを廃止してTCWeaponに移行
      */
     public enum ToolType {
-        HAND(JobData.JobType.Mower),
-        AXE(JobData.JobType.Woodcutter),
-        PICKAXE(JobData.JobType.Miner),
-        SHOVEL(JobData.JobType.Digger),
+        HAND(JobType.Mower),
+        AXE(JobType.Woodcutter),
+        PICKAXE(JobType.Miner),
+        SHOVEL(JobType.Digger),
         HOE(null),
         SHEARS(null);
 
 
         @Getter
-        private final JobData.JobType expType;
+        private final JobType expType;
 
-        ToolType(JobData.JobType expType){
+        ToolType(JobType expType){
             this.expType = expType;
         }
     }

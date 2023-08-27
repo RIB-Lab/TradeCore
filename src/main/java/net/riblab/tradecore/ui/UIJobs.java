@@ -11,6 +11,7 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.job.data.IJobData;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
+import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.IJobSkill;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.job.skill.JobSkills;
@@ -36,7 +37,7 @@ public class UIJobs {
                 .disableAllInteractions()
                 .create();
 
-        for (JobData.JobType type : JobData.JobType.values()) {
+        for (JobType type : JobType.values()) {
             IJobData IJobData = JOB_SERVICE.getJobData(player, type);
             ItemStack jobIcon = new ItemCreator(type.getUiMaterial()).setName(Component.text(type.getName()).decoration(TextDecoration.ITALIC, false))
                     .hideAttributes()
@@ -52,7 +53,7 @@ public class UIJobs {
         return gui;
     }
     
-    public static PaginatedGui open(Player player, JobData.JobType type) {
+    public static PaginatedGui open(Player player, JobType type) {
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text(type.getName() + " 未使用スキルポイント：" + skillHandler.getUnSpentSkillPoints(player, type)))
                 .rows(3)
@@ -77,7 +78,7 @@ public class UIJobs {
     /**
      * スキルを習得しようとする
      */
-    public static void tryLearnSkill(InventoryClickEvent event, Class<? extends IJobSkill> skillType, JobData.JobType type){
+    public static void tryLearnSkill(InventoryClickEvent event, Class<? extends IJobSkill> skillType, JobType type){
         if(skillHandler.getUnSpentSkillPoints((Player)event.getWhoClicked(), type) <= 0){
             event.getWhoClicked().sendMessage(Component.text("スキルポイントが足りません！"));
             return;

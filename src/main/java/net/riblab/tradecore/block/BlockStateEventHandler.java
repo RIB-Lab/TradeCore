@@ -2,6 +2,7 @@ package net.riblab.tradecore.block;
 
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.mob.MobUtils;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.WorldGuardUtil;
@@ -120,7 +121,7 @@ public class BlockStateEventHandler implements Listener {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
                 Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-                TradeCore.getInstance().getJobService().addJobExp(event.getPlayer(), JobData.JobType.Mower, 1);
+                TradeCore.getInstance().getJobService().addJobExp(event.getPlayer(), JobType.Mower, 1);
                 return;
             }
         }
@@ -138,7 +139,7 @@ public class BlockStateEventHandler implements Listener {
                     MobUtils.trySpawnMobInRandomArea(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable(), 5);
                 }
 
-                JobData.JobType jobType = tool.getToolType().getExpType();
+                JobType jobType = tool.getToolType().getExpType();
                 if(jobType != null){
                     //硬度によって経験値が決まるが、硬度0でも1は入るようにする
                     TradeCore.getInstance().getJobService().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), (TCTool) itcItem) + 1);

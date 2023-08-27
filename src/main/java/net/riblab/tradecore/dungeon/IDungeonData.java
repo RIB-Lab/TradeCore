@@ -1,13 +1,16 @@
 package net.riblab.tradecore.dungeon;
 
 import net.riblab.tradecore.mob.ITCMob;
+import org.bukkit.util.Vector;
+
+import java.util.List;
 
 public interface IDungeonData {
     String getName();
 
-    org.bukkit.util.Vector getSpawnPoint();
+    Vector getSpawnPoint();
 
-    java.util.List<ITCMob> getSpawnTable();
+    List<ITCMob> getSpawnTable();
 
     int getBasePackSize();
 }

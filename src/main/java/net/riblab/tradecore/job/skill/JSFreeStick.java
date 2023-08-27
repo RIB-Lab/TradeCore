@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.Set;
 public class JSFreeStick extends JobSkill implements ICraftFeeModifier {
 
     public static final String name = "手斧";
-    public static final List<JobData.JobType> availableSkillType = List.of(JobData.JobType.Woodcutter);
+    public static final List<JobType> availableSkillType = List.of(JobType.Woodcutter);
     public static final List<Component> lore = List.of(Component.text("2ポイント振ると棒系レシピの必要金額が0になる").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY));
     public static final int maxLevel = 2;
     

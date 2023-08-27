@@ -9,6 +9,7 @@ import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.modifier.IModifier;
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
@@ -46,6 +47,9 @@ public class Utils {
         return klass;
     }
 
+    /**
+     * ルートテーブルに基づいたアイテムをあるブロックのある場所から落とす //TODO:ItemUtilsに移管
+     */
     public static void dropItemByLootTable(Player player, Block block, Multimap<Float, ITCItem> table) {
         Random random = new Random();
         table.forEach((aFloat, itcItem) -> {
@@ -66,6 +70,12 @@ public class Utils {
         return modifiedValue;
     }
 
+    /**
+     * .jar内フォルダーを.jar外にコピーする
+     * @param srcDirName コピー前の.jar内のディレクトリの名前
+     * @param destDir .jarの外のディレクトリのパス
+     * @throws IOException
+     */
     public static void copyFolder(String srcDirName, File destDir) throws IOException {
         final File jarFile = new File("plugins/TradeCore.jar");
         JarFile jar = null;
@@ -100,6 +110,13 @@ public class Utils {
         jar.close();
     }
 
+    /**
+     * .jar内ファイルを.jar外にコピーする
+     * @param srcFileName コピー前の.jar内のファイルの名前
+     * @param destDir .jarの外のディレクトリのパス
+     * @return コピーに成功したかどうか
+     * @throws IOException
+     */
     public static boolean copyFile(String srcFileName, File destDir) throws IOException {
         final File jarFile = new File("plugins/TradeCore.jar");
         JarFile jar = null;
@@ -136,7 +153,12 @@ public class Utils {
         jar.close();
         return copied;
     }
-    
+
+    /**
+     * フォルダーを完全に削除する
+     * @param file
+     * @return
+     */
     public static boolean deleteFolder(File file) {
         try (Stream<Path> files = Files.walk(file.toPath())) {
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
@@ -147,7 +169,12 @@ public class Utils {
         }
     }
 
-    public static Location randomizeLocation(Location location, int range) {
+    /**
+     * 座標をxz軸にランダム化する
+     * @param location 座標
+     * @param range 半径
+     */
+    public static Location randomizeLocationXZ(Location location, int range) {
         Random random = new Random();
         double randomOffsetX = (random.nextDouble() * range * 2) - range;
         double randomOffsetZ = (random.nextDouble() * range * 2) - range; 
@@ -168,7 +195,7 @@ public class Utils {
         TCCraftingRecipes.values();
         TCFurnaceRecipes.values();
 
-        JobData.JobType.values();
+        JobType.values();
         ITCTool.ToolType.values();
     }
 }
