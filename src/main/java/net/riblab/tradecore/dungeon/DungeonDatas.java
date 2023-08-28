@@ -18,7 +18,10 @@ import java.util.List;
  * 必ず dungeons_ + ダンジョン名 のschematicをresourceフォルダに同梱すること！
  */
 public enum DungeonDatas {
-    TEST(new DungeonData<>("test", new Vector(-17, 97, -24), List.of(TCMobs.BASIC_TREANT.get(), TCMobs.BASIC_SILVERFISH.get()), 3, DPTExtermination.class, 5));
+    TEST(new DungeonData<>("test", new Vector(-17, 97, -24), List.of(TCMobs.BASIC_TREANT.get(), TCMobs.BASIC_SILVERFISH.get()),
+            3, DPTExtermination.class, 5)),
+    STONEROOM(new DungeonData<>("stoneroom", new Vector(-65.5, 97, -35.5), List.of(TCMobs.BASIC_TREANT.get(), TCMobs.BASIC_SILVERFISH.get()),
+            3, DPTExtermination.class, 20));
 
     @Getter
     private final IDungeonData<?> data;

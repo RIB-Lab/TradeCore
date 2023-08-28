@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,13 +52,13 @@ class DungeonServiceImpl implements DungeonService {
     }
 
     @Override
-    public void create(IDungeonData<?> data, int instanceID) {
+    public World create(IDungeonData<?> data, int instanceID) {
         String name = data.getName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
         if (instanceID >= 0) {
             if (isDungeonExist(name, instanceID))
-                return;
+                return null;
 
             affixedDungeonName = getAffixedDungeonName(name, instanceID);
         } else {
@@ -74,6 +75,7 @@ class DungeonServiceImpl implements DungeonService {
         }
         progressionTracker.onComplete = this::onDungeonComplete;
         dungeons.put(instance, progressionTracker);
+        return instance;
     }
 
     @Override
@@ -103,7 +105,9 @@ class DungeonServiceImpl implements DungeonService {
         enter(player, getDungeonWorld(data.getName(), id));
     }
 
-    private void enter(Player player, World world) {
+    @Override
+    @ParametersAreNonnullByDefault
+    public void enter(Player player,@Nullable World world) {
         if (world == null) {
             player.sendMessage("その名前またはインスタンスIDのダンジョンは存在しません");
             return;

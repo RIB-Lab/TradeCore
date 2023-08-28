@@ -32,7 +32,7 @@ public interface DungeonService {
      * @param instanceID インスタンスのID。0未満なら0以上の最初に空いているインスタンス
      */
     @ParametersAreNonnullByDefault
-    void create(IDungeonData<?> data, int instanceID);
+    @Nullable World create(IDungeonData<?> data, int instanceID);
 
     /**
      * ダンジョンのインスタンスが存在するかどうか
@@ -45,6 +45,9 @@ public interface DungeonService {
      */
     @ParametersAreNonnullByDefault
     void enter(Player player, IDungeonData<?> data, int id);
+    
+    @ParametersAreNonnullByDefault
+    void enter(Player player, @Nullable World world);
 
     /**
      * プレイヤーをダンジョンから退出させる

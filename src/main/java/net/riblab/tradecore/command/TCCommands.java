@@ -27,6 +27,7 @@ import net.riblab.tradecore.ui.UIShop;
 import net.riblab.tradecore.ui.UISkillRespec;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -211,18 +212,18 @@ public class TCCommands {
                 .withArguments(DungeonDatas.customDungeonDataArgument(DUNGEONDATA.get()))
                 .withArguments(new IntegerArgument(INSTANCEID.get()))
                 .executesPlayer((player, args) -> {
-                    IDungeonData data = (IDungeonData) args.get(0);
+                    IDungeonData<?> data = (IDungeonData<?>) args.get(0);
                     int id = (int) args.get(1);
                     DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
                     if (!IDungeonService.isDungeonExist(data, id)) {
-                        IDungeonService.create(data, id);
-                        IDungeonService.enter(player, data, id);
+                        World instance = IDungeonService.create(data, id);
+                        IDungeonService.enter(player, instance);
                     } else {
                         IDungeonService.enter(player, data, id);
                     }
                 });
         CommandAPICommand leaveDungeonCommand = new CommandAPICommand(DUNGEON_LEAVE.get())
-                .withPermission(CommandPermission.OP)
+                .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
                     DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
                     IDungeonService.tryLeave(player);
