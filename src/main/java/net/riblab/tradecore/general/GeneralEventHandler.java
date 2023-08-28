@@ -241,7 +241,8 @@ public class GeneralEventHandler {
         double armor = Utils.apply(player, 0d, IArmorModifier.class); //アーマーの基礎値は0
 
         double finalDamage = (5 * rawDamage * rawDamage) / (armor + 5 * rawDamage);
-        event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, finalDamage);
+        double damageReduction = rawDamage - finalDamage;
+        event.setDamage(EntityDamageEvent.DamageModifier.ARMOR, -damageReduction);
     }
 
     public void processPlayerConsumeItem(PlayerItemConsumeEvent event) {
