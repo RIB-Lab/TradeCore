@@ -1,7 +1,4 @@
-package net.riblab.tradecore.item.weapon;
-
-import net.riblab.tradecore.item.base.IHasDurability;
-import net.riblab.tradecore.item.base.IHasItemMod;
+package net.riblab.tradecore.item.base;
 
 public interface ITCWeapon extends IHasDurability, IHasItemMod {
 

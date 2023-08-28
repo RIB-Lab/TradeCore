@@ -8,6 +8,10 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface CustomMobService {
+    
+    static CustomMobService getImpl(){
+        return new CustomMobServiceImpl();
+    }
 
     /**
      * 指定した場所にカスタムモブをスポーンさせる

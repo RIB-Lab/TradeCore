@@ -1,4 +1,4 @@
-package net.riblab.tradecore.item.weapon;
+package net.riblab.tradecore.item.base;
 
 import org.bukkit.entity.Player;
 

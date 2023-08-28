@@ -5,7 +5,7 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.LootTables;
-import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ICanSpawnMobOnUse;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;

@@ -5,6 +5,10 @@ import org.bukkit.OfflinePlayer;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface JobDataService {
+    
+    static JobDataService getImple(){
+        return new JobDataServiceImpl();
+    }
 
     /**
      * プレイヤーにJob経験値を加える

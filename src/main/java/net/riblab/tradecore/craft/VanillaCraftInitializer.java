@@ -1,7 +1,7 @@
 package net.riblab.tradecore.craft;
 
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

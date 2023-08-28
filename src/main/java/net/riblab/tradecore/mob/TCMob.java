@@ -21,7 +21,7 @@ import java.util.Random;
  * カスタムモブの基礎クラス
  */
 @RequiredArgsConstructor
-public class TCMob implements ITCMob {
+class TCMob implements ITCMob {
 
     /**
      * エンティティの種族

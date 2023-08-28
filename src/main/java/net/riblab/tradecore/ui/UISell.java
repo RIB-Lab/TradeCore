@@ -4,7 +4,7 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ISellable;
 import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.entity.Player;

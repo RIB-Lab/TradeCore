@@ -5,7 +5,7 @@ import me.gamercoder215.mobchip.ai.attribute.AttributeInstance;
 import me.gamercoder215.mobchip.ai.attribute.EntityAttribute;
 import me.gamercoder215.mobchip.bukkit.BukkitBrain;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * 斧で木を殴った時に出てくるモンスター
  */
-public class Treant extends TCMob {
+class Treant extends TCMob {
     public Treant() {
         super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of(TCItems.BARK.get().getItemStack(), 1f));
     }

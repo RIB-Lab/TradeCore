@@ -3,7 +3,8 @@ package net.riblab.tradecore.item;
 import lombok.Getter;
 import net.riblab.tradecore.item.base.IHasItemMod;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCEquipment;
+import net.riblab.tradecore.item.base.ITCEquipment;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.entity.Player;
@@ -18,7 +19,7 @@ import java.util.function.Consumer;
 /**
  * プレイヤーが現在装備していたり手に持っていたりするアイテムの持つmodを記録するハンドラ
  */
-public class ItemModServiceImpl implements ItemModService {
+class ItemModServiceImpl implements ItemModService {
 
     /**
      * 全てのプレイヤーとその装備が持つmodのマップ
@@ -41,7 +42,7 @@ public class ItemModServiceImpl implements ItemModService {
         List<IItemMod> mods = new ArrayList<>();
         for (ItemStack armorContent : player.getInventory().getArmorContents()) {
             ITCItem tcItem = TCItems.toTCItem(armorContent);
-            if (!(tcItem instanceof TCEquipment equipment))
+            if (!(tcItem instanceof ITCEquipment equipment))
                 continue;
 
             mods.addAll(equipment.getDefaultMods());

@@ -6,7 +6,7 @@ import lombok.Data;
  * あるプレイヤーのこのサーバー内でのステータス
  */
 @Data
-public class PlayerStats implements IPlayerStats {
+class PlayerStats implements IPlayerStats {
     /**
      * 最大HP
      */

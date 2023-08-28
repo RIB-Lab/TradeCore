@@ -12,14 +12,14 @@ import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.mob.ITCMob;
 import net.riblab.tradecore.mob.TCMobs;
-import net.riblab.tradecore.shop.ShopData;
+import net.riblab.tradecore.shop.IShopData;
 import net.riblab.tradecore.shop.Shops;
 import net.riblab.tradecore.ui.UIAdminShop;
 import net.riblab.tradecore.ui.UIJobs;
@@ -147,7 +147,7 @@ public class TCCommands {
                 .withPermission(CommandPermission.OP)
                 .withArguments(Shops.customShopDataArgument(SHOPDATA.get()))
                 .executesPlayer((player, args) -> {
-                    ShopData data = (ShopData) args.get(0);
+                    IShopData data = (IShopData) args.get(0);
                     UIShop.open(player, data);
                 });
         CommandAPICommand adminShopCommand = new CommandAPICommand(SHOP_ADMIN.get())

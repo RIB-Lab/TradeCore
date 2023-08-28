@@ -5,6 +5,10 @@ import org.bukkit.entity.Player;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface PlayerStatsService {
+    static PlayerStatsService getImpl(){
+        return new PlayerStatsServiceImpl();
+    }
+    
     /**
      * 装備やジョブスキルが更新された時、それらでプレイヤーステータスを修飾し、それをプレイヤーに反映する
      */

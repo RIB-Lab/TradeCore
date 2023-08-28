@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * ダミーの村人をクライアントに出現させるためのパケット管理システム
  */
-public class FakeVillagerServiceImpl implements FakeVillagerService {
+class FakeVillagerServiceImpl implements FakeVillagerService {
 
     /**
      * プレイヤーとそのプレイヤーの元に送られたダミーの村人のMap

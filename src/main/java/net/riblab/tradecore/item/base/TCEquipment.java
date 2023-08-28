@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * カスタム装備のクラス
  */
-public class TCEquipment extends TCItem {
+class TCEquipment extends TCItem implements ITCEquipment {
 
     /**
      * 装備が既定で持つmodのリスト
@@ -63,13 +63,8 @@ public class TCEquipment extends TCItem {
         this.trimName = trimName;
     }
 
-    /**
-     * 装備の説明を生成する
-     *
-     * @param durability インスタンスが持つ耐久値
-     * @return 装備の説明
-     */
-    protected List<Component> getLore(int durability) {
+    @Override
+    public List<Component> getLore(int durability) {
         List<Component> texts = new ArrayList<>();
         if (baseDurability != -1) {
             texts.add(Component.text("耐久値: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
@@ -82,9 +77,7 @@ public class TCEquipment extends TCItem {
         return texts;
     }
 
-    /**
-     * 装備のインスタンスの耐久値を1減らす
-     */
+    @Override
     public ItemStack reduceDurability(ItemStack instance) {
         if (!isSimilar(instance))
             return null;

@@ -6,12 +6,12 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.TCResourcePackData;
-import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.IHasDurability;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCEquipment;
+import net.riblab.tradecore.item.base.ITCEquipment;
 import net.riblab.tradecore.item.base.TCTool;
-import net.riblab.tradecore.item.weapon.ITCWeapon;
+import net.riblab.tradecore.item.base.ITCWeapon;
 import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
@@ -232,7 +232,7 @@ public class GeneralEventHandler {
         ItemStack[] newArmorContent = new ItemStack[4];
         for (int i = 0; i < player.getInventory().getArmorContents().length; i++) {
             ITCItem itcItem = TCItems.toTCItem(player.getInventory().getArmorContents()[i]);
-            if (!(itcItem instanceof TCEquipment equipment))
+            if (!(itcItem instanceof ITCEquipment equipment))
                 continue;
             newArmorContent[i] = equipment.reduceDurability(player.getInventory().getArmorContents()[i]);
         }

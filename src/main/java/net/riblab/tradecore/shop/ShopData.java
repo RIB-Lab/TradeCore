@@ -9,7 +9,7 @@ import java.util.List;
  * 汎用ショップのデータ
  */
 @RequiredArgsConstructor
-public class ShopData implements IShopData {
+class ShopData implements IShopData {
 
     /**
      * ショップの名前

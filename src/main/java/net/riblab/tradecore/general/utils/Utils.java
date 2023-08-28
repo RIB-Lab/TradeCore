@@ -5,7 +5,7 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.item.LootTables;
-import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.job.data.JobType;

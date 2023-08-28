@@ -1,4 +1,4 @@
-package net.riblab.tradecore.item.base;
+package net.riblab.tradecore.item.impl;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -6,6 +6,8 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.item.ItemCreator;
+import net.riblab.tradecore.item.base.ISellable;
+import net.riblab.tradecore.item.base.TCTool;
 import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
 

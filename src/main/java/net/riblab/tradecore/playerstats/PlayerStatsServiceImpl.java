@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * プレイヤーステータスの管理クラス
  */
-public class PlayerStatsServiceImpl implements PlayerStatsService {
+class PlayerStatsServiceImpl implements PlayerStatsService {
 
     /**
      * JobSkilやItemModで修飾済みのプレイヤーステータスが入ったmap

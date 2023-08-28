@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface ItemModService {
+    
+    static ItemModService getImpl(){
+        return new ItemModServiceImpl();
+    }
 
     List<Consumer<Player>> getOnItemModUpdated();
 

@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 使用時に確率で敵が沸くツール
  */
-public class TCEncountableTool extends TCTool implements ICanSpawnMobOnUse {
+class TCEncountableTool extends TCTool implements ICanSpawnMobOnUse {
 
     @Getter
     private final Map<ITCMob, Float> spawnTable;

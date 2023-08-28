@@ -9,7 +9,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Materials;
 import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

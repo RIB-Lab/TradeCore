@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * このプラグイン独自のモブをスポーンさせたりデスポーンイベントを発行したりするシステム
  */
-public class CustomMobServiceImpl implements CustomMobService {
+class CustomMobServiceImpl implements CustomMobService {
 
     /**
      * このプラグインが現在スポーンさせているモブのリスト

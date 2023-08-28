@@ -8,8 +8,8 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.TCItems;
-import net.riblab.tradecore.shop.ShopData;
+import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.shop.IShopData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -18,7 +18,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
  */
 public class UIShop {
 
-    public static PaginatedGui open(Player player, ShopData data) {
+    public static PaginatedGui open(Player player, IShopData data) {
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text(data.getName()))
                 .rows(6)
@@ -32,7 +32,7 @@ public class UIShop {
                 event -> gui.next());
         gui.setItem(50, nextPageButton);
 
-        for (ShopData.ShopItem shopItem : data.getShopItemList()) {
+        for (IShopData.ShopItem shopItem : data.getShopItemList()) {
             GuiItem blockButton = new GuiItem(new ItemCreator(shopItem.getItemStack().clone()).addLore(Component.text(shopItem.getPrice() + "RIB").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)).create(),
                     event -> buy(event, shopItem));
             gui.addItem(blockButton);
@@ -43,7 +43,7 @@ public class UIShop {
         return gui;
     }
 
-    public static void buy(InventoryClickEvent event, ShopData.ShopItem shopItem) {
+    public static void buy(InventoryClickEvent event, IShopData.ShopItem shopItem) {
         double balance = TradeCore.getInstance().getEconomy().getBalance((Player) event.getWhoClicked());
         if (balance < shopItem.getPrice()) {
             event.getWhoClicked().sendMessage("お金を持っていません！");

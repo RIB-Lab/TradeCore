@@ -1,4 +1,4 @@
-package net.riblab.tradecore.item;
+package net.riblab.tradecore.item.base;
 
 
 import dev.jorel.commandapi.arguments.Argument;
@@ -6,9 +6,9 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.item.base.*;
+import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.*;
-import net.riblab.tradecore.item.weapon.*;
+import net.riblab.tradecore.item.impl.*;
 import net.riblab.tradecore.mob.TCMobs;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
