@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 public interface ItemModService {
 
     List<Consumer<Player>> getOnItemModUpdated();
-    
+
     /**
      * プレイヤーをスキャンして装備modをリストアップして保存する
      */

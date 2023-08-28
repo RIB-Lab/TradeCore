@@ -9,7 +9,7 @@ public class ModResouceChanceI extends ItemMod implements IResourceChanceModifie
     }
 
     @Override
-    public String getLore(){
+    public String getLore() {
         return "資源採取確率 + " + getLevel() + "%";
     }
 

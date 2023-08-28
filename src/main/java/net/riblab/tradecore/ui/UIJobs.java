@@ -6,10 +6,9 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.job.data.IJobData;
-import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.IJobSkill;
@@ -30,7 +29,7 @@ public class UIJobs {
     private static final JobDataService JOB_SERVICE = TradeCore.getInstance().getJobService();
     private static final JobSkillService skillHandler = TradeCore.getInstance().getJobSkillService();
 
-    public static PaginatedGui open(Player player){
+    public static PaginatedGui open(Player player) {
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text("ジョブ選択"))
                 .rows(3)
@@ -52,7 +51,7 @@ public class UIJobs {
 
         return gui;
     }
-    
+
     public static PaginatedGui open(Player player, JobType type) {
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text(type.getName() + " 未使用スキルポイント：" + skillHandler.getUnSpentSkillPoints(player, type)))
@@ -78,19 +77,19 @@ public class UIJobs {
     /**
      * スキルを習得しようとする
      */
-    public static void tryLearnSkill(InventoryClickEvent event, Class<? extends IJobSkill> skillType, JobType type){
-        if(skillHandler.getUnSpentSkillPoints((Player)event.getWhoClicked(), type) <= 0){
+    public static void tryLearnSkill(InventoryClickEvent event, Class<? extends IJobSkill> skillType, JobType type) {
+        if (skillHandler.getUnSpentSkillPoints((Player) event.getWhoClicked(), type) <= 0) {
             event.getWhoClicked().sendMessage(Component.text("スキルポイントが足りません！"));
             return;
         }
-        
-        if(skillHandler.getSkillLevel((Player)event.getWhoClicked(),type, skillType) >= JobSkills.getMaxLevel(skillType)){
+
+        if (skillHandler.getSkillLevel((Player) event.getWhoClicked(), type, skillType) >= JobSkills.getMaxLevel(skillType)) {
             event.getWhoClicked().sendMessage(Component.text("既に最大レベルです！"));
             return;
         }
-        
-        skillHandler.learnSkill((Player)event.getWhoClicked(), type, skillType);
+
+        skillHandler.learnSkill((Player) event.getWhoClicked(), type, skillType);
         //画面を更新
-        open((Player)event.getWhoClicked(), type);
+        open((Player) event.getWhoClicked(), type);
     }
 }

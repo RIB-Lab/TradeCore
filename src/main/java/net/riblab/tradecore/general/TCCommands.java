@@ -8,12 +8,12 @@ import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
+import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
@@ -39,29 +39,29 @@ import static net.riblab.tradecore.general.utils.Materials.transparentBlocks;
  * コマンド登録クラス。プラグインのonEnableの前に呼ぶ必要があるのでインスタンスを生成させない。
  */
 public class TCCommands {
-    
-    private TCCommands(){
+
+    private TCCommands() {
         throw new AssertionError();
     }
-    
+
     public static final String merchantName = "買い取り商";
 
-    private static JobDataService getJobHandler(){
+    private static JobDataService getJobHandler() {
         return TradeCore.getInstance().getJobService();
     }
-    
-    private static TCEconomy getEconomy(){
+
+    private static TCEconomy getEconomy() {
         return TradeCore.getInstance().getEconomy();
     }
-    
-    public static void onLoad(){
+
+    public static void onLoad() {
         registerCommands();
     }
 
     /**
      * このプラグインで使う全てのコマンドを登録する
      */
-    private static void registerCommands(){
+    private static void registerCommands() {
         CommandAPI.onLoad(new CommandAPIBukkitConfig(TradeCore.getInstance()).verboseOutput(true)); // Load with verbose output
 
         CommandAPICommand currencyCommand = new CommandAPICommand(CURRENCY.get())
@@ -214,11 +214,10 @@ public class TCCommands {
                     IDungeonData data = (IDungeonData) args.get(0);
                     int id = (int) args.get(1);
                     DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
-                    if(!IDungeonService.isDungeonExist(data, id)){
+                    if (!IDungeonService.isDungeonExist(data, id)) {
                         IDungeonService.create(data, id);
                         IDungeonService.enter(player, data, id);
-                    }
-                    else {
+                    } else {
                         IDungeonService.enter(player, data, id);
                     }
                 });
@@ -247,12 +246,12 @@ public class TCCommands {
         dungeonCommand.withSubcommand(dungeonListCommand);
         dungeonCommand.register();
     }
-    
-    public static void onEnable(){
+
+    public static void onEnable() {
         CommandAPI.onEnable();
     }
-    
-    public static void onDisable(){
+
+    public static void onDisable() {
         CommandAPI.onDisable();
     }
 }

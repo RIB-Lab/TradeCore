@@ -376,8 +376,8 @@ public class ItemCreator {
         ItemMeta meta = itemStack.getItemMeta();
         return meta.getCustomModelData();
     }
-    
-    public ItemCreator setAttackDamage(double value){
+
+    public ItemCreator setAttackDamage(double value) {
         ItemMeta meta = itemStack.getItemMeta();
         meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("generic.attackDamage", value, AttributeModifier.Operation.ADD_NUMBER));
@@ -385,7 +385,7 @@ public class ItemCreator {
         return this;
     }
 
-    public ItemCreator setAttackSpeed(double value){
+    public ItemCreator setAttackSpeed(double value) {
         ItemMeta meta = itemStack.getItemMeta();
         meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier("generic.attackSpeed", value, AttributeModifier.Operation.ADD_NUMBER));

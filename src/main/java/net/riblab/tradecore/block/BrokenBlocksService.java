@@ -17,6 +17,7 @@ public interface BrokenBlocksService {
 
     /**
      * プレイヤーがブロックにひびを入れたことをBrokenBlockに通知する
+     *
      * @param amount ひびの大きさ(11が最大値)
      */
     @ParametersAreNonnullByDefault
@@ -29,7 +30,8 @@ public interface BrokenBlocksService {
 
     /**
      * プレイヤーが他のブロックを破壊中であるか
-     * @param player プレイヤー
+     *
+     * @param player   プレイヤー
      * @param location 判定したいブロックがある座標
      */
     boolean isPlayerBreakingAnotherBlock(@Nullable Player player, @Nullable Location location);
@@ -37,5 +39,6 @@ public interface BrokenBlocksService {
     /**
      * このサービスが持つプレイヤーの破壊情報を削除する(破壊中のブロックは削除されない)
      */
-    @Nullable BrokenBlock removePlayerFromMap(@Nullable Player player);
+    @Nullable
+    BrokenBlock removePlayerFromMap(@Nullable Player player);
 }

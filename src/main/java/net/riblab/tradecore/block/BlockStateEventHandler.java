@@ -2,16 +2,16 @@ package net.riblab.tradecore.block;
 
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.job.data.JobType;
-import net.riblab.tradecore.mob.MobUtils;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.WorldGuardUtil;
-import net.riblab.tradecore.item.*;
+import net.riblab.tradecore.item.LootTables;
+import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.item.base.ICanSpawnMobOnUse;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.item.base.TCTool;
-import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.data.JobType;
+import net.riblab.tradecore.mob.MobUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -35,15 +35,15 @@ import static net.riblab.tradecore.general.utils.Materials.unbreakableMaterial;
  */
 public class BlockStateEventHandler implements Listener {
 
-    private BrokenBlocksService getService(){
+    private BrokenBlocksService getService() {
         return TradeCore.getInstance().getBrokenBlocksService();
     }
-    
+
     /**
      * ブロックにサーバー側でひびを入れることを試みる
      */
     @ParametersAreNonnullByDefault
-    public void tryCreateBrokenBlock(BlockDamageEvent event){
+    public void tryCreateBrokenBlock(BlockDamageEvent event) {
         if (unbreakableMaterial.contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
@@ -67,7 +67,7 @@ public class BlockStateEventHandler implements Listener {
      * ブロックのサーバー側のヒビを大きくする
      */
     @ParametersAreNonnullByDefault
-    public void tryIncrementBlockDamage(PlayerAnimationEvent event){
+    public void tryIncrementBlockDamage(PlayerAnimationEvent event) {
         Player player = event.getPlayer();
         Set<Material> transparentBlocks = new HashSet<>();
         transparentBlocks.add(Material.WATER);
@@ -104,6 +104,7 @@ public class BlockStateEventHandler implements Listener {
 
     /**
      * カスタムツールが使われていた場合、ドロップ品や敵を生成する
+     *
      * @param event
      */
     @ParametersAreNonnullByDefault
@@ -144,7 +145,7 @@ public class BlockStateEventHandler implements Listener {
                 }
 
                 JobType jobType = tool.getToolType().getExpType();
-                if(jobType != null){
+                if (jobType != null) {
                     //硬度によって経験値が決まるが、硬度0でも1は入るようにする
                     TradeCore.getInstance().getJobService().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), (TCTool) itcItem) + 1);
                 }
@@ -160,6 +161,7 @@ public class BlockStateEventHandler implements Listener {
 
     /**
      * クワの耕地ドロップ処理を実行すると同時にITCItemが設置されるのを防止する
+     *
      * @param event
      */
     @ParametersAreNonnullByDefault

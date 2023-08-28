@@ -1,6 +1,5 @@
 package net.riblab.tradecore.job.skill;
 
-import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.OfflinePlayer;
@@ -12,6 +11,7 @@ import java.util.function.Consumer;
 public interface JobSkillService {
 
     List<Consumer<Player>> getOnJobSkillChanged();
+
     /**
      * プレイヤーのJobスキルデータを初期化する
      */

@@ -2,7 +2,6 @@ package net.riblab.tradecore.job.skill;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobType;
 
 import javax.annotation.Nonnull;
@@ -33,17 +32,18 @@ public enum JobSkills {
 
     /**
      * あるクラスで習得可能な全てのスキルタイプを列挙
+     *
      * @param jobType ジョブの種類
      * @return 習得可能なスキルのリスト
      */
     @ParametersAreNonnullByDefault
     @Nonnull
-    public static List<Class<? extends IJobSkill>> getAvailableSkills(JobType jobType){
+    public static List<Class<? extends IJobSkill>> getAvailableSkills(JobType jobType) {
         return Arrays.stream(JobSkills.values()).map(jobSkills -> jobSkills.skillType).filter(skillType -> {
             List<JobType> skillTypes = new ArrayList<>();
             try {
                 Field field = skillType.getDeclaredField("availableSkillType");
-                skillTypes = (List<JobType>)field.get(null);
+                skillTypes = (List<JobType>) field.get(null);
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
@@ -56,7 +56,7 @@ public enum JobSkills {
      */
     @ParametersAreNonnullByDefault
     @Nonnull
-    public static String getSkillName(Class<? extends IJobSkill> skillType){
+    public static String getSkillName(Class<? extends IJobSkill> skillType) {
         Field field;
         try {
             field = skillType.getDeclaredField("name");
@@ -75,7 +75,7 @@ public enum JobSkills {
      */
     @ParametersAreNonnullByDefault
     @Nonnull
-    public static List<Component> getSkillLore(Class<? extends IJobSkill> skillType){
+    public static List<Component> getSkillLore(Class<? extends IJobSkill> skillType) {
         Field field;
         try {
             field = skillType.getDeclaredField("lore");
@@ -93,7 +93,7 @@ public enum JobSkills {
      * あるスキルの最大レベルを取得
      */
     @ParametersAreNonnullByDefault
-    public static int getMaxLevel(Class<? extends IJobSkill> skillType){
+    public static int getMaxLevel(Class<? extends IJobSkill> skillType) {
         Field field;
         try {
             field = skillType.getDeclaredField("maxLevel");

@@ -12,7 +12,7 @@ import java.util.Map;
  * ワールド中の破壊中のブロックを管理するサービス
  */
 public class BrokenBlocksServiceImpl implements BrokenBlocksService {
-    
+
     private static final Map<Player, BrokenBlock> brokenBlocks = new HashMap<>();
 
     @Override
@@ -32,9 +32,9 @@ public class BrokenBlocksServiceImpl implements BrokenBlocksService {
     @Override
     @ParametersAreNonnullByDefault
     public void incrementDamage(Player player, double amount) {
-        if(!isPlayerAlreadyBreaking(player))
+        if (!isPlayerAlreadyBreaking(player))
             return;
-        
+
         brokenBlocks.get(player).incrementDamage(player, amount);
     }
 
@@ -47,9 +47,9 @@ public class BrokenBlocksServiceImpl implements BrokenBlocksService {
     public boolean isPlayerBreakingAnotherBlock(Player player, Location location) {
         return brokenBlocks.containsKey(player) && !brokenBlocks.get(player).getBlock().getLocation().equals(location);
     }
-    
+
     @Override
-    public BrokenBlock removePlayerFromMap(Player player){
+    public BrokenBlock removePlayerFromMap(Player player) {
         return brokenBlocks.remove(player);
     }
 }

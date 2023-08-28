@@ -24,14 +24,14 @@ public enum CommandNames {
     DUNGEON_LEAVE("leave"),
     DUNGEON_EVACUATE("evacuate"),
     DUNGEON_LIST("list");
-    
+
     private final String name;
 
     CommandNames(String name) {
         this.name = name;
     }
-    
-    public String get(){
+
+    public String get() {
         return name;
     }
 }

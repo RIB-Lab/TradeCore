@@ -7,6 +7,7 @@ public interface ITCWeapon extends IHasDurability, IHasItemMod {
 
     /**
      * 武器の性質を取得する
+     *
      * @return
      */
     IWeaponAttribute getAttribute();

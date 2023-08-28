@@ -8,7 +8,6 @@ import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
-import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.modifier.IModifier;
@@ -23,7 +22,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.Random;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Stream;
@@ -65,12 +66,12 @@ public class Utils {
             }
         });
     }
-    
+
     /**
      * プレイヤーの起こした行動によって発生した値をジョブスキルや装備modによって修飾する
      */
     @ParametersAreNonnullByDefault
-    public static  <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz){
+    public static <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz) {
         T modifiedValue = TradeCore.getInstance().getItemModService().apply(player, originalValue, clazz);
         modifiedValue = TradeCore.getInstance().getJobSkillService().apply(player, originalValue, modifiedValue, clazz);
         return modifiedValue;
@@ -78,8 +79,9 @@ public class Utils {
 
     /**
      * .jar内フォルダーを.jar外にコピーする
+     *
      * @param srcDirName コピー前の.jar内のディレクトリの名前
-     * @param destDir .jarの外のディレクトリのパス
+     * @param destDir    .jarの外のディレクトリのパス
      * @throws IOException
      */
     @ParametersAreNonnullByDefault
@@ -88,11 +90,11 @@ public class Utils {
         JarFile jar = null;
         try {
             jar = new JarFile(jarFile);
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             Bukkit.getLogger().severe("プラグインの名前を変えないで下さい！リソースが展開できません！");
             e.printStackTrace();
         }
-        for (Enumeration<JarEntry> entries = jar.entries(); entries.hasMoreElements();) {
+        for (Enumeration<JarEntry> entries = jar.entries(); entries.hasMoreElements(); ) {
             JarEntry entry = entries.nextElement();
             if (entry.getName().startsWith(srcDirName + "/") && !entry.isDirectory()) {
                 File dest = new File(destDir, entry.getName().substring(srcDirName.length() + 1));
@@ -119,8 +121,9 @@ public class Utils {
 
     /**
      * .jar内ファイルを.jar外にコピーする
+     *
      * @param srcFileName コピー前の.jar内のファイルの名前
-     * @param destDir .jarの外のディレクトリのパス
+     * @param destDir     .jarの外のディレクトリのパス
      * @return コピーに成功したかどうか
      * @throws IOException
      */
@@ -131,11 +134,11 @@ public class Utils {
         boolean copied = false;
         try {
             jar = new JarFile(jarFile);
-        } catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             Bukkit.getLogger().severe("プラグインの名前を変えないで下さい！リソースが展開できません！");
             e.printStackTrace();
         }
-        for (Enumeration<JarEntry> entries = jar.entries(); entries.hasMoreElements();) {
+        for (Enumeration<JarEntry> entries = jar.entries(); entries.hasMoreElements(); ) {
             JarEntry entry = entries.nextElement();
             if (entry.getName().equals(srcFileName) && !entry.isDirectory()) {
                 File parent = destDir.getParentFile();
@@ -164,6 +167,7 @@ public class Utils {
 
     /**
      * フォルダーを完全に削除する
+     *
      * @param file
      * @return
      */
@@ -180,14 +184,15 @@ public class Utils {
 
     /**
      * 座標をxz軸にランダム化する
+     *
      * @param location 座標
-     * @param range 半径
+     * @param range    半径
      */
     @ParametersAreNonnullByDefault
     public static @Nonnull Location randomizeLocationXZ(Location location, int range) {
         Random random = new Random();
         double randomOffsetX = (random.nextDouble() * range * 2) - range;
-        double randomOffsetZ = (random.nextDouble() * range * 2) - range; 
+        double randomOffsetZ = (random.nextDouble() * range * 2) - range;
 
         double newX = location.getX() + randomOffsetX;
         double newZ = location.getZ() + randomOffsetZ;
@@ -198,7 +203,7 @@ public class Utils {
     /**
      * ロード順によって競合の可能性のあるenumを安全に初期化する
      */
-    public static void initializeEnumSafely(){
+    public static void initializeEnumSafely() {
         TCItems.values();
         TCMobs.values();
         LootTables.values();

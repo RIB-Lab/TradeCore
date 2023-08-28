@@ -12,10 +12,10 @@ import org.bukkit.inventory.ShapelessRecipe;
  * バニラレシピの削除・登録クラス
  */
 public final class VanillaCraftInitializer {
-    private VanillaCraftInitializer(){
-        
+    private VanillaCraftInitializer() {
+
     }
-    
+
     public static void init() {
         Bukkit.clearRecipes();
 

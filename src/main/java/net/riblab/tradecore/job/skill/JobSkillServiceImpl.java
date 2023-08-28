@@ -2,7 +2,6 @@ package net.riblab.tradecore.job.skill;
 
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.OfflinePlayer;
@@ -27,35 +26,35 @@ public class JobSkillServiceImpl implements JobSkillService {
      */
     @Getter
     private final List<Consumer<Player>> onJobSkillChanged = new ArrayList<>();
-    
+
     @Override
     public void resetPlayerJobSkillData(OfflinePlayer offlinePlayer) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
-        if(datas != null)
+        if (datas != null)
             datas.clear();
-        else{
+        else {
             datasMap.put(uuid, new ArrayList<>());
         }
 
-        if(offlinePlayer instanceof Player player)
+        if (offlinePlayer instanceof Player player)
             onJobSkillChanged.forEach(playerConsumer -> playerConsumer.accept(player));
     }
 
     @Override
-    public int getUnSpentSkillPoints(OfflinePlayer offlinePlayer, JobType type){
+    public int getUnSpentSkillPoints(OfflinePlayer offlinePlayer, JobType type) {
         return TradeCore.getInstance().getJobService().getJobData(offlinePlayer, type).getLevel() / 10 - getLearntSkillCount(offlinePlayer, type);
     }
 
     @Override
-    public int getLearntSkillCount(OfflinePlayer offlinePlayer, JobType type){
+    public int getLearntSkillCount(OfflinePlayer offlinePlayer, JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
-        if(datas == null){
+        if (datas == null) {
             datasMap.put(uuid, new ArrayList<>());
             return 0;
         }
-        
+
         List<IJobSkill> datasMatchingType = datas.stream().filter(jobSkill -> jobSkill.getLearnedJobType() == type).toList();
         int skillLevelSum = 0;
         for (IJobSkill IJobSkill : datasMatchingType) {
@@ -68,7 +67,7 @@ public class JobSkillServiceImpl implements JobSkillService {
     public void learnSkill(OfflinePlayer offlinePlayer, JobType jobType, Class<? extends IJobSkill> skillType) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
-        if(datas == null){
+        if (datas == null) {
             datas = new ArrayList<>();
             datasMap.put(uuid, datas);
         }
@@ -76,11 +75,11 @@ public class JobSkillServiceImpl implements JobSkillService {
         IJobSkill learnedSkillInstance = datas.stream().filter(skillInData -> {
             return skillType.isInstance(skillInData) && skillInData.getLearnedJobType() == jobType;
         }).findFirst().orElse(null);
-        
-        if(learnedSkillInstance != null){ //既にスキルを習得済みの場合、スキルのレベルを1上げる
+
+        if (learnedSkillInstance != null) { //既にスキルを習得済みの場合、スキルのレベルを1上げる
             learnedSkillInstance.setLevel(learnedSkillInstance.getLevel() + 1);
 
-            if(offlinePlayer instanceof Player player)
+            if (offlinePlayer instanceof Player player)
                 onJobSkillChanged.forEach(playerConsumer -> playerConsumer.accept(player));
             return;
         }
@@ -89,16 +88,17 @@ public class JobSkillServiceImpl implements JobSkillService {
         IJobSkill newSkillInstance;
         try {
             newSkillInstance = skillType.getDeclaredConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
         newSkillInstance.setLevel(1);
         newSkillInstance.setLearnedJobType(jobType);
         newSkillInstance.setInternalName(skillType.getCanonicalName());
-        
+
         datas.add(newSkillInstance);
-        
-        if(offlinePlayer instanceof Player player)
+
+        if (offlinePlayer instanceof Player player)
             onJobSkillChanged.forEach(playerConsumer -> playerConsumer.accept(player));
     }
 
@@ -106,7 +106,7 @@ public class JobSkillServiceImpl implements JobSkillService {
     public int getSkillLevel(OfflinePlayer offlinePlayer, JobType jobType, Class<? extends IJobSkill> skillType) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
-        if(datas == null){
+        if (datas == null) {
             datas = new ArrayList<>();
             datasMap.put(uuid, datas);
         }
@@ -115,15 +115,14 @@ public class JobSkillServiceImpl implements JobSkillService {
             return skillType.isInstance(skillInData) && skillInData.getLearnedJobType() == jobType;
         }).findFirst().orElse(null);
 
-        if(learnedSkillInstance != null){
+        if (learnedSkillInstance != null) {
             return learnedSkillInstance.getLevel();
-        }
-        else 
+        } else
             return 0;
     }
 
     @Override
-    public void onDeserialize(){
+    public void onDeserialize() {
         for (Map.Entry<UUID, List<IJobSkill>> uuidListEntry : datasMap.entrySet()) {
             List<IJobSkill> extendedIJobSkills = new ArrayList<>();
             List<IJobSkill> IJobSkills = uuidListEntry.getValue();
@@ -145,19 +144,19 @@ public class JobSkillServiceImpl implements JobSkillService {
     }
 
     @Override
-    public <T> T apply(Player player, T originalValue, T modifiedValue, Class<? extends IModifier<T>> clazz){
+    public <T> T apply(Player player, T originalValue, T modifiedValue, Class<? extends IModifier<T>> clazz) {
         UUID uuid = player.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
-        if(datas == null){
+        if (datas == null) {
             datas = new ArrayList<>();
             datasMap.put(uuid, datas);
         }
-        
+
         List<IJobSkill> learnedSkillInstances = datas.stream().filter(clazz::isInstance).toList();
         for (IJobSkill learnedSkillInstance : learnedSkillInstances) {
             modifiedValue = ((IModifier<T>) learnedSkillInstance).apply(originalValue, modifiedValue);
         }
-        
+
         return modifiedValue;
     }
 }

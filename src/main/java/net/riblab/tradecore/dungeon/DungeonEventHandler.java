@@ -20,21 +20,21 @@ import java.util.Random;
  * ダンジョンで起こるイベントのハンドラ
  */
 public class DungeonEventHandler {
-    public static DungeonService getservice(){
+    public static DungeonService getservice() {
         return TradeCore.getInstance().getDungeonService();
     }
 
     @ParametersAreNonnullByDefault
-    public void tryProcessDungeonSpawn(PlayerRespawnEvent event){
-        if(!getservice().isPlayerInDungeon(event.getPlayer()))
+    public void tryProcessDungeonSpawn(PlayerRespawnEvent event) {
+        if (!getservice().isPlayerInDungeon(event.getPlayer()))
             return;
 
         event.setRespawnLocation(event.getPlayer().getWorld().getSpawnLocation());
     }
-    
-    public void onDungeonSecondPassed(){
+
+    public void onDungeonSecondPassed() {
         Bukkit.getOnlinePlayers().forEach(player -> {
-            if(!getservice().isPlayerInDungeon(player))
+            if (!getservice().isPlayerInDungeon(player))
                 return;
 
             String unfixedName = getservice().getUnfixedDungeonName(player.getWorld().getName());
@@ -47,7 +47,7 @@ public class DungeonEventHandler {
      * ダンジョンにいるプレイヤー周辺のスポナーからダンジョンに応じたモブをスポーンさせる
      */
     @ParametersAreNonnullByDefault
-    private void trySpawnMob(Player player, IDungeonData data){
+    private void trySpawnMob(Player player, IDungeonData data) {
         List<Block> activatedSpawner = BlockUtils.getBlocksInRadius(player, 8, Material.REDSTONE_BLOCK);
         for (Block block : activatedSpawner) {
             for (int i = 0; i < data.getBasePackSize(); i++) {
@@ -60,7 +60,7 @@ public class DungeonEventHandler {
     }
 
     @ParametersAreNonnullByDefault
-    public void onDungeonInit(WorldInitEvent event){
+    public void onDungeonInit(WorldInitEvent event) {
         event.getWorld().setKeepSpawnInMemory(false);
     }
 }

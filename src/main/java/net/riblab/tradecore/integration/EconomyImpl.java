@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * 他プラグインと連携するためにVaultが定義した経済システムを実装する
  */
-public class EconomyImpl implements TCEconomy{
+public class EconomyImpl implements TCEconomy {
     private final ConfigServiceImpl.CurrencyData data = TradeCore.getInstance().getConfigService().getCurrencyData();
 
     /**

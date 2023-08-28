@@ -9,13 +9,16 @@ import java.util.Map;
 
 public interface ITCCraftingRecipe {
 
-    @Nonnull Map<ITCItem, Integer> getIngredients();
+    @Nonnull
+    Map<ITCItem, Integer> getIngredients();
 
-    @Nonnull ItemStack getResult();
+    @Nonnull
+    ItemStack getResult();
 
     int getResultAmount();
 
     double getFee();
 
-    @Nonnull RecipeType getCategory();
+    @Nonnull
+    RecipeType getCategory();
 }

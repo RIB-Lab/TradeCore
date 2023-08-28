@@ -6,10 +6,10 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.shop.ShopData;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.shop.ShopData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
@@ -43,14 +43,14 @@ public class UIShop {
         return gui;
     }
 
-    public static void buy(InventoryClickEvent event, ShopData.ShopItem shopItem){
-        double balance = TradeCore.getInstance().getEconomy().getBalance((Player)event.getWhoClicked());
-        if(balance < shopItem.getPrice()){
+    public static void buy(InventoryClickEvent event, ShopData.ShopItem shopItem) {
+        double balance = TradeCore.getInstance().getEconomy().getBalance((Player) event.getWhoClicked());
+        if (balance < shopItem.getPrice()) {
             event.getWhoClicked().sendMessage("お金を持っていません！");
             return;
         }
 
-        TradeCore.getInstance().getEconomy().withdrawPlayer((Player)event.getWhoClicked(), shopItem.getPrice());
+        TradeCore.getInstance().getEconomy().withdrawPlayer((Player) event.getWhoClicked(), shopItem.getPrice());
         event.getWhoClicked().getInventory().addItem(shopItem.getItemStack());
     }
 }

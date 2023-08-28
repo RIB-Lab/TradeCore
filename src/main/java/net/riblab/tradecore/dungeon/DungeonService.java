@@ -16,7 +16,7 @@ public interface DungeonService {
     String dungeonPrefix = "dungeons";
     String copySchemDir = "schematics";
     File pasteSchemDir = TradeCore.getInstance().getDataFolder();
-    Vector dungeonGenerateLoc = new Vector(0,100,0);
+    Vector dungeonGenerateLoc = new Vector(0, 100, 0);
 
     /**
      * データを基にダンジョンを作る
@@ -69,12 +69,14 @@ public interface DungeonService {
 
     /**
      * 特定のダンジョンを削除する
+     *
      * @param world
      */
     void destroySpecific(@Nullable World world);
 
     /**
      * 接辞がついていないダンジョン名を取得する
+     *
      * @param affixedDungeonName
      * @return
      */
@@ -84,6 +86,7 @@ public interface DungeonService {
 
     /**
      * ダンジョンリストを文字列で取得
+     *
      * @return
      */
     @Nonnull

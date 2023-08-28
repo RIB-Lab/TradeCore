@@ -9,7 +9,7 @@ public class ModEcologyI extends ItemMod implements IEveryMinuteDurabilityModifi
     }
 
     @Override
-    public String getLore(){
+    public String getLore() {
         return "エコロジー:" + getLevel();
     }
 

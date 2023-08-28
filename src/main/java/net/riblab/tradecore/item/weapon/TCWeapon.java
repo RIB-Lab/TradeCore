@@ -21,7 +21,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
 
     @Getter
     private final List<IItemMod> defaultMods;
-    
+
     @Getter
     private final IWeaponAttribute attribute;
 
@@ -59,7 +59,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
         }
         return texts;
     }
-    
+
     @Override
     public ItemStack reduceDurability(ItemStack instance, int amount) {
         if (!isSimilar(instance))

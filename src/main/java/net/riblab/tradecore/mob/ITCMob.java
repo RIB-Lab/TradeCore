@@ -3,10 +3,8 @@ package net.riblab.tradecore.mob;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -29,13 +27,13 @@ public interface ITCMob {
      * 引数のモブがこのカスタムモブであるかどうか
      */
     boolean isSimilar(@Nullable Mob mob);
-    
+
     EntityType getBaseType();
-    
+
     Component getCustomName();
 
     double getBaseHealth();
-    
+
     String getInternalName();
 
     java.util.Map<ItemStack, Float> getDrops();

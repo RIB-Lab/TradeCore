@@ -81,15 +81,15 @@ public enum LootTables {
      * あるマテリアルをあるツールで掘るために必要な最小硬度を取得
      */
     @ParametersAreNonnullByDefault
-    public static int getMinHardness(Material material, ITCTool tool){
+    public static int getMinHardness(Material material, ITCTool tool) {
         List<Integer> hardnessList = Arrays.stream(LootTables.values())
                 .map(LootTables::get)
                 .filter(table1 -> table1.getMaterial().contains(material))
                 .filter(table1 -> table1.getToolType() == tool.getToolType())
                 .map(LootTable::getHarvestLevel).toList();
-        if(hardnessList.size() == 0)
+        if (hardnessList.size() == 0)
             return Integer.MAX_VALUE;
-        
+
         return Collections.min(hardnessList);
     }
 

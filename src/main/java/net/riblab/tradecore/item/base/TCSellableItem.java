@@ -30,7 +30,7 @@ public class TCSellableItem extends TCItem implements ISellable {
     }
 
     /**
-     *  売却可能なアイテムの説明を生成する
+     * 売却可能なアイテムの説明を生成する
      */
     protected Component getLore() {
         return Component.text("売価：").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)

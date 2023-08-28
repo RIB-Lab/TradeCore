@@ -5,7 +5,6 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
-import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
 
@@ -18,17 +17,16 @@ public class JSFreeStick extends JobSkill implements ICraftFeeModifier {
     public static final List<JobType> availableSkillType = List.of(JobType.Woodcutter);
     public static final List<Component> lore = List.of(Component.text("2ポイント振ると棒系レシピの必要金額が0になる").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY));
     public static final int maxLevel = 2;
-    
+
     private static final Set<ITCCraftingRecipe> appliedRecipes = Set.of(TCCraftingRecipes.STICK.getRecipe(), TCCraftingRecipes.REINFORCED_STICK.getRecipe());
-    
+
     @Override
     public PackedCraftFee apply(PackedCraftFee originalFee, PackedCraftFee modifiedFee) {
         PackedCraftFee newFee = new PackedCraftFee();
         newFee.setRecipe(modifiedFee.getRecipe());
-        if(appliedRecipes.contains(modifiedFee.getRecipe()) && getLevel() >= 2){
+        if (appliedRecipes.contains(modifiedFee.getRecipe()) && getLevel() >= 2) {
             newFee.setFee(0);
-        }
-        else{
+        } else {
             newFee.setFee(modifiedFee.getFee());
         }
         return newFee;

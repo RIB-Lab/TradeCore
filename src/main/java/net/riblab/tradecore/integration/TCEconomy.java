@@ -15,8 +15,9 @@ public interface TCEconomy extends Economy {
 
     /**
      * プレイヤーにプレイチケットを渡す
+     *
      * @param offlinePlayer プレイヤー
-     * @param amount 量
+     * @param amount        量
      */
     @ParametersAreNonnullByDefault
     void depositTickets(OfflinePlayer offlinePlayer, int amount);

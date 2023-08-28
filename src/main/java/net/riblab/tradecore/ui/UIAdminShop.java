@@ -6,9 +6,9 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.general.utils.Materials;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.general.utils.Materials;
+import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.TCItems;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class UIAdminShop {
 
     private static final float exchangeRate = 0.5f;
     private static final float foodPrice = 0.25f;
-    
+
     /**
      * ショップ画面を開く
      */
@@ -49,13 +49,13 @@ public class UIAdminShop {
         gui.setItem(50, nextPageButton);
 
         for (Material value : Material.values()) {
-            if(!value.isBlock())
-                continue;
-            
-            if(Materials.unbreakableMaterial.contains(value))
+            if (!value.isBlock())
                 continue;
 
-            if(Materials.bannedFromShop.contains(value))
+            if (Materials.unbreakableMaterial.contains(value))
+                continue;
+
+            if (Materials.bannedFromShop.contains(value))
                 continue;
 
             GuiItem blockButton = new GuiItem(new ItemCreator(value).setLore(Component.text("1RIB").decoration(TextDecoration.ITALIC, false)).create(),
@@ -71,39 +71,39 @@ public class UIAdminShop {
     /**
      * プレイチケットを現金にする
      */
-    public static void exchange(InventoryClickEvent event){
-        int playTickets = TradeCore.getInstance().getEconomy().getPlayTickets((Player)event.getWhoClicked());
-        if(playTickets <= 0){
+    public static void exchange(InventoryClickEvent event) {
+        int playTickets = TradeCore.getInstance().getEconomy().getPlayTickets((Player) event.getWhoClicked());
+        if (playTickets <= 0) {
             event.getWhoClicked().sendMessage("チケットを持っていません！");
             return;
         }
 
-        TradeCore.getInstance().getEconomy().withdrawTickets((Player)event.getWhoClicked(), 1);
-        TradeCore.getInstance().getEconomy().depositPlayer((Player)event.getWhoClicked(), exchangeRate);
+        TradeCore.getInstance().getEconomy().withdrawTickets((Player) event.getWhoClicked(), 1);
+        TradeCore.getInstance().getEconomy().depositPlayer((Player) event.getWhoClicked(), exchangeRate);
     }
 
     /**
      * 食料を買う
      */
-    public static void buyFood(InventoryClickEvent event){
-        double balance = TradeCore.getInstance().getEconomy().getBalance((Player)event.getWhoClicked());
-        if(balance <= foodPrice){
+    public static void buyFood(InventoryClickEvent event) {
+        double balance = TradeCore.getInstance().getEconomy().getBalance((Player) event.getWhoClicked());
+        if (balance <= foodPrice) {
             event.getWhoClicked().sendMessage("お金を持っていません！");
             return;
         }
-        
-        TradeCore.getInstance().getEconomy().withdrawPlayer((Player)event.getWhoClicked(), foodPrice);
+
+        TradeCore.getInstance().getEconomy().withdrawPlayer((Player) event.getWhoClicked(), foodPrice);
         event.getWhoClicked().getInventory().addItem(TCItems.MESI.get().getItemStack());
     }
 
-    public static void buyBlock(InventoryClickEvent event, Material material){
-        double balance = TradeCore.getInstance().getEconomy().getBalance((Player)event.getWhoClicked());
-        if(balance < 1){
+    public static void buyBlock(InventoryClickEvent event, Material material) {
+        double balance = TradeCore.getInstance().getEconomy().getBalance((Player) event.getWhoClicked());
+        if (balance < 1) {
             event.getWhoClicked().sendMessage("お金を持っていません！");
             return;
         }
 
-        TradeCore.getInstance().getEconomy().withdrawPlayer((Player)event.getWhoClicked(), 1);
-        event.getWhoClicked().getInventory().addItem(new ItemStack(material)); 
+        TradeCore.getInstance().getEconomy().withdrawPlayer((Player) event.getWhoClicked(), 1);
+        event.getWhoClicked().getInventory().addItem(new ItemStack(material));
     }
 }

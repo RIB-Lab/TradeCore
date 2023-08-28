@@ -6,7 +6,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -104,9 +103,9 @@ public class TCItem implements ITCItem {
     }
 
     public boolean isSimilar(@Nullable String tcID) {
-        if(tcID == null)
+        if (tcID == null)
             return false;
-        
+
         return tcID.equals(internalName);
     }
 }

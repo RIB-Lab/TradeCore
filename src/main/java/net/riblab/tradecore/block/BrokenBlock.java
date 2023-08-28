@@ -31,13 +31,14 @@ public class BrokenBlock {
         this.block = block;
     }
 
-    private BrokenBlocksService getService(){
+    private BrokenBlocksService getService() {
         return TradeCore.getInstance().getBrokenBlocksService();
     }
-    
+
     /**
      * ブロックの破壊度を上げる
-     * @param from ブロックを破壊しているプレイヤー
+     *
+     * @param from   ブロックを破壊しているプレイヤー
      * @param amount 上げる破壊度
      */
     public void incrementDamage(Player from, double amount) {
@@ -61,6 +62,7 @@ public class BrokenBlock {
 
     /**
      * ブロックを完全に破壊する
+     *
      * @param breaker 破壊者
      */
     public void breakBlock(Player breaker) {

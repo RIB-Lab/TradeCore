@@ -1,7 +1,6 @@
 package net.riblab.tradecore.item.base;
 
 import lombok.Getter;
-import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobType;
 
 public interface ITCTool extends IHasDurability, IHasItemMod {
@@ -15,7 +14,7 @@ public interface ITCTool extends IHasDurability, IHasItemMod {
      * ツールの採掘レベル
      */
     int getHarvestLevel();
-    
+
     /**
      * ツールの基礎採掘速度(1が素手と同じ速さで、10000000000で1tick破壊)
      */
@@ -40,7 +39,7 @@ public interface ITCTool extends IHasDurability, IHasItemMod {
         @Getter
         private final JobType expType;
 
-        ToolType(JobType expType){
+        ToolType(JobType expType) {
             this.expType = expType;
         }
     }

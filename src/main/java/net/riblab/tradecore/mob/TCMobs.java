@@ -37,12 +37,12 @@ public enum TCMobs {
      */
     @Nullable
     public static ITCMob toTCMob(@Nullable Mob mob) {
-        if(mob == null)
+        if (mob == null)
             return null;
 
         NBTEntity nbtEntity = new NBTEntity(mob);
         String ID = nbtEntity.getPersistentDataContainer().getString("TCID");
-        
+
         TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(ID)).findFirst().orElse(null);
         return itcMob == null ? null : itcMob.get();
     }

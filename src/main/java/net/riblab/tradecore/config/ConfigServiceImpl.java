@@ -6,8 +6,8 @@ import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.job.data.IJobData;
-import net.riblab.tradecore.job.skill.IJobSkill;
 import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.job.skill.IJobSkill;
 import net.riblab.tradecore.job.skill.JobSkill;
 
 import java.io.File;
@@ -44,15 +44,15 @@ public final class ConfigServiceImpl implements ConfigService {
         /**
          * プレイヤーのJobを操作するときはインターフェース経由で
          */
-        public Map<UUID, List<IJobData>> getPlayerJobs(){
-            return (Map<UUID, List<IJobData>>) (Object)playerJobs;
+        public Map<UUID, List<IJobData>> getPlayerJobs() {
+            return (Map<UUID, List<IJobData>>) (Object) playerJobs;
         }
 
         /**
          * プレイヤーのJobスキルを操作するときはインターフェース経由で
          */
-        public Map<UUID, List<IJobSkill>> getPlayerJobSkills(){
-            return (Map<UUID, List<IJobSkill>>) (Object)playerJobSkills;
+        public Map<UUID, List<IJobSkill>> getPlayerJobSkills() {
+            return (Map<UUID, List<IJobSkill>>) (Object) playerJobSkills;
         }
     }
 

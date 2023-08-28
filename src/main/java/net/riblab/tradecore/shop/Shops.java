@@ -19,7 +19,7 @@ public enum Shops {
             new ShopData.ShopItem(TCItems.STONE_SPEAR.get().getItemStack(), 10),
             new ShopData.ShopItem(TCItems.STONE_DAGGER.get().getItemStack(), 10),
             new ShopData.ShopItem(TCItems.STONE_BATTLEAXE.get().getItemStack(), 10)
-            ))),
+    ))),
     EQUIPMENT(new ShopData("装備屋", List.of(new ShopData.ShopItem(TCItems.EMERALD_HELMET.get().getItemStack(), 100),
             new ShopData.ShopItem(TCItems.EMERALD_CHESTPLATE.get().getItemStack(), 100),
             new ShopData.ShopItem(TCItems.EMERALD_LEGGINGS.get().getItemStack(), 100),
@@ -29,10 +29,10 @@ public enum Shops {
             new ShopData.ShopItem(TCItems.WORKER_LEGGINGS.get().getItemStack(), 30),
             new ShopData.ShopItem(TCItems.WORKER_BOOTS.get().getItemStack(), 30),
             new ShopData.ShopItem(TCItems.WATER_HELMET.get().getItemStack(), 30)
-            ))),
-    
+    ))),
+
     TOOL(new ShopData("ツール屋", List.of(new ShopData.ShopItem(TCItems.DESTRUCTORS_WAND.get().getItemStack(), 1))));
-    
+
     @Getter
     private final IShopData shop;
 

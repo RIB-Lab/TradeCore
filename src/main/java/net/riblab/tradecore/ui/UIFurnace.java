@@ -8,12 +8,12 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.craft.ITCFurnaceRecipe;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
-import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.integration.TCResourcePackData;
+import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.TCItems;
+import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -167,7 +167,7 @@ public class UIFurnace {
         player.getInventory().removeItemAnySlot(fuelStack);
 
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.getResult());
-        if(remains.size() == 0)
+        if (remains.size() == 0)
             return;
 
         remains.forEach((integer, itemStack) -> {

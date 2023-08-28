@@ -21,12 +21,12 @@ import org.bukkit.event.world.WorldInitEvent;
  * 各イベントハンドラに順番にイベントを処理させるクラス
  */
 public class EventReciever implements Listener {
-    
+
     private final GeneralEventHandler generalEventHandler;
     private final BlockStateEventHandler blockStateEventHandler;
     private final DungeonEventHandler dungeonEventHandler;
-    
-    public EventReciever(){
+
+    public EventReciever() {
         Bukkit.getServer().getPluginManager().registerEvents(this, TradeCore.getInstance());
         blockStateEventHandler = new BlockStateEventHandler();
         generalEventHandler = new GeneralEventHandler();
@@ -59,47 +59,47 @@ public class EventReciever implements Listener {
     }
 
     @org.bukkit.event.EventHandler
-    public void onPlayerReSpawn(PlayerRespawnEvent event){
+    public void onPlayerReSpawn(PlayerRespawnEvent event) {
         generalEventHandler.processPlayerRespawn(event);
         dungeonEventHandler.tryProcessDungeonSpawn(event);
     }
 
     @org.bukkit.event.EventHandler
-    public void onEntityDamage(EntityDamageEvent event){
+    public void onEntityDamage(EntityDamageEvent event) {
         generalEventHandler.processEntityDamage(event);
     }
 
     @org.bukkit.event.EventHandler
-    public void onPlayerConsumeItem(PlayerItemConsumeEvent event){
+    public void onPlayerConsumeItem(PlayerItemConsumeEvent event) {
         generalEventHandler.processPlayerConsumeItem(event);
     }
 
     @org.bukkit.event.EventHandler
-    public void onPlayerChangeArmor(PlayerArmorChangeEvent event){
+    public void onPlayerChangeArmor(PlayerArmorChangeEvent event) {
         generalEventHandler.processPlayerArmorChange(event);
     }
 
     @org.bukkit.event.EventHandler
-    public void onPlayerItemHeld(PlayerItemHeldEvent event){
+    public void onPlayerItemHeld(PlayerItemHeldEvent event) {
         generalEventHandler.processPlayerItemHeld(event);
     }
 
     @org.bukkit.event.EventHandler
-    public void onInventoryClick(InventoryClickEvent event){
+    public void onInventoryClick(InventoryClickEvent event) {
         generalEventHandler.processInventoryClick(event);
     }
 
     @org.bukkit.event.EventHandler
-    public void onPlayerSwapItem(PlayerSwapHandItemsEvent event){
+    public void onPlayerSwapItem(PlayerSwapHandItemsEvent event) {
         generalEventHandler.processPlayerSwapHandItems(event);
     }
-    
+
     @org.bukkit.event.EventHandler
-    public void onWorldInit(WorldInitEvent event){
+    public void onWorldInit(WorldInitEvent event) {
         dungeonEventHandler.onDungeonInit(event);
     }
-    
-    public void onSecondPassed(){
+
+    public void onSecondPassed() {
         generalEventHandler.processSecondPassed();
         dungeonEventHandler.onDungeonSecondPassed();
     }
@@ -108,7 +108,7 @@ public class EventReciever implements Listener {
     public void onBlockDamage(BlockDamageEvent event) {
         blockStateEventHandler.tryCreateBrokenBlock(event);
     }
-    
+
     @org.bukkit.event.EventHandler
     public void onPlayerAnimation(PlayerAnimationEvent event) {
         blockStateEventHandler.tryIncrementBlockDamage(event);

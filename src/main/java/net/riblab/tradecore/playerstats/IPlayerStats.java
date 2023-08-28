@@ -5,7 +5,7 @@ public interface IPlayerStats {
     int defaultMaxHP = 20;
     float defaultWalkSpeed = 0.2f;
     int defaultWaterBreatheLevel = 0;
-    
+
     default int getDefaultMaxHP() {
         return defaultMaxHP;
     }

@@ -15,10 +15,10 @@ public interface ConfigService {
      * コンフィグをロードする
      */
     void load();
-    
+
     @Nullable
     CurrencyData getCurrencyData();
-    
+
     @Nullable
     JobDatas getJobDatas();
 }

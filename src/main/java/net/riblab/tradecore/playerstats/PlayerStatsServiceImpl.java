@@ -23,55 +23,54 @@ public class PlayerStatsServiceImpl implements PlayerStatsService {
      * JobSkilやItemModで修飾済みのプレイヤーステータスが入ったmap
      */
     private static final Map<Player, IPlayerStats> playerStatsMap = new HashMap<>();
-    
-    private static JobSkillService getJSHandler(){
+
+    private static JobSkillService getJSHandler() {
         return TradeCore.getInstance().getJobSkillService();
     }
-    
-    private static ItemModService getEquipmentHandler(){
+
+    private static ItemModService getEquipmentHandler() {
         return TradeCore.getInstance().getItemModService();
     }
 
-    public PlayerStatsServiceImpl(){
+    public PlayerStatsServiceImpl() {
         getJSHandler().getOnJobSkillChanged().add(this::update);
         getEquipmentHandler().getOnItemModUpdated().add(this::update);
     }
-    
+
     @Override
-    public void update(Player player){
+    public void update(Player player) {
         IPlayerStats iPlayerStats = playerStatsMap.get(player);
-        if(iPlayerStats == null){
+        if (iPlayerStats == null) {
             iPlayerStats = new PlayerStats();
             playerStatsMap.put(player, iPlayerStats);
         }
-        
+
         iPlayerStats.setMaxHp(Utils.apply(player, iPlayerStats.getDefaultMaxHP(), IHPModifier.class));
         iPlayerStats.setWalkSpeed(Utils.apply(player, iPlayerStats.getDefaultWalkSpeed(), IWalkSpeedModifier.class));
         iPlayerStats.setWaterBreatheLevel(Utils.apply(player, iPlayerStats.getDefaultWaterBreatheLevel(), IWaterBreatheLevelModifier.class));
-        
+
         apply(player);
     }
 
     @Override
-    public void apply(Player player){
+    public void apply(Player player) {
         IPlayerStats IPlayerStats = playerStatsMap.get(player);
-        if(IPlayerStats == null){
+        if (IPlayerStats == null) {
             return;
         }
-        
+
         player.setMaxHealth(IPlayerStats.getMaxHp());
         player.setWalkSpeed(IPlayerStats.getWalkSpeed());
-        
-        if(IPlayerStats.getWaterBreatheLevel() > 0){
+
+        if (IPlayerStats.getWaterBreatheLevel() > 0) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, -1, IPlayerStats.getWaterBreatheLevel() - 1, false, false), true);
-        }
-        else{
+        } else {
             player.removePotionEffect(PotionEffectType.WATER_BREATHING);
         }
     }
 
     @Override
-    public void remove(Player player){
+    public void remove(Player player) {
         playerStatsMap.remove(player);
     }
 }

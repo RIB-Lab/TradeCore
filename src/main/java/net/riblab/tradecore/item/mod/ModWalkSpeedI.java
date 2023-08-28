@@ -9,11 +9,10 @@ public class ModWalkSpeedI extends ItemMod implements IWalkSpeedModifier {
     }
 
     @Override
-    public String getLore(){
-        if(getLevel() > 0){
+    public String getLore() {
+        if (getLevel() > 0) {
             return "歩行速度 +" + getLevel() + "%";
-        }
-        else{
+        } else {
             return "歩行速度 " + getLevel() + "%";
         }
     }

@@ -7,9 +7,9 @@ import net.riblab.tradecore.craft.ITCCraftingRecipe;
  * あるレシピの材料の数を変更するスキル
  */
 public interface IIngredientAmountModifier extends IModifier<IIngredientAmountModifier.PackedRecipeData> {
-    
+
     @Data
-    public class PackedRecipeData{
+    public class PackedRecipeData {
         ITCCraftingRecipe recipe;
         int amount;
     }

@@ -9,7 +9,7 @@ public class ModZeroHandAttackDamageI extends ItemMod implements IHandAttackDama
     }
 
     @Override
-    public String getLore(){
+    public String getLore() {
         return "素手の殴りダメージ0";
     }
 

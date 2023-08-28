@@ -11,7 +11,6 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -79,7 +78,7 @@ public class TCMob implements ITCMob {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (!mob.isDead()){
+                if (!mob.isDead()) {
                     MobUtils.setLootableTag(mob, false);
                     mob.remove();
                 }

@@ -17,19 +17,19 @@ import java.util.List;
  * プラグインのツールクラス
  */
 public class TCTool extends TCItem implements ITCTool {
-    
+
     @Getter
     private final ToolType toolType;
-    
+
     @Getter
     private final int harvestLevel;
-    
+
     @Getter
     private final double baseMiningSpeed;
-    
+
     @Getter
     private final int baseDurability;
-    
+
     @Getter
     private final List<IItemMod> defaultMods;
 
@@ -92,7 +92,7 @@ public class TCTool extends TCItem implements ITCTool {
             return instance;
 
         durability -= amount;
-        
+
         if (durability <= 0) //耐久切れ
             return null;
 

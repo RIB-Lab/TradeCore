@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockUtils {
-    
-    private BlockUtils(){
-        
+
+    private BlockUtils() {
+
     }
 
 
@@ -41,8 +41,9 @@ public class BlockUtils {
 
     /**
      * あるプレイヤー周辺にあるとあるマテリアルのブロックを洗い出す
-     * @param player プレイヤー
-     * @param radius 半径
+     *
+     * @param player   プレイヤー
+     * @param radius   半径
      * @param material マテリアル
      * @return 見つかったブロック
      */
@@ -68,7 +69,7 @@ public class BlockUtils {
             for (int y = startY; y <= endY; y++) {
                 for (int z = startZ; z <= endZ; z++) {
                     Block block = world.getBlockAt(x, y, z);
-                    if(block.getType() == material)
+                    if (block.getType() == material)
                         blocks.add(block);
                 }
             }

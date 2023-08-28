@@ -9,7 +9,10 @@ import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -34,27 +37,26 @@ public class ItemModServiceImpl implements ItemModService {
     private List<Consumer<Player>> onItemModUpdated = new ArrayList<>();
 
     @Override
-    public void updateEquipment(Player player){
+    public void updateEquipment(Player player) {
         List<IItemMod> mods = new ArrayList<>();
         for (ItemStack armorContent : player.getInventory().getArmorContents()) {
             ITCItem tcItem = TCItems.toTCItem(armorContent);
-            if(!(tcItem instanceof TCEquipment equipment))
+            if (!(tcItem instanceof TCEquipment equipment))
                 continue;
-            
+
             mods.addAll(equipment.getDefaultMods());
         }
         playerEquipmentModMap.put(player, mods);
-        
+
         onItemModUpdated.forEach(playerConsumer -> playerConsumer.accept(player));
     }
 
     @Override
-    public void updateMainHand(Player player, int newSlot){
+    public void updateMainHand(Player player, int newSlot) {
         ITCItem tcItem = TCItems.toTCItem(player.getInventory().getItem(newSlot));
-        if(tcItem instanceof IHasItemMod modItem){
+        if (tcItem instanceof IHasItemMod modItem) {
             playerMainHandModMap.put(player, modItem.getDefaultMods());
-        }
-        else{
+        } else {
             playerMainHandModMap.remove(player);
         }
 
@@ -62,16 +64,16 @@ public class ItemModServiceImpl implements ItemModService {
     }
 
     @Override
-    public void remove(Player player){
+    public void remove(Player player) {
         playerEquipmentModMap.remove(player);
         playerMainHandModMap.remove(player);
     }
 
     @Override
-    public <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz){
+    public <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz) {
         //まず装備で修飾
         List<IItemMod> equipmentMods = playerEquipmentModMap.get(player);
-        if(equipmentMods == null){
+        if (equipmentMods == null) {
             equipmentMods = new ArrayList<>();
             playerEquipmentModMap.put(player, equipmentMods);
         }
@@ -84,7 +86,7 @@ public class ItemModServiceImpl implements ItemModService {
 
         //次にメインハンドで修飾
         List<IItemMod> mainhandMods = playerMainHandModMap.get(player);
-        if(mainhandMods == null){
+        if (mainhandMods == null) {
             mainhandMods = new ArrayList<>();
             playerMainHandModMap.put(player, mainhandMods);
         }

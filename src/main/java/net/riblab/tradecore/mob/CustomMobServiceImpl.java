@@ -1,10 +1,8 @@
 package net.riblab.tradecore.mob;
 
-import de.tr7zw.nbtapi.NBTEntity;
 import org.bukkit.Location;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +29,13 @@ public class CustomMobServiceImpl implements CustomMobService {
 
     @Override
     public void onCustomMobDeath(Mob mob) {
-        if(!spawnedMobs.contains(mob))
+        if (!spawnedMobs.contains(mob))
             return;
 
         spawnedMobs.remove(mob);
 
         boolean isLootable = MobUtils.isLootable(mob);
-        if(!isLootable)
+        if (!isLootable)
             return;
 
         ITCMob ITCMob = TCMobs.toTCMob(mob);

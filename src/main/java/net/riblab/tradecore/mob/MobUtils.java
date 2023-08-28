@@ -20,18 +20,19 @@ import java.util.Random;
  * モブ関連のユーティリティクラス
  */
 public class MobUtils {
-    
+
     private static final String lootableTag = "lootable";
-    
-    private MobUtils(){
-        
+
+    private MobUtils() {
+
     }
 
     /**
      * モブをプレイヤー周辺のランダムな場所にスポーンさせる
+     *
      * @param player モブがターゲットとするプレイヤー
-     * @param block モブがスポーンする起点のブロック
-     * @param table スポーンテーブル
+     * @param block  モブがスポーンする起点のブロック
+     * @param table  スポーンテーブル
      * @param radius スポーンする半径
      */
     @ParametersAreNonnullByDefault
@@ -69,7 +70,7 @@ public class MobUtils {
      * モブにドロップ品を落とすかどうかの設定を追加
      */
     @ParametersAreNonnullByDefault
-    public static void setLootableTag(Mob mob, boolean flag){
+    public static void setLootableTag(Mob mob, boolean flag) {
         NBTEntity nbtEntity = new NBTEntity(mob);
         nbtEntity.getPersistentDataContainer().setBoolean(lootableTag, flag);
     }
@@ -78,24 +79,25 @@ public class MobUtils {
      * モブがアイテムを落とすことのできるタグがついているか
      */
     @ParametersAreNonnullByDefault
-    public static boolean isLootable(Mob mob){
+    public static boolean isLootable(Mob mob) {
         NBTEntity nbtEntity = new NBTEntity(mob);
         return nbtEntity.getPersistentDataContainer().getBoolean(lootableTag);
     }
 
     /**
      * プレイヤーがモブにダメージを与える
-     * @param mob モブ
-     * @param damage ダメージ量
+     *
+     * @param mob       モブ
+     * @param damage    ダメージ量
      * @param knockback ノックバックのベクトル
      */
     @ParametersAreNonnullByDefault
-    public static void tryDealDamageByPlayer(Mob mob, double damage, @Nullable Vector knockback){
-        if(mob.getType() == EntityType.VILLAGER) //ショップ店員を殴るの防止
+    public static void tryDealDamageByPlayer(Mob mob, double damage, @Nullable Vector knockback) {
+        if (mob.getType() == EntityType.VILLAGER) //ショップ店員を殴るの防止
             return;
-        
+
         mob.damage(damage);
-        if(knockback != null)
+        if (knockback != null)
             mob.setVelocity(knockback);
         setLootableTag(mob, true);
     }

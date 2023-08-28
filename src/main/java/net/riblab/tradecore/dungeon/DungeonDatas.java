@@ -19,7 +19,7 @@ import java.util.List;
  */
 public enum DungeonDatas {
     TEST(new DungeonData("test", new Vector(-17, 97, -24), List.of(TCMobs.BASIC_TREANT.get(), TCMobs.BASIC_SILVERFISH.get()), 3));
-    
+
     @Getter
     private final IDungeonData data;
 
@@ -35,7 +35,7 @@ public enum DungeonDatas {
         DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
         return datas == null ? null : datas.getData();
     }
-    
+
     public static Argument<IDungeonData> customDungeonDataArgument(@Nonnull String nodeName) {
         return new CustomArgument<IDungeonData, String>(new StringArgument(nodeName), info -> {
             IDungeonData data = commandToDungeonData(info.input());

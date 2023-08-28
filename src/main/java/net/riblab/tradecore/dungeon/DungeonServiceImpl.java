@@ -21,7 +21,10 @@ import org.bukkit.util.Vector;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DungeonServiceImpl implements DungeonService {
@@ -35,27 +38,26 @@ public class DungeonServiceImpl implements DungeonService {
      * プレイヤーがダンジョンに入る前いた場所
      */
     private static final Map<Player, Location> locationsOnEnter = new HashMap<>();
-    
+
     @Override
-    public void create(IDungeonData data){
+    public void create(IDungeonData data) {
         create(data, -1);
     }
-    
+
     @Override
-    public void create(IDungeonData data, int instanceID){
+    public void create(IDungeonData data, int instanceID) {
         String name = data.getName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
-        if(instanceID >= 0){
-            if(isDungeonExist(name, instanceID))
+        if (instanceID >= 0) {
+            if (isDungeonExist(name, instanceID))
                 return;
-            
+
             affixedDungeonName = getAffixedDungeonName(name, instanceID);
-        }
-        else{
+        } else {
             affixedDungeonName = getFirstAvailableAffixedDungeonName(name);
         }
-        
+
         //ワールドをresourceからコピー
         File destDir = new File(affixedDungeonName);
         try {
@@ -63,7 +65,7 @@ public class DungeonServiceImpl implements DungeonService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File uidFile = new File( affixedDungeonName + "/uid.dat");
+        File uidFile = new File(affixedDungeonName + "/uid.dat");
         uidFile.delete();
         WorldCreator wc = new WorldCreator(affixedDungeonName, new NamespacedKey(TradeCore.getInstance(), affixedDungeonName));
         wc.generator(new EmptyChunkGenerator());
@@ -78,12 +80,12 @@ public class DungeonServiceImpl implements DungeonService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
-        if(!fileHasCopied){
+
+        if (!fileHasCopied) {
             Bukkit.getLogger().severe("schemファイルが見つかりません：" + copySchemDir + "/" + prefixedDungeonName + ".schem");
             dungeons.add(world);
         }
-        
+
         //schemから地形生成
         Clipboard clipboard;
         ClipboardFormat format = ClipboardFormats.findByFile(instantiatedSchemFile);
@@ -101,7 +103,7 @@ public class DungeonServiceImpl implements DungeonService {
                     .build();
             Operations.complete(operation);
         }
-        
+
         world.setAutoSave(false);
         world.setGameRule(GameRule.KEEP_INVENTORY, true);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
@@ -110,16 +112,16 @@ public class DungeonServiceImpl implements DungeonService {
         world.setGameRule(GameRule.MOB_GRIEFING, false);
         world.setTime(6000);
         Vector loc = data.getSpawnPoint();
-        world.setSpawnLocation(new Location(world, loc.getX(),  loc.getY(), loc.getZ()));
+        world.setSpawnLocation(new Location(world, loc.getX(), loc.getY(), loc.getZ()));
         dungeons.add(world);
     }
 
     @Override
-    public boolean isDungeonExist(IDungeonData data, int id){
+    public boolean isDungeonExist(IDungeonData data, int id) {
         return isDungeonExist(data.getName(), id);
     }
-    
-    private boolean isDungeonExist(String name, int id){
+
+    private boolean isDungeonExist(String name, int id) {
         String dungeonName = getAffixedDungeonName(name, id);
         return dungeons.stream().filter(world -> world.getName().equals(dungeonName)).findFirst().orElse(null) != null;
     }
@@ -127,91 +129,92 @@ public class DungeonServiceImpl implements DungeonService {
     /**
      * ダンジョンの名前からインスタンスのワールドを取得
      */
-    private World getDungeonWorld(String name, int id){
+    private World getDungeonWorld(String name, int id) {
         return getDungeonWorld(getAffixedDungeonName(name, id));
     }
-    
-    private World getDungeonWorld(String affixedDungeonName){
+
+    private World getDungeonWorld(String affixedDungeonName) {
         return dungeons.stream().filter(world -> world.getName().equals(affixedDungeonName)).findFirst().orElse(null);
     }
-    
+
     @Override
-    public void enter(Player player, IDungeonData data, int id){
+    public void enter(Player player, IDungeonData data, int id) {
         enter(player, getDungeonWorld(data.getName(), id));
     }
-    
-    private void enter(Player player, World world){
-        if(world == null){
+
+    private void enter(Player player, World world) {
+        if (world == null) {
             player.sendMessage("その名前またはインスタンスIDのダンジョンは存在しません");
             return;
         }
-        
-        if(isPlayerInDungeon(player)){
+
+        if (isPlayerInDungeon(player)) {
             PaperLib.teleportAsync(player, world.getSpawnLocation());
             return;
         }
-        
+
         Location locationOnEnter = player.getLocation().clone();
         locationsOnEnter.put(player, locationOnEnter);
 
         PaperLib.teleportAsync(player, world.getSpawnLocation());
     }
-    
+
     @Override
-    public void tryLeave(Player player){
-        if(!isPlayerInDungeon(player)){
+    public void tryLeave(Player player) {
+        if (!isPlayerInDungeon(player)) {
             return;
         }
-        
-        if(!locationsOnEnter.containsKey(player)){
+
+        if (!locationsOnEnter.containsKey(player)) {
             player.sendMessage("ダンジョン進入時の座標が見つかりませんでした。");
             player.teleport(Bukkit.getWorld("world").getSpawnLocation());
-            return;
-        }
-        
-        player.teleport(locationsOnEnter.get(player));
-        locationsOnEnter.remove(player);
-    }
-    
-    @Override
-    public void evacuate(Player player){
-        if(!locationsOnEnter.containsKey(player)){
-            player.sendMessage("復帰できる座標が見つかりませんでした");
-            player.teleport(new Location(Bukkit.getWorlds().get(0), 0,  0, 0));
             return;
         }
 
         player.teleport(locationsOnEnter.get(player));
         locationsOnEnter.remove(player);
     }
-    
+
     @Override
-    public boolean isPlayerInDungeon(Player player){
+    public void evacuate(Player player) {
+        if (!locationsOnEnter.containsKey(player)) {
+            player.sendMessage("復帰できる座標が見つかりませんでした");
+            player.teleport(new Location(Bukkit.getWorlds().get(0), 0, 0, 0));
+            return;
+        }
+
+        player.teleport(locationsOnEnter.get(player));
+        locationsOnEnter.remove(player);
+    }
+
+    @Override
+    public boolean isPlayerInDungeon(Player player) {
         return dungeons.stream().filter(world -> player.getWorld().equals(world)).findAny().orElse(null) != null;
     }
-    
+
     @Override
-    public void destroyAll(){
+    public void destroyAll() {
         dungeons.forEach(this::killInstance);
         dungeons.clear();
     }
-    
+
     @Override
-    public void destroySpecific(World world){
-        if(!dungeons.contains(world)){
+    public void destroySpecific(World world) {
+        if (!dungeons.contains(world)) {
             return;
         }
-        
+
         killInstance(world);
-        
+
         dungeons.remove(world);
     }
 
     /**
      * ダンジョンのインスタンスを削除する
+     *
      * @param world
      */
-    private void killInstance(World world){
+    private void killInstance(World world) {
         world.getPlayers().forEach(this::evacuate);
         File folder = world.getWorldFolder();
         Bukkit.unloadWorld(world, false);
@@ -221,38 +224,38 @@ public class DungeonServiceImpl implements DungeonService {
     /**
      * 接辞がついたダンジョン名を取得
      */
-    private String getAffixedDungeonName(String name, int id){
+    private String getAffixedDungeonName(String name, int id) {
         return dungeonPrefix + "_" + name + "_" + id;
     }
 
     /**
      * 接頭辞だけついたダンジョン名を取得
      */
-    private String getPrefixedDungeonName(String name){
+    private String getPrefixedDungeonName(String name) {
         return dungeonPrefix + "_" + name;
     }
-    
+
     @Override
-    public String getUnfixedDungeonName(String affixedDungeonName){
+    public String getUnfixedDungeonName(String affixedDungeonName) {
         return affixedDungeonName.split("_")[1];
     }
 
     /**
      * 利用可能な最初の空いているダンジョン名を取得する
      */
-    private String getFirstAvailableAffixedDungeonName(String name){
+    private String getFirstAvailableAffixedDungeonName(String name) {
         List<String> instances = dungeons.stream().map(World::getName).filter(worldName -> worldName.startsWith(dungeonPrefix + "_" + name + "_")).toList();
         for (int i = 0; i < 1000; i++) {
             String predicate = getAffixedDungeonName(name, i);
-            if(!instances.contains(predicate)){
+            if (!instances.contains(predicate)) {
                 return predicate;
             }
         }
         throw new RuntimeException("ダンジョンのインスタンス数が1000を超えました。嘘だろ");
     }
-    
+
     @Override
-    public List<String> getDungeonListInfo(){
+    public List<String> getDungeonListInfo() {
         List<String> info = new ArrayList<>();
         dungeons.forEach(world -> {
             boolean hasPlayer = world.getPlayers().size() != 0;
@@ -260,9 +263,9 @@ public class DungeonServiceImpl implements DungeonService {
         });
         return info;
     }
-    
+
     @Override
-    public void killEmptyDungeons(){
+    public void killEmptyDungeons() {
         List<World> nobodyDungeons = dungeons.stream().filter(world -> world.getPlayers().size() == 0).collect(Collectors.toList());
         nobodyDungeons.forEach(this::destroySpecific);
     }

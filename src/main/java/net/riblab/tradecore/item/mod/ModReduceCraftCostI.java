@@ -9,7 +9,7 @@ public class ModReduceCraftCostI extends ItemMod implements ICraftFeeModifier {
     }
 
     @Override
-    public String getLore(){
+    public String getLore() {
         return "クラフトコスト: -" + getLevel() + "%";
     }
 

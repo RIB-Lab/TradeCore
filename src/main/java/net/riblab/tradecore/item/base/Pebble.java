@@ -15,7 +15,7 @@ public class Pebble extends TCTool implements ISellable {
 
     @Getter
     private final double sellPrice;
-    
+
     /**
      * 　固有アイテムの型を作成する
      */
@@ -30,7 +30,7 @@ public class Pebble extends TCTool implements ISellable {
     }
 
     /**
-     *  売却可能なアイテムの説明を生成する
+     * 売却可能なアイテムの説明を生成する
      */
     protected List<Component> getLore() {
         List<Component> text = super.getLore(-1);

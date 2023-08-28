@@ -36,7 +36,7 @@ public enum TCItems {
     WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, 1.2, 32, List.of(new ModEcologyI(1)))),
     WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, 1.2, 32, List.of(new ModEcologyI(1)))),
     WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, 32, List.of(new ModEcologyI(1)))),
-    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0,  32, List.of(new ModEcologyI(1)), new WeaponAttributeSword(3))),
+    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, 32, List.of(new ModEcologyI(1)), new WeaponAttributeSword(3))),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1)),
     DUST(new TCSellableItem(Component.text("塵"), Material.DIRT, "dust", 1, 0.04d)),
     MUD(new TCSellableItem(Component.text("泥"), Material.DIRT, "mud", 2, 0.04d)),
@@ -77,10 +77,10 @@ public enum TCItems {
     GOLD_SHARD(new TCSellableItem(Component.text("金の欠片"), Material.GOLD_NUGGET, "gold_shard", 0, 0.10d)),
     IRON_INGOT(new TCSellableItem(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, 0.10d)),
     GOLD_INGOT(new TCSellableItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, 0.10d)),
-    
+
     //鉄器時代
     REINFORCED_STICK(new TCSellableItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, 0.10d)),
-    
+
     //店売り限定
     EMERALD_HELMET(new TCEquipment(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", List.of(new ModReduceCraftCostI(3)), 256, "emerald")),
     EMERALD_CHESTPLATE(new TCEquipment(Component.text("エメラルドのチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "emerald_chestplate", List.of(new ModReduceCraftCostI(3)), 256, "emerald")),
@@ -91,7 +91,7 @@ public enum TCItems {
     WORKER_LEGGINGS(new TCEquipment(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), 64, "dungeontemplate")),
     WORKER_BOOTS(new TCEquipment(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), 64, "dungeontemplate")),
     WATER_HELMET(new TCEquipment(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", List.of(new ModWaterBreathI(1)), 64, "dungeontemplate")),
-    
+
     //その他
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),
     MESI((new TCItem(Component.text("COMP"), Material.COOKED_BEEF, "meshi", 0))),
@@ -129,9 +129,9 @@ public enum TCItems {
      */
     @Nullable
     public static ITCItem toTCItem(ItemStack itemStack) {
-        if(itemStack == null || itemStack.getType() == Material.AIR)
+        if (itemStack == null || itemStack.getType() == Material.AIR)
             return null;
-        
+
         String id = new ItemCreator(itemStack).getStrNBT("TCID");
         TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(id)).findFirst().orElse(null);
         return itcItem == null ? null : itcItem.get();

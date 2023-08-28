@@ -13,11 +13,12 @@ public class ItemMod implements IItemMod {
     /**
      * 現在習得したこのmodのレベル
      */
-    @Getter @Setter
+    @Getter
+    @Setter
     private int level;
-    
+
     @Override
-    public String getLore(){
+    public String getLore() {
         return "ダミーを" + level + "増加させる";
     }
 }

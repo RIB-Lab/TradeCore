@@ -46,34 +46,33 @@ public class JobDataServiceImpl implements JobDataService {
 
         if (data.getLevel() >= JobData.requiredExp.size()) {
             data.setExp(0);
-            if(offlinePlayer instanceof Player player){
+            if (offlinePlayer instanceof Player player) {
                 player.sendExperienceChange(0, data.getLevel());
             }
             return;
         }
-        
+
         int newExp;
-        if(!(offlinePlayer instanceof Player player)){
+        if (!(offlinePlayer instanceof Player player)) {
             newExp = data.getExp() + amount;
-        }
-        else{
+        } else {
             int amountSkillApplied = Utils.apply(player, amount, IJobExpModifier.class);
             newExp = data.getExp() + amountSkillApplied;
         }
-                
+
         double expRequiredForNextLevel = JobData.requiredExp.get(data.getLevel());
         if (newExp > expRequiredForNextLevel) {
             int newLevel = data.getLevel() + 1;
             data.setLevel(newLevel);
             data.setExp(0);
-            if (offlinePlayer instanceof Player player){
+            if (offlinePlayer instanceof Player player) {
                 player.sendMessage(Component.text(type.getName() + "のレベルが" + newLevel + "に上がりました！"));
                 player.sendExperienceChange(0, newLevel);
             }
         } else {
             data.setExp(newExp);
-            if(offlinePlayer instanceof Player player){
-                player.sendExperienceChange((float)( newExp / expRequiredForNextLevel), data.getLevel());
+            if (offlinePlayer instanceof Player player) {
+                player.sendExperienceChange((float) (newExp / expRequiredForNextLevel), data.getLevel());
             }
         }
     }
@@ -96,7 +95,7 @@ public class JobDataServiceImpl implements JobDataService {
     }
 
     @Override
-    public void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet){
+    public void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
         if (datas == null) {
@@ -108,19 +107,19 @@ public class JobDataServiceImpl implements JobDataService {
         if (data == null) {
             data = initPlayerJobData(offlinePlayer, dataToSet.jobType);
         }
-        
+
         data.setLevel(dataToSet.getLevel());
         data.setExp(dataToSet.exp);
     }
 
     @Override
-    public void resetJobData(OfflinePlayer offlinePlayer){
+    public void resetJobData(OfflinePlayer offlinePlayer) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
         if (datas == null) {
             return;
         }
-        
+
         datas.clear();
     }
 }
