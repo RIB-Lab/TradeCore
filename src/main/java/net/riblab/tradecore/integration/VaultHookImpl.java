@@ -9,7 +9,7 @@ import org.bukkit.plugin.ServicePriority;
 /**
  * Vaultプラグインと連携するクラス
  */
-public class VaultHookImpl implements VaultHook {
+class VaultHookImpl implements VaultHook {
 
     private TradeCore plugin = TradeCore.getInstance();
 

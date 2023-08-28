@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class DungeonServiceImpl implements DungeonService {
+class DungeonServiceImpl implements DungeonService {
 
     /**
      * ダンジョンのインスタンス達

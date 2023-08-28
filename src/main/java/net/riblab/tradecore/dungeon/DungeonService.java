@@ -15,6 +15,10 @@ public interface DungeonService {
 
     String dungeonPrefix = "dungeons";
     
+    static DungeonService getImpl(){
+        return new DungeonServiceImpl();
+    }
+    
     /**
      * データを基にダンジョンを作る
      */

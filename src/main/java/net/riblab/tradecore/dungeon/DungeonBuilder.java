@@ -14,13 +14,14 @@ import com.sk89q.worldedit.session.ClipboardHolder;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Utils;
 import org.bukkit.*;
+import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.Vector;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class DungeonBuilder {
+class DungeonBuilder {
 
     private static final String tmpDirName = "dungeontemplate";
     private static final String copySchemDir = "schematics";
@@ -90,5 +91,11 @@ public class DungeonBuilder {
         Vector loc = data.getSpawnPoint();
         world.setSpawnLocation(new Location(world, loc.getX(), loc.getY(), loc.getZ()));
         return world;
+    }
+
+    /**
+     * 空のチャンクジェネレータ
+     */
+    static class EmptyChunkGenerator extends ChunkGenerator {
     }
 }

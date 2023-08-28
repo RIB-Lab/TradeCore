@@ -1,9 +1,9 @@
-package net.riblab.tradecore.general;
+package net.riblab.tradecore.command;
 
 /**
  * コマンドの名前
  */
-public enum CommandNames {
+enum CommandNames {
     CURRENCY("tccurrency"),
     CURRENCY_SETMONEY("setmoney"),
     CURRENCY_SETTICKET("setticket"),

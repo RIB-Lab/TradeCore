@@ -20,41 +20,7 @@ import java.util.UUID;
 /**
  * コンフィグ管理システム
  */
-public final class ConfigServiceImpl implements ConfigService {
-
-    /**
-     * 保存するコンフィグの型
-     */
-    @Configuration
-    public static class CurrencyData {
-        @Comment({"所持金"})
-        public Map<UUID, Double> playerBank = new HashMap<>();
-        @Comment({"所持プレイチケット数"})
-        public Map<UUID, Integer> playerTickets = new HashMap<>();
-    }
-
-    @Configuration
-    public static class JobDatas {
-        @Comment({"職業"})
-        private Map<UUID, List<JobData>> playerJobs = new HashMap<>();
-
-        @Comment({"職業スキル"})
-        private Map<UUID, List<JobSkill>> playerJobSkills = new HashMap<>();
-
-        /**
-         * プレイヤーのJobを操作するときはインターフェース経由で
-         */
-        public Map<UUID, List<IJobData>> getPlayerJobs() {
-            return (Map<UUID, List<IJobData>>) (Object) playerJobs;
-        }
-
-        /**
-         * プレイヤーのJobスキルを操作するときはインターフェース経由で
-         */
-        public Map<UUID, List<IJobSkill>> getPlayerJobSkills() {
-            return (Map<UUID, List<IJobSkill>>) (Object) playerJobSkills;
-        }
-    }
+class ConfigServiceImpl implements ConfigService {
 
     /**
      * 保存するコンフィグの実体

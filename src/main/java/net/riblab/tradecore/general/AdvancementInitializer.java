@@ -30,8 +30,6 @@ public class AdvancementInitializer {
         return TradeCore.getInstance().getAdvancementAPI();
     }
 
-    ;
-
     public AdvancementInitializer() {
         getAPI().disableVanillaAdvancements();
 

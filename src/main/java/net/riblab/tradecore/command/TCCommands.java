@@ -1,4 +1,4 @@
-package net.riblab.tradecore.general;
+package net.riblab.tradecore.command;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
@@ -31,8 +31,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import static net.riblab.tradecore.general.CommandArgDescs.*;
-import static net.riblab.tradecore.general.CommandNames.*;
+import static net.riblab.tradecore.command.CommandArgDescs.*;
+import static net.riblab.tradecore.command.CommandNames.*;
 import static net.riblab.tradecore.general.utils.Materials.transparentBlocks;
 
 /**

@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 @Data
-public class DungeonData implements IDungeonData {
+class DungeonData implements IDungeonData {
 
     /**
      * ダンジョン名

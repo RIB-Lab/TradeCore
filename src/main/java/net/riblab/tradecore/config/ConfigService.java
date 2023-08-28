@@ -1,11 +1,13 @@
 package net.riblab.tradecore.config;
 
-import net.riblab.tradecore.config.ConfigServiceImpl.CurrencyData;
-import net.riblab.tradecore.config.ConfigServiceImpl.JobDatas;
-
 import javax.annotation.Nullable;
 
 public interface ConfigService {
+    
+    static ConfigService getImpl(){
+        return new ConfigServiceImpl();
+    }
+    
     /**
      * コンフィグを保存する
      */

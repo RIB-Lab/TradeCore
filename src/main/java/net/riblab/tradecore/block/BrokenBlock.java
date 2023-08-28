@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 /**
  * クライアントが破壊中のブロックをサーバーサイドで保存するためのクラス
  */
-public class BrokenBlock {
+class BrokenBlock {
 
     /**
      * 現在のひび割れの度合(-1~10)

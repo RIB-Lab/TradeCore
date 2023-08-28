@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * ワールド中の破壊中のブロックを管理するサービス
  */
-public class BrokenBlocksServiceImpl implements BrokenBlocksService {
+class BrokenBlocksServiceImpl implements BrokenBlocksService {
 
     private static final Map<Player, BrokenBlock> brokenBlocks = new HashMap<>();
 

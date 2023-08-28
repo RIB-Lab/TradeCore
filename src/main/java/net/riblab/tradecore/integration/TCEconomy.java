@@ -6,6 +6,10 @@ import org.bukkit.OfflinePlayer;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface TCEconomy extends Economy {
+    
+    static TCEconomy getImpl(){
+        return new EconomyImpl();
+    }
 
     /**
      * プレイヤーの持っているプレイチケットの数を取得する

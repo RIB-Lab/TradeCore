@@ -10,21 +10,16 @@ import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import lombok.Getter;
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.block.BrokenBlocksService;
-import net.riblab.tradecore.block.BrokenBlocksServiceImpl;
+import net.riblab.tradecore.command.TCCommands;
 import net.riblab.tradecore.config.ConfigService;
-import net.riblab.tradecore.config.ConfigServiceImpl;
 import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonService;
-import net.riblab.tradecore.dungeon.DungeonServiceImpl;
 import net.riblab.tradecore.general.AdvancementInitializer;
 import net.riblab.tradecore.general.EventReciever;
-import net.riblab.tradecore.general.TCCommands;
 import net.riblab.tradecore.general.TCTasksInitializer;
 import net.riblab.tradecore.general.utils.Utils;
-import net.riblab.tradecore.integration.EconomyImpl;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
-import net.riblab.tradecore.integration.VaultHookImpl;
 import net.riblab.tradecore.item.ItemModService;
 import net.riblab.tradecore.item.ItemModServiceImpl;
 import net.riblab.tradecore.job.data.JobDataService;
@@ -99,7 +94,7 @@ public final class TradeCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        configService = new ConfigServiceImpl();
+        configService = ConfigService.getImpl();
         configService.load();
         eventReciever = new EventReciever();
         jobService = new JobDataServiceImpl();
@@ -108,13 +103,13 @@ public final class TradeCore extends JavaPlugin {
         itemModService = new ItemModServiceImpl();
         playerStatsService = new PlayerStatsServiceImpl();
         VanillaCraftInitializer.init();
-        dungeonService = new DungeonServiceImpl();
-        brokenBlocksService = new BrokenBlocksServiceImpl();
+        dungeonService = DungeonService.getImpl();
+        brokenBlocksService = BrokenBlocksService.getImpl();
         customMobService = new CustomMobServiceImpl();
         fakeVillagerService = new FakeVillagerServiceImpl();
 
-        economy = new EconomyImpl();
-        vaultHook = new VaultHookImpl();
+        economy = TCEconomy.getImpl();
+        vaultHook = VaultHook.getImpl();
         vaultHook.hook();
         isWGLoaded = getServer().getPluginManager().isPluginEnabled("WorldGuard");
         advancementAPI = UltimateAdvancementAPI.getInstance(this);

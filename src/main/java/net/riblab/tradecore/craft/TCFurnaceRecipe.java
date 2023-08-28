@@ -10,7 +10,7 @@ import java.util.Map;
  * 精錬レシピクラス
  */
 @Data
-public class TCFurnaceRecipe implements ITCFurnaceRecipe {
+class TCFurnaceRecipe implements ITCFurnaceRecipe {
     /**
      * レシピ素材。同じ種類のアイテムを複数スロットに入れないこと！
      */

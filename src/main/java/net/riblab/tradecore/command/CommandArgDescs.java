@@ -1,9 +1,9 @@
-package net.riblab.tradecore.general;
+package net.riblab.tradecore.command;
 
 /**
  * コマンドの引数の説明
  */
-public enum CommandArgDescs {
+enum CommandArgDescs {
     PLAYER("プレイヤー名"),
     MONEY("設定したいお金"),
     TICKET("設定したいチケット数"),

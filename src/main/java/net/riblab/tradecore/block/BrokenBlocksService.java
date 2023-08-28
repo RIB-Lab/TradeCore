@@ -8,6 +8,10 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface BrokenBlocksService {
+    
+    static BrokenBlocksService getImpl(){
+        return new BrokenBlocksServiceImpl();
+    }
 
     /**
      * プレイヤーがブロックを壊し始めたという情報をBrokenBlockの形で保存する
