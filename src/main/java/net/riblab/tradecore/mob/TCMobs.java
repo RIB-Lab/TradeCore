@@ -20,7 +20,10 @@ import java.util.Map;
  */
 public enum TCMobs {
     BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of(TCItems.ROUND_STONE.get().getItemStack(), 1f))),
-    BASIC_TREANT(new Treant());
+    BASIC_TREANT(new Treant()),
+    DUNGEON_ZOMBIE(new TCMob(EntityType.ZOMBIE, Component.text("リリースまでにテクスチャの実装が間に合わなかった何か"), 10, "dungeon_zombie", Map.of())),
+    DUNGEON_SKELETON(new TCMob(EntityType.SKELETON, Component.text("リリースまでに肉の実装が間に合わなかった何か"), 8, "dungeon_skeleton", Map.of())),
+    DUNGEON_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("テクスチャもクソもない何か"), 5, "dungeon_silverfish", Map.of()));
 
     private final ITCMob ITCMob;
 
