@@ -12,12 +12,9 @@ import java.io.File;
 import java.util.List;
 
 public interface DungeonService {
-    String tmpDirName = "dungeontemplate";
-    String dungeonPrefix = "dungeons";
-    String copySchemDir = "schematics";
-    File pasteSchemDir = TradeCore.getInstance().getDataFolder();
-    Vector dungeonGenerateLoc = new Vector(0, 100, 0);
 
+    String dungeonPrefix = "dungeons";
+    
     /**
      * データを基にダンジョンを作る
      */

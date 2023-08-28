@@ -57,63 +57,10 @@ public class DungeonServiceImpl implements DungeonService {
         } else {
             affixedDungeonName = getFirstAvailableAffixedDungeonName(name);
         }
-
-        //ワールドをresourceからコピー
-        File destDir = new File(affixedDungeonName);
-        try {
-            Utils.copyFolder(tmpDirName, destDir);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        File uidFile = new File(affixedDungeonName + "/uid.dat");
-        uidFile.delete();
-        WorldCreator wc = new WorldCreator(affixedDungeonName, new NamespacedKey(TradeCore.getInstance(), affixedDungeonName));
-        wc.generator(new EmptyChunkGenerator());
-        World world = Bukkit.getServer().createWorld(wc);
-
-        //ダンジョン名に対応したschemをresourceからコピーする
-        String prefixedDungeonName = getPrefixedDungeonName(name);
-        File instantiatedSchemFile = new File(pasteSchemDir + "/" + prefixedDungeonName + ".schem");
-        boolean fileHasCopied = false;
-        try {
-            fileHasCopied = Utils.copyFile(copySchemDir + "/" + prefixedDungeonName + ".schem", instantiatedSchemFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (!fileHasCopied) {
-            Bukkit.getLogger().severe("schemファイルが見つかりません：" + copySchemDir + "/" + prefixedDungeonName + ".schem");
-            dungeons.add(world);
-        }
-
-        //schemから地形生成
-        Clipboard clipboard;
-        ClipboardFormat format = ClipboardFormats.findByFile(instantiatedSchemFile);
-        try (ClipboardReader reader = format.getReader(new FileInputStream(instantiatedSchemFile))) {
-            clipboard = reader.read();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        com.sk89q.worldedit.world.World weWorld = BukkitAdapter.adapt(world);
-        try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
-            Operation operation = new ClipboardHolder(clipboard)
-                    .createPaste(editSession)
-                    .to(BlockVector3.at(dungeonGenerateLoc.getX(), dungeonGenerateLoc.getY(), dungeonGenerateLoc.getZ()))
-                    .copyEntities(true)
-                    .build();
-            Operations.complete(operation);
-        }
-
-        world.setAutoSave(false);
-        world.setGameRule(GameRule.KEEP_INVENTORY, true);
-        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
-        world.setGameRule(GameRule.DO_MOB_SPAWNING, false);
-        world.setGameRule(GameRule.DO_WEATHER_CYCLE, false);
-        world.setGameRule(GameRule.MOB_GRIEFING, false);
-        world.setTime(6000);
-        Vector loc = data.getSpawnPoint();
-        world.setSpawnLocation(new Location(world, loc.getX(), loc.getY(), loc.getZ()));
-        dungeons.add(world);
+        String schemName = getPrefixedDungeonName(name);
+        
+        World instance = DungeonBuilder.build(data, affixedDungeonName, schemName);
+        dungeons.add(instance);
     }
 
     @Override
