@@ -23,7 +23,7 @@ public interface DungeonService {
      * データを基にダンジョンを作る
      */
     @ParametersAreNonnullByDefault
-    void create(IDungeonData data);
+    void create(IDungeonData<?> data);
 
     /**
      * ダンジョンのインスタンスを作る
@@ -32,19 +32,19 @@ public interface DungeonService {
      * @param instanceID インスタンスのID。0未満なら0以上の最初に空いているインスタンス
      */
     @ParametersAreNonnullByDefault
-    void create(IDungeonData data, int instanceID);
+    void create(IDungeonData<?> data, int instanceID);
 
     /**
      * ダンジョンのインスタンスが存在するかどうか
      */
     @ParametersAreNonnullByDefault
-    boolean isDungeonExist(IDungeonData data, int id);
+    boolean isDungeonExist(IDungeonData<?> data, int id);
 
     /**
      * ダンジョンのインスタンスに入る
      */
     @ParametersAreNonnullByDefault
-    void enter(Player player, IDungeonData data, int id);
+    void enter(Player player, IDungeonData<?> data, int id);
 
     /**
      * プレイヤーをダンジョンから退出させる
@@ -97,4 +97,9 @@ public interface DungeonService {
      * 誰もいないダンジョンを削除する
      */
     void killEmptyDungeons();
+
+    /**
+     * ダンジョンのトラッカーを取得
+     */
+    @Nullable DungeonProgressionTracker<?> getTracker(World world);
 }

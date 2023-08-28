@@ -5,7 +5,7 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 
-public interface IDungeonData {
+public interface IDungeonData<T> {
     String getName();
 
     Vector getSpawnPoint();
@@ -13,4 +13,8 @@ public interface IDungeonData {
     List<ITCMob> getSpawnTable();
 
     int getBasePackSize();
+
+    Class<? extends DungeonProgressionTracker<T>> getProgressionTracker();
+    
+    T getProgressionVariable();
 }

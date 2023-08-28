@@ -1,5 +1,6 @@
 package net.riblab.tradecore.dungeon;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.riblab.tradecore.mob.ITCMob;
 import org.bukkit.util.Vector;
@@ -7,7 +8,8 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 @Data
-class DungeonData implements IDungeonData {
+@AllArgsConstructor
+class DungeonData<T> implements IDungeonData<T> {
 
     /**
      * ダンジョン名
@@ -28,4 +30,14 @@ class DungeonData implements IDungeonData {
      * ダンジョンで敵が一度に沸くときの数量
      */
     private final int basePackSize;
+
+    /**
+     * ダンジョンの進捗トラッカーのクラス
+     */
+    private Class<? extends DungeonProgressionTracker<T>> progressionTracker;
+
+    /**
+     * 進捗トラッカーが参照する変数
+     */
+    private T progressionVariable;
 }

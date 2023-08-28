@@ -102,6 +102,7 @@ public final class TradeCore extends JavaPlugin {
         dungeonService = DungeonService.getImpl();
         brokenBlocksService = BrokenBlocksService.getImpl();
         customMobService = CustomMobService.getImpl();
+        fakeVillagerService = FakeVillagerService.getImpl();
 
         economy = TCEconomy.getImpl();
         vaultHook = VaultHook.getImpl();

@@ -311,7 +311,10 @@ public class GeneralEventHandler {
      */
     private void updateActionBar() {
         String negativeSpace = TCResourcePackData.IconsFont.NEGATIVE_SPACE.get_char();
-        Bukkit.getOnlinePlayers().forEach(player -> {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if(TradeCore.getInstance().getDungeonService().isPlayerInDungeon(player))
+                continue;
+
             int balance = (int) TradeCore.getInstance().getEconomy().getBalance(player);
             int tickets = TradeCore.getInstance().getEconomy().getPlayTickets(player);
             Component text = Component.text("");
@@ -320,7 +323,7 @@ public class GeneralEventHandler {
             text = text.append(Component.text("                         " + TCResourcePackData.IconsFont.VOTE_TICKET.get_char()).font(TCResourcePackData.iconsFontName));
             text = text.append(Component.text(" " + tickets).font(TCResourcePackData.yPlus12FontName));
             player.sendActionBar(text);
-        });
+        }
     }
 
     /**

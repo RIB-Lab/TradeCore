@@ -50,6 +50,7 @@ public class EventReciever implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
+        dungeonEventHandler.onEntityDeath(event);
         generalEventHandler.processEntityDeath(event);
     }
 

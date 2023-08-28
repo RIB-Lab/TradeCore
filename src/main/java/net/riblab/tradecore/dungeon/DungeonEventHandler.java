@@ -8,7 +8,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.world.WorldInitEvent;
 
@@ -38,8 +42,17 @@ public class DungeonEventHandler {
                 return;
 
             String unfixedName = getservice().getUnfixedDungeonName(player.getWorld().getName());
-            IDungeonData data = DungeonDatas.nameToDungeonData(unfixedName);
+            IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName);
+            if(data == null)
+                throw new RuntimeException("ダンジョン名からダンジョンデータを推測できません！");
+            
             trySpawnMob(player, data);
+            
+            DungeonProgressionTracker<?> tracker = getservice().getTracker(player.getWorld());
+            if(tracker == null)
+                throw new RuntimeException("ダンジョンにトラッカーが紐づいていません！");
+            
+            tracker.onDungeonSecond(player);
         });
     }
 
@@ -47,7 +60,7 @@ public class DungeonEventHandler {
      * ダンジョンにいるプレイヤー周辺のスポナーからダンジョンに応じたモブをスポーンさせる
      */
     @ParametersAreNonnullByDefault
-    private void trySpawnMob(Player player, IDungeonData data) {
+    private void trySpawnMob(Player player, IDungeonData<?> data) {
         List<Block> activatedSpawner = BlockUtils.getBlocksInRadius(player, 8, Material.REDSTONE_BLOCK);
         for (Block block : activatedSpawner) {
             for (int i = 0; i < data.getBasePackSize(); i++) {
@@ -62,5 +75,23 @@ public class DungeonEventHandler {
     @ParametersAreNonnullByDefault
     public void onDungeonInit(WorldInitEvent event) {
         event.getWorld().setKeepSpawnInMemory(false);
+    }
+
+    @ParametersAreNonnullByDefault
+    public void onEntityDeath(EntityDeathEvent event){
+        if (event.getEntity() instanceof Player)
+            return;
+        
+        if(!(event.getEntity() instanceof Mob mob)){
+            return;
+        }
+        
+        DungeonProgressionTracker<?> tracker = TradeCore.getInstance().getDungeonService().getTracker(mob.getWorld());
+        if(tracker == null)
+            return;
+        
+        if(tracker instanceof IPlayerKillHandler handler){
+            handler.onPlayerKill(mob);
+        };
     }
 }

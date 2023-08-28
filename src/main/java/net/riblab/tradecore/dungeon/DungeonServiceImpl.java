@@ -12,19 +12,24 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import io.papermc.lib.PaperLib;
+import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 class DungeonServiceImpl implements DungeonService {
@@ -32,7 +37,7 @@ class DungeonServiceImpl implements DungeonService {
     /**
      * ダンジョンのインスタンス達
      */
-    private static final List<World> dungeons = new ArrayList<>();
+    private static final Map<World, DungeonProgressionTracker<?>> dungeons = new HashMap<>();
 
     /**
      * プレイヤーがダンジョンに入る前いた場所
@@ -40,12 +45,13 @@ class DungeonServiceImpl implements DungeonService {
     private static final Map<Player, Location> locationsOnEnter = new HashMap<>();
 
     @Override
-    public void create(IDungeonData data) {
+    @ParametersAreNonnullByDefault
+    public void create(IDungeonData<?> data) {
         create(data, -1);
     }
 
     @Override
-    public void create(IDungeonData data, int instanceID) {
+    public void create(IDungeonData<?> data, int instanceID) {
         String name = data.getName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
@@ -60,17 +66,24 @@ class DungeonServiceImpl implements DungeonService {
         String schemName = getPrefixedDungeonName(name);
         
         World instance = DungeonBuilder.build(data, affixedDungeonName, schemName);
-        dungeons.add(instance);
+        DungeonProgressionTracker<?> progressionTracker;
+        try {
+            progressionTracker = data.getProgressionTracker().getDeclaredConstructor(data.getProgressionVariable().getClass(), World.class).newInstance(data.getProgressionVariable(), instance);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        progressionTracker.onComplete = this::onDungeonComplete;
+        dungeons.put(instance, progressionTracker);
     }
 
     @Override
-    public boolean isDungeonExist(IDungeonData data, int id) {
+    public boolean isDungeonExist(IDungeonData<?> data, int id) {
         return isDungeonExist(data.getName(), id);
     }
 
     private boolean isDungeonExist(String name, int id) {
         String dungeonName = getAffixedDungeonName(name, id);
-        return dungeons.stream().filter(world -> world.getName().equals(dungeonName)).findFirst().orElse(null) != null;
+        return dungeons.keySet().stream().filter(world -> world.getName().equals(dungeonName)).findFirst().orElse(null) != null;
     }
 
     /**
@@ -81,11 +94,12 @@ class DungeonServiceImpl implements DungeonService {
     }
 
     private World getDungeonWorld(String affixedDungeonName) {
-        return dungeons.stream().filter(world -> world.getName().equals(affixedDungeonName)).findFirst().orElse(null);
+        return dungeons.keySet().stream().filter(world -> world.getName().equals(affixedDungeonName)).findFirst().orElse(null);
     }
 
     @Override
-    public void enter(Player player, IDungeonData data, int id) {
+    @ParametersAreNonnullByDefault
+    public void enter(Player player, IDungeonData<?> data, int id) {
         enter(player, getDungeonWorld(data.getName(), id));
     }
 
@@ -107,6 +121,7 @@ class DungeonServiceImpl implements DungeonService {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void tryLeave(Player player) {
         if (!isPlayerInDungeon(player)) {
             return;
@@ -123,6 +138,7 @@ class DungeonServiceImpl implements DungeonService {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void evacuate(Player player) {
         if (!locationsOnEnter.containsKey(player)) {
             player.sendMessage("復帰できる座標が見つかりませんでした");
@@ -136,18 +152,18 @@ class DungeonServiceImpl implements DungeonService {
 
     @Override
     public boolean isPlayerInDungeon(Player player) {
-        return dungeons.stream().filter(world -> player.getWorld().equals(world)).findAny().orElse(null) != null;
+        return dungeons.keySet().stream().filter(world -> player.getWorld().equals(world)).findAny().orElse(null) != null;
     }
 
     @Override
     public void destroyAll() {
-        dungeons.forEach(this::killInstance);
+        dungeons.forEach((world, dungeonProgressionTracker) -> killInstance(world));
         dungeons.clear();
     }
 
     @Override
     public void destroySpecific(World world) {
-        if (!dungeons.contains(world)) {
+        if (!dungeons.containsKey(world)) {
             return;
         }
 
@@ -183,7 +199,7 @@ class DungeonServiceImpl implements DungeonService {
     }
 
     @Override
-    public String getUnfixedDungeonName(String affixedDungeonName) {
+    public @NotNull String getUnfixedDungeonName(String affixedDungeonName) {
         return affixedDungeonName.split("_")[1];
     }
 
@@ -191,7 +207,7 @@ class DungeonServiceImpl implements DungeonService {
      * 利用可能な最初の空いているダンジョン名を取得する
      */
     private String getFirstAvailableAffixedDungeonName(String name) {
-        List<String> instances = dungeons.stream().map(World::getName).filter(worldName -> worldName.startsWith(dungeonPrefix + "_" + name + "_")).toList();
+        List<String> instances = dungeons.keySet().stream().map(World::getName).filter(worldName -> worldName.startsWith(dungeonPrefix + "_" + name + "_")).toList();
         for (int i = 0; i < 1000; i++) {
             String predicate = getAffixedDungeonName(name, i);
             if (!instances.contains(predicate)) {
@@ -202,9 +218,9 @@ class DungeonServiceImpl implements DungeonService {
     }
 
     @Override
-    public List<String> getDungeonListInfo() {
+    public @NotNull List<String> getDungeonListInfo() {
         List<String> info = new ArrayList<>();
-        dungeons.forEach(world -> {
+        dungeons.forEach((world, dungeonProgressionTracker) -> {
             boolean hasPlayer = world.getPlayers().size() != 0;
             info.add(world.getName() + ": " + (hasPlayer ? ChatColor.GREEN + "有人" : ChatColor.RED + "無人"));
         });
@@ -213,7 +229,18 @@ class DungeonServiceImpl implements DungeonService {
 
     @Override
     public void killEmptyDungeons() {
-        List<World> nobodyDungeons = dungeons.stream().filter(world -> world.getPlayers().size() == 0).collect(Collectors.toList());
+        List<World> nobodyDungeons = dungeons.keySet().stream().filter(world -> world.getPlayers().size() == 0).toList();
         nobodyDungeons.forEach(this::destroySpecific);
+    }
+    
+    public DungeonProgressionTracker<?> getTracker(World world){
+        return dungeons.get(world);
+    }
+
+    /**
+     * ダンジョンが終了した時の処理
+     */
+    private void onDungeonComplete(World instance){
+        instance.sendMessage(Component.text("ダンジョンクリア(仮)"));
     }
 }
