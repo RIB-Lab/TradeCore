@@ -2,12 +2,13 @@ package net.riblab.tradecore.integration;
 
 
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.riblab.tradecore.config.ConfigServiceImpl;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.config.ConfigServiceImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.UUID;
 
@@ -310,7 +311,7 @@ public class EconomyImpl implements TCEconomy{
      * プレイヤーの所持チケットを確認
      */
     @Override
-    public int getPlayTickets(OfflinePlayer offlinePlayer) {
+    public int getPlayTickets(@Nonnull OfflinePlayer offlinePlayer) {
         return data.playerTickets.get(offlinePlayer.getUniqueId());
     }
 
@@ -318,7 +319,7 @@ public class EconomyImpl implements TCEconomy{
      * プレイヤーにチケットを与える
      */
     @Override
-    public void depositTickets(OfflinePlayer offlinePlayer, int amount) {
+    public void depositTickets(@Nonnull OfflinePlayer offlinePlayer, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
         int oldTickets = data.playerTickets.get(uuid);
         int newTickets = oldTickets + amount;
@@ -329,7 +330,7 @@ public class EconomyImpl implements TCEconomy{
      * プレイヤーからチケットを引く
      */
     @Override
-    public void withdrawTickets(OfflinePlayer offlinePlayer, int amount) {
+    public void withdrawTickets(@Nonnull OfflinePlayer offlinePlayer, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
         int oldTickets = data.playerTickets.get(uuid);
         int newTickets = oldTickets - amount;

@@ -5,6 +5,7 @@ import net.riblab.tradecore.item.TCItems;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +69,7 @@ public enum TCCraftingRecipes {
     /**
      * ある種類のレシピを全て取得する
      */
+    @Nonnull
     public static List<ITCCraftingRecipe> getRecipes(RecipeType type) {
         return Arrays.stream(TCCraftingRecipes.values()).map(TCCraftingRecipes::getRecipe).filter(tcCraftingRecipe -> tcCraftingRecipe.getCategory() == type).collect(Collectors.toList());
     }

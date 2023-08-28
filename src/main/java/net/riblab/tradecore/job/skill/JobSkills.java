@@ -5,6 +5,8 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobType;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +36,8 @@ public enum JobSkills {
      * @param jobType ジョブの種類
      * @return 習得可能なスキルのリスト
      */
+    @ParametersAreNonnullByDefault
+    @Nonnull
     public static List<Class<? extends IJobSkill>> getAvailableSkills(JobType jobType){
         return Arrays.stream(JobSkills.values()).map(jobSkills -> jobSkills.skillType).filter(skillType -> {
             List<JobType> skillTypes = new ArrayList<>();
@@ -50,6 +54,8 @@ public enum JobSkills {
     /**
      * あるスキルの名前を取得
      */
+    @ParametersAreNonnullByDefault
+    @Nonnull
     public static String getSkillName(Class<? extends IJobSkill> skillType){
         Field field;
         try {
@@ -67,6 +73,8 @@ public enum JobSkills {
     /**
      * あるスキルの解説文を取得
      */
+    @ParametersAreNonnullByDefault
+    @Nonnull
     public static List<Component> getSkillLore(Class<? extends IJobSkill> skillType){
         Field field;
         try {
@@ -84,6 +92,7 @@ public enum JobSkills {
     /**
      * あるスキルの最大レベルを取得
      */
+    @ParametersAreNonnullByDefault
     public static int getMaxLevel(Class<? extends IJobSkill> skillType){
         Field field;
         try {

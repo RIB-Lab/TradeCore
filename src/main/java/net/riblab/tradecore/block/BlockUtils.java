@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,7 @@ public class BlockUtils {
      *
      * @param player
      */
+    @ParametersAreNonnullByDefault
     public static void addSlowDig(Player player) {
         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, -1, -1, false, false), true);
     }
@@ -32,6 +34,7 @@ public class BlockUtils {
      *
      * @param player
      */
+    @ParametersAreNonnullByDefault
     public static void removeSlowDig(Player player) {
         player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
     }
@@ -43,6 +46,7 @@ public class BlockUtils {
      * @param material マテリアル
      * @return 見つかったブロック
      */
+    @ParametersAreNonnullByDefault
     public static List<Block> getBlocksInRadius(Player player, int radius, Material material) {
         Location playerLocation = player.getLocation();
         World world = player.getWorld();

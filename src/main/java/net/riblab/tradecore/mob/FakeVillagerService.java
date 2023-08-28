@@ -3,12 +3,16 @@ package net.riblab.tradecore.mob;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 public interface FakeVillagerService {
     /**
      * プレイヤーの視線の先のブロックの上に村人を召喚する
      *
      * @param player
      */
+    @ParametersAreNonnullByDefault
     void spawnFakeVillager(Player player, String name, Location spawnLocation);
 
     /**
@@ -16,6 +20,7 @@ public interface FakeVillagerService {
      *
      * @param player
      */
+    @ParametersAreNonnullByDefault
     void tryDeSpawnFakeVillager(Player player);
 
     /**
@@ -24,5 +29,6 @@ public interface FakeVillagerService {
      * @param player
      * @return
      */
-    Integer getCurrentID(Player player);
+    @Nullable
+    Integer getCurrentID(@Nullable Player player);
 }

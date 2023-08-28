@@ -9,6 +9,7 @@ import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.item.base.TCTool;
 import org.bukkit.Material;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
 /**
@@ -49,6 +50,7 @@ public enum LootTables {
      *
      * @return ルートテーブル
      */
+    @ParametersAreNonnullByDefault
     public static Multimap<Float, ITCItem> get(Material material, TCTool.ToolType toolType) {
         Multimap<Float, ITCItem> itemMap = ArrayListMultimap.create();
         List<Map<Float, ITCItem>> itemMaps = Arrays.stream(LootTables.values()).map(LootTables::get).filter(table1 -> table1.getMaterial().contains(material)).filter(table1 -> table1.getToolType() == toolType)
@@ -62,6 +64,7 @@ public enum LootTables {
      *
      * @return ルートテーブル
      */
+    @ParametersAreNonnullByDefault
     public static Multimap<Float, ITCItem> get(Material material, ITCTool tool) {
         Multimap<Float, ITCItem> itemMultiMap = ArrayListMultimap.create();
         List<Map<Float, ITCItem>> itemMaps = Arrays.stream(LootTables.values())
@@ -77,6 +80,7 @@ public enum LootTables {
     /**
      * あるマテリアルをあるツールで掘るために必要な最小硬度を取得
      */
+    @ParametersAreNonnullByDefault
     public static int getMinHardness(Material material, ITCTool tool){
         List<Integer> hardnessList = Arrays.stream(LootTables.values())
                 .map(LootTables::get)

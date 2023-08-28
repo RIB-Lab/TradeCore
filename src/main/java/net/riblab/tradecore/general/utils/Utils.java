@@ -18,6 +18,8 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -38,6 +40,8 @@ public class Utils {
      * @param <T>
      * @return
      */
+    @ParametersAreNonnullByDefault
+    @Nonnull
     public static <T> Class<T> forceInit(Class<T> klass) {
         try {
             Class.forName(klass.getName(), true, klass.getClassLoader());
@@ -50,6 +54,7 @@ public class Utils {
     /**
      * ルートテーブルに基づいたアイテムをあるブロックのある場所から落とす //TODO:ItemUtilsに移管
      */
+    @ParametersAreNonnullByDefault
     public static void dropItemByLootTable(Player player, Block block, Multimap<Float, ITCItem> table) {
         Random random = new Random();
         table.forEach((aFloat, itcItem) -> {
@@ -64,6 +69,7 @@ public class Utils {
     /**
      * プレイヤーの起こした行動によって発生した値をジョブスキルや装備modによって修飾する
      */
+    @ParametersAreNonnullByDefault
     public static  <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz){
         T modifiedValue = TradeCore.getInstance().getItemModService().apply(player, originalValue, clazz);
         modifiedValue = TradeCore.getInstance().getJobSkillService().apply(player, originalValue, modifiedValue, clazz);
@@ -76,6 +82,7 @@ public class Utils {
      * @param destDir .jarの外のディレクトリのパス
      * @throws IOException
      */
+    @ParametersAreNonnullByDefault
     public static void copyFolder(String srcDirName, File destDir) throws IOException {
         final File jarFile = new File("plugins/TradeCore.jar");
         JarFile jar = null;
@@ -117,6 +124,7 @@ public class Utils {
      * @return コピーに成功したかどうか
      * @throws IOException
      */
+    @ParametersAreNonnullByDefault
     public static boolean copyFile(String srcFileName, File destDir) throws IOException {
         final File jarFile = new File("plugins/TradeCore.jar");
         JarFile jar = null;
@@ -159,6 +167,7 @@ public class Utils {
      * @param file
      * @return
      */
+    @ParametersAreNonnullByDefault
     public static boolean deleteFolder(File file) {
         try (Stream<Path> files = Files.walk(file.toPath())) {
             files.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
@@ -174,7 +183,8 @@ public class Utils {
      * @param location 座標
      * @param range 半径
      */
-    public static Location randomizeLocationXZ(Location location, int range) {
+    @ParametersAreNonnullByDefault
+    public static @Nonnull Location randomizeLocationXZ(Location location, int range) {
         Random random = new Random();
         double randomOffsetX = (random.nextDouble() * range * 2) - range;
         double randomOffsetZ = (random.nextDouble() * range * 2) - range; 

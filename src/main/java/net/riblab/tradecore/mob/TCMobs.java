@@ -11,6 +11,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -35,7 +36,7 @@ public enum TCMobs {
      * モブをカスタムモブに変換する
      */
     @Nullable
-    public static ITCMob toTCMob(Mob mob) {
+    public static ITCMob toTCMob(@Nullable Mob mob) {
         if(mob == null)
             return null;
 
@@ -50,6 +51,7 @@ public enum TCMobs {
      * コマンド文字列をカスタムモブに変換する
      */
     @Nullable
+    @ParametersAreNonnullByDefault
     public static ITCMob commandToTCMob(String command) {
         TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(command)).findFirst().orElse(null);
         return itcMob == null ? null : itcMob.get();

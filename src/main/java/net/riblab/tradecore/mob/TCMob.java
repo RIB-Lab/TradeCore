@@ -88,12 +88,12 @@ public class TCMob implements ITCMob {
     }
 
     @Override
-    public void onKilledByPlayer(EntityDeathEvent event) {
+    public void onKilledByPlayer(Mob instance) {
         Random random = new Random();
         drops.forEach((itemStack, aFloat) -> {
             float rand = random.nextFloat();
             if (rand < aFloat) {
-                event.getEntity().getWorld().dropItemNaturally(event.getEntity().getLocation(), itemStack);
+                instance.getWorld().dropItemNaturally(instance.getLocation(), itemStack);
             }
         });
     }

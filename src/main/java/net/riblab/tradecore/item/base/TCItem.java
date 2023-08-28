@@ -68,7 +68,7 @@ public class TCItem implements ITCItem {
      *
      * @return 作られたアイテムの型の実体
      */
-    protected ItemCreator createItem() {
+    protected @Nonnull ItemCreator createItem() {
         return new ItemCreator(material)
                 .setName(name.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
                 .setStrNBT("TCID", internalName)

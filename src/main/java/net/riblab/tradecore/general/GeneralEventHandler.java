@@ -11,6 +11,9 @@ import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCEquipment;
 import net.riblab.tradecore.item.base.TCTool;
 import net.riblab.tradecore.item.weapon.ITCWeapon;
+import net.riblab.tradecore.mob.ITCMob;
+import net.riblab.tradecore.mob.MobUtils;
+import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
@@ -18,21 +21,25 @@ import net.riblab.tradecore.ui.UICraftingTable;
 import net.riblab.tradecore.ui.UIFurnace;
 import net.riblab.tradecore.general.utils.Utils;
 import org.bukkit.*;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Set;
 
 /**
  * イベント受信システム
  */
+@ParametersAreNonnullByDefault
 public class GeneralEventHandler {
     
     private static final Set<EntityDamageEvent.DamageCause> unBlockableDamageCause = Set.of(EntityDamageEvent.DamageCause.SUICIDE, EntityDamageEvent.DamageCause.KILL, 
@@ -314,5 +321,20 @@ public class GeneralEventHandler {
             text = text.append(Component.text(" " + tickets).font(TCResourcePackData.yPlus12FontName));
             player.sendActionBar(text);
         });
+    }
+
+    /**
+     * エンティティの死亡処理
+     */
+    public void processEntityDeath(EntityDeathEvent event){
+        if(event.getEntity() instanceof Player)//プレイヤーの死亡時ドロップは消さない
+            return;
+
+        event.getDrops().clear();//バニラのモブドロップをブロック
+
+        if (!(event.getEntity() instanceof Mob mob))
+            return;
+
+        TradeCore.getInstance().getCustomMobService().onCustomMobDeath(mob);
     }
 }

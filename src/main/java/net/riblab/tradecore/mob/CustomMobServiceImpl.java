@@ -30,27 +30,21 @@ public class CustomMobServiceImpl implements CustomMobService {
     }
 
     @Override
-    public void onEntityDeath(EntityDeathEvent event) {
-        if(event.getEntity() instanceof Player)//プレイヤーの死亡時ドロップは消さない
-            return;
-        
-        event.getDrops().clear();//バニラのモブドロップをブロック
-
-        if (!(event.getEntity() instanceof Mob mob) || !spawnedMobs.contains(mob))
-            return;
-
-       
-        boolean isLootable = MobUtils.isLootable(mob);
-        if(!isLootable)
+    public void onCustomMobDeath(Mob mob) {
+        if(!spawnedMobs.contains(mob))
             return;
 
         spawnedMobs.remove(mob);
+
+        boolean isLootable = MobUtils.isLootable(mob);
+        if(!isLootable)
+            return;
 
         ITCMob ITCMob = TCMobs.toTCMob(mob);
         if (ITCMob == null)
             return;
 
-        ITCMob.onKilledByPlayer(event);
+        ITCMob.onKilledByPlayer(mob);
     }
 
     @Override

@@ -50,7 +50,7 @@ public class EventReciever implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-        TradeCore.getInstance().getCustomMobService().onEntityDeath(event);
+        generalEventHandler.processEntityDeath(event);
     }
 
     @org.bukkit.event.EventHandler

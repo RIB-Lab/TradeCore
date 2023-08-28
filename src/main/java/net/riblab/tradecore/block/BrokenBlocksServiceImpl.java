@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ public class BrokenBlocksServiceImpl implements BrokenBlocksService {
     private static final Map<Player, BrokenBlock> brokenBlocks = new HashMap<>();
 
     @Override
+    @ParametersAreNonnullByDefault
     public void createBrokenBlock(Block block, Player player) {
         if (isPlayerAlreadyBreaking(player)) {
             removeBrokenBlock(player);
@@ -28,6 +30,7 @@ public class BrokenBlocksServiceImpl implements BrokenBlocksService {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void incrementDamage(Player player, double amount) {
         if(!isPlayerAlreadyBreaking(player))
             return;

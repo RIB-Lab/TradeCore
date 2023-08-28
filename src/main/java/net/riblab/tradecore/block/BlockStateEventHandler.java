@@ -24,6 +24,7 @@ import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +42,7 @@ public class BlockStateEventHandler implements Listener {
     /**
      * ブロックにサーバー側でひびを入れることを試みる
      */
+    @ParametersAreNonnullByDefault
     public void tryCreateBrokenBlock(BlockDamageEvent event){
         if (unbreakableMaterial.contains(event.getBlock().getType())) {
             event.setCancelled(true);
@@ -64,6 +66,7 @@ public class BlockStateEventHandler implements Listener {
     /**
      * ブロックのサーバー側のヒビを大きくする
      */
+    @ParametersAreNonnullByDefault
     public void tryIncrementBlockDamage(PlayerAnimationEvent event){
         Player player = event.getPlayer();
         Set<Material> transparentBlocks = new HashSet<>();
@@ -103,6 +106,7 @@ public class BlockStateEventHandler implements Listener {
      * カスタムツールが使われていた場合、ドロップ品や敵を生成する
      * @param event
      */
+    @ParametersAreNonnullByDefault
     public void tryHarvestBlockWithCustomTool(BlockBreakEvent event) {
         if (event.getPlayer().getGameMode() != GameMode.CREATIVE && unbreakableMaterial.contains(event.getBlock().getType())) {
             event.setCancelled(true);
@@ -158,6 +162,7 @@ public class BlockStateEventHandler implements Listener {
      * クワの耕地ドロップ処理を実行すると同時にITCItemが設置されるのを防止する
      * @param event
      */
+    @ParametersAreNonnullByDefault
     public void tryProcessHoeDrop(BlockPlaceEvent event) {
         ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
 
@@ -182,6 +187,7 @@ public class BlockStateEventHandler implements Listener {
     /**
      * バニラの棒が葉っぱからドロップすることを防ぐ
      */
+    @ParametersAreNonnullByDefault
     public void preventVanillaStickFromDropping(LeavesDecayEvent event) {
         event.setCancelled(true);
         event.getBlock().setType(Material.AIR);

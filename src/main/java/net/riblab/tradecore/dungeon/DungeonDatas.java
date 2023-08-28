@@ -8,6 +8,7 @@ import lombok.Getter;
 import net.riblab.tradecore.mob.TCMobs;
 import org.bukkit.util.Vector;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
@@ -30,12 +31,12 @@ public enum DungeonDatas {
      * コマンド文字列をダンジョンデータにする
      */
     @Nullable
-    public static IDungeonData commandToDungeonData(String command) {
+    public static IDungeonData commandToDungeonData(@Nullable String command) {
         DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
         return datas == null ? null : datas.getData();
     }
     
-    public static Argument<IDungeonData> customDungeonDataArgument(String nodeName) {
+    public static Argument<IDungeonData> customDungeonDataArgument(@Nonnull String nodeName) {
         return new CustomArgument<IDungeonData, String>(new StringArgument(nodeName), info -> {
             IDungeonData data = commandToDungeonData(info.input());
 
@@ -53,7 +54,7 @@ public enum DungeonDatas {
      * ダンジョン名をダンジョンデータにする
      */
     @Nullable
-    public static IDungeonData nameToDungeonData(String name) {
+    public static IDungeonData nameToDungeonData(@Nullable String name) {
         DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.getData().getName().equals(name)).findFirst().orElse(null);
         return datas == null ? null : datas.getData();
     }

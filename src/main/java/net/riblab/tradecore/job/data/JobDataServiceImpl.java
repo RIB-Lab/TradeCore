@@ -16,8 +16,10 @@ public class JobDataServiceImpl implements JobDataService {
 
     private final Map<UUID, List<IJobData>> datasMap = TradeCore.getInstance().getConfigService().getJobDatas().getPlayerJobs();
 
-    @Override
-    public IJobData initPlayerJobData(OfflinePlayer offlinePlayer, JobType type) {
+    /**
+     * プレイヤーの特定のJobデータを初期化する
+     */
+    private IJobData initPlayerJobData(OfflinePlayer offlinePlayer, JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
         JobData data = new JobData();
@@ -95,9 +97,6 @@ public class JobDataServiceImpl implements JobDataService {
 
     @Override
     public void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet){
-        if(dataToSet == null)
-            return;
-        
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
         if (datas == null) {

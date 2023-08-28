@@ -2,20 +2,20 @@ package net.riblab.tradecore.job.data;
 
 import org.bukkit.OfflinePlayer;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 public interface JobDataService {
-    /**
-     * プレイヤーの特定のJobデータを初期化する
-     */
-    IJobData initPlayerJobData(OfflinePlayer offlinePlayer, JobType type);
 
     /**
      * プレイヤーにJob経験値を加える
      */
+    @ParametersAreNonnullByDefault
     void addJobExp(OfflinePlayer offlinePlayer, JobType type, int amount);
 
     /**
      * プレイヤーのJobDataを取得する
      */
+    @ParametersAreNonnullByDefault
     IJobData getJobData(OfflinePlayer offlinePlayer, JobType type);
 
     /**
@@ -24,10 +24,12 @@ public interface JobDataService {
      * @param offlinePlayer
      * @param dataToSet
      */
+    @ParametersAreNonnullByDefault
     void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet);
 
     /**
      * プレイヤーの全てのjobデータを削除する
      */
+    @ParametersAreNonnullByDefault
     void resetJobData(OfflinePlayer offlinePlayer);
 }

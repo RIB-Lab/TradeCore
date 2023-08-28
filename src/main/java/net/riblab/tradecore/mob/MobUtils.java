@@ -11,6 +11,8 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 import java.util.Random;
 
@@ -32,6 +34,7 @@ public class MobUtils {
      * @param table スポーンテーブル
      * @param radius スポーンする半径
      */
+    @ParametersAreNonnullByDefault
     public static void trySpawnMobInRandomArea(Player player, Block block, Map<ITCMob, Float> table, int radius) {
         Random random = new Random();
         table.forEach((itcmob, aFloat) -> {
@@ -47,6 +50,8 @@ public class MobUtils {
     /**
      * モブがスポーンできる安全な場所を探す
      */
+    @Nullable
+    @ParametersAreNonnullByDefault
     private static Location findSafeLocationToSpawn(Block block, int radius) {
         Random random = new Random();
         for (int i = 0; i < 50; i++) {
@@ -63,6 +68,7 @@ public class MobUtils {
     /**
      * モブにドロップ品を落とすかどうかの設定を追加
      */
+    @ParametersAreNonnullByDefault
     public static void setLootableTag(Mob mob, boolean flag){
         NBTEntity nbtEntity = new NBTEntity(mob);
         nbtEntity.getPersistentDataContainer().setBoolean(lootableTag, flag);
@@ -71,6 +77,7 @@ public class MobUtils {
     /**
      * モブがアイテムを落とすことのできるタグがついているか
      */
+    @ParametersAreNonnullByDefault
     public static boolean isLootable(Mob mob){
         NBTEntity nbtEntity = new NBTEntity(mob);
         return nbtEntity.getPersistentDataContainer().getBoolean(lootableTag);
@@ -82,12 +89,14 @@ public class MobUtils {
      * @param damage ダメージ量
      * @param knockback ノックバックのベクトル
      */
-    public static void tryDealDamageByPlayer(Mob mob, double damage, Vector knockback){
+    @ParametersAreNonnullByDefault
+    public static void tryDealDamageByPlayer(Mob mob, double damage, @Nullable Vector knockback){
         if(mob.getType() == EntityType.VILLAGER) //ショップ店員を殴るの防止
             return;
         
         mob.damage(damage);
-        mob.setVelocity(knockback);
+        if(knockback != null)
+            mob.setVelocity(knockback);
         setLootableTag(mob, true);
     }
 }

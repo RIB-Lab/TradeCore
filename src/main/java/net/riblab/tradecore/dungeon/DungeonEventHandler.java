@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.world.WorldInitEvent;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +24,7 @@ public class DungeonEventHandler {
         return TradeCore.getInstance().getDungeonService();
     }
 
+    @ParametersAreNonnullByDefault
     public void tryProcessDungeonSpawn(PlayerRespawnEvent event){
         if(!getservice().isPlayerInDungeon(event.getPlayer()))
             return;
@@ -44,6 +46,7 @@ public class DungeonEventHandler {
     /**
      * ダンジョンにいるプレイヤー周辺のスポナーからダンジョンに応じたモブをスポーンさせる
      */
+    @ParametersAreNonnullByDefault
     private void trySpawnMob(Player player, IDungeonData data){
         List<Block> activatedSpawner = BlockUtils.getBlocksInRadius(player, 8, Material.REDSTONE_BLOCK);
         for (Block block : activatedSpawner) {
@@ -56,6 +59,7 @@ public class DungeonEventHandler {
         }
     }
 
+    @ParametersAreNonnullByDefault
     public void onDungeonInit(WorldInitEvent event){
         event.getWorld().setKeepSpawnInMemory(false);
     }
