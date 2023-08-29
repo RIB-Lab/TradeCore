@@ -8,7 +8,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public interface TCEconomy extends Economy {
     
     static TCEconomy getImpl(){
-        return new EconomyImpl();
+        return EconomyImpl.INSTANCE;
     }
 
     /**

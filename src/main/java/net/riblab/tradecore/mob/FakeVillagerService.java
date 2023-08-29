@@ -8,7 +8,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface FakeVillagerService {
     static FakeVillagerService getImpl(){
-        return new FakeVillagerServiceImpl();
+        return FakeVillagerServiceImpl.INSTANCE;
     }
     
     /**

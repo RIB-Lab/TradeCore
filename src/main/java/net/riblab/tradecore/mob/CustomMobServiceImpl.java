@@ -10,12 +10,13 @@ import java.util.List;
 /**
  * このプラグイン独自のモブをスポーンさせたりデスポーンイベントを発行したりするシステム
  */
-class CustomMobServiceImpl implements CustomMobService {
+enum CustomMobServiceImpl implements CustomMobService {
+    INSTANCE;
 
     /**
      * このプラグインが現在スポーンさせているモブのリスト
      */
-    public static List<Mob> spawnedMobs = new ArrayList<>();
+    private List<Mob> spawnedMobs = new ArrayList<>();
 
     @Override
     public void spawn(Player player, Location spawnlocation, ITCMob type) {

@@ -1,14 +1,17 @@
 package net.riblab.tradecore.block;
 
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import lombok.Getter;
-import net.riblab.tradecore.TradeCore;
+import lombok.Setter;
 import org.bukkit.SoundCategory;
 import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+
+import java.util.function.Consumer;
 
 /**
  * クライアントが破壊中のブロックをサーバーサイドで保存するためのクラス
@@ -27,12 +30,14 @@ class BrokenBlock {
     @Getter
     private final Block block;
 
+    /**
+     * プレイヤーの操作により自身が必要なくなった時のイベント
+     */
+    @Setter
+    private Consumer<Player> onDestruction;
+
     public BrokenBlock(Block block) {
         this.block = block;
-    }
-
-    private BrokenBlocksService getService() {
-        return TradeCore.getInstance().getBrokenBlocksService();
     }
 
     /**
@@ -68,7 +73,8 @@ class BrokenBlock {
     public void breakBlock(Player breaker) {
         damage = -1;
         sendBreakPacket(breaker);
-        getService().removePlayerFromMap(breaker);
+        if(onDestruction != null)
+            onDestruction.accept(breaker);
 //        SoundPlayerUtils.playBlockSound(block);
         if (breaker == null) return;
 
@@ -83,14 +89,15 @@ class BrokenBlock {
     public void resetBlockObject(Player player) {
         damage = -1;
         sendBreakPacket(player);
-        getService().removePlayerFromMap(player);
+        if(onDestruction != null)
+            onDestruction.accept(player);
     }
 
     /**
      * プレイヤーにブロックのひび割れのパケットを送る
      */
     public void sendBreakPacket(Player player) {
-        PacketContainer blockBreak = TradeCore.getInstance().getProtocolManager().createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
+        PacketContainer blockBreak = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
 
         blockBreak.getBlockPositionModifier().write(0, getBlockPosition(block));
 
@@ -98,7 +105,7 @@ class BrokenBlock {
                 .write(0, block.getLocation().hashCode())
                 .write(1, (int) getDamage());
 
-        TradeCore.getInstance().getProtocolManager().sendServerPacket(player, blockBreak);
+        ProtocolLibrary.getProtocolManager().sendServerPacket(player, blockBreak);
     }
 
     /**

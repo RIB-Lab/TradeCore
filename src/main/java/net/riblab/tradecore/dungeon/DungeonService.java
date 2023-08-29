@@ -1,14 +1,11 @@
 package net.riblab.tradecore.dungeon;
 
-import net.riblab.tradecore.TradeCore;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.io.File;
 import java.util.List;
 
 public interface DungeonService {
@@ -16,7 +13,7 @@ public interface DungeonService {
     String dungeonPrefix = "dungeons";
     
     static DungeonService getImpl(){
-        return new DungeonServiceImpl();
+        return DungeonServiceImpl.INSTANCE;
     }
     
     /**

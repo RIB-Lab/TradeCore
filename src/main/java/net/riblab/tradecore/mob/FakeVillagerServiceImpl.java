@@ -1,6 +1,7 @@
 package net.riblab.tradecore.mob;
 
 import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import com.comphenix.protocol.wrappers.WrappedDataValue;
@@ -15,7 +16,8 @@ import java.util.*;
 /**
  * ダミーの村人をクライアントに出現させるためのパケット管理システム
  */
-class FakeVillagerServiceImpl implements FakeVillagerService {
+enum FakeVillagerServiceImpl implements FakeVillagerService {
+    INSTANCE;
 
     /**
      * プレイヤーとそのプレイヤーの元に送られたダミーの村人のMap
@@ -27,7 +29,7 @@ class FakeVillagerServiceImpl implements FakeVillagerService {
         if (idMap.containsKey(player))
             tryDeSpawnFakeVillager(player);
 
-        PacketContainer spawnPacket = TradeCore.getInstance().getProtocolManager().createPacket(PacketType.Play.Server.SPAWN_ENTITY);
+        PacketContainer spawnPacket = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.SPAWN_ENTITY);
 
         int entityID = new Random().nextInt();
         idMap.put(player, entityID);
@@ -48,7 +50,7 @@ class FakeVillagerServiceImpl implements FakeVillagerService {
                 .write(1, (byte) (player.getEyeLocation().getPitch() * (256.0F / 360.0F)))
                 .write(2, (byte) (yaw * (256.0F / 360.0F)));
 
-        TradeCore.getInstance().getProtocolManager().sendServerPacket(player, spawnPacket);
+        ProtocolLibrary.getProtocolManager().sendServerPacket(player, spawnPacket);
 
         //ここからメタデータ
         PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
@@ -67,7 +69,7 @@ class FakeVillagerServiceImpl implements FakeVillagerService {
         packet.getIntegers().write(0, entityID);
         packet.getDataValueCollectionModifier().write(0, dataValues);
 
-        TradeCore.getInstance().getProtocolManager().sendServerPacket(player, packet);
+        ProtocolLibrary.getProtocolManager().sendServerPacket(player, packet);
     }
 
     @Override
@@ -79,10 +81,10 @@ class FakeVillagerServiceImpl implements FakeVillagerService {
         List<Integer> entityIDList = new ArrayList<>();
         entityIDList.add(entityID);
 
-        PacketContainer deSpawnPacket = TradeCore.getInstance().getProtocolManager().createPacket(PacketType.Play.Server.ENTITY_DESTROY);
+        PacketContainer deSpawnPacket = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.ENTITY_DESTROY);
         deSpawnPacket.getIntLists().write(0, entityIDList);
 
-        TradeCore.getInstance().getProtocolManager().sendServerPacket(player, deSpawnPacket);
+        ProtocolLibrary.getProtocolManager().sendServerPacket(player, deSpawnPacket);
     }
 
     @Override

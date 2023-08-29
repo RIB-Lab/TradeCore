@@ -10,7 +10,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public interface BrokenBlocksService {
     
     static BrokenBlocksService getImpl(){
-        return new BrokenBlocksServiceImpl();
+        return BrokenBlocksServiceImpl.INSTANCE;
     }
 
     /**

@@ -2,7 +2,6 @@ package net.riblab.tradecore;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
@@ -22,9 +21,7 @@ import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.item.ItemModService;
 import net.riblab.tradecore.job.data.JobDataService;
-import net.riblab.tradecore.job.data.JobDataServiceImpl;
 import net.riblab.tradecore.job.skill.JobSkillService;
-import net.riblab.tradecore.job.skill.JobSkillServiceImpl;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
@@ -43,8 +40,6 @@ public final class TradeCore extends JavaPlugin {
     private VaultHook vaultHook;
     @Getter
     private ConfigService configService;
-    @Getter
-    private ProtocolManager protocolManager;
     @Getter
     private EventReciever eventReciever;
     @Getter
@@ -90,15 +85,15 @@ public final class TradeCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        configService = ConfigService.getImpl();
+        configService = ConfigService.getImpl(getDataFolder());
         configService.load();
         eventReciever = new EventReciever();
-        jobService = new JobDataServiceImpl();
-        jobSkillService = new JobSkillServiceImpl();
+        jobService = JobDataService.getImpl();
+        jobSkillService = JobSkillService.getImpl();
         jobSkillService.onDeserialize();
         itemModService = ItemModService.getImpl();
         playerStatsService = PlayerStatsService.getImpl();
-        VanillaCraftInitializer.init();
+        VanillaCraftInitializer.init(this);
         dungeonService = DungeonService.getImpl();
         brokenBlocksService = BrokenBlocksService.getImpl();
         customMobService = CustomMobService.getImpl();
@@ -120,9 +115,7 @@ public final class TradeCore extends JavaPlugin {
             itemModService.updateEquipment(player);
             itemModService.updateMainHand(player, player.getInventory().getHeldItemSlot());
         });
-
-        protocolManager = ProtocolLibrary.getProtocolManager();
-
+        
         new TCTasksInitializer();
         advancementInitializer = new AdvancementInitializer();
 

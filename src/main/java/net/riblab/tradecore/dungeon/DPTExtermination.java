@@ -5,7 +5,7 @@ import org.bukkit.World;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
-public class DPTExtermination extends DungeonProgressionTracker<Integer> implements IPlayerKillHandler {
+class DPTExtermination extends DungeonProgressionTracker<Integer> implements IPlayerKillHandler {
     int killedCount = 0;
     
     public DPTExtermination(Integer objective, World instance){

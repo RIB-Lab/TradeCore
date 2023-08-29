@@ -20,17 +20,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class DungeonServiceImpl implements DungeonService {
+enum DungeonServiceImpl implements DungeonService {
+    INSTANCE;
 
     /**
      * ダンジョンのインスタンス達
      */
-    private static final Map<World, DungeonProgressionTracker<?>> dungeons = new HashMap<>();
+    private final Map<World, DungeonProgressionTracker<?>> dungeons = new HashMap<>();
 
     /**
      * プレイヤーがダンジョンに入る前いた場所
      */
-    private static final Map<Player, Location> locationsOnEnter = new HashMap<>();
+    private final Map<Player, Location> locationsOnEnter = new HashMap<>();
 
     @Override
     @ParametersAreNonnullByDefault
@@ -61,6 +62,7 @@ class DungeonServiceImpl implements DungeonService {
             throw new RuntimeException(e);
         }
         progressionTracker.onComplete = this::onDungeonComplete;
+        progressionTracker.onGameOver = this::destroySpecific;
         dungeons.put(instance, progressionTracker);
         return instance;
     }

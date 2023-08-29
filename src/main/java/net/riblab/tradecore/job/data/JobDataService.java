@@ -6,8 +6,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface JobDataService {
     
-    static JobDataService getImple(){
-        return new JobDataServiceImpl();
+    static JobDataService getImpl(){
+        return JobDataServiceImpl.INSTANCE;
     }
 
     /**

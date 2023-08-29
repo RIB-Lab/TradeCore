@@ -19,17 +19,18 @@ import java.util.function.Consumer;
 /**
  * プレイヤーが現在装備していたり手に持っていたりするアイテムの持つmodを記録するハンドラ
  */
-class ItemModServiceImpl implements ItemModService {
+enum ItemModServiceImpl implements ItemModService {
+    INSTANCE;
 
     /**
      * 全てのプレイヤーとその装備が持つmodのマップ
      */
-    private static final Map<Player, List<IItemMod>> playerEquipmentModMap = new HashMap<>();
+    private final Map<Player, List<IItemMod>> playerEquipmentModMap = new HashMap<>();
 
     /**
      * 全てのプレイヤーとそのアイテムが持つmodのマップ
      */
-    private static final Map<Player, List<IItemMod>> playerMainHandModMap = new HashMap<>();
+    private final Map<Player, List<IItemMod>> playerMainHandModMap = new HashMap<>();
 
     /**
      * プレイヤーのアイテムmodが変更された時のイベント

@@ -6,7 +6,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface PlayerStatsService {
     static PlayerStatsService getImpl(){
-        return new PlayerStatsServiceImpl();
+        return PlayerStatsServiceImpl.INSTANCE;
     }
     
     /**

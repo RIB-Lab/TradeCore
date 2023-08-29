@@ -1,5 +1,6 @@
 package net.riblab.tradecore.job.skill;
 
+import net.riblab.tradecore.job.data.JobDataServiceImpl;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.OfflinePlayer;
@@ -9,6 +10,9 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface JobSkillService {
+    static JobSkillService getImpl(){
+        return JobSkillServiceImpl.INSTANCE;
+    }
 
     List<Consumer<Player>> getOnJobSkillChanged();
 

@@ -17,12 +17,13 @@ import java.util.Map;
 /**
  * プレイヤーステータスの管理クラス
  */
-class PlayerStatsServiceImpl implements PlayerStatsService {
+enum PlayerStatsServiceImpl implements PlayerStatsService {
+    INSTANCE;
 
     /**
      * JobSkilやItemModで修飾済みのプレイヤーステータスが入ったmap
      */
-    private static final Map<Player, IPlayerStats> playerStatsMap = new HashMap<>();
+    private final Map<Player, IPlayerStats> playerStatsMap = new HashMap<>();
 
     private static JobSkillService getJSHandler() {
         return TradeCore.getInstance().getJobSkillService();
@@ -32,7 +33,7 @@ class PlayerStatsServiceImpl implements PlayerStatsService {
         return TradeCore.getInstance().getItemModService();
     }
 
-    public PlayerStatsServiceImpl() {
+    PlayerStatsServiceImpl() {
         getJSHandler().getOnJobSkillChanged().add(this::update);
         getEquipmentHandler().getOnItemModUpdated().add(this::update);
     }

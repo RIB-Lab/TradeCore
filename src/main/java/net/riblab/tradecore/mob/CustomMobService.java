@@ -10,7 +10,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public interface CustomMobService {
     
     static CustomMobService getImpl(){
-        return new CustomMobServiceImpl();
+        return CustomMobServiceImpl.INSTANCE;
     }
 
     /**

@@ -11,9 +11,10 @@ import java.util.Map;
 /**
  * ワールド中の破壊中のブロックを管理するサービス
  */
-class BrokenBlocksServiceImpl implements BrokenBlocksService {
-
-    private static final Map<Player, BrokenBlock> brokenBlocks = new HashMap<>();
+enum BrokenBlocksServiceImpl implements BrokenBlocksService {
+    INSTANCE;
+    
+    private final Map<Player, BrokenBlock> brokenBlocks = new HashMap<>();
 
     @Override
     @ParametersAreNonnullByDefault
@@ -23,6 +24,7 @@ class BrokenBlocksServiceImpl implements BrokenBlocksService {
         }
         BrokenBlock brokenBlock = new BrokenBlock(block);
         brokenBlocks.put(player, brokenBlock);
+        brokenBlock.setOnDestruction(this::removePlayerFromMap);
     }
 
     private void removeBrokenBlock(Player player) {

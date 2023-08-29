@@ -1,11 +1,12 @@
 package net.riblab.tradecore.config;
 
 import javax.annotation.Nullable;
+import java.io.File;
 
 public interface ConfigService {
     
-    static ConfigService getImpl(){
-        return new ConfigServiceImpl();
+    static ConfigService getImpl(File dataFolder){
+        return new ConfigServiceImpl(dataFolder);
     }
     
     /**

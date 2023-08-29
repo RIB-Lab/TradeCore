@@ -6,6 +6,7 @@ import net.riblab.tradecore.TradeCore;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -20,6 +21,11 @@ public abstract class DungeonProgressionTracker<T> {
      * 目標をコンプリートした時のイベント
      */
     public Consumer<World> onComplete;
+
+    /**
+     * ゲームオーバーイベント(ダンジョン破壊)
+     */
+    public Consumer<World> onGameOver;
 
     /**
      * ダンジョンの目標
@@ -75,9 +81,10 @@ public abstract class DungeonProgressionTracker<T> {
             new BukkitRunnable(){
                 @Override
                 public void run() {
-                    TradeCore.getInstance().getDungeonService().destroySpecific(event.getPlayer().getWorld());
+                    if(onGameOver != null)
+                        onGameOver.accept(event.getPlayer().getWorld());
                 }
-            }.runTaskLater(TradeCore.getInstance(), 0);
+            }.runTaskLater(JavaPlugin.getPlugin(TradeCore.class), 0);
         }
     }
 }

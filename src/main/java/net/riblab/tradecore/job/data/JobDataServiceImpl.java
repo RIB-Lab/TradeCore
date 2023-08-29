@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class JobDataServiceImpl implements JobDataService {
+public enum JobDataServiceImpl implements JobDataService {
+    INSTANCE;
 
     private final Map<UUID, List<IJobData>> datasMap = TradeCore.getInstance().getConfigService().getJobDatas().getPlayerJobs();
 

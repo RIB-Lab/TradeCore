@@ -2,7 +2,7 @@ package net.riblab.tradecore.integration;
 
 public interface VaultHook {
     static VaultHook getImpl(){
-        return new VaultHookImpl();
+        return VaultHookImpl.INSTANCE;
     }
     
     /**

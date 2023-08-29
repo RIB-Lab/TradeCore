@@ -17,7 +17,8 @@ import java.util.function.Consumer;
 /**
  * スキルデータベースの操作クラス
  */
-public class JobSkillServiceImpl implements JobSkillService {
+enum JobSkillServiceImpl implements JobSkillService {
+    INSTANCE;
 
     private final Map<UUID, List<IJobSkill>> datasMap = TradeCore.getInstance().getConfigService().getJobDatas().getPlayerJobSkills();
 
