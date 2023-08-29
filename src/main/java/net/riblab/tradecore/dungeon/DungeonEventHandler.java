@@ -30,10 +30,11 @@ public class DungeonEventHandler {
 
     @ParametersAreNonnullByDefault
     public void tryProcessDungeonSpawn(PlayerRespawnEvent event) {
-        if (!getservice().isPlayerInDungeon(event.getPlayer()))
+        DungeonProgressionTracker<?> tracker =  getservice().getTracker(event.getPlayer().getWorld());
+        if(tracker == null)
             return;
-
-        event.setRespawnLocation(event.getPlayer().getWorld().getSpawnLocation());
+        
+        tracker.onPlayerRespawn(event);
     }
 
     public void onDungeonSecondPassed() {
