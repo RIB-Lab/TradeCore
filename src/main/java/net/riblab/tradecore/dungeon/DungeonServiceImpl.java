@@ -2,6 +2,7 @@ package net.riblab.tradecore.dungeon;
 
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -9,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -250,5 +252,7 @@ enum DungeonServiceImpl implements DungeonService {
                 player.sendMessage(reward.displayName().append(Component.text(" x" + reward.getAmount() + " を獲得!")));
             });
         }
+        
+        instance.sendMessage(Component.text("/tcdungeon leaveでダンジョンを抜けられます..."));
     }
 }

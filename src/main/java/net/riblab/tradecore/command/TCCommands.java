@@ -245,6 +245,13 @@ public final class TCCommands {
         dungeonCommand.withSubcommand(evacuateDungeonCommand);
         dungeonCommand.withSubcommand(dungeonListCommand);
         dungeonCommand.register();
+
+        CommandAPICommand wikiCommand = new CommandAPICommand(WIKI.get())
+                .withPermission(CommandPermission.NONE)
+                .executesPlayer((player, args) -> {
+                    player.sendMessage("wiki url: https://www.riblab.net/trade/");
+                });
+        wikiCommand.register();
     }
 
     public static void onEnable() {

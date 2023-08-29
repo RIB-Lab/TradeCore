@@ -4,26 +4,27 @@ package net.riblab.tradecore.command;
  * コマンドの名前
  */
 enum CommandNames {
-    CURRENCY("tccurrency"),
+    CURRENCY("currency"),
     CURRENCY_SETMONEY("setmoney"),
     CURRENCY_SETTICKET("setticket"),
     GIVE("tcgive"),
-    SELL("tcsell"),
-    MOBS("tcmobs"),
+    SELL("sell"),
+    MOBS("mobs"),
     MOBS_SPAWN("spawn"),
     MOBS_RESET("reset"),
-    SHOP("tcshop"),
+    SHOP("shop"),
     SHOP_ADMIN("admin"),
     SHOP_RESPEC("respec"),
-    JOB("tcjob"),
+    JOB("job"),
     JOB_SETJOBLV("setjoblv"),
     JOB_RESETJOBLV("resetjoblv"),
     JOB_RESETSKILLLV("resetskilllv"),
-    DUNGEON("tcdungeon"),
+    DUNGEON("dungeon"),
     DUNGEON_ENTER("enter"),
     DUNGEON_LEAVE("leave"),
     DUNGEON_EVACUATE("evacuate"),
-    DUNGEON_LIST("list");
+    DUNGEON_LIST("list"),
+    WIKI("wiki");
 
     private final String name;
 
