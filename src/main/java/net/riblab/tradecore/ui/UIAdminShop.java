@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Materials;
+import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Material;
@@ -72,38 +73,38 @@ public class UIAdminShop {
      * プレイチケットを現金にする
      */
     public static void exchange(InventoryClickEvent event) {
-        int playTickets = TradeCore.getInstance().getEconomy().getPlayTickets((Player) event.getWhoClicked());
+        int playTickets = TCEconomy.getImpl().getPlayTickets((Player) event.getWhoClicked());
         if (playTickets <= 0) {
             event.getWhoClicked().sendMessage("チケットを持っていません！");
             return;
         }
 
-        TradeCore.getInstance().getEconomy().withdrawTickets((Player) event.getWhoClicked(), 1);
-        TradeCore.getInstance().getEconomy().depositPlayer((Player) event.getWhoClicked(), exchangeRate);
+        TCEconomy.getImpl().withdrawTickets((Player) event.getWhoClicked(), 1);
+        TCEconomy.getImpl().depositPlayer((Player) event.getWhoClicked(), exchangeRate);
     }
 
     /**
      * 食料を買う
      */
     public static void buyFood(InventoryClickEvent event) {
-        double balance = TradeCore.getInstance().getEconomy().getBalance((Player) event.getWhoClicked());
+        double balance = TCEconomy.getImpl().getBalance((Player) event.getWhoClicked());
         if (balance <= foodPrice) {
             event.getWhoClicked().sendMessage("お金を持っていません！");
             return;
         }
 
-        TradeCore.getInstance().getEconomy().withdrawPlayer((Player) event.getWhoClicked(), foodPrice);
+        TCEconomy.getImpl().withdrawPlayer((Player) event.getWhoClicked(), foodPrice);
         event.getWhoClicked().getInventory().addItem(TCItems.MESI.get().getItemStack());
     }
 
     public static void buyBlock(InventoryClickEvent event, Material material) {
-        double balance = TradeCore.getInstance().getEconomy().getBalance((Player) event.getWhoClicked());
+        double balance = TCEconomy.getImpl().getBalance((Player) event.getWhoClicked());
         if (balance < 1) {
             event.getWhoClicked().sendMessage("お金を持っていません！");
             return;
         }
 
-        TradeCore.getInstance().getEconomy().withdrawPlayer((Player) event.getWhoClicked(), 1);
+        TCEconomy.getImpl().withdrawPlayer((Player) event.getWhoClicked(), 1);
         event.getWhoClicked().getInventory().addItem(new ItemStack(material));
     }
 }

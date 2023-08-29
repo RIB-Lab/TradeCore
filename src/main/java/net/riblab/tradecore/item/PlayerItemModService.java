@@ -6,10 +6,10 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.function.Consumer;
 
-public interface ItemModService {
+public interface PlayerItemModService {
     
-    static ItemModService getImpl(){
-        return ItemModServiceImpl.INSTANCE;
+    static PlayerItemModService getImpl(){
+        return PlayerItemModServiceImpl.INSTANCE;
     }
 
     List<Consumer<Player>> getOnItemModUpdated();

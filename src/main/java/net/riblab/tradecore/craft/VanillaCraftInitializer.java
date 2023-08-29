@@ -11,12 +11,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 /**
  * バニラレシピの削除・登録クラス
  */
-public final class VanillaCraftInitializer {
-    private VanillaCraftInitializer() {
+public enum VanillaCraftInitializer {
+    INSTANCE;
 
-    }
-
-    public static void init(JavaPlugin plugin) {
+    public void init(JavaPlugin plugin) {
         Bukkit.clearRecipes();
 
         ItemStack hatchet = TCItems.HATCHET.get().getItemStack();

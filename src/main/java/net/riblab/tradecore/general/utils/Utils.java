@@ -5,10 +5,13 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.item.LootTables;
+import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
+import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
+import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.modifier.IModifier;
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
@@ -75,8 +78,8 @@ public class Utils {
      */
     @ParametersAreNonnullByDefault
     public static <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz) {
-        T modifiedValue = TradeCore.getInstance().getItemModService().apply(player, originalValue, clazz);
-        modifiedValue = TradeCore.getInstance().getJobSkillService().apply(player, originalValue, modifiedValue, clazz);
+        T modifiedValue = PlayerItemModService.getImpl().apply(player, originalValue, clazz);
+        modifiedValue = JobSkillService.getImpl().apply(player, originalValue, modifiedValue, clazz);
         return modifiedValue;
     }
 

@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 /**
  * プレイヤーが現在装備していたり手に持っていたりするアイテムの持つmodを記録するハンドラ
  */
-enum ItemModServiceImpl implements ItemModService {
+enum PlayerItemModServiceImpl implements PlayerItemModService {
     INSTANCE;
 
     /**

@@ -10,6 +10,7 @@ import net.riblab.tradecore.item.base.ICanSpawnMobOnUse;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.item.base.TCTool;
+import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.mob.MobUtils;
 import org.bukkit.*;
@@ -36,7 +37,7 @@ import static net.riblab.tradecore.general.utils.Materials.unbreakableMaterial;
 public class BlockStateEventHandler implements Listener {
 
     private BrokenBlocksService getService() {
-        return TradeCore.getInstance().getBrokenBlocksService();
+        return BrokenBlocksService.getImpl();
     }
 
     /**
@@ -126,7 +127,7 @@ public class BlockStateEventHandler implements Listener {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
                 Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-                TradeCore.getInstance().getJobService().addJobExp(event.getPlayer(), JobType.Mower, 1);
+                JobDataService.getImpl().addJobExp(event.getPlayer(), JobType.Mower, 1);
                 return;
             }
         }
@@ -147,7 +148,7 @@ public class BlockStateEventHandler implements Listener {
                 JobType jobType = tool.getToolType().getExpType();
                 if (jobType != null) {
                     //硬度によって経験値が決まるが、硬度0でも1は入るようにする
-                    TradeCore.getInstance().getJobService().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), (TCTool) itcItem) + 1);
+                    JobDataService.getImpl().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), (TCTool) itcItem) + 1);
                 }
 
                 event.getBlock().setType(Material.AIR);

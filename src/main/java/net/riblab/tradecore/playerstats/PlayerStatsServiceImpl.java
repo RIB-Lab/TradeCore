@@ -2,7 +2,7 @@ package net.riblab.tradecore.playerstats;
 
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Utils;
-import net.riblab.tradecore.item.ItemModService;
+import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.modifier.IHPModifier;
 import net.riblab.tradecore.modifier.IWalkSpeedModifier;
@@ -20,24 +20,24 @@ import java.util.Map;
 enum PlayerStatsServiceImpl implements PlayerStatsService {
     INSTANCE;
 
+    boolean isInit = false;
+    
     /**
      * JobSkilやItemModで修飾済みのプレイヤーステータスが入ったmap
      */
     private final Map<Player, IPlayerStats> playerStatsMap = new HashMap<>();
 
-    private static JobSkillService getJSHandler() {
-        return TradeCore.getInstance().getJobSkillService();
-    }
 
-    private static ItemModService getEquipmentHandler() {
-        return TradeCore.getInstance().getItemModService();
+    public void init() {
+        if(isInit)
+            return;
+        
+        JobSkillService.getImpl().getOnJobSkillChanged().add(this::update);
+        PlayerItemModService.getImpl().getOnItemModUpdated().add(this::update);
+        
+        isInit = true;
     }
-
-    PlayerStatsServiceImpl() {
-        getJSHandler().getOnJobSkillChanged().add(this::update);
-        getEquipmentHandler().getOnItemModUpdated().add(this::update);
-    }
-
+    
     @Override
     public void update(Player player) {
         IPlayerStats iPlayerStats = playerStatsMap.get(player);

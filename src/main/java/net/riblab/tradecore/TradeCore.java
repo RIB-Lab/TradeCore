@@ -8,19 +8,16 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import lombok.Getter;
 import net.riblab.tradecore.block.BlockUtils;
-import net.riblab.tradecore.block.BrokenBlocksService;
 import net.riblab.tradecore.command.TCCommands;
 import net.riblab.tradecore.config.ConfigService;
 import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.general.AdvancementInitializer;
-import net.riblab.tradecore.general.EventReciever;
 import net.riblab.tradecore.general.TCTasksInitializer;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
-import net.riblab.tradecore.item.ItemModService;
-import net.riblab.tradecore.job.data.JobDataService;
+import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.FakeVillagerService;
@@ -35,33 +32,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 public final class TradeCore extends JavaPlugin {
 
     private static TradeCore instance;
-    @Getter
-    private TCEconomy economy;
     private VaultHook vaultHook;
     @Getter
     private ConfigService configService;
     @Getter
-    private EventReciever eventReciever;
-    @Getter
-    private JobDataService jobService;
-    @Getter
-    private JobSkillService jobSkillService;
-    @Getter
-    private ItemModService itemModService;
-    @Getter
-    private PlayerStatsService playerStatsService;
-    @Getter
     private UltimateAdvancementAPI advancementAPI;
-    @Getter
-    private AdvancementInitializer advancementInitializer;
-    @Getter
-    private DungeonService dungeonService;
-    @Getter
-    private BrokenBlocksService brokenBlocksService;
-    @Getter
-    private CustomMobService customMobService;
-    @Getter
-    private FakeVillagerService fakeVillagerService;
 
     public TradeCore() {
         instance = this;
@@ -87,19 +62,10 @@ public final class TradeCore extends JavaPlugin {
     public void onEnable() {
         configService = ConfigService.getImpl(getDataFolder());
         configService.load();
-        eventReciever = new EventReciever();
-        jobService = JobDataService.getImpl();
-        jobSkillService = JobSkillService.getImpl();
-        jobSkillService.onDeserialize();
-        itemModService = ItemModService.getImpl();
-        playerStatsService = PlayerStatsService.getImpl();
-        VanillaCraftInitializer.init(this);
-        dungeonService = DungeonService.getImpl();
-        brokenBlocksService = BrokenBlocksService.getImpl();
-        customMobService = CustomMobService.getImpl();
-        fakeVillagerService = FakeVillagerService.getImpl();
+        JobSkillService.getImpl().onDeserialize();
+        PlayerStatsService.getImpl().init();
+        VanillaCraftInitializer.INSTANCE.init(this);
 
-        economy = TCEconomy.getImpl();
         vaultHook = VaultHook.getImpl();
         vaultHook.hook();
         isWGLoaded = getServer().getPluginManager().isPluginEnabled("WorldGuard");
@@ -108,16 +74,16 @@ public final class TradeCore extends JavaPlugin {
         TCCommands.onEnable();
 
         Bukkit.getOnlinePlayers().forEach(player -> {
-            if (!economy.hasAccount(player))
-                economy.createPlayerAccount(player);
+            if (!TCEconomy.getImpl().hasAccount(player))
+                TCEconomy.getImpl().createPlayerAccount(player);
 
             BlockUtils.addSlowDig(player);
-            itemModService.updateEquipment(player);
-            itemModService.updateMainHand(player, player.getInventory().getHeldItemSlot());
+            PlayerItemModService.getImpl().updateEquipment(player);
+            PlayerItemModService.getImpl().updateMainHand(player, player.getInventory().getHeldItemSlot());
         });
         
-        new TCTasksInitializer();
-        advancementInitializer = new AdvancementInitializer();
+        TCTasksInitializer.INSTANCE.init();
+        AdvancementInitializer.INSTANCE.init();
 
         //買い取り商人
         ProtocolLibrary.getProtocolManager().addPacketListener(
@@ -127,7 +93,7 @@ public final class TradeCore extends JavaPlugin {
                         Player player = event.getPlayer();
                         PacketContainer packet = event.getPacket();
                         int id = packet.getIntegers().read(0);
-                        Integer integer = TradeCore.getInstance().getFakeVillagerService().getCurrentID(player);
+                        Integer integer = FakeVillagerService.getImpl().getCurrentID(player);
                         if (integer != null && id == integer) {
                             new BukkitRunnable() {
                                 @Override
@@ -147,10 +113,10 @@ public final class TradeCore extends JavaPlugin {
         TCCommands.onDisable();
         configService.save();
 
-        customMobService.deSpawnAll();
+        CustomMobService.getImpl().deSpawnAll();
 
         Bukkit.getOnlinePlayers().forEach(BlockUtils::removeSlowDig);
 
-        dungeonService.destroyAll();
+        DungeonService.getImpl().destroyAll();
     }
 }

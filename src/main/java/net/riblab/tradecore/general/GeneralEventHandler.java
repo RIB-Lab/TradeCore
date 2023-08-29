@@ -4,17 +4,22 @@ import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.block.BlockUtils;
+import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
+import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.IHasDurability;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCEquipment;
 import net.riblab.tradecore.item.base.TCTool;
 import net.riblab.tradecore.item.base.ITCWeapon;
+import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
+import net.riblab.tradecore.playerstats.PlayerStatsService;
 import net.riblab.tradecore.ui.UICraftingTable;
 import net.riblab.tradecore.ui.UIFurnace;
 import org.bukkit.Bukkit;
@@ -46,21 +51,21 @@ public class GeneralEventHandler {
             EntityDamageEvent.DamageCause.WORLD_BORDER);
 
     public void processPlayerJoin(PlayerJoinEvent event) {
-        if (!TradeCore.getInstance().getEconomy().hasAccount(event.getPlayer()))
-            TradeCore.getInstance().getEconomy().createPlayerAccount(event.getPlayer());
+        if (!TCEconomy.getImpl().hasAccount(event.getPlayer()))
+            TCEconomy.getImpl().createPlayerAccount(event.getPlayer());
 
         BlockUtils.addSlowDig(event.getPlayer());
-        TradeCore.getInstance().getItemModService().updateEquipment(event.getPlayer());
-        TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
+        PlayerItemModService.getImpl().updateEquipment(event.getPlayer());
+        PlayerItemModService.getImpl().updateMainHand(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
     }
 
     public void processPlayerQuit(PlayerQuitEvent event) {
         BlockUtils.removeSlowDig(event.getPlayer());
 
-        TradeCore.getInstance().getItemModService().remove(event.getPlayer());
-        TradeCore.getInstance().getPlayerStatsService().remove(event.getPlayer());
+        PlayerItemModService.getImpl().remove(event.getPlayer());
+        PlayerStatsService.getImpl().remove(event.getPlayer());
 
-        TradeCore.getInstance().getDungeonService().tryLeave(event.getPlayer());
+        DungeonService.getImpl().tryLeave(event.getPlayer());
     }
 
     public void processPlayerInteract(PlayerInteractEvent event) {
@@ -124,7 +129,7 @@ public class GeneralEventHandler {
     public void interactVoteTicket(PlayerInteractEvent event) {
         if (event.getItem() != null && event.getItem().getItemMeta().hasDisplayName() && event.getItem().getItemMeta().getDisplayName().equals("§a投票引換券")) {
             event.setCancelled(true);
-            TradeCore.getInstance().getEconomy().depositTickets(event.getPlayer(), 1);
+            TCEconomy.getImpl().depositTickets(event.getPlayer(), 1);
             event.getPlayer().sendMessage(Component.text("投票引換券をプレイチケットと引き換えました！"));
             event.getItem().setAmount(event.getItem().getAmount() - 1);
         }
@@ -259,11 +264,11 @@ public class GeneralEventHandler {
     }
 
     public void processPlayerArmorChange(PlayerArmorChangeEvent event) {
-        TradeCore.getInstance().getItemModService().updateEquipment(event.getPlayer());
+        PlayerItemModService.getImpl().updateEquipment(event.getPlayer());
     }
 
     public void processPlayerItemHeld(PlayerItemHeldEvent event) {
-        TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getNewSlot());
+        PlayerItemModService.getImpl().updateMainHand(event.getPlayer(), event.getNewSlot());
     }
 
     public void processInventoryClick(InventoryClickEvent event) {
@@ -280,7 +285,7 @@ public class GeneralEventHandler {
 
                 @Override
                 public void run() {
-                    TradeCore.getInstance().getItemModService().updateMainHand(player, mainhandSlot);
+                    PlayerItemModService.getImpl().updateMainHand(player, mainhandSlot);
                 }
             }.runTaskLater(TradeCore.getInstance(), 0);
         }
@@ -298,7 +303,7 @@ public class GeneralEventHandler {
 
             @Override
             public void run() {
-                TradeCore.getInstance().getItemModService().updateMainHand(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
+                PlayerItemModService.getImpl().updateMainHand(event.getPlayer(), event.getPlayer().getInventory().getHeldItemSlot());
             }
         }.runTaskLater(TradeCore.getInstance(), 0);
     }
@@ -313,11 +318,11 @@ public class GeneralEventHandler {
     private void updateActionBar() {
         String negativeSpace = TCResourcePackData.IconsFont.NEGATIVE_SPACE.get_char();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if(TradeCore.getInstance().getDungeonService().isPlayerInDungeon(player))
+            if(DungeonService.getImpl().isPlayerInDungeon(player))
                 continue;
 
-            int balance = (int) TradeCore.getInstance().getEconomy().getBalance(player);
-            int tickets = TradeCore.getInstance().getEconomy().getPlayTickets(player);
+            int balance = (int) TCEconomy.getImpl().getBalance(player);
+            int tickets = TCEconomy.getImpl().getPlayTickets(player);
             Component text = Component.text("");
             text = text.append(Component.text(negativeSpace + negativeSpace + negativeSpace + negativeSpace + TCResourcePackData.IconsFont.COIN.get_char()).font(TCResourcePackData.iconsFontName));
             text = text.append(Component.text(" " + balance).font(TCResourcePackData.yPlus12FontName));
@@ -339,6 +344,6 @@ public class GeneralEventHandler {
         if (!(event.getEntity() instanceof Mob mob))
             return;
 
-        TradeCore.getInstance().getCustomMobService().onCustomMobDeath(mob);
+        CustomMobService.getImpl().onCustomMobDeath(mob);
     }
 }

@@ -1,6 +1,7 @@
 package net.riblab.tradecore.general;
 
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.base.TCItems;
@@ -14,13 +15,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * プラグイン起動時から走り続けるBukkitRunnableのタスクたち
  */
-public class TCTasksInitializer {
+public enum TCTasksInitializer {
+    INSTANCE;
 
+    private boolean isInit;
+    
     private TCEconomy getEconomy() {
-        return TradeCore.getInstance().getEconomy();
+        return TCEconomy.getImpl();
     }
 
-    public TCTasksInitializer() {
+    public void init() {
+        if(isInit)
+            return;
+        
         //定期的にコンフィグを保存
         new BukkitRunnable() {
             @Override
@@ -56,7 +63,7 @@ public class TCTasksInitializer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                TradeCore.getInstance().getDungeonService().killEmptyDungeons();
+                DungeonService.getImpl().killEmptyDungeons();
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 6000);
 
@@ -64,8 +71,10 @@ public class TCTasksInitializer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                TradeCore.getInstance().getEventReciever().onSecondPassed();
+                EventReciever.INSTANCE.onSecondPassed();
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 20);
+        
+        isInit = true;
     }
 }

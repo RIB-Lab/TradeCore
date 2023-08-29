@@ -3,6 +3,7 @@ package net.riblab.tradecore.dungeon;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.ITCMob;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -25,7 +26,7 @@ import java.util.Random;
  */
 public class DungeonEventHandler {
     public static DungeonService getservice() {
-        return TradeCore.getInstance().getDungeonService();
+        return DungeonService.getImpl();
     }
 
     @ParametersAreNonnullByDefault
@@ -67,7 +68,7 @@ public class DungeonEventHandler {
             for (int i = 0; i < data.getBasePackSize(); i++) {
                 ITCMob mobToSpawn = data.getSpawnTable().get(new Random().nextInt(data.getSpawnTable().size()));
                 Location randomizedSpawnLocation = Utils.randomizeLocationXZ(block.getLocation().add(0.5d, 0, 0.5d), 1);
-                TradeCore.getInstance().getCustomMobService().spawn(player, randomizedSpawnLocation, mobToSpawn);
+                CustomMobService.getImpl().spawn(player, randomizedSpawnLocation, mobToSpawn);
             }
             block.setType(Material.AIR);
         }
@@ -87,7 +88,7 @@ public class DungeonEventHandler {
             return;
         }
         
-        DungeonProgressionTracker<?> tracker = TradeCore.getInstance().getDungeonService().getTracker(mob.getWorld());
+        DungeonProgressionTracker<?> tracker = DungeonService.getImpl().getTracker(mob.getWorld());
         if(tracker == null)
             return;
         

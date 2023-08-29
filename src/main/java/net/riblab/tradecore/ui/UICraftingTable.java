@@ -12,11 +12,14 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
+import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
 import net.riblab.tradecore.modifier.IIngredientAmountModifier;
 import org.bukkit.Bukkit;
@@ -69,13 +72,13 @@ public class UICraftingTable {
 
         gui.setCloseGuiAction(event -> {
             if (event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
-                TradeCore.getInstance().getFakeVillagerService().tryDeSpawnFakeVillager(player);
+                FakeVillagerService.getImpl().tryDeSpawnFakeVillager(player);
         });
 
         gui.open(player);
 
         Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
-        TradeCore.getInstance().getFakeVillagerService().spawnFakeVillager(player, "職人", spawnLocation);
+        FakeVillagerService.getImpl().spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }
 
@@ -97,13 +100,13 @@ public class UICraftingTable {
 
         gui.setCloseGuiAction(event -> {
             if (event.getReason() != InventoryCloseEvent.Reason.OPEN_NEW)
-                TradeCore.getInstance().getFakeVillagerService().tryDeSpawnFakeVillager(player);
+                FakeVillagerService.getImpl().tryDeSpawnFakeVillager(player);
         });
 
         gui.open(player);
 
         Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
-        TradeCore.getInstance().getFakeVillagerService().spawnFakeVillager(player, "職人", spawnLocation);
+        FakeVillagerService.getImpl().spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }
 
@@ -226,7 +229,7 @@ public class UICraftingTable {
             missingLore.add(Component.text(entry.getKey().getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
 
-        double balance = TradeCore.getInstance().getEconomy().getBalance(player);
+        double balance = TCEconomy.getImpl().getBalance(player);
         ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
         packedCraftFee.setRecipe(recipe);
         packedCraftFee.setFee(recipe.getFee());
@@ -253,9 +256,9 @@ public class UICraftingTable {
             itemStack.setAmount(amountSkillApplied);
             player.getInventory().removeItemAnySlot(itemStack);
         }
-        TradeCore.getInstance().getEconomy().withdrawPlayer(player, skillAppliedFee);
+        TCEconomy.getImpl().withdrawPlayer(player, skillAppliedFee);
 
-        TradeCore.getInstance().getJobService().addJobExp(player, JobType.Crafter, (int) recipe.getFee());
+        JobDataService.getImpl().addJobExp(player, JobType.Crafter, (int) recipe.getFee());
 
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.getResult());
         if (remains.size() == 0)

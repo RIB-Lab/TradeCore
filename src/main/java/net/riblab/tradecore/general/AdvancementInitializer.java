@@ -22,15 +22,24 @@ import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 /**
  * 進捗管理クラス
  */
-public class AdvancementInitializer {
+public enum AdvancementInitializer {
+    INSTANCE;
 
     private AdvancementTab primitiveAgeTab;
+
+    /**
+     * 実績が既に登録されたかどうか
+     */
+    boolean isInit = false;
 
     private UltimateAdvancementAPI getAPI() {
         return TradeCore.getInstance().getAdvancementAPI();
     }
 
-    public AdvancementInitializer() {
+    public void init() {
+        if(isInit)
+            return;
+        
         getAPI().disableVanillaAdvancements();
 
         primitiveAgeTab = getAPI().createAdvancementTab("primitive_age");
@@ -124,6 +133,7 @@ public class AdvancementInitializer {
         });
 
         Bukkit.getOnlinePlayers().forEach(player -> primitiveAgeTab.showTab(player));
+        isInit = true;
     }
 
     private static void check(ITCItem item, TCItems type, Advancement adv, Player player) {

@@ -4,9 +4,11 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ISellable;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.mob.FakeVillagerService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
@@ -58,10 +60,10 @@ public class UISell {
         }
 
         if (totalGain != 0) {
-            TradeCore.getInstance().getEconomy().depositPlayer((Player) event.getPlayer(), totalGain);
+            TCEconomy.getImpl().depositPlayer((Player) event.getPlayer(), totalGain);
             event.getPlayer().sendMessage(Component.text(totalAmount + "個のアイテムを売って、" + Math.floor(totalGain * 100) / 100 + "RIB入手しました"));
         }
 
-        TradeCore.getInstance().getFakeVillagerService().tryDeSpawnFakeVillager((Player) event.getPlayer());
+        FakeVillagerService.getImpl().tryDeSpawnFakeVillager((Player) event.getPlayer());
     }
 }

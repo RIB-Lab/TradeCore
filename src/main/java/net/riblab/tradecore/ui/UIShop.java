@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.shop.IShopData;
@@ -44,13 +45,13 @@ public class UIShop {
     }
 
     public static void buy(InventoryClickEvent event, IShopData.ShopItem shopItem) {
-        double balance = TradeCore.getInstance().getEconomy().getBalance((Player) event.getWhoClicked());
+        double balance = TCEconomy.getImpl().getBalance((Player) event.getWhoClicked());
         if (balance < shopItem.getPrice()) {
             event.getWhoClicked().sendMessage("お金を持っていません！");
             return;
         }
 
-        TradeCore.getInstance().getEconomy().withdrawPlayer((Player) event.getWhoClicked(), shopItem.getPrice());
+        TCEconomy.getImpl().withdrawPlayer((Player) event.getWhoClicked(), shopItem.getPrice());
         event.getWhoClicked().getInventory().addItem(shopItem.getItemStack());
     }
 }

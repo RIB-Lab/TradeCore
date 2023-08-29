@@ -26,7 +26,7 @@ enum VaultHookImpl implements VaultHook {
         if(isHooked)
             return;
         
-        provider = plugin.getEconomy();
+        provider = TCEconomy.getImpl();
         Bukkit.getServicesManager().register(Economy.class, this.provider, this.plugin, ServicePriority.Normal);
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "VaultAPI hooked into " + ChatColor.AQUA + plugin.getName());
         isHooked = true;

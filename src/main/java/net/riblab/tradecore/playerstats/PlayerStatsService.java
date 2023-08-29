@@ -9,6 +9,8 @@ public interface PlayerStatsService {
         return PlayerStatsServiceImpl.INSTANCE;
     }
     
+    void init();
+    
     /**
      * 装備やジョブスキルが更新された時、それらでプレイヤーステータスを修飾し、それをプレイヤーに反映する
      */

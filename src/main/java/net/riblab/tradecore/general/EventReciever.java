@@ -20,13 +20,14 @@ import org.bukkit.event.world.WorldInitEvent;
 /**
  * 各イベントハンドラに順番にイベントを処理させるクラス
  */
-public class EventReciever implements Listener {
+public enum EventReciever implements Listener {
+    INSTANCE;
 
     private final GeneralEventHandler generalEventHandler;
     private final BlockStateEventHandler blockStateEventHandler;
     private final DungeonEventHandler dungeonEventHandler;
 
-    public EventReciever() {
+    EventReciever() {
         Bukkit.getServer().getPluginManager().registerEvents(this, TradeCore.getInstance());
         blockStateEventHandler = new BlockStateEventHandler();
         generalEventHandler = new GeneralEventHandler();

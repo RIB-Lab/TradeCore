@@ -5,8 +5,10 @@ import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.job.data.JobType;
+import net.riblab.tradecore.job.skill.JobSkillService;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -20,7 +22,7 @@ public class UISkillRespec {
 
     public static PaginatedGui open(Player player) {
         //リスペック費用 ＝ 習得したスキルの数 * 100
-        double fee = Arrays.stream(JobType.values()).mapToDouble(value -> TradeCore.getInstance().getJobSkillService().getLearntSkillCount(player, value) * 100).sum();
+        double fee = Arrays.stream(JobType.values()).mapToDouble(value -> JobSkillService.getImpl().getLearntSkillCount(player, value) * 100).sum();
         if (fee == 0) {
             player.sendMessage("スキルを何も習得していません！");
             return null;
@@ -49,13 +51,13 @@ public class UISkillRespec {
     }
 
     private static void doRespec(InventoryClickEvent event, double fee) {
-        double balance = TradeCore.getInstance().getEconomy().getBalance((Player) event.getWhoClicked());
+        double balance = TCEconomy.getImpl().getBalance((Player) event.getWhoClicked());
         if (balance < fee) {
             event.getWhoClicked().sendMessage("お金が足りません！");
             return;
         }
 
-        TradeCore.getInstance().getEconomy().withdrawPlayer(((Player) event.getWhoClicked()), fee);
-        TradeCore.getInstance().getJobSkillService().resetPlayerJobSkillData(((Player) event.getWhoClicked()));
+        TCEconomy.getImpl().withdrawPlayer(((Player) event.getWhoClicked()), fee);
+        JobSkillService.getImpl().resetPlayerJobSkillData(((Player) event.getWhoClicked()));
     }
 }

@@ -6,7 +6,6 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.job.data.IJobData;
 import net.riblab.tradecore.job.data.JobDataService;
@@ -26,8 +25,8 @@ import java.util.List;
  */
 public class UIJobs {
 
-    private static final JobDataService JOB_SERVICE = TradeCore.getInstance().getJobService();
-    private static final JobSkillService skillHandler = TradeCore.getInstance().getJobSkillService();
+    private static final JobDataService JOB_SERVICE = JobDataService.getImpl();
+    private static final JobSkillService skillHandler = JobSkillService.getImpl();
 
     public static PaginatedGui open(Player player) {
         PaginatedGui gui = Gui.paginated()

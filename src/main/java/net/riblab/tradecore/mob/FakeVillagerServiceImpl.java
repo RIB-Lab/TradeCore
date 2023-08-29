@@ -22,7 +22,7 @@ enum FakeVillagerServiceImpl implements FakeVillagerService {
     /**
      * プレイヤーとそのプレイヤーの元に送られたダミーの村人のMap
      */
-    private Map<Player, Integer> idMap = new HashMap<>();
+    private final Map<Player, Integer> idMap = new HashMap<>();
 
     @Override
     public void spawnFakeVillager(Player player, String name, Location spawnLocation) {

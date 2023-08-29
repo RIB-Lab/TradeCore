@@ -17,6 +17,9 @@ import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
+import net.riblab.tradecore.job.skill.JobSkillService;
+import net.riblab.tradecore.mob.CustomMobService;
+import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.mob.ITCMob;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.shop.IShopData;
@@ -47,12 +50,8 @@ public class TCCommands {
 
     public static final String merchantName = "買い取り商";
 
-    private static JobDataService getJobHandler() {
-        return TradeCore.getInstance().getJobService();
-    }
-
     private static TCEconomy getEconomy() {
-        return TradeCore.getInstance().getEconomy();
+        return TCEconomy.getImpl();
     }
 
     public static void onLoad() {
@@ -113,7 +112,7 @@ public class TCCommands {
                     Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
 
-                    TradeCore.getInstance().getFakeVillagerService().spawnFakeVillager(player, merchantName, spawnLocation);
+                    FakeVillagerService.getImpl().spawnFakeVillager(player, merchantName, spawnLocation);
                     player.getWorld().spawnParticle(Particle.SMOKE_LARGE, spawnLocation, 10, 1, 1, 1);
                 });
         sellCommand.setPermission(CommandPermission.NONE);
@@ -132,12 +131,12 @@ public class TCCommands {
                     Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
 
-                    TradeCore.getInstance().getCustomMobService().spawn(player, spawnLocation, type);
+                    CustomMobService.getImpl().spawn(player, spawnLocation, type);
                 });
         CommandAPICommand mobResetCommand = new CommandAPICommand(MOBS_RESET.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    TradeCore.getInstance().getCustomMobService().deSpawnAll();
+                    CustomMobService.getImpl().deSpawnAll();
                     player.sendMessage("モブシステムをリセットしました");
                 });
         mobCommand.withSubcommand(spawnCommand);
@@ -184,19 +183,19 @@ public class TCCommands {
                     newData.setJobType(jobType);
                     newData.setLevel(level);
                     newData.setExp(0);
-                    getJobHandler().setJobData(targetPlayer, newData);
+                    JobDataService.getImpl().setJobData(targetPlayer, newData);
                 });
         CommandAPICommand jobResetCommand = new CommandAPICommand(JOB_RESETJOBLV.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument(PLAYER.get()))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
-                    getJobHandler().resetJobData(targetPlayer);
+                    JobDataService.getImpl().resetJobData(targetPlayer);
                 });
         CommandAPICommand skillResetCommand = new CommandAPICommand(JOB_RESETSKILLLV.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    TradeCore.getInstance().getJobSkillService().resetPlayerJobSkillData(player);
+                    JobSkillService.getImpl().resetPlayerJobSkillData(player);
                 });
         jobCommand.withSubcommand(jobSetCommand);
         jobCommand.withSubcommand(jobResetCommand);
@@ -214,7 +213,7 @@ public class TCCommands {
                 .executesPlayer((player, args) -> {
                     IDungeonData<?> data = (IDungeonData<?>) args.get(0);
                     int id = (int) args.get(1);
-                    DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
+                    DungeonService IDungeonService = DungeonService.getImpl();
                     if (!IDungeonService.isDungeonExist(data, id)) {
                         World instance = IDungeonService.create(data, id);
                         IDungeonService.enter(player, instance);
@@ -225,20 +224,20 @@ public class TCCommands {
         CommandAPICommand leaveDungeonCommand = new CommandAPICommand(DUNGEON_LEAVE.get())
                 .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
-                    DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
+                    DungeonService IDungeonService = DungeonService.getImpl();
                     IDungeonService.tryLeave(player);
                 });
         CommandAPICommand evacuateDungeonCommand = new CommandAPICommand(DUNGEON_EVACUATE.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
+                    DungeonService IDungeonService = DungeonService.getImpl();
                     IDungeonService.evacuate(player);
                 });
         CommandAPICommand dungeonListCommand = new CommandAPICommand(DUNGEON_LIST.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     player.sendMessage("～ダンジョンリスト～");
-                    DungeonService IDungeonService = TradeCore.getInstance().getDungeonService();
+                    DungeonService IDungeonService = DungeonService.getImpl();
                     IDungeonService.getDungeonListInfo().forEach(s -> player.sendMessage(s));
                 });
         dungeonCommand.withSubcommand(enterDungeonCommand);

@@ -2,6 +2,7 @@ package net.riblab.tradecore.job.skill;
 
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.OfflinePlayer;
@@ -44,7 +45,7 @@ enum JobSkillServiceImpl implements JobSkillService {
 
     @Override
     public int getUnSpentSkillPoints(OfflinePlayer offlinePlayer, JobType type) {
-        return TradeCore.getInstance().getJobService().getJobData(offlinePlayer, type).getLevel() / 10 - getLearntSkillCount(offlinePlayer, type);
+        return JobDataService.getImpl().getJobData(offlinePlayer, type).getLevel() / 10 - getLearntSkillCount(offlinePlayer, type);
     }
 
     @Override

@@ -43,7 +43,7 @@ public class MobUtils {
             if (rand < aFloat) {
                 Location safeLocation = findSafeLocationToSpawn(block, radius);
                 if (safeLocation != null)
-                    TradeCore.getInstance().getCustomMobService().spawn(player, safeLocation, itcmob);
+                    CustomMobService.getImpl().spawn(player, safeLocation, itcmob);
             }
         });
     }
