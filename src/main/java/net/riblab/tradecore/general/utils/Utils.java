@@ -16,14 +16,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.Map;
 import java.util.Random;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -117,6 +120,21 @@ public class Utils {
             }
         }
         jar.close();
+    }
+    
+    @ParametersAreNonnullByDefault
+    public static @Nullable ItemStack getRandomItemFromPool(Map<ItemStack, Float> pool){
+        double randomNumber = new Random().nextFloat();
+        double cumulativeProbability = 0.0;
+
+        for (Map.Entry<ItemStack, Float> entry : pool.entrySet()) {
+            cumulativeProbability += entry.getValue();
+            if (randomNumber < cumulativeProbability) {
+                return entry.getKey();
+            }
+        }
+        
+        return null;
     }
 
     /**

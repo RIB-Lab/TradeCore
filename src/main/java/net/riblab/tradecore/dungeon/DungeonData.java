@@ -3,9 +3,11 @@ package net.riblab.tradecore.dungeon;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.riblab.tradecore.mob.ITCMob;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.Map;
 
 @Data
 @AllArgsConstructor
@@ -40,4 +42,9 @@ class DungeonData<T> implements IDungeonData<T> {
      * 進捗トラッカーが参照する変数
      */
     private T progressionVariable;
+
+    /**
+     * 報酬プール
+     */
+    private final Map<ItemStack, Float> rewardPool;
 }

@@ -1,9 +1,11 @@
 package net.riblab.tradecore.dungeon;
 
 import net.riblab.tradecore.mob.ITCMob;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IDungeonData<T> {
     String getName();
@@ -17,4 +19,6 @@ public interface IDungeonData<T> {
     Class<? extends DungeonProgressionTracker<T>> getProgressionTracker();
     
     T getProgressionVariable();
+
+    Map<ItemStack, Float> getRewardPool();
 }

@@ -17,6 +17,7 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Utils;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -245,6 +246,20 @@ class DungeonServiceImpl implements DungeonService {
      * ダンジョンが終了した時の処理
      */
     private void onDungeonComplete(World instance){
-        instance.sendMessage(Component.text("ダンジョンクリア(仮)"));
+        instance.sendMessage(Component.text("ダンジョンクリア!"));
+        
+        String unfixedName = getUnfixedDungeonName(instance.getName());
+        IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName);
+        if(data == null)
+            throw new RuntimeException("ワールド名からダンジョンデータが推測できません！");
+        
+        ItemStack reward = Utils.getRandomItemFromPool(data.getRewardPool());
+        if(reward != null){
+            instance.getPlayers().forEach(player -> {
+                final HashMap<Integer, ItemStack> item = player.getInventory().addItem(reward);
+                item.forEach((integer, itemStack) ->  instance.dropItemNaturally(player.getLocation(), itemStack));
+                player.sendMessage(reward.displayName().append(Component.text(" x" + reward.getAmount() + " を獲得!")));
+            });
+        }
     }
 }

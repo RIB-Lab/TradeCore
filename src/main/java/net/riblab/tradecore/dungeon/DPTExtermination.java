@@ -22,6 +22,6 @@ public class DPTExtermination extends DungeonProgressionTracker<Integer> impleme
     }
     
     public void onDungeonSecond(Player player) {
-        player.sendActionBar(Component.text(killedCount));
+        player.sendActionBar(Component.text("敵を倒せ：" + killedCount + "/" + getObjective()));
     }
 }

@@ -5,6 +5,7 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import lombok.Getter;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.mob.TCMobs;
 import org.bukkit.util.Vector;
 
@@ -12,6 +13,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ダンジョンのデータ管理クラス
@@ -19,9 +21,9 @@ import java.util.List;
  */
 public enum DungeonDatas {
     TEST(new DungeonData<>("test", new Vector(-17, 97, -24), List.of(TCMobs.BASIC_TREANT.get(), TCMobs.BASIC_SILVERFISH.get()),
-            3, DPTExtermination.class, 5)),
+            3, DPTExtermination.class, 5, Map.of())),
     STONEROOM(new DungeonData<>("stoneroom", new Vector(68.5, 97, -52.5), List.of(TCMobs.DUNGEON_ZOMBIE.get(), TCMobs.DUNGEON_SKELETON.get(), TCMobs.DUNGEON_SILVERFISH.get()),
-            3, DPTExtermination.class, 100));
+            3, DPTExtermination.class, 5, Map.of(TCItems.STONE_DAGGER.get().getItemStack(), 0.33f, TCItems.STONE_SPEAR.get().getItemStack(), 0.33f, TCItems.STONE_BATTLEAXE.get().getItemStack(), 0.34f)));
 
     @Getter
     private final IDungeonData<?> data;
