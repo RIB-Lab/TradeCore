@@ -5,7 +5,6 @@ plugins {
 }
 
 group = 'net.riblab'
-version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -67,6 +66,33 @@ tasks.withType(JavaCompile).configureEach {
     }
 }
 
+def determinePatchVersion = {
+    // get the name of the last tag
+    def tagInfo = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'describe', '--tags'
+        standardOutput = tagInfo
+    }
+    tagInfo = tagInfo.toString().trim()
+    
+    return tagInfo
+}
+
+String tagInfo = determinePatchVersion()
+
+def tagVersion  = tagInfo.split("-")[0]
+def tagFix
+
+if(!tagInfo.contains("-"))
+    tagFix = "0"
+else
+    tagFix = tagInfo.split("-")[1]
+
+project.ext.majorVersion = tagVersion.split("\\.")[0]
+project.ext.minorVersion = tagVersion.split("\\.")[1]
+project.ext.patchVersion = tagFix
+version = "${project.ext.majorVersion}.${project.ext.minorVersion}.${project.ext.patchVersion}"
+
 processResources {
     def props = [version: version]
     inputs.properties props
@@ -87,6 +113,8 @@ shadowJar {
     exclude 'me/gamercoder215/mobchip/abstraction/v1_18_R1/*'
     relocate 'me.gamercoder215.mobchip', 'net.riblab.tradecore.mobchip'
     relocate "io.papermc.lib", "net.riblab.tradecore.paperlib"
+
+    archiveFileName = "TradeCore-all.jar"
 }
 
 //Disable jar and replace with shadowJar

@@ -33,6 +33,7 @@ import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.Vector;
 
 import static net.riblab.tradecore.command.CommandArgDescs.*;
@@ -252,6 +253,13 @@ public final class TCCommands {
                     player.sendMessage("wiki url: https://www.riblab.net/trade/");
                 });
         wikiCommand.register();
+
+        CommandAPICommand versionCommand = new CommandAPICommand(VERSION.get())
+                .withPermission(CommandPermission.NONE)
+                .executesPlayer((player, args) -> {
+                    player.sendMessage(TradeCore.getInstance().getDescription().getVersion());
+                });
+        versionCommand.register();
     }
 
     public static void onEnable() {

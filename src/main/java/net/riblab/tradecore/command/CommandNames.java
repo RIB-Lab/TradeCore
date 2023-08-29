@@ -24,7 +24,8 @@ enum CommandNames {
     DUNGEON_LEAVE("leave"),
     DUNGEON_EVACUATE("evacuate"),
     DUNGEON_LIST("list"),
-    WIKI("wiki");
+    WIKI("wiki"),
+    VERSION("tcver");
 
     private final String name;
 
