@@ -42,7 +42,7 @@ import static net.riblab.tradecore.general.utils.Materials.transparentBlocks;
 /**
  * コマンド登録クラス。プラグインのonEnableの前に呼ぶ必要があるのでインスタンスを生成させない。
  */
-public class TCCommands {
+public final class TCCommands {
 
     private TCCommands() {
         throw new AssertionError();

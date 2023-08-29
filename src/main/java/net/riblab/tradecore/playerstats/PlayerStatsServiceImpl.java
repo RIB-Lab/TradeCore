@@ -1,6 +1,5 @@
 package net.riblab.tradecore.playerstats;
 
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.job.skill.JobSkillService;
@@ -21,7 +20,7 @@ enum PlayerStatsServiceImpl implements PlayerStatsService {
     INSTANCE;
 
     boolean isInit = false;
-    
+
     /**
      * JobSkilやItemModで修飾済みのプレイヤーステータスが入ったmap
      */
@@ -29,15 +28,15 @@ enum PlayerStatsServiceImpl implements PlayerStatsService {
 
 
     public void init() {
-        if(isInit)
+        if (isInit)
             return;
-        
+
         JobSkillService.getImpl().getOnJobSkillChanged().add(this::update);
         PlayerItemModService.getImpl().getOnItemModUpdated().add(this::update);
-        
+
         isInit = true;
     }
-    
+
     @Override
     public void update(Player player) {
         IPlayerStats iPlayerStats = playerStatsMap.get(player);

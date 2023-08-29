@@ -12,8 +12,8 @@ import net.riblab.tradecore.craft.ITCFurnaceRecipe;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -21,7 +21,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public class UIFurnace {
+public final class UIFurnace {
 
     /**
      * レシピや材料を置くことが可能なスロット番号のリスト

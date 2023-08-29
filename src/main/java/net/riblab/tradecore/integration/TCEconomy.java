@@ -6,8 +6,8 @@ import org.bukkit.OfflinePlayer;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface TCEconomy extends Economy {
-    
-    static TCEconomy getImpl(){
+
+    static TCEconomy getImpl() {
         return EconomyImpl.INSTANCE;
     }
 

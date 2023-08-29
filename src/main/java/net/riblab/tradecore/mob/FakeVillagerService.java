@@ -7,10 +7,10 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface FakeVillagerService {
-    static FakeVillagerService getImpl(){
+    static FakeVillagerService getImpl() {
         return FakeVillagerServiceImpl.INSTANCE;
     }
-    
+
     /**
      * プレイヤーの視線の先のブロックの上に村人を召喚する
      *

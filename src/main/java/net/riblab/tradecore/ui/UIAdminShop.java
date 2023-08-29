@@ -6,7 +6,6 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Materials;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
@@ -19,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * 臨時アドミンショップのUI。使い捨て
  */
-public class UIAdminShop {
+public final class UIAdminShop {
 
     private static final float exchangeRate = 0.5f;
     private static final float foodPrice = 0.25f;

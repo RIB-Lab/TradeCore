@@ -17,7 +17,7 @@ public interface IDungeonData<T> {
     int getBasePackSize();
 
     Class<? extends DungeonProgressionTracker<T>> getProgressionTracker();
-    
+
     T getProgressionVariable();
 
     Map<ItemStack, Float> getRewardPool();

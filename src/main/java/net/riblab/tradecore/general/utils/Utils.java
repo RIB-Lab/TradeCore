@@ -1,15 +1,13 @@
 package net.riblab.tradecore.general.utils;
 
 import com.google.common.collect.Multimap;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.PlayerItemModService;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
-import net.riblab.tradecore.job.data.JobDataService;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.mob.TCMobs;
@@ -38,7 +36,7 @@ import java.util.stream.Stream;
 /**
  * 汎用関数を詰めたユーティリティクラス
  */
-public class Utils {
+public final class Utils {
 
     /**
      * BukkitのOnDisableでエラーが出ないようにクラスを強制的にロードする
@@ -124,9 +122,9 @@ public class Utils {
         }
         jar.close();
     }
-    
+
     @ParametersAreNonnullByDefault
-    public static @Nullable ItemStack getRandomItemFromPool(Map<ItemStack, Float> pool){
+    public static @Nullable ItemStack getRandomItemFromPool(Map<ItemStack, Float> pool) {
         double randomNumber = new Random().nextFloat();
         double cumulativeProbability = 0.0;
 
@@ -136,7 +134,7 @@ public class Utils {
                 return entry.getKey();
             }
         }
-        
+
         return null;
     }
 

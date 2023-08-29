@@ -5,11 +5,7 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.LootTables;
-import net.riblab.tradecore.item.base.TCItems;
-import net.riblab.tradecore.item.base.ICanSpawnMobOnUse;
-import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.ITCTool;
-import net.riblab.tradecore.item.base.TCTool;
+import net.riblab.tradecore.item.base.*;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.mob.MobUtils;
@@ -34,7 +30,7 @@ import static net.riblab.tradecore.general.utils.Materials.unbreakableMaterial;
 /**
  * ブロックの状態変更関連のイベントハンドラ
  */
-public class BlockStateEventHandler implements Listener {
+public final class BlockStateEventHandler implements Listener {
 
     private BrokenBlocksService getService() {
         return BrokenBlocksService.getImpl();

@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-class DungeonBuilder {
+final class DungeonBuilder {
 
     private static final String tmpDirName = "dungeontemplate";
     private static final String copySchemDir = "schematics";
@@ -30,12 +30,13 @@ class DungeonBuilder {
 
     /**
      * ダンジョンを建設する
-     * @param data ダンジョンのデータ
+     *
+     * @param data               ダンジョンのデータ
      * @param affixedDungeonName ダンジョンのインスタンスID込みの名前
-     * @param schemName ダンジョンを建設するのに使うschematicの名前
+     * @param schemName          ダンジョンを建設するのに使うschematicの名前
      * @return 建設されたダンジョン
      */
-    public static World build(IDungeonData data, String affixedDungeonName, String schemName){
+    public static World build(IDungeonData data, String affixedDungeonName, String schemName) {
         //ワールドをresourceからコピー
         File destDir = new File(affixedDungeonName);
         try {

@@ -25,7 +25,7 @@ import java.util.Random;
  * このクラスの新しいインスタンスを作ることでアイテムの実体を1から作成することができる<br>
  * 引数にアイテムの実体または固有アイテムの型を渡すことで改造することもできる<br>
  */
-public class ItemCreator {
+public final class ItemCreator {
 
     private ItemStack itemStack;
 

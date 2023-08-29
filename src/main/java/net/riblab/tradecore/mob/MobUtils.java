@@ -1,7 +1,6 @@
 package net.riblab.tradecore.mob;
 
 import de.tr7zw.nbtapi.NBTEntity;
-import net.riblab.tradecore.TradeCore;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,7 +18,7 @@ import java.util.Random;
 /**
  * モブ関連のユーティリティクラス
  */
-public class MobUtils {
+public final class MobUtils {
 
     private static final String lootableTag = "lootable";
 

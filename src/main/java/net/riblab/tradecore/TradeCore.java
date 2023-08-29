@@ -81,7 +81,7 @@ public final class TradeCore extends JavaPlugin {
             PlayerItemModService.getImpl().updateEquipment(player);
             PlayerItemModService.getImpl().updateMainHand(player, player.getInventory().getHeldItemSlot());
         });
-        
+
         TCTasksInitializer.INSTANCE.init();
         AdvancementInitializer.INSTANCE.init();
 

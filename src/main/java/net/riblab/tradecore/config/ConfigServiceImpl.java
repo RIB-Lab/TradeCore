@@ -9,8 +9,8 @@ import java.nio.file.Path;
 /**
  * コンフィグ管理システム
  */
-class ConfigServiceImpl implements ConfigService {
-    
+final class ConfigServiceImpl implements ConfigService {
+
     /**
      * 保存するコンフィグの実体
      */
@@ -29,11 +29,11 @@ class ConfigServiceImpl implements ConfigService {
      */
     private final Path jobsConfigFile;
 
-    public ConfigServiceImpl(File dataFolder){
+    public ConfigServiceImpl(File dataFolder) {
         currencyConfigFile = new File(dataFolder, "currency.yml").toPath();
         jobsConfigFile = new File(dataFolder, "jobs.yml").toPath();
     }
-    
+
     @Override
     public void save() {
         YamlConfigurations.save(currencyConfigFile, CurrencyData.class, currencyData);

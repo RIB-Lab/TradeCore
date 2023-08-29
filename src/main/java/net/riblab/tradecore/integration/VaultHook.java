@@ -1,10 +1,10 @@
 package net.riblab.tradecore.integration;
 
 public interface VaultHook {
-    static VaultHook getImpl(){
+    static VaultHook getImpl() {
         return VaultHookImpl.INSTANCE;
     }
-    
+
     /**
      * Vaultに接続
      */

@@ -3,11 +3,10 @@ package net.riblab.tradecore.ui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ISellable;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -16,7 +15,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * 売却画面
  */
-public class UISell {
+public final class UISell {
 
     /**
      * 売却画面を開く

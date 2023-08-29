@@ -4,7 +4,6 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.job.data.JobType;
@@ -18,7 +17,7 @@ import java.util.Arrays;
 /**
  * スキルリセットUI
  */
-public class UISkillRespec {
+public final class UISkillRespec {
 
     public static PaginatedGui open(Player player) {
         //リスペック費用 ＝ 習得したスキルの数 * 100

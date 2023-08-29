@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 /**
  * WG関連を隔離するクラス
  */
-public class WorldGuardUtil {
+public final class WorldGuardUtil {
 
     /**
      * プレイヤーがWGで保護された区域のブロックを破壊できるかどうか

@@ -8,15 +8,14 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.mob.FakeVillagerService;
@@ -37,7 +36,7 @@ import static net.riblab.tradecore.general.utils.Materials.transparentBlocks;
 /**
  * 作業台UI
  */
-public class UICraftingTable {
+public final class UICraftingTable {
 
     /**
      * レシピや材料を置くことが可能なスロット番号のリスト

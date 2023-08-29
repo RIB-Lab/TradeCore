@@ -53,12 +53,13 @@ enum DungeonServiceImpl implements DungeonService {
             affixedDungeonName = getFirstAvailableAffixedDungeonName(name);
         }
         String schemName = getPrefixedDungeonName(name);
-        
+
         World instance = DungeonBuilder.build(data, affixedDungeonName, schemName);
         DungeonProgressionTracker<?> progressionTracker;
         try {
             progressionTracker = data.getProgressionTracker().getDeclaredConstructor(data.getProgressionVariable().getClass(), World.class).newInstance(data.getProgressionVariable(), instance);
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                 NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
         progressionTracker.onComplete = this::onDungeonComplete;
@@ -96,7 +97,7 @@ enum DungeonServiceImpl implements DungeonService {
 
     @Override
     @ParametersAreNonnullByDefault
-    public void enter(Player player,@Nullable World world) {
+    public void enter(Player player, @Nullable World world) {
         if (world == null) {
             player.sendMessage("その名前またはインスタンスIDのダンジョンは存在しません");
             return;
@@ -225,27 +226,27 @@ enum DungeonServiceImpl implements DungeonService {
         List<World> nobodyDungeons = dungeons.keySet().stream().filter(world -> world.getPlayers().size() == 0).toList();
         nobodyDungeons.forEach(this::destroySpecific);
     }
-    
-    public DungeonProgressionTracker<?> getTracker(World world){
+
+    public DungeonProgressionTracker<?> getTracker(World world) {
         return dungeons.get(world);
     }
 
     /**
      * ダンジョンが終了した時の処理
      */
-    private void onDungeonComplete(World instance){
+    private void onDungeonComplete(World instance) {
         instance.sendMessage(Component.text("ダンジョンクリア!"));
-        
+
         String unfixedName = getUnfixedDungeonName(instance.getName());
         IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName);
-        if(data == null)
+        if (data == null)
             throw new RuntimeException("ワールド名からダンジョンデータが推測できません！");
-        
+
         ItemStack reward = Utils.getRandomItemFromPool(data.getRewardPool());
-        if(reward != null){
+        if (reward != null) {
             instance.getPlayers().forEach(player -> {
                 final HashMap<Integer, ItemStack> item = player.getInventory().addItem(reward);
-                item.forEach((integer, itemStack) ->  instance.dropItemNaturally(player.getLocation(), itemStack));
+                item.forEach((integer, itemStack) -> instance.dropItemNaturally(player.getLocation(), itemStack));
                 player.sendMessage(reward.displayName().append(Component.text(" x" + reward.getAmount() + " を獲得!")));
             });
         }

@@ -53,7 +53,7 @@ public abstract class DungeonProgressionTracker<T> {
      * このダンジョンがアクティブ(イベントを受け付ける状態)であるか
      */
     boolean isActive = true;
-    
+
     public DungeonProgressionTracker(T objective, World instance) {
         this.objective = objective;
         this.instance = instance;
@@ -65,23 +65,22 @@ public abstract class DungeonProgressionTracker<T> {
      * プレイヤーをダンジョン内にスポーンさせる
      */
     @ParametersAreNonnullByDefault
-    public void onPlayerRespawn(PlayerRespawnEvent event){
-        if(!isActive)
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        if (!isActive)
             return;
-        
-        if(leftReviveCount >= 0){
+
+        if (leftReviveCount >= 0) {
             event.getPlayer().sendMessage(Component.text("残り蘇生可能回数:" + leftReviveCount));
             leftReviveCount--;
             event.setRespawnLocation(event.getPlayer().getWorld().getSpawnLocation());
-        }
-        else{
+        } else {
             event.getPlayer().getWorld().sendMessage(Component.text("残り蘇生回数を使い切りました。ダンジョンが崩れていく..."));
             event.setRespawnLocation(event.getPlayer().getWorld().getSpawnLocation());
             isActive = false;
-            new BukkitRunnable(){
+            new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if(onGameOver != null)
+                    if (onGameOver != null)
                         onGameOver.accept(event.getPlayer().getWorld());
                 }
             }.runTaskLater(JavaPlugin.getPlugin(TradeCore.class), 0);

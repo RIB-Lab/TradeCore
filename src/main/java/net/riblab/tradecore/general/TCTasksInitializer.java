@@ -4,9 +4,9 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.IHasDurability;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.modifier.IEveryMinuteDurabilityModifier;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
@@ -19,15 +19,15 @@ public enum TCTasksInitializer {
     INSTANCE;
 
     private boolean isInit;
-    
+
     private TCEconomy getEconomy() {
         return TCEconomy.getImpl();
     }
 
     public void init() {
-        if(isInit)
+        if (isInit)
             return;
-        
+
         //定期的にコンフィグを保存
         new BukkitRunnable() {
             @Override
@@ -74,7 +74,7 @@ public enum TCTasksInitializer {
                 EventReciever.INSTANCE.onSecondPassed();
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 20);
-        
+
         isInit = true;
     }
 }

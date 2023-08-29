@@ -6,7 +6,6 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.base.TCItems;
@@ -17,7 +16,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 /**
  * カスタムショップのUI
  */
-public class UIShop {
+public final class UIShop {
 
     public static PaginatedGui open(Player player, IShopData data) {
         PaginatedGui gui = Gui.paginated()

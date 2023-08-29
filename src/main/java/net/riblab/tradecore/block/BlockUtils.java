@@ -12,7 +12,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockUtils {
+public final class BlockUtils {
 
     private BlockUtils() {
 

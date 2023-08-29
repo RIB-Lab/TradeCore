@@ -2,8 +2,8 @@ package net.riblab.tradecore.item;
 
 import lombok.Getter;
 import net.riblab.tradecore.item.base.IHasItemMod;
-import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCEquipment;
+import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.modifier.IModifier;

@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * ドロップテーブルなどで使うマテリアルの組み合わせ達
  */
-public class Materials {
+public final class Materials {
     /**
      * 壊すことのできないマテリアル
      */

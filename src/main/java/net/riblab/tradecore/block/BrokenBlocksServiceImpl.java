@@ -13,7 +13,7 @@ import java.util.Map;
  */
 enum BrokenBlocksServiceImpl implements BrokenBlocksService {
     INSTANCE;
-    
+
     private final Map<Player, BrokenBlock> brokenBlocks = new HashMap<>();
 
     @Override

@@ -8,8 +8,8 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface BrokenBlocksService {
-    
-    static BrokenBlocksService getImpl(){
+
+    static BrokenBlocksService getImpl() {
         return BrokenBlocksServiceImpl.INSTANCE;
     }
 

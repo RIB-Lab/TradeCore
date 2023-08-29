@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * ジョブスキルの習得、確認UI
  */
-public class UIJobs {
+public final class UIJobs {
 
     private static final JobDataService JOB_SERVICE = JobDataService.getImpl();
     private static final JobSkillService skillHandler = JobSkillService.getImpl();

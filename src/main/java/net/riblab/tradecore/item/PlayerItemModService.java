@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public interface PlayerItemModService {
-    
-    static PlayerItemModService getImpl(){
+
+    static PlayerItemModService getImpl() {
         return PlayerItemModServiceImpl.INSTANCE;
     }
 

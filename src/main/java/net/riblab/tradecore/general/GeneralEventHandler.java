@@ -9,12 +9,7 @@ import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.PlayerItemModService;
-import net.riblab.tradecore.item.base.TCItems;
-import net.riblab.tradecore.item.base.IHasDurability;
-import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.ITCEquipment;
-import net.riblab.tradecore.item.base.TCTool;
-import net.riblab.tradecore.item.base.ITCWeapon;
+import net.riblab.tradecore.item.base.*;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
@@ -44,7 +39,7 @@ import java.util.Set;
  * イベント受信システム
  */
 @ParametersAreNonnullByDefault
-public class GeneralEventHandler {
+public final class GeneralEventHandler {
 
     private static final Set<EntityDamageEvent.DamageCause> unBlockableDamageCause = Set.of(EntityDamageEvent.DamageCause.SUICIDE, EntityDamageEvent.DamageCause.KILL,
             EntityDamageEvent.DamageCause.DROWNING, EntityDamageEvent.DamageCause.CUSTOM, EntityDamageEvent.DamageCause.STARVATION, EntityDamageEvent.DamageCause.VOID,
@@ -318,7 +313,7 @@ public class GeneralEventHandler {
     private void updateActionBar() {
         String negativeSpace = TCResourcePackData.IconsFont.NEGATIVE_SPACE.get_char();
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if(DungeonService.getImpl().isPlayerInDungeon(player))
+            if (DungeonService.getImpl().isPlayerInDungeon(player))
                 continue;
 
             int balance = (int) TCEconomy.getImpl().getBalance(player);

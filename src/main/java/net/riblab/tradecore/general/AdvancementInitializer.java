@@ -10,8 +10,8 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameT
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.MultiTasksAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.TaskAdvancement;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -37,9 +37,9 @@ public enum AdvancementInitializer {
     }
 
     public void init() {
-        if(isInit)
+        if (isInit)
             return;
-        
+
         getAPI().disableVanillaAdvancements();
 
         primitiveAgeTab = getAPI().createAdvancementTab("primitive_age");

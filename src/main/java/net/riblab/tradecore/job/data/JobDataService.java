@@ -5,8 +5,8 @@ import org.bukkit.OfflinePlayer;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface JobDataService {
-    
-    static JobDataService getImpl(){
+
+    static JobDataService getImpl() {
         return JobDataServiceImpl.INSTANCE;
     }
 

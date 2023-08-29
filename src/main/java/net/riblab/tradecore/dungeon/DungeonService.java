@@ -11,11 +11,11 @@ import java.util.List;
 public interface DungeonService {
 
     String dungeonPrefix = "dungeons";
-    
-    static DungeonService getImpl(){
+
+    static DungeonService getImpl() {
         return DungeonServiceImpl.INSTANCE;
     }
-    
+
     /**
      * データを基にダンジョンを作る
      */
@@ -29,7 +29,8 @@ public interface DungeonService {
      * @param instanceID インスタンスのID。0未満なら0以上の最初に空いているインスタンス
      */
     @ParametersAreNonnullByDefault
-    @Nullable World create(IDungeonData<?> data, int instanceID);
+    @Nullable
+    World create(IDungeonData<?> data, int instanceID);
 
     /**
      * ダンジョンのインスタンスが存在するかどうか
@@ -42,7 +43,7 @@ public interface DungeonService {
      */
     @ParametersAreNonnullByDefault
     void enter(Player player, IDungeonData<?> data, int id);
-    
+
     @ParametersAreNonnullByDefault
     void enter(Player player, @Nullable World world);
 
@@ -101,5 +102,6 @@ public interface DungeonService {
     /**
      * ダンジョンのトラッカーを取得
      */
-    @Nullable DungeonProgressionTracker<?> getTracker(World world);
+    @Nullable
+    DungeonProgressionTracker<?> getTracker(World world);
 }

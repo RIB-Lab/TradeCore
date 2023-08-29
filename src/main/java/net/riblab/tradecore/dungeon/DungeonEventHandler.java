@@ -1,6 +1,5 @@
 package net.riblab.tradecore.dungeon;
 
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.mob.CustomMobService;
@@ -11,8 +10,6 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.world.WorldInitEvent;
@@ -24,17 +21,17 @@ import java.util.Random;
 /**
  * ダンジョンで起こるイベントのハンドラ
  */
-public class DungeonEventHandler {
+public final class DungeonEventHandler {
     public static DungeonService getservice() {
         return DungeonService.getImpl();
     }
 
     @ParametersAreNonnullByDefault
     public void tryProcessDungeonSpawn(PlayerRespawnEvent event) {
-        DungeonProgressionTracker<?> tracker =  getservice().getTracker(event.getPlayer().getWorld());
-        if(tracker == null)
+        DungeonProgressionTracker<?> tracker = getservice().getTracker(event.getPlayer().getWorld());
+        if (tracker == null)
             return;
-        
+
         tracker.onPlayerRespawn(event);
     }
 
@@ -45,15 +42,15 @@ public class DungeonEventHandler {
 
             String unfixedName = getservice().getUnfixedDungeonName(player.getWorld().getName());
             IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName);
-            if(data == null)
+            if (data == null)
                 throw new RuntimeException("ダンジョン名からダンジョンデータを推測できません！");
-            
+
             trySpawnMob(player, data);
-            
+
             DungeonProgressionTracker<?> tracker = getservice().getTracker(player.getWorld());
-            if(tracker == null)
+            if (tracker == null)
                 throw new RuntimeException("ダンジョンにトラッカーが紐づいていません！");
-            
+
             tracker.onDungeonSecond(player);
         });
     }
@@ -80,20 +77,21 @@ public class DungeonEventHandler {
     }
 
     @ParametersAreNonnullByDefault
-    public void onEntityDeath(EntityDeathEvent event){
+    public void onEntityDeath(EntityDeathEvent event) {
         if (event.getEntity() instanceof Player)
             return;
-        
-        if(!(event.getEntity() instanceof Mob mob)){
+
+        if (!(event.getEntity() instanceof Mob mob)) {
             return;
         }
-        
+
         DungeonProgressionTracker<?> tracker = DungeonService.getImpl().getTracker(mob.getWorld());
-        if(tracker == null)
+        if (tracker == null)
             return;
-        
-        if(tracker instanceof IPlayerKillHandler handler){
+
+        if (tracker instanceof IPlayerKillHandler handler) {
             handler.onPlayerKill(mob);
-        };
+        }
+        ;
     }
 }

@@ -8,8 +8,8 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 public interface CustomMobService {
-    
-    static CustomMobService getImpl(){
+
+    static CustomMobService getImpl() {
         return CustomMobServiceImpl.INSTANCE;
     }
 

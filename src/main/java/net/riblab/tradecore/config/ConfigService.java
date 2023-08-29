@@ -4,11 +4,11 @@ import javax.annotation.Nullable;
 import java.io.File;
 
 public interface ConfigService {
-    
-    static ConfigService getImpl(File dataFolder){
+
+    static ConfigService getImpl(File dataFolder) {
         return new ConfigServiceImpl(dataFolder);
     }
-    
+
     /**
      * コンフィグを保存する
      */
