@@ -5,6 +5,7 @@ import lombok.Data;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.item.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -77,6 +78,7 @@ public class TCItem implements ITCItem {
                 .hideAttributes();
     }
 
+    @Override
     public void onGiveCommand(CommandSender sender, String[] argments) {
         Player player = (Player) sender;
         player.getInventory().addItem(itemStackTemplate.create());
@@ -90,6 +92,7 @@ public class TCItem implements ITCItem {
         return itemStackTemplate.create();
     }
 
+    @Override
     public boolean isSimilar(@Nullable ItemStack itemStack) {
         if (itemStack == null || itemStack.getType().equals(Material.AIR))
             return false;
@@ -102,6 +105,7 @@ public class TCItem implements ITCItem {
         return ID.equals(internalName);
     }
 
+    @Override
     public boolean isSimilar(@Nullable String tcID) {
         if (tcID == null)
             return false;

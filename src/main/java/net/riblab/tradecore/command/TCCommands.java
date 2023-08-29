@@ -11,6 +11,7 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
+import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
@@ -257,7 +258,7 @@ public final class TCCommands {
         CommandAPICommand versionCommand = new CommandAPICommand(VERSION.get())
                 .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
-                    player.sendMessage(TradeCore.getInstance().getDescription().getVersion());
+                    player.sendMessage(Utils.getVersion());
                 });
         versionCommand.register();
     }

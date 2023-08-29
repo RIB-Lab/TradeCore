@@ -1,6 +1,7 @@
 package net.riblab.tradecore.general.utils;
 
 import com.google.common.collect.Multimap;
+import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.item.LootTables;
@@ -231,5 +232,13 @@ public final class Utils {
 
         JobType.values();
         ITCTool.ToolType.values();
+    }
+
+    /**
+     * プラグインのバージョンを取得する
+     * @return
+     */
+    public static String getVersion(){
+        return TradeCore.getInstance().getDescription().getVersion();
     }
 }
