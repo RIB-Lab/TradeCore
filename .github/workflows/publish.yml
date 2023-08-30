@@ -33,5 +33,5 @@ jobs:
       - name: Upload Plugin JAR
         uses: actions/upload-artifact@v2
         with:
-          name: Plugin-${{ env.snapshotVersion }}-${{ env.git_hash }}.jar
-          path: ${{ env.artifactPath }}/Plugin-${{ steps.extract_tag.outputs.tag }}.jar
+          name: TradeCore-${{ env.snapshotVersion }}.jar
+          path: /home/runner/work/TradeCore/TradeCore/builds/TradeCore-${{ env.snapshotVersion }}.jar
