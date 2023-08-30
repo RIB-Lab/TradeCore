@@ -4,6 +4,9 @@ import net.riblab.tradecore.modifier.IWalkSpeedModifier;
 
 public class ModWalkSpeedI extends ItemMod implements IWalkSpeedModifier {
 
+    /**
+     * @param level 何パーセント歩行速度を上昇/下降させるか
+     */
     public ModWalkSpeedI(int level) {
         super(level);
     }

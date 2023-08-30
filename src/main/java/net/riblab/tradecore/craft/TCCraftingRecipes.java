@@ -29,6 +29,7 @@ public enum TCCraftingRecipes {
     BARK_CHESTPLATE(new TCCraftingRecipe(Map.of(TCItems.BARK.get(), 8, TCItems.MUD.get(), 8), TCItems.BARK_CHESTPLATE.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
     BARK_LEGGINGS(new TCCraftingRecipe(Map.of(TCItems.BARK.get(), 7, TCItems.MUD.get(), 7), TCItems.BARK_LEGGINGS.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
     BARK_BOOTS(new TCCraftingRecipe(Map.of(TCItems.BARK.get(), 4, TCItems.MUD.get(), 4), TCItems.BARK_BOOTS.get().getItemStack(), 1, 1, RecipeType.ARMOR)),
+    WALKING_STICK(new TCCraftingRecipe(Map.of(TCItems.STICK.get(), 4), TCItems.WALKING_STICK.get().getItemStack(), 1, 2, RecipeType.TOOL)),
 
     //石器時代
     STONE_AXE(new TCCraftingRecipe(Map.of(TCItems.WIDESTONE.get(), 1, TCItems.TALLSTONE.get(), 2, TCItems.WOODEN_COMPONENT.get(), 1, TCItems.STICK.get(), 2), TCItems.STONE_AXE.get().getItemStack(), 1, 3, RecipeType.TOOL)),
@@ -55,7 +56,8 @@ public enum TCCraftingRecipes {
     GOLDEN_AXE(new TCCraftingRecipe(Map.of(TCItems.GOLD_INGOT.get(), 3, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.GOLDEN_AXE.get().getItemStack(), 1, 5, RecipeType.TOOL)),
     GOLDEN_SHOVEL(new TCCraftingRecipe(Map.of(TCItems.GOLD_INGOT.get(), 1, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.GOLDEN_SHOVEL.get().getItemStack(), 1, 5, RecipeType.TOOL)),
     GOLDEN_PICKAXE(new TCCraftingRecipe(Map.of(TCItems.GOLD_INGOT.get(), 3, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.GOLDEN_PICKAXE.get().getItemStack(), 1, 5, RecipeType.TOOL)),
-    GOLDEN_HOE(new TCCraftingRecipe(Map.of(TCItems.GOLD_INGOT.get(), 2, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.GOLDEN_HOE.get().getItemStack(), 1, 5, RecipeType.TOOL));
+    GOLDEN_HOE(new TCCraftingRecipe(Map.of(TCItems.GOLD_INGOT.get(), 2, TCItems.REINFORCED_STICK.get(), 2, TCItems.STONE_COMPONENT.get(), 1), TCItems.GOLDEN_HOE.get().getItemStack(), 1, 5, RecipeType.TOOL)),
+    REINFORCED_WALKING_STICK(new TCCraftingRecipe(Map.of(TCItems.REINFORCED_STICK.get(), 4), TCItems.REINFORCED_WALKING_STICK.get().getItemStack(), 1, 10, RecipeType.TOOL));
 
 
     @Getter
