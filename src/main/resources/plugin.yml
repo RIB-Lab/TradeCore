@@ -9,5 +9,6 @@ depend:
   - FastAsyncWorldEdit
   - CommandAPI
   - NBTAPI
+  - ConfigLib
 softdepend:
   - WorldGuard
