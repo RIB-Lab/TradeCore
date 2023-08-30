@@ -19,19 +19,16 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: '17'
-      - name: Extract Tag Name
-        id: extract_tag
-        run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF#refs/tags/})"
       - name: Build with Gradle
         run: |
-          tag="${{ steps.extract_tag.outputs.tag }}"
-          full_version="${tag}.0"
           ./gradlew jar
           git_hash=$(git rev-parse --short "$GITHUB_SHA")
           echo "git_hash=$git_hash" >> $GITHUB_ENV
           echo "artifactPath=$(pwd)/builds" >> $GITHUB_ENV
+      - name: Check Files in Directory
+        run: ls /home/runner/work/TradeCore/TradeCore/builds/
       - name: Upload Plugin JAR
         uses: actions/upload-artifact@v2
         with:
-          name: TradeCore-${{ env.full_version }}.jar
+          name: TradeCore.jar
           path: /home/runner/work/TradeCore/TradeCore/builds/TradeCore-all.jar
