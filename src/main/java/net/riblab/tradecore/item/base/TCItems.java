@@ -6,6 +6,7 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.impl.*;
 import net.riblab.tradecore.item.mod.*;
@@ -77,6 +78,7 @@ public enum TCItems {
     GOLD_SHARD(new TCSellableItem(Component.text("金の欠片"), Material.GOLD_NUGGET, "gold_shard", 0, 0.10d)),
     IRON_INGOT(new TCSellableItem(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, 0.10d)),
     GOLD_INGOT(new TCSellableItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, 0.10d)),
+    MAP_STONEROOM(new TCDungeonMap(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, "stoneroom")),
 
     //鉄器時代
     REINFORCED_STICK(new TCSellableItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, 0.10d)),

@@ -25,16 +25,12 @@ import net.riblab.tradecore.mob.ITCMob;
 import net.riblab.tradecore.mob.TCMobs;
 import net.riblab.tradecore.shop.IShopData;
 import net.riblab.tradecore.shop.Shops;
-import net.riblab.tradecore.ui.UIAdminShop;
-import net.riblab.tradecore.ui.UIJobs;
-import net.riblab.tradecore.ui.UIShop;
-import net.riblab.tradecore.ui.UISkillRespec;
+import net.riblab.tradecore.ui.*;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.util.Vector;
 
 import static net.riblab.tradecore.command.CommandArgDescs.*;
@@ -157,14 +153,19 @@ public final class TCCommands {
                 .executesPlayer((player, args) -> {
                     UIAdminShop.open(player);
                 });
-        shopCommand.withSubcommand(adminShopCommand);
         CommandAPICommand respecShopCommand = new CommandAPICommand(SHOP_RESPEC.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     UISkillRespec.open(player);
                 });
+        CommandAPICommand dungeonShopCommand = new CommandAPICommand(SHOP_DUNGEON.get())
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    UIDungeonEnter.open(player);
+                });
         shopCommand.withSubcommand(adminShopCommand);
         shopCommand.withSubcommand(respecShopCommand);
+        shopCommand.withSubcommand(dungeonShopCommand);
         shopCommand.register();
 
         CommandAPICommand jobCommand = new CommandAPICommand(JOB.get())
