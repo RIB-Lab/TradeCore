@@ -1,0 +1,37 @@
+name: Build and Release JARs on Tag
+
+on:
+  push:
+    tags:
+      - '*.*'
+
+jobs:
+  build_and_release_jar:
+    name: Build and Release JAR
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+      - name: Extract Tag Name
+        id: extract_tag
+        run: echo "##[set-output name=tag;]$(echo ${GITHUB_REF#refs/tags/})"
+      - name: Build with Gradle
+        run: |
+          tag="${{ steps.extract_tag.outputs.tag }}"
+          full_version="${tag}.0"
+          ./gradlew jar -Pversion=${full_version}
+          git_hash=$(git rev-parse --short "$GITHUB_SHA")
+          echo "git_hash=$git_hash" >> $GITHUB_ENV
+          echo "artifactPath=$(pwd)/builds" >> $GITHUB_ENV
+      - name: Upload Plugin JAR
+        uses: actions/upload-artifact@v2
+        with:
+          name: Plugin-${{ env.snapshotVersion }}-${{ env.git_hash }}.jar
+          path: ${{ env.artifactPath }}/Plugin-${{ steps.extract_tag.outputs.tag }}.jar
