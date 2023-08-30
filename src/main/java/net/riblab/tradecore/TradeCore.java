@@ -54,11 +54,6 @@ public final class TradeCore extends JavaPlugin {
     }
 
     @Override
-    public void onLoad() {
-        TCCommands.onLoad();
-    }
-
-    @Override
     public void onEnable() {
         configService = ConfigService.getImpl(getDataFolder());
         configService.load();
@@ -70,6 +65,7 @@ public final class TradeCore extends JavaPlugin {
         vaultHook.hook();
         isWGLoaded = getServer().getPluginManager().isPluginEnabled("WorldGuard");
         advancementAPI = UltimateAdvancementAPI.getInstance(this);
+        CustomMobService.getImpl(); //ondisableでエラーが出ないように強制起動
 
         TCCommands.onEnable();
 
@@ -110,7 +106,6 @@ public final class TradeCore extends JavaPlugin {
     @Override
     public void onDisable() {
         vaultHook.unhook();
-        TCCommands.onDisable();
         configService.save();
 
         CustomMobService.getImpl().deSpawnAll();

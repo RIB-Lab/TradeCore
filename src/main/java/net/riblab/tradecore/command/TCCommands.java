@@ -51,17 +51,15 @@ public final class TCCommands {
     private static TCEconomy getEconomy() {
         return TCEconomy.getImpl();
     }
-
-    public static void onLoad() {
+    
+    public static void onEnable() {
         registerCommands();
     }
-
+    
     /**
      * このプラグインで使う全てのコマンドを登録する
      */
     private static void registerCommands() {
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(TradeCore.getInstance()).verboseOutput(true)); // Load with verbose output
-
         CommandAPICommand currencyCommand = new CommandAPICommand(CURRENCY.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
@@ -262,13 +260,5 @@ public final class TCCommands {
                     player.sendMessage(Utils.getVersion());
                 });
         versionCommand.register();
-    }
-
-    public static void onEnable() {
-        CommandAPI.onEnable();
-    }
-
-    public static void onDisable() {
-        CommandAPI.onDisable();
     }
 }

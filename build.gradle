@@ -34,7 +34,7 @@ repositories {
 dependencies {
     compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
-    implementation 'dev.jorel:commandapi-bukkit-shade:9.0.3'
+    compileOnly 'dev.jorel:commandapi-bukkit-core:9.1.0'
     implementation 'de.tr7zw:item-nbt-api-plugin:2.11.3'
     implementation 'com.github.Exlll.ConfigLib:configlib-yaml:v4.2.0'
     compileOnly "org.projectlombok:lombok:1.18.24"
@@ -104,7 +104,6 @@ processResources {
 
 shadowJar {
     relocate 'de.tr7zw.nbtapi', 'net.riblab.tradecore.nbtapi'
-    relocate 'dev.jorel.commandapi', 'net.riblab.tradecore.commandapi'
     relocate 'de.exlll.configlib', 'net.riblab.tradecore.configlib'
     relocate 'dev.triumphteam.gui', 'net.riblab.tradecore.gui'
     exclude 'me/gamercoder215/mobchip/abstraction/v1_13_R1/*'
