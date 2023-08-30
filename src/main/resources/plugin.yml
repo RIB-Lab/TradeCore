@@ -10,5 +10,6 @@ depend:
   - CommandAPI
   - NBTAPI
   - ConfigLib
+  - HoloMobHealth
 softdepend:
   - WorldGuard

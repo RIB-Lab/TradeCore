@@ -58,7 +58,7 @@ class TCMob implements ITCMob {
     @Override
     public void spawn(Mob mob) {
         mob.customName(customName);
-        mob.setCustomNameVisible(true);
+        mob.setCustomNameVisible(false);
 
         NBTEntity nbtEntity = new NBTEntity(mob);
         nbtEntity.getPersistentDataContainer().setString("TCID", internalName);
