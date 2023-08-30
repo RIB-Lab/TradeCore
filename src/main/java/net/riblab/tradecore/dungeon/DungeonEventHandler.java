@@ -5,11 +5,13 @@ import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.ITCMob;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.world.WorldInitEvent;
@@ -92,6 +94,11 @@ public final class DungeonEventHandler {
         if (tracker instanceof IPlayerKillHandler handler) {
             handler.onPlayerKill(mob);
         }
-        ;
+    }
+
+    @ParametersAreNonnullByDefault
+    public void preventDungeonBlockPlacement(BlockPlaceEvent event) {
+        if(event.getPlayer().getGameMode() != GameMode.CREATIVE)
+            event.setCancelled(true);
     }
 }

@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.block.BlockStateEventHandler;
 import net.riblab.tradecore.dungeon.DungeonEventHandler;
+import net.riblab.tradecore.dungeon.DungeonService;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -108,6 +109,10 @@ public enum EventReciever implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onBlockDamage(BlockDamageEvent event) {
+        if(DungeonService.getImpl().isPlayerInDungeon(event.getPlayer())){
+            return;
+        }
+        
         blockStateEventHandler.tryCreateBrokenBlock(event);
     }
 
@@ -123,6 +128,11 @@ public enum EventReciever implements Listener {
 
     @org.bukkit.event.EventHandler
     public void onPlayerPlaceBlock(BlockPlaceEvent event) {
+        if(DungeonService.getImpl().isPlayerInDungeon(event.getPlayer())){
+            dungeonEventHandler.preventDungeonBlockPlacement(event);
+            return;
+        }
+        
         blockStateEventHandler.tryProcessHoeDrop(event);
     }
 
