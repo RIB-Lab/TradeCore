@@ -3,6 +3,7 @@ package net.riblab.tradecore.dungeon;
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.general.Utils;
+import net.riblab.tradecore.general.WorldNames;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -123,7 +124,7 @@ enum DungeonServiceImpl implements DungeonService {
 
         if (!locationsOnEnter.containsKey(player)) {
             player.sendMessage("ダンジョン進入時の座標が見つかりませんでした。");
-            player.teleport(Bukkit.getWorld("world").getSpawnLocation());
+            player.teleport(Bukkit.getWorld(WorldNames.OVERWORLD.get()).getSpawnLocation());
             return;
         }
 
