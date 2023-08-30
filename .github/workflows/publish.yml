@@ -26,12 +26,12 @@ jobs:
         run: |
           tag="${{ steps.extract_tag.outputs.tag }}"
           full_version="${tag}.0"
-          ./gradlew jar -Pversion=${full_version}
+          ./gradlew jar
           git_hash=$(git rev-parse --short "$GITHUB_SHA")
           echo "git_hash=$git_hash" >> $GITHUB_ENV
           echo "artifactPath=$(pwd)/builds" >> $GITHUB_ENV
       - name: Upload Plugin JAR
         uses: actions/upload-artifact@v2
         with:
-          name: TradeCore-${{ env.snapshotVersion }}.jar
-          path: /home/runner/work/TradeCore/TradeCore/builds/TradeCore-${{ env.snapshotVersion }}.jar
+          name: TradeCore-${{ env.full_version }}.jar
+          path: /home/runner/work/TradeCore/TradeCore/builds/TradeCore-all.jar
