@@ -26,9 +26,9 @@ jobs:
           echo "git_hash=$git_hash" >> $GITHUB_ENV
           echo "artifactPath=$(pwd)/builds" >> $GITHUB_ENV
       - name: Check Files in Directory
-        run: ls /home/runner/work/TradeCore/TradeCore/builds/
+        run: ls ${{ env.artifactPath }}
       - name: Upload Plugin JAR
         uses: actions/upload-artifact@v2
         with:
           name: TradeCore.jar
-          path: /home/runner/work/TradeCore/TradeCore/builds/TradeCore-all.jar
+          path: ${{ env.artifactPath }}/TradeCore-all.jar
