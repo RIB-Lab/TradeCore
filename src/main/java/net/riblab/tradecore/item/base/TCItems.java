@@ -6,6 +6,7 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.dungeon.DungeonNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.impl.*;
 import net.riblab.tradecore.item.mod.*;
@@ -78,11 +79,11 @@ public enum TCItems {
     GOLD_SHARD(new TCSellableItem(Component.text("金の欠片"), Material.GOLD_NUGGET, "gold_shard", 0, 0.10d)),
     IRON_INGOT(new TCSellableItem(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, 0.10d)),
     GOLD_INGOT(new TCSellableItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, 0.10d)),
-    MAP_STONEROOM(new TCDungeonMap(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, "stoneroom")),
+    MAP_STONEROOM(new TCDungeonMap(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, DungeonNames.STONEROOM)),
 
     //鉄器時代
     REINFORCED_STICK(new TCSellableItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, 0.10d)),
-    REINFORCED_WALKING_STICK(new TCItemWithMod(Component.text("強化歩行杖"), Material.STICK, "reinforced_walking_stick", 0, List.of(new ModWalkSpeedI(6)))),
+    REINFORCED_WALKING_STICK(new TCItemWithMod(Component.text("強化歩行杖"), Material.STICK, "reinforced _walking_stick", 0, List.of(new ModWalkSpeedI(6)))),
 
     //店売り限定
     EMERALD_HELMET(new TCEquipment(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", List.of(new ModReduceCraftCostI(3)), 256, "emerald")),

@@ -1,9 +1,7 @@
 package net.riblab.tradecore.item.base;
 
-import net.riblab.tradecore.dungeon.IDungeonData;
-
-import java.util.function.Function;
+import net.riblab.tradecore.dungeon.DungeonNames;
 
 public interface ITCDungeonMap {
-    String getDungeonName();
+    DungeonNames getDungeonName();
 }

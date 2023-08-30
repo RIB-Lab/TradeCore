@@ -45,7 +45,7 @@ public final class UIDungeonEnter {
         ItemStack map = event.getInventory().getContents()[4];
         ITCItem tcMap = TCItems.toTCItem(map);
         if(tcMap instanceof ITCDungeonMap dungeonMap){
-            IDungeonData<?> data = DungeonDatas.nameToDungeonData(dungeonMap.getDungeonName());
+            IDungeonData<?> data = DungeonDatas.nameToDungeonData(dungeonMap.getDungeonName().get());
             DungeonService IDungeonService = DungeonService.getImpl();
             World instance = IDungeonService.create(data, -1);
             IDungeonService.enter((Player) event.getPlayer(), instance);
