@@ -8,5 +8,6 @@ depend:
   - UltimateAdvancementAPI
   - FastAsyncWorldEdit
   - CommandAPI
+  - NBTAPI
 softdepend:
   - WorldGuard
