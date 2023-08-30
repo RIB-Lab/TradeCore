@@ -6,7 +6,7 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.general.utils.Materials;
+import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.base.TCItems;
@@ -52,10 +52,10 @@ public final class UIAdminShop {
             if (!value.isBlock())
                 continue;
 
-            if (Materials.unbreakableMaterial.contains(value))
+            if (Materials.UNBREAKABLE.get().contains(value))
                 continue;
 
-            if (Materials.bannedFromShop.contains(value))
+            if (Materials.BANNEDFROMSHOP.get().contains(value))
                 continue;
 
             GuiItem blockButton = new GuiItem(new ItemCreator(value).setLore(Component.text("1RIB").decoration(TextDecoration.ITALIC, false)).create(),

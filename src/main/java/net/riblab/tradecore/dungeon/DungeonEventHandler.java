@@ -1,7 +1,7 @@
 package net.riblab.tradecore.dungeon;
 
 import net.riblab.tradecore.block.BlockUtils;
-import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.ITCMob;
 import org.bukkit.Bukkit;

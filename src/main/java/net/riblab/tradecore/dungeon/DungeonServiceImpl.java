@@ -2,15 +2,13 @@ package net.riblab.tradecore.dungeon;
 
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.general.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;

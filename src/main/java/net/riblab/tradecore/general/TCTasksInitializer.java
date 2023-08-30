@@ -2,7 +2,6 @@ package net.riblab.tradecore.general;
 
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.dungeon.DungeonService;
-import net.riblab.tradecore.general.utils.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.base.IHasDurability;
 import net.riblab.tradecore.item.base.ITCItem;

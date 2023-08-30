@@ -10,10 +10,11 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
-import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.ItemCreator;
+import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobDataService;
@@ -30,8 +31,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.*;
-
-import static net.riblab.tradecore.general.utils.Materials.transparentBlocks;
 
 /**
  * 作業台UI
@@ -76,7 +75,7 @@ public final class UICraftingTable {
 
         gui.open(player);
 
-        Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+        Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
         FakeVillagerService.getImpl().spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }
@@ -104,7 +103,7 @@ public final class UICraftingTable {
 
         gui.open(player);
 
-        Location spawnLocation = player.getTargetBlock(transparentBlocks, 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+        Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
         FakeVillagerService.getImpl().spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }

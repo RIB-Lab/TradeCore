@@ -3,7 +3,6 @@ package net.riblab.tradecore.item;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import lombok.Data;
-import net.riblab.tradecore.general.utils.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.item.base.TCItems;
@@ -18,16 +17,16 @@ import java.util.*;
  */
 public enum LootTables {
     GRASS(new LootTable(Set.of(Material.GRASS, Material.TALL_GRASS), TCTool.ToolType.HAND, 0, Map.of(1f, TCItems.DRYGRASS.get(), 0.2f, TCItems.PEBBLE.get()))),
-    LEAVES(new LootTable(Materials.leaves, TCTool.ToolType.AXE, 0, Map.of(0.2f, TCItems.STICK.get()))),
-    LEAVES2(new LootTable(Materials.leaves, TCTool.ToolType.AXE, 1, Map.of(0.1f, TCItems.STICK.get()))),
-    LOGS(new LootTable(Materials.logs, TCTool.ToolType.AXE, 1, Map.of(0.2f, TCItems.ROUND_TRUNK.get(), 0.4f, TCItems.BARK.get(), 0.8f, TCItems.TWIG.get()))),
-    LOGS2(new LootTable(Materials.logs, TCTool.ToolType.AXE, 2, Map.of(0.2f, TCItems.ROUND_TRUNK.get()))),
-    LOGS3(new LootTable(Materials.logs, TCTool.ToolType.AXE, 3, Map.of(0.1f, TCItems.ROUND_TRUNK.get()))),
-    DIRTS(new LootTable(Materials.dirts, TCTool.ToolType.SHOVEL, 0, Map.of(0.2f, TCItems.DUST.get(), 0.1f, TCItems.MUD.get()))),
-    DIRTS2(new LootTable(Materials.dirts, TCTool.ToolType.SHOVEL, 1, Map.of(0.1f, TCItems.DUST.get(), 0.05f, TCItems.MUD.get()))),
-    PRIMITIVESTONES(new LootTable(Materials.primitiveStones, TCTool.ToolType.PICKAXE, 0, Map.of(0.2f, TCItems.WIDESTONE.get(), 0.21f, TCItems.TALLSTONE.get()))),
-    PRIMITIVESTONES2(new LootTable(Materials.primitiveStones, TCTool.ToolType.PICKAXE, 1, Map.of(0.1f, TCItems.ROUND_STONE.get()))),
-    PRIMITIVEPLANKS(new LootTable(Materials.primitivePlanks, TCTool.ToolType.AXE, 2, Map.of(1.0f, TCItems.WOODPULP.get()))),
+    LEAVES(new LootTable(Materials.LEAVES.get(), TCTool.ToolType.AXE, 0, Map.of(0.2f, TCItems.STICK.get()))),
+    LEAVES2(new LootTable(Materials.LEAVES.get(), TCTool.ToolType.AXE, 1, Map.of(0.1f, TCItems.STICK.get()))),
+    LOGS(new LootTable(Materials.LOGS.get(), TCTool.ToolType.AXE, 1, Map.of(0.2f, TCItems.ROUND_TRUNK.get(), 0.4f, TCItems.BARK.get(), 0.8f, TCItems.TWIG.get()))),
+    LOGS2(new LootTable(Materials.LOGS.get(), TCTool.ToolType.AXE, 2, Map.of(0.2f, TCItems.ROUND_TRUNK.get()))),
+    LOGS3(new LootTable(Materials.LOGS.get(), TCTool.ToolType.AXE, 3, Map.of(0.1f, TCItems.ROUND_TRUNK.get()))),
+    DIRTS(new LootTable(Materials.DIRTS.get(), TCTool.ToolType.SHOVEL, 0, Map.of(0.2f, TCItems.DUST.get(), 0.1f, TCItems.MUD.get()))),
+    DIRTS2(new LootTable(Materials.DIRTS.get(), TCTool.ToolType.SHOVEL, 1, Map.of(0.1f, TCItems.DUST.get(), 0.05f, TCItems.MUD.get()))),
+    PRIMITIVESTONES(new LootTable(Materials.PRIMITIVESTONES.get(), TCTool.ToolType.PICKAXE, 0, Map.of(0.2f, TCItems.WIDESTONE.get(), 0.21f, TCItems.TALLSTONE.get()))),
+    PRIMITIVESTONES2(new LootTable(Materials.PRIMITIVESTONES.get(), TCTool.ToolType.PICKAXE, 1, Map.of(0.1f, TCItems.ROUND_STONE.get()))),
+    PRIMITIVEPLANKS(new LootTable(Materials.PRIMITIVEPLANKS.get(), TCTool.ToolType.AXE, 2, Map.of(1.0f, TCItems.WOODPULP.get()))),
     MOSS(new LootTable(Set.of(Material.FARMLAND), TCTool.ToolType.HOE, 0, Map.of(0.2f, TCItems.MOSS.get(), 1.0f, TCItems.DRYGRASS.get()))),
     MOSS2(new LootTable(Set.of(Material.FARMLAND), TCTool.ToolType.HOE, 0, Map.of(0.1f, TCItems.MOSS.get(), 0.5f, TCItems.DRYGRASS.get()))),
     ANDESITE(new LootTable(Set.of(Material.ANDESITE), TCTool.ToolType.PICKAXE, 1, Map.of(0.2f, TCItems.ANDESITE_STONE.get()))),

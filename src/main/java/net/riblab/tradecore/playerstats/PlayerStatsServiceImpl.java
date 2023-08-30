@@ -1,6 +1,6 @@
 package net.riblab.tradecore.playerstats;
 
-import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.modifier.IHPModifier;

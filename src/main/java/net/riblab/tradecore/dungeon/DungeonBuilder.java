@@ -12,7 +12,7 @@ import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.session.ClipboardHolder;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.general.Utils;
 import org.bukkit.*;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.util.Vector;

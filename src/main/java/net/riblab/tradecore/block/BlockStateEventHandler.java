@@ -2,9 +2,10 @@ package net.riblab.tradecore.block;
 
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.LootTables;
+import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.*;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
@@ -25,8 +26,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashSet;
 import java.util.Set;
 
-import static net.riblab.tradecore.general.utils.Materials.unbreakableMaterial;
-
 /**
  * ブロックの状態変更関連のイベントハンドラ
  */
@@ -41,7 +40,7 @@ public final class BlockStateEventHandler implements Listener {
      */
     @ParametersAreNonnullByDefault
     public void tryCreateBrokenBlock(BlockDamageEvent event) {
-        if (unbreakableMaterial.contains(event.getBlock().getType())) {
+        if (Materials.UNBREAKABLE.get().contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
         }
@@ -106,7 +105,7 @@ public final class BlockStateEventHandler implements Listener {
      */
     @ParametersAreNonnullByDefault
     public void tryHarvestBlockWithCustomTool(BlockBreakEvent event) {
-        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && unbreakableMaterial.contains(event.getBlock().getType())) {
+        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && Materials.UNBREAKABLE.get().contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
         }

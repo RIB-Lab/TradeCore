@@ -1,4 +1,4 @@
-package net.riblab.tradecore.general.utils;
+package net.riblab.tradecore.general;
 
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;

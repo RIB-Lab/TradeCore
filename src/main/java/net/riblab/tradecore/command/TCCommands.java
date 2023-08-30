@@ -1,18 +1,16 @@
 package net.riblab.tradecore.command;
 
-import dev.jorel.commandapi.CommandAPI;
-import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
-import net.riblab.tradecore.general.utils.Utils;
+import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
+import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobData;
@@ -35,7 +33,6 @@ import org.bukkit.util.Vector;
 
 import static net.riblab.tradecore.command.CommandArgDescs.*;
 import static net.riblab.tradecore.command.CommandNames.*;
-import static net.riblab.tradecore.general.utils.Materials.transparentBlocks;
 
 /**
  * コマンド登録クラス。プラグインのonEnableの前に呼ぶ必要があるのでインスタンスを生成させない。
@@ -105,7 +102,7 @@ public final class TCCommands {
 
         CommandAPICommand sellCommand = new CommandAPICommand(SELL.get())
                 .executesPlayer((player, args) -> {
-                    Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
 
                     FakeVillagerService.getImpl().spawnFakeVillager(player, merchantName, spawnLocation);
@@ -124,7 +121,7 @@ public final class TCCommands {
                 .withArguments(TCMobs.customITCMobArgument(MOBNAME.get()))
                 .executesPlayer((player, args) -> {
                     ITCMob type = (ITCMob) args.get(0);
-                    Location spawnLocation = player.getTargetBlock(transparentBlocks, 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
                     spawnLocation.setY(player.getLocation().getY());
 
                     CustomMobService.getImpl().spawn(player, spawnLocation, type);
