@@ -29,6 +29,7 @@ repositories {
     maven { url "https://maven.enginehub.org/repo/" }
     maven { url 'https://repo.codemc.io/repository/maven-snapshots/' }
     maven { url 'https://nexus.frengor.com/repository/public/' }
+    maven { url 'https://mvn.lumine.io/repository/maven-public/' }
 }
 
 dependencies {
@@ -48,6 +49,7 @@ dependencies {
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit") { transitive = false }
     implementation "io.papermc:paperlib:1.0.7"
+    compileOnly 'io.lumine:Mythic-Dist:5.3.5'
 }
 
 def targetJavaVersion = 17

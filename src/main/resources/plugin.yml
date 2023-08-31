@@ -11,5 +11,6 @@ depend:
   - NBTAPI
   - ConfigLib
   - HoloMobHealth
+  - MythicMobs
 softdepend:
   - WorldGuard
