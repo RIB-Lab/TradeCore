@@ -17,5 +17,9 @@ public interface IWeaponAttribute {
      */
     double getAttackDamage();
 
+    /**
+     * 攻撃する
+     * @return 攻撃が有効かどうか(攻撃によって武器の耐久を減らす必要があるか)
+     */
     boolean attack(Player player);
 }

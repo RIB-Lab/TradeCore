@@ -84,6 +84,7 @@ public enum TCItems {
     //鉄器時代
     REINFORCED_STICK(new TCSellableItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, 0.10d)),
     REINFORCED_WALKING_STICK(new TCItemWithMod(Component.text("強化歩行杖"), Material.STICK, "reinforced _walking_stick", 0, List.of(new ModWalkSpeedI(6)))),
+    BASIC_BOW(new TCWeapon(Component.text("普通の弓"), Material.BOW, "basic_bow", 0, 128, List.of(), new WeaponAttributeBow(1, 1))),
 
     //店売り限定
     EMERALD_HELMET(new TCEquipment(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", List.of(new ModReduceCraftCostI(3)), 256, "emerald")),
