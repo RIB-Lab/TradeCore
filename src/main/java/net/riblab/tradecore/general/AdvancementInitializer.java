@@ -43,36 +43,26 @@ public enum AdvancementInitializer {
         getAPI().disableVanillaAdvancements();
 
         primitiveAgeTab = getAPI().createAdvancementTab("primitive_age");
-
-        AdvancementDisplay gatherPebbleAdvDisplay = new AdvancementDisplay(TCItems.PEBBLE.get().getItemStack(), "ようこそ", AdvancementFrameType.TASK, true, true, 0, 0, "素手で草を壊して小石を集めた");
-        RootAdvancement gatherPebbleAdv = new RootAdvancement(primitiveAgeTab, "adv_gather_pebble", gatherPebbleAdvDisplay, "textures/block/stone.png", 1);
-
-        AdvancementDisplay craftHatchetAdvDisplay = new AdvancementDisplay(TCItems.HATCHET.get().getItemStack(), "知恵          ", AdvancementFrameType.TASK, true, true, 1, 0, "小石で葉ブロックを壊して入手した棒と小石をクラフトして、最初のツールを入手した");
-        BaseAdvancement craftHatchetAdv = new BaseAdvancement("adv_craft_hatchet", craftHatchetAdvDisplay, gatherPebbleAdv, 1);
-
-        AdvancementDisplay craftTableAdvDisplay = new AdvancementDisplay(Material.CRAFTING_TABLE, "作業(を依頼する)台", AdvancementFrameType.TASK, true, true, 2, 0, "ハチェットで木を伐って丸太を4つ集めて、作業台をクラフトした");
-        BaseAdvancement craftTableAdv = new BaseAdvancement("adv_craft_table", craftTableAdvDisplay, craftHatchetAdv, 1);
-
-        AdvancementDisplay woodenAxeAdvDisplay = new AdvancementDisplay(TCItems.WOODEN_AXE.get().getItemStack(), "高効率伐採", AdvancementFrameType.TASK, true, true, 3, 0, "木の斧で伐採した");
-        BaseAdvancement woodenAxeAdv = new BaseAdvancement("adv_wooden_axe", woodenAxeAdvDisplay, craftTableAdv, 1);
-
-
-        AdvancementDisplay woodenComponentAdvDisplay = new AdvancementDisplay(TCItems.WOODEN_COMPONENT.get().getItemStack(), "色々集めた", AdvancementFrameType.TASK, true, true, 4, 0, "wikiを見ながら木の強化資材の材料を集めた");
-        MultiTasksAdvancement woodenComponentAdv = new MultiTasksAdvancement("adv_wooden_component", woodenComponentAdvDisplay, woodenAxeAdv, 3);
+        
+        RootAdvancement gatherPebbleAdv = new RootAdvancement(primitiveAgeTab, "adv_gather_pebble", AdvancementDisplays.GATHERPEBBLES.get(), "textures/block/stone.png", 1);
+        
+        BaseAdvancement craftHatchetAdv = new BaseAdvancement("adv_craft_hatchet", AdvancementDisplays.CRAFTHATCHETS.get(), gatherPebbleAdv, 1);
+        
+        BaseAdvancement craftTableAdv = new BaseAdvancement("adv_craft_table", AdvancementDisplays.CRAFTTABLE.get(), craftHatchetAdv, 1);
+        
+        BaseAdvancement woodenAxeAdv = new BaseAdvancement("adv_wooden_axe", AdvancementDisplays.WOODENAXE.get(), craftTableAdv, 1);
+        
+        MultiTasksAdvancement woodenComponentAdv = new MultiTasksAdvancement("adv_wooden_component", AdvancementDisplays.WOODENCOMPONENT.get(), woodenAxeAdv, 3);
 
         TaskAdvancement woodpulpTask = new TaskAdvancement("task_woodpulp", woodenComponentAdv);
         TaskAdvancement dustTask = new TaskAdvancement("task_dust", woodenComponentAdv);
         TaskAdvancement mossTask = new TaskAdvancement("task_moss", woodenComponentAdv);
 
         woodenComponentAdv.registerTasks(woodpulpTask, dustTask, mossTask);
-
-
-        AdvancementDisplay stoneAxeAdvDisplay = new AdvancementDisplay(TCItems.STONE_AXE.get().getItemStack(), "湧き出る丸太", AdvancementFrameType.TASK, true, true, 5, 0, "石の斧で伐採した");
-        BaseAdvancement stoneAxeAdv = new BaseAdvancement("adv_stone_axe", stoneAxeAdvDisplay, woodenComponentAdv, 1);
-
-
-        AdvancementDisplay stoneComponentAdvDisplay = new AdvancementDisplay(TCItems.STONE_COMPONENT.get().getItemStack(), "さらに色々集めた", AdvancementFrameType.TASK, true, true, 6, 0, "wikiを見ながら石の強化資材の材料を集めた");
-        MultiTasksAdvancement stoneComponentAdv = new MultiTasksAdvancement("adv_stone_component", stoneComponentAdvDisplay, stoneAxeAdv, 4);
+        
+        BaseAdvancement stoneAxeAdv = new BaseAdvancement("adv_stone_axe", AdvancementDisplays.STONEAXE.get(), woodenComponentAdv, 1);
+        
+        MultiTasksAdvancement stoneComponentAdv = new MultiTasksAdvancement("adv_stone_component", AdvancementDisplays.STONECOMPONENT.get(), stoneAxeAdv, 4);
 
         TaskAdvancement andesiteStoneTask = new TaskAdvancement("task_andestitestone", stoneComponentAdv);
         TaskAdvancement graniteStoneTask = new TaskAdvancement("task_granitestone", stoneComponentAdv);
@@ -81,9 +71,8 @@ public enum AdvancementInitializer {
 
         stoneComponentAdv.registerTasks(andesiteStoneTask, graniteStoneTask, dioriteStoneTask, roundStoneTask);
 
-
-        AdvancementDisplay ironAxeAdvDisplay = new AdvancementDisplay(TCItems.IRON_AXE.get().getItemStack(), "鉄金器時代", AdvancementFrameType.GOAL, true, true, 7, 0, "鉄の斧/金の斧で木を伐った");
-        BaseAdvancement ironAxeAdv = new BaseAdvancement("adv_iron_axe", ironAxeAdvDisplay, stoneComponentAdv, 1);
+        
+        BaseAdvancement ironAxeAdv = new BaseAdvancement("adv_iron_axe", AdvancementDisplays.IRONAXE.get(), stoneComponentAdv, 1);
 
         primitiveAgeTab.registerAdvancements(gatherPebbleAdv, craftHatchetAdv, craftTableAdv, woodenAxeAdv, woodenComponentAdv, stoneAxeAdv, stoneComponentAdv, ironAxeAdv);
         primitiveAgeTab.automaticallyShowToPlayers();
