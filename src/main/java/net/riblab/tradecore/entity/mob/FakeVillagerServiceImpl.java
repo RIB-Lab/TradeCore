@@ -1,4 +1,4 @@
-package net.riblab.tradecore.mob;
+package net.riblab.tradecore.entity.mob;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;

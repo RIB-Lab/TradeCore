@@ -1,4 +1,4 @@
-package net.riblab.tradecore.mob;
+package net.riblab.tradecore.entity.mob;
 
 import me.gamercoder215.mobchip.EntityBrain;
 import me.gamercoder215.mobchip.ai.attribute.AttributeInstance;

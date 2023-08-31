@@ -2,7 +2,7 @@ package net.riblab.tradecore.dungeon;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.riblab.tradecore.mob.ITCMob;
+import net.riblab.tradecore.entity.mob.ITCMob;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 

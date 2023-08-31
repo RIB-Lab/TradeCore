@@ -3,7 +3,7 @@ package net.riblab.tradecore.item.base;
 import lombok.Getter;
 import net.kyori.adventure.text.TextComponent;
 import net.riblab.tradecore.item.mod.IItemMod;
-import net.riblab.tradecore.mob.ITCMob;
+import net.riblab.tradecore.entity.mob.ITCMob;
 import org.bukkit.Material;
 
 import java.util.List;

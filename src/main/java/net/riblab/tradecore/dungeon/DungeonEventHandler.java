@@ -2,8 +2,8 @@ package net.riblab.tradecore.dungeon;
 
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.general.Utils;
-import net.riblab.tradecore.mob.CustomMobService;
-import net.riblab.tradecore.mob.ITCMob;
+import net.riblab.tradecore.entity.mob.CustomMobService;
+import net.riblab.tradecore.entity.mob.ITCMob;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;

@@ -10,7 +10,7 @@ import net.riblab.tradecore.dungeon.DungeonNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.impl.*;
 import net.riblab.tradecore.item.mod.*;
-import net.riblab.tradecore.mob.TCMobs;
+import net.riblab.tradecore.entity.mob.TCMobs;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

@@ -9,7 +9,7 @@ import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.*;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
-import net.riblab.tradecore.mob.MobUtils;
+import net.riblab.tradecore.entity.mob.MobUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

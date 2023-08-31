@@ -20,7 +20,7 @@ import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
-import net.riblab.tradecore.mob.FakeVillagerService;
+import net.riblab.tradecore.entity.mob.FakeVillagerService;
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
 import net.riblab.tradecore.modifier.IIngredientAmountModifier;
 import org.bukkit.Bukkit;

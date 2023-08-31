@@ -9,7 +9,7 @@ import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.item.base.*;
-import net.riblab.tradecore.mob.CustomMobService;
+import net.riblab.tradecore.entity.mob.CustomMobService;
 import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;

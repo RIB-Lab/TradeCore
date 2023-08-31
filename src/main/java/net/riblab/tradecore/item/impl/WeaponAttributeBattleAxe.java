@@ -2,7 +2,7 @@ package net.riblab.tradecore.item.impl;
 
 import lombok.Getter;
 import net.riblab.tradecore.item.base.IWeaponAttribute;
-import net.riblab.tradecore.mob.MobUtils;
+import net.riblab.tradecore.entity.mob.MobUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;

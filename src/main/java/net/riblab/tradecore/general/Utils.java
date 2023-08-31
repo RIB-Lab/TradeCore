@@ -11,7 +11,7 @@ import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
-import net.riblab.tradecore.mob.TCMobs;
+import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.modifier.IModifier;
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
 import org.bukkit.Bukkit;

@@ -1,4 +1,4 @@
-package net.riblab.tradecore.mob;
+package net.riblab.tradecore.entity.mob;
 
 import de.tr7zw.nbtapi.NBTEntity;
 import lombok.Getter;

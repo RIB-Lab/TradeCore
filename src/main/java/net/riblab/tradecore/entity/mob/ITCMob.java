@@ -1,4 +1,4 @@
-package net.riblab.tradecore.mob;
+package net.riblab.tradecore.entity.mob;
 
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.EntityType;

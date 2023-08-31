@@ -1,6 +1,6 @@
 package net.riblab.tradecore.item.base;
 
-import net.riblab.tradecore.mob.ITCMob;
+import net.riblab.tradecore.entity.mob.ITCMob;
 
 import java.util.Map;
 

@@ -1,8 +1,8 @@
 package net.riblab.tradecore.item.impl;
 
 import lombok.Getter;
+import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.item.base.IWeaponAttribute;
-import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -33,9 +33,8 @@ public class WeaponAttributeBow implements IWeaponAttribute {
 
     @Override
     public boolean attack(Player player) {
-        Arrow arrow = player.launchProjectile(Arrow.class);
-        Vector direction = player.getLocation().getDirection();
-        arrow.setVelocity(direction.normalize().multiply(force));
+        Vector direction = player.getLocation().getDirection().multiply(force);
+        CustomProjectileService.getImpl().spawn(player, CustomProjectileService.arrow, direction, attackDamage);
         
         return true;
     }

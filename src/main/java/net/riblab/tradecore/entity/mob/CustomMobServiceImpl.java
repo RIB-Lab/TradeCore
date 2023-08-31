@@ -1,4 +1,4 @@
-package net.riblab.tradecore.mob;
+package net.riblab.tradecore.entity.mob;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Mob;

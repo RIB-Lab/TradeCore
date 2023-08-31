@@ -6,7 +6,7 @@ import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import lombok.Getter;
 import net.riblab.tradecore.item.base.TCItems;
-import net.riblab.tradecore.mob.TCMobs;
+import net.riblab.tradecore.entity.mob.TCMobs;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nonnull;

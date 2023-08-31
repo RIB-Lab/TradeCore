@@ -8,7 +8,7 @@ import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.base.ISellable;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
-import net.riblab.tradecore.mob.FakeVillagerService;
+import net.riblab.tradecore.entity.mob.FakeVillagerService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;

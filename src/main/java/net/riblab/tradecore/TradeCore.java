@@ -12,6 +12,7 @@ import net.riblab.tradecore.command.TCCommands;
 import net.riblab.tradecore.config.ConfigService;
 import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonService;
+import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.AdvancementInitializer;
 import net.riblab.tradecore.general.TCTasksInitializer;
 import net.riblab.tradecore.general.Utils;
@@ -19,8 +20,8 @@ import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.job.skill.JobSkillService;
-import net.riblab.tradecore.mob.CustomMobService;
-import net.riblab.tradecore.mob.FakeVillagerService;
+import net.riblab.tradecore.entity.mob.CustomMobService;
+import net.riblab.tradecore.entity.mob.FakeVillagerService;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
 import net.riblab.tradecore.ui.UIs;
 import org.bukkit.Bukkit;
@@ -109,6 +110,7 @@ public final class TradeCore extends JavaPlugin {
         configService.save();
 
         CustomMobService.getImpl().deSpawnAll();
+        CustomProjectileService.getImpl().deSpawnAll();
 
         Bukkit.getOnlinePlayers().forEach(BlockUtils::removeSlowDig);
 
