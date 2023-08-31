@@ -65,6 +65,8 @@ public final class GeneralEventHandler {
         if (event.getHand() == EquipmentSlot.OFF_HAND)
             return;
 
+        stopBowAim(event);
+        
         swingWeapon(event);
         if (event.isCancelled())
             return;
@@ -125,6 +127,18 @@ public final class GeneralEventHandler {
             TCEconomy.getImpl().depositTickets(event.getPlayer(), 1);
             event.getPlayer().sendMessage(Component.text("投票引換券をプレイチケットと引き換えました！"));
             event.getItem().setAmount(event.getItem().getAmount() - 1);
+        }
+    }
+
+    /**
+     * 弓のエイムをキャンセルする
+     */
+    public void stopBowAim(PlayerInteractEvent event) {
+        if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK)
+            return;
+        
+        if(event.getItem().getType() == Material.BOW){
+            event.setCancelled(true);
         }
     }
 
