@@ -8,6 +8,7 @@ import dev.jorel.commandapi.arguments.PlayerArgument;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
+import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.Materials;
@@ -257,5 +258,18 @@ public final class TCCommands {
                     player.sendMessage(Utils.getVersion());
                 });
         versionCommand.register();
+
+        CommandAPICommand projectileCommand = new CommandAPICommand(PROJECTILE.get())
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                });
+        CommandAPICommand projectileResetCommand = new CommandAPICommand(PROJECTILE_RESET.get())
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    CustomProjectileService.getImpl().deSpawnAll();
+                    player.sendMessage("射出物をリセットしました");
+                });
+        projectileCommand.withSubcommand(projectileResetCommand);
+        projectileCommand.register();
     }
 }

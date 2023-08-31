@@ -26,7 +26,9 @@ enum CommandNames {
     DUNGEON_LIST("list"),
     WIKI("wiki"),
     VERSION("tcver"),
-    SHOP_DUNGEON("dungeon");
+    SHOP_DUNGEON("dungeon"),
+    PROJECTILE("projectile"),
+    PROJECTILE_RESET("reset");
 
     private final String name;
 
