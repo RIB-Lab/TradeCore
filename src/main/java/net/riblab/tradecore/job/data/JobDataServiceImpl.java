@@ -7,6 +7,7 @@ import net.riblab.tradecore.modifier.IJobExpModifier;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -32,6 +33,7 @@ public enum JobDataServiceImpl implements JobDataService {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void addJobExp(OfflinePlayer offlinePlayer, JobType type, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
@@ -79,6 +81,7 @@ public enum JobDataServiceImpl implements JobDataService {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public IJobData getJobData(OfflinePlayer offlinePlayer, JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
@@ -96,6 +99,7 @@ public enum JobDataServiceImpl implements JobDataService {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);

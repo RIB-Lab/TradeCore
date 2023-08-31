@@ -36,7 +36,7 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
      * プレイヤーのアイテムmodが変更された時のイベント
      */
     @Getter
-    private List<Consumer<Player>> onItemModUpdated = new ArrayList<>();
+    private final List<Consumer<Player>> onItemModUpdated = new ArrayList<>();
 
     @Override
     public void updateEquipment(Player player) {
@@ -72,13 +72,10 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz) {
         //まず装備で修飾
-        List<IItemMod> equipmentMods = playerEquipmentModMap.get(player);
-        if (equipmentMods == null) {
-            equipmentMods = new ArrayList<>();
-            playerEquipmentModMap.put(player, equipmentMods);
-        }
+        List<IItemMod> equipmentMods = playerEquipmentModMap.computeIfAbsent(player, k -> new ArrayList<>());
 
         List<IItemMod> applicableMods = equipmentMods.stream().filter(clazz::isInstance).toList();
         T modifiedValue = originalValue;
@@ -87,11 +84,7 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
         }
 
         //次にメインハンドで修飾
-        List<IItemMod> mainhandMods = playerMainHandModMap.get(player);
-        if (mainhandMods == null) {
-            mainhandMods = new ArrayList<>();
-            playerMainHandModMap.put(player, mainhandMods);
-        }
+        List<IItemMod> mainhandMods = playerMainHandModMap.computeIfAbsent(player, k -> new ArrayList<>());
 
         List<IItemMod> applicableMods2 = mainhandMods.stream().filter(clazz::isInstance).toList();
         for (IItemMod applicableMod : applicableMods2) {

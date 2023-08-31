@@ -8,6 +8,8 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.item.ItemCreator;
 import org.bukkit.Material;
 
+import javax.annotation.Nonnull;
+
 /**
  * 売却可能な(素材)アイテム
  */
@@ -25,7 +27,7 @@ class TCSellableItem extends TCItem implements ISellable {
     }
 
     @Override
-    protected ItemCreator createItem() {
+    protected @Nonnull ItemCreator createItem() {
         return super.createItem().setLore(getLore());
     }
 

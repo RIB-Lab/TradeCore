@@ -67,8 +67,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
         if (!isSimilar(instance))
             return null;
 
-        Integer nbt = new ItemCreator(instance).getIntNBT(durabilityTag);
-        int durability = nbt;
+        int durability = new ItemCreator(instance).getIntNBT(durabilityTag);
 
         if (durability == -1) //耐久無限
             return instance;

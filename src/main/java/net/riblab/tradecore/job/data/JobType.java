@@ -33,7 +33,7 @@ public enum JobType {
     // Function that returns our custom argument
     public static Argument<JobType> customJobTypeArgument(String nodeName) {
 
-        return new CustomArgument<JobType, String>(new StringArgument(nodeName), info -> {
+        return new CustomArgument<>(new StringArgument(nodeName), info -> {
             JobType type = commandToJOBType(info.input());
 
             if (type == null) {
@@ -51,7 +51,6 @@ public enum JobType {
      */
     @Nullable
     public static JobType commandToJOBType(String command) {
-        JobType type = Arrays.stream(JobType.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
-        return type == null ? null : type;
+        return Arrays.stream(JobType.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
     }
 }

@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
 /**
@@ -24,6 +25,7 @@ enum FakeVillagerServiceImpl implements FakeVillagerService {
     private final Map<Player, Integer> idMap = new HashMap<>();
 
     @Override
+    @ParametersAreNonnullByDefault
     public void spawnFakeVillager(Player player, String name, Location spawnLocation) {
         if (idMap.containsKey(player))
             tryDeSpawnFakeVillager(player);

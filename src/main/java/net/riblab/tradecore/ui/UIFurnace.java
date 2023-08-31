@@ -31,8 +31,6 @@ final class UIFurnace implements IUI {
 
     /**
      * レシピ選択画面を開く
-     *
-     * @param player
      */
     @Override
     public BaseGui open(Player player) {
@@ -92,7 +90,7 @@ final class UIFurnace implements IUI {
         gui.setItem(24, nextPageButton);
 
         recipeList.forEach(tcCraftingRecipe -> {
-            ItemStack recipeStack = tcCraftingRecipe.getResult().clone();
+            ItemStack recipeStack = tcCraftingRecipe.result().clone();
             GuiItem recipeButton = new GuiItem(recipeStack,
                     event -> open(player, tcCraftingRecipe));
             gui.addItem(recipeButton);
@@ -104,7 +102,7 @@ final class UIFurnace implements IUI {
      */
     private static void addSmeltingScreen(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe) {
         int slot = 0;
-        for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
+        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
             ItemStack ingredientStack = entry.getKey().getItemStack();
             ingredientStack.setAmount(entry.getValue());
             GuiItem ingredientDisplay = new GuiItem(ingredientStack);
@@ -115,19 +113,17 @@ final class UIFurnace implements IUI {
             } while (!allowedIngredientSlotSet.contains(slot));
         }
 
-        ItemStack resultStack = recipe.getResult().clone();
+        ItemStack resultStack = recipe.result().clone();
         Component craftTip = Component.text("<<クリックで精錬>>").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false);
         resultStack = new ItemCreator(resultStack).addLore(craftTip).create();
-        resultStack.setAmount(recipe.getResultAmount());
+        resultStack.setAmount(recipe.resultAmount());
         ItemStack finalResultStack = resultStack;
-        GuiItem craftButton = new GuiItem(resultStack, event -> {
-            trySmelt(gui, player, recipe, finalResultStack);
-        });
+        GuiItem craftButton = new GuiItem(resultStack, event -> trySmelt(gui, player, recipe, finalResultStack));
         gui.setItem(14, craftButton);
 
         ItemStack feeStack = TCItems.FUEL_BALL.get().getItemStack();
         Component name = Component.text("燃料: ").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false)
-                .append(Component.text(recipe.getFuelAmount()).color(NamedTextColor.YELLOW));
+                .append(Component.text(recipe.fuelAmount()).color(NamedTextColor.YELLOW));
         Component lore = Component.text("タイプ：燃料玉").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY);
         feeStack = new ItemCreator(feeStack).setName(name).setLore(lore).create();
         GuiItem feeDisplay = new GuiItem(feeStack);
@@ -139,7 +135,7 @@ final class UIFurnace implements IUI {
      */
     private static void trySmelt(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
-        for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
+        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
             boolean playerHasItem = player.getInventory().containsAtLeast(entry.getKey().getItemStack(), entry.getValue());
             if (playerHasItem)
                 continue;
@@ -147,7 +143,7 @@ final class UIFurnace implements IUI {
             missingLore.add(Component.text(entry.getKey().getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
 
-        boolean playerHasFuel = player.getInventory().containsAtLeast(TCItems.FUEL_BALL.get().getItemStack(), recipe.getFuelAmount());
+        boolean playerHasFuel = player.getInventory().containsAtLeast(TCItems.FUEL_BALL.get().getItemStack(), recipe.fuelAmount());
         if (!playerHasFuel) {
             missingLore.add(Component.text("燃料が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
@@ -159,22 +155,20 @@ final class UIFurnace implements IUI {
             return;
         }
 
-        for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
+        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
             ItemStack itemStack = entry.getKey().getItemStack();
             itemStack.setAmount(entry.getValue());
             player.getInventory().removeItemAnySlot(itemStack);
         }
         ItemStack fuelStack = TCItems.FUEL_BALL.get().getItemStack();
-        fuelStack.setAmount(recipe.getFuelAmount());
+        fuelStack.setAmount(recipe.fuelAmount());
         player.getInventory().removeItemAnySlot(fuelStack);
 
-        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.getResult());
+        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result());
         if (remains.size() == 0)
             return;
 
-        remains.forEach((integer, itemStack) -> {
-            player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
-        });
+        remains.forEach((integer, itemStack) -> player.getWorld().dropItemNaturally(player.getLocation(), itemStack));
     }
 
     private static void close(Player player) {

@@ -32,7 +32,7 @@ public final class ItemCreator {
     /**
      * バニラアイテムの型からバニラアイテムの実体/固有アイテムの型を生成する
      *
-     * @param material
+     * @param material バニラアイテムの型
      */
     @ParametersAreNonnullByDefault
     public ItemCreator(Material material) {
@@ -42,7 +42,7 @@ public final class ItemCreator {
     /**
      * バニラアイテムの実体/固有アイテムの型/固有アイテムの実体を改造する
      *
-     * @param itemStack
+     * @param itemStack 実体
      */
     @ParametersAreNonnullByDefault
     public ItemCreator(ItemStack itemStack) {
@@ -309,13 +309,12 @@ public final class ItemCreator {
      * @return このクラス自体
      */
     public ItemCreator damage(int damage) {
-        if (!(itemStack.getItemMeta() instanceof Damageable)) {
+        if (!(itemStack.getItemMeta() instanceof Damageable damageable)) {
             return this;
         }
 
-        Damageable damagable = ((Damageable) itemStack.getItemMeta());
-        damagable.setDamage(damagable.getDamage() + damage);
-        itemStack.setItemMeta(damagable);
+        damageable.setDamage(damageable.getDamage() + damage);
+        itemStack.setItemMeta(damageable);
         return this;
     }
 

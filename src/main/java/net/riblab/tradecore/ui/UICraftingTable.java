@@ -50,9 +50,6 @@ final class UICraftingTable implements IUI {
     
     /**
      * カテゴリやレシピ選択画面を開く
-     *
-     * @param player
-     * @param type
      */
     public static PaginatedGui open(Player player, CraftingScreenType type) {
         PaginatedGui gui = Gui.paginated()
@@ -148,7 +145,7 @@ final class UICraftingTable implements IUI {
      */
     private static void addRecipeListScreen(CraftingScreenType type, PaginatedGui gui, Player player) {
         List<ITCCraftingRecipe> recipeList = TCCraftingRecipes.getRecipes(type.getRecipeType());
-        if (recipeList == null || recipeList.size() == 0)
+        if (recipeList.size() == 0)
             return;
 
         gui.setPageSize(9);
@@ -162,7 +159,7 @@ final class UICraftingTable implements IUI {
         gui.setItem(24, nextPageButton);
 
         recipeList.forEach(tcCraftingRecipe -> {
-            ItemStack recipeStack = tcCraftingRecipe.getResult().clone();
+            ItemStack recipeStack = tcCraftingRecipe.result().clone();
             GuiItem recipeButton = new GuiItem(recipeStack,
                     event -> open(player, tcCraftingRecipe));
             gui.addItem(recipeButton);
@@ -174,7 +171,7 @@ final class UICraftingTable implements IUI {
      */
     private static void addCraftingScreen(PaginatedGui gui, Player player, ITCCraftingRecipe recipe) {
         int slot = 0;
-        for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
+        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
             ItemStack ingredientStack = entry.getKey().getItemStack();
 
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
@@ -191,19 +188,17 @@ final class UICraftingTable implements IUI {
             } while (!allowedIngredientSlotSet.contains(slot));
         }
 
-        ItemStack resultStack = recipe.getResult().clone();
+        ItemStack resultStack = recipe.result().clone();
         Component craftTip = Component.text("<<クリックで製作>>").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false);
         resultStack = new ItemCreator(resultStack).addLore(craftTip).create();
-        resultStack.setAmount(recipe.getResultAmount());
+        resultStack.setAmount(recipe.resultAmount());
         ItemStack finalResultStack = resultStack;
-        GuiItem craftButton = new GuiItem(resultStack, event -> {
-            tryCraft(gui, player, recipe, finalResultStack);
-        });
+        GuiItem craftButton = new GuiItem(resultStack, event -> tryCraft(gui, player, recipe, finalResultStack));
         gui.setItem(14, craftButton);
 
         ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
         packedCraftFee.setRecipe(recipe);
-        packedCraftFee.setFee(recipe.getFee());
+        packedCraftFee.setFee(recipe.fee());
         double skillAppliedFee = Utils.apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
 
         ItemStack feeStack = TCItems.COIN.get().getItemStack();
@@ -220,7 +215,7 @@ final class UICraftingTable implements IUI {
      */
     private static void tryCraft(PaginatedGui gui, Player player, ITCCraftingRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
-        for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
+        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
             packedRecipeData.setRecipe(recipe);
             packedRecipeData.setAmount(entry.getValue());
@@ -236,10 +231,10 @@ final class UICraftingTable implements IUI {
         double balance = TCEconomy.getImpl().getBalance(player);
         ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
         packedCraftFee.setRecipe(recipe);
-        packedCraftFee.setFee(recipe.getFee());
+        packedCraftFee.setFee(recipe.fee());
         double skillAppliedFee = Utils.apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
         if (skillAppliedFee > balance) {
-            missingLore.add(Component.text("所持金が足りません！ " + Math.floor(balance * 100) / 100 + "/" + recipe.getFee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+            missingLore.add(Component.text("所持金が足りません！ " + Math.floor(balance * 100) / 100 + "/" + recipe.fee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
 
         if (missingLore.size() > 0) {
@@ -249,7 +244,7 @@ final class UICraftingTable implements IUI {
             return;
         }
 
-        for (Map.Entry<ITCItem, Integer> entry : recipe.getIngredients().entrySet()) {
+        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
             ItemStack itemStack = entry.getKey().getItemStack();
 
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
@@ -262,15 +257,13 @@ final class UICraftingTable implements IUI {
         }
         TCEconomy.getImpl().withdrawPlayer(player, skillAppliedFee);
 
-        JobDataService.getImpl().addJobExp(player, JobType.Crafter, (int) recipe.getFee());
+        JobDataService.getImpl().addJobExp(player, JobType.Crafter, (int) recipe.fee());
 
-        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.getResult());
+        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result());
         if (remains.size() == 0)
             return;
 
-        remains.forEach((integer, itemStack) -> {
-            player.getWorld().dropItemNaturally(player.getLocation(), itemStack);
-        });
+        remains.forEach((integer, itemStack) -> player.getWorld().dropItemNaturally(player.getLocation(), itemStack));
     }
 
     private static void close(Player player) {

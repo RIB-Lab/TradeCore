@@ -36,7 +36,7 @@ final class DungeonBuilder {
      * @param schemName          ダンジョンを建設するのに使うschematicの名前
      * @return 建設されたダンジョン
      */
-    public static World build(IDungeonData data, String affixedDungeonName, String schemName) {
+    public static World build(IDungeonData<?> data, String affixedDungeonName, String schemName) {
         //ワールドをresourceからコピー
         File destDir = new File(affixedDungeonName);
         try {
@@ -49,6 +49,11 @@ final class DungeonBuilder {
         WorldCreator wc = new WorldCreator(affixedDungeonName, new NamespacedKey(TradeCore.getInstance(), affixedDungeonName));
         wc.generator(new EmptyChunkGenerator());
         World world = Bukkit.getServer().createWorld(wc);
+        
+        if(world == null){
+            Bukkit.getLogger().severe("ワールドの生成に失敗しました");
+            return null;
+        }
 
         //ダンジョン名に対応したschemをresourceからコピーする
         File instantiatedSchemFile = new File(pasteSchemDir + "/" + schemName + ".schem");
@@ -67,8 +72,11 @@ final class DungeonBuilder {
         //schemから地形生成
         Clipboard clipboard;
         ClipboardFormat format = ClipboardFormats.findByFile(instantiatedSchemFile);
-        try (ClipboardReader reader = format.getReader(new FileInputStream(instantiatedSchemFile))) {
-            clipboard = reader.read();
+        try {
+            assert format != null;
+            try (ClipboardReader reader = format.getReader(new FileInputStream(instantiatedSchemFile))) {
+                clipboard = reader.read();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

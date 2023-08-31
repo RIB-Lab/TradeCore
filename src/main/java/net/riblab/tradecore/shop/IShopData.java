@@ -7,9 +7,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 public interface IShopData {
-    String getName();
+    String name();
 
-    List<ShopItem> getShopItemList();
+    List<ShopItem> shopItemList();
 
     @Data
     @AllArgsConstructor

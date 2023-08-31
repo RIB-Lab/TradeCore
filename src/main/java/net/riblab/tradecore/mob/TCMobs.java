@@ -67,7 +67,7 @@ public enum TCMobs {
     public static Argument<ITCMob> customITCMobArgument(String nodeName) {
 
         // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<ITCMob, String>(new StringArgument(nodeName), info -> {
+        return new CustomArgument<>(new StringArgument(nodeName), info -> {
             // Parse the itcMob from our input
             ITCMob itcMob = commandToTCMob(info.input());
 

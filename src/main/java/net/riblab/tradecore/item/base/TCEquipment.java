@@ -12,6 +12,7 @@ import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +41,7 @@ class TCEquipment extends TCItem implements ITCEquipment {
     private static final String durabilityTag = "durability";
 
     @Override
-    protected ItemCreator createItem() {
+    protected @Nonnull ItemCreator createItem() {
         ItemStack itemStack = super.createItem()
                 .setIntNBT(durabilityTag, baseDurability)
                 .setLores(getLore(baseDurability)).create();
@@ -82,8 +83,7 @@ class TCEquipment extends TCItem implements ITCEquipment {
         if (!isSimilar(instance))
             return null;
 
-        Integer nbt = new ItemCreator(instance).getIntNBT(durabilityTag);
-        int durability = nbt;
+        int durability = new ItemCreator(instance).getIntNBT(durabilityTag);
 
         if (durability == -1) //耐久無限
             return instance;

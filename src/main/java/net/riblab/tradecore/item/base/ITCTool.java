@@ -25,9 +25,9 @@ public interface ITCTool extends IHasDurability, IHasItemMod {
     }
 
     /**
-     * ツールの種類 TODO:SWORDを廃止してTCWeaponに移行
+     * ツールの種類
      */
-    public enum ToolType {
+    enum ToolType {
         HAND(JobType.Mower),
         AXE(JobType.Woodcutter),
         PICKAXE(JobType.Miner),

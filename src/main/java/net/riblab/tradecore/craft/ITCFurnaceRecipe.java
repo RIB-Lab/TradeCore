@@ -8,12 +8,12 @@ import java.util.Map;
 
 public interface ITCFurnaceRecipe {
     @Nonnull
-    Map<ITCItem, Integer> getIngredients();
+    Map<ITCItem, Integer> ingredients();
 
     @Nonnull
-    ItemStack getResult();
+    ItemStack result();
 
-    int getResultAmount();
+    int resultAmount();
 
-    int getFuelAmount();
+    int fuelAmount();
 }

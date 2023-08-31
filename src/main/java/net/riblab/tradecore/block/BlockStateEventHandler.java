@@ -100,8 +100,6 @@ public final class BlockStateEventHandler implements Listener {
 
     /**
      * カスタムツールが使われていた場合、ドロップ品や敵を生成する
-     *
-     * @param event
      */
     @ParametersAreNonnullByDefault
     public void tryHarvestBlockWithCustomTool(BlockBreakEvent event) {
@@ -157,8 +155,6 @@ public final class BlockStateEventHandler implements Listener {
 
     /**
      * クワの耕地ドロップ処理を実行すると同時にITCItemが設置されるのを防止する
-     *
-     * @param event
      */
     @ParametersAreNonnullByDefault
     public void tryProcessHoeDrop(BlockPlaceEvent event) {

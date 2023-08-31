@@ -53,7 +53,7 @@ public enum Shops {
     public static Argument<IShopData> customShopDataArgument(String nodeName) {
 
         // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<IShopData, String>(new StringArgument(nodeName), info -> {
+        return new CustomArgument<>(new StringArgument(nodeName), info -> {
             // Parse the data from our input
             IShopData data = commandToShop(info.input());
 
@@ -64,7 +64,7 @@ public enum Shops {
             }
         }).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 // List of shops on the server
-                Arrays.stream(values()).map(shops -> shops.toString()).toArray(String[]::new))
+                Arrays.stream(values()).map(Enum::toString).toArray(String[]::new))
         );
     }
 }

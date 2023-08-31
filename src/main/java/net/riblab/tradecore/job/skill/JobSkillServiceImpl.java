@@ -68,15 +68,10 @@ enum JobSkillServiceImpl implements JobSkillService {
     @Override
     public void learnSkill(OfflinePlayer offlinePlayer, JobType jobType, Class<? extends IJobSkill> skillType) {
         UUID uuid = offlinePlayer.getUniqueId();
-        List<IJobSkill> datas = datasMap.get(uuid);
-        if (datas == null) {
-            datas = new ArrayList<>();
-            datasMap.put(uuid, datas);
-        }
+        List<IJobSkill> datas = datasMap.computeIfAbsent(uuid, k -> new ArrayList<>());
 
-        IJobSkill learnedSkillInstance = datas.stream().filter(skillInData -> {
-            return skillType.isInstance(skillInData) && skillInData.getLearnedJobType() == jobType;
-        }).findFirst().orElse(null);
+        IJobSkill learnedSkillInstance = datas.stream().filter(
+                skillInData -> skillType.isInstance(skillInData) && skillInData.getLearnedJobType() == jobType).findFirst().orElse(null);
 
         if (learnedSkillInstance != null) { //既にスキルを習得済みの場合、スキルのレベルを1上げる
             learnedSkillInstance.setLevel(learnedSkillInstance.getLevel() + 1);
@@ -107,15 +102,10 @@ enum JobSkillServiceImpl implements JobSkillService {
     @Override
     public int getSkillLevel(OfflinePlayer offlinePlayer, JobType jobType, Class<? extends IJobSkill> skillType) {
         UUID uuid = offlinePlayer.getUniqueId();
-        List<IJobSkill> datas = datasMap.get(uuid);
-        if (datas == null) {
-            datas = new ArrayList<>();
-            datasMap.put(uuid, datas);
-        }
+        List<IJobSkill> datas = datasMap.computeIfAbsent(uuid, k -> new ArrayList<>());
 
-        IJobSkill learnedSkillInstance = datas.stream().filter(skillInData -> {
-            return skillType.isInstance(skillInData) && skillInData.getLearnedJobType() == jobType;
-        }).findFirst().orElse(null);
+        IJobSkill learnedSkillInstance = datas.stream().filter(
+                skillInData -> skillType.isInstance(skillInData) && skillInData.getLearnedJobType() == jobType).findFirst().orElse(null);
 
         if (learnedSkillInstance != null) {
             return learnedSkillInstance.getLevel();
@@ -138,7 +128,7 @@ enum JobSkillServiceImpl implements JobSkillService {
                     newIJobSkill.setInternalName(IJobSkill.getInternalName());
                     extendedIJobSkills.add(newIJobSkill);
                 } catch (ClassNotFoundException | InvocationTargetException | InstantiationException |
-                         IllegalAccessException | NoSuchMethodException e) {
+                         IllegalAccessException | NoSuchMethodException ignored) {
                 }
             }
             uuidListEntry.setValue(extendedIJobSkills);
@@ -146,13 +136,10 @@ enum JobSkillServiceImpl implements JobSkillService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T apply(Player player, T originalValue, T modifiedValue, Class<? extends IModifier<T>> clazz) {
         UUID uuid = player.getUniqueId();
-        List<IJobSkill> datas = datasMap.get(uuid);
-        if (datas == null) {
-            datas = new ArrayList<>();
-            datasMap.put(uuid, datas);
-        }
+        List<IJobSkill> datas = datasMap.computeIfAbsent(uuid, k -> new ArrayList<>());
 
         List<IJobSkill> learnedSkillInstances = datas.stream().filter(clazz::isInstance).toList();
         for (IJobSkill learnedSkillInstance : learnedSkillInstances) {

@@ -16,9 +16,6 @@ public interface IHasDurability {
 
     /**
      * ツールのインスタンスの耐久値を減らす / 回復させる
-     *
-     * @param instance
-     * @return
      */
     ItemStack reduceDurability(ItemStack instance, int amount);
 }

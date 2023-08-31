@@ -9,7 +9,7 @@ import net.riblab.tradecore.craft.ITCCraftingRecipe;
 public interface ICraftFeeModifier extends IModifier<ICraftFeeModifier.PackedCraftFee> {
 
     @Data
-    public class PackedCraftFee {
+    class PackedCraftFee {
         ITCCraftingRecipe recipe;
         double fee;
     }

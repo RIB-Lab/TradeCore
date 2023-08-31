@@ -130,8 +130,6 @@ public final class GeneralEventHandler {
 
     /**
      * 宙に向かって武器を振ったとき
-     *
-     * @param event
      */
     public void swingWeapon(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)

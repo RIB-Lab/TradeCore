@@ -9,7 +9,7 @@ import net.riblab.tradecore.craft.ITCCraftingRecipe;
 public interface IIngredientAmountModifier extends IModifier<IIngredientAmountModifier.PackedRecipeData> {
 
     @Data
-    public class PackedRecipeData {
+    class PackedRecipeData {
         ITCCraftingRecipe recipe;
         int amount;
     }

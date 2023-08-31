@@ -7,19 +7,10 @@ import java.util.List;
 
 /**
  * 汎用ショップのデータ
+ *
+ * @param name         ショップの名前
+ * @param shopItemList ショップに並ぶアイテムのリスト
  */
-@RequiredArgsConstructor
-class ShopData implements IShopData {
-
-    /**
-     * ショップの名前
-     */
-    @Getter
-    private final String name;
-    /**
-     * ショップに並ぶアイテムのリスト
-     */
-    @Getter
-    private final List<ShopItem> shopItemList;
+record ShopData(@Getter String name, @Getter List<ShopItem> shopItemList) implements IShopData {
 
 }

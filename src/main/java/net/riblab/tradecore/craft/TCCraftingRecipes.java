@@ -72,13 +72,13 @@ public enum TCCraftingRecipes {
      */
     @Nonnull
     public static List<ITCCraftingRecipe> getRecipes(RecipeType type) {
-        return Arrays.stream(TCCraftingRecipes.values()).map(TCCraftingRecipes::getRecipe).filter(tcCraftingRecipe -> tcCraftingRecipe.getCategory() == type).collect(Collectors.toList());
+        return Arrays.stream(TCCraftingRecipes.values()).map(TCCraftingRecipes::getRecipe).filter(tcCraftingRecipe -> tcCraftingRecipe.category() == type).collect(Collectors.toList());
     }
 
     /**
      * レシピの種類
      */
     public enum RecipeType {
-        ARMOR, TOOL, WEAPON, MISC;
+        ARMOR, TOOL, WEAPON, MISC
     }
 }

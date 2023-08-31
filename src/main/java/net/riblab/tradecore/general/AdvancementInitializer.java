@@ -1,12 +1,9 @@
 package net.riblab.tradecore.general;
 
 import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
-import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
-import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDisplay;
-import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementFrameType;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.MultiTasksAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.TaskAdvancement;
 import net.riblab.tradecore.TradeCore;
@@ -93,7 +90,7 @@ public enum AdvancementInitializer {
             check(itcItem, TCItems.GOLDEN_AXE, Advancements.IRONAXE.get(), player);
         });
 
-        Bukkit.getOnlinePlayers().forEach(player -> primitiveAgeTab.showTab(player));
+        Bukkit.getOnlinePlayers().forEach(primitiveAgeTab::showTab);
         isInit = true;
     }
 

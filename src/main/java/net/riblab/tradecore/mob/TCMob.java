@@ -14,6 +14,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
 import java.util.Random;
 
@@ -56,6 +57,7 @@ class TCMob implements ITCMob {
     private static final int lifetime = 6000;
 
     @Override
+    @ParametersAreNonnullByDefault
     public void spawn(Mob mob) {
         mob.customName(customName);
         mob.setCustomNameVisible(false);
@@ -87,6 +89,7 @@ class TCMob implements ITCMob {
     }
 
     @Override
+    @ParametersAreNonnullByDefault
     public void onKilledByPlayer(Mob instance) {
         Random random = new Random();
         drops.forEach((itemStack, aFloat) -> {

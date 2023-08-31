@@ -38,9 +38,10 @@ public enum JobSkills {
      */
     @ParametersAreNonnullByDefault
     @Nonnull
+    @SuppressWarnings("unchecked")
     public static List<Class<? extends IJobSkill>> getAvailableSkills(JobType jobType) {
         return Arrays.stream(JobSkills.values()).map(jobSkills -> jobSkills.skillType).filter(skillType -> {
-            List<JobType> skillTypes = new ArrayList<>();
+            List<JobType> skillTypes;
             try {
                 Field field = skillType.getDeclaredField("availableSkillType");
                 skillTypes = (List<JobType>) field.get(null);
@@ -75,6 +76,7 @@ public enum JobSkills {
      */
     @ParametersAreNonnullByDefault
     @Nonnull
+    @SuppressWarnings("unchecked")
     public static List<Component> getSkillLore(Class<? extends IJobSkill> skillType) {
         Field field;
         try {

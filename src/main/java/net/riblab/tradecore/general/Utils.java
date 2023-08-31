@@ -41,10 +41,6 @@ public final class Utils {
 
     /**
      * BukkitのOnDisableでエラーが出ないようにクラスを強制的にロードする
-     *
-     * @param klass
-     * @param <T>
-     * @return
      */
     @ParametersAreNonnullByDefault
     @Nonnull
@@ -87,7 +83,7 @@ public final class Utils {
      *
      * @param srcDirName コピー前の.jar内のディレクトリの名前
      * @param destDir    .jarの外のディレクトリのパス
-     * @throws IOException
+     * @throws IOException　コピーに失敗
      */
     @ParametersAreNonnullByDefault
     public static void copyFolder(String srcDirName, File destDir) throws IOException {
@@ -107,17 +103,12 @@ public final class Utils {
                 if (parent != null) {
                     parent.mkdirs();
                 }
-                FileOutputStream out = new FileOutputStream(dest);
-                InputStream in = jar.getInputStream(entry);
-                try {
+                try (FileOutputStream out = new FileOutputStream(dest); InputStream in = jar.getInputStream(entry)) {
                     byte[] buffer = new byte[8 * 1024];
                     int s = 0;
                     while ((s = in.read(buffer)) > 0) {
                         out.write(buffer, 0, s);
                     }
-                } finally {
-                    in.close();
-                    out.close();
                 }
             }
         }
@@ -145,7 +136,7 @@ public final class Utils {
      * @param srcFileName コピー前の.jar内のファイルの名前
      * @param destDir     .jarの外のディレクトリのパス
      * @return コピーに成功したかどうか
-     * @throws IOException
+     * @throws IOException コピーに失敗
      */
     @ParametersAreNonnullByDefault
     public static boolean copyFile(String srcFileName, File destDir) throws IOException {
@@ -169,7 +160,7 @@ public final class Utils {
                 InputStream in = jar.getInputStream(entry);
                 try {
                     byte[] buffer = new byte[8 * 1024];
-                    int s = 0;
+                    int s;
                     while ((s = in.read(buffer)) > 0) {
                         out.write(buffer, 0, s);
                     }
@@ -188,8 +179,8 @@ public final class Utils {
     /**
      * フォルダーを完全に削除する
      *
-     * @param file
-     * @return
+     * @param file　削除したいフォルダーのパス
+     * @return 削除に成功したかどうか
      */
     @ParametersAreNonnullByDefault
     public static boolean deleteFolder(File file) {
@@ -236,7 +227,7 @@ public final class Utils {
 
     /**
      * プラグインのバージョンを取得する
-     * @return
+     * @return プラグインのバージョン
      */
     public static String getVersion(){
         return TradeCore.getInstance().getDescription().getVersion();

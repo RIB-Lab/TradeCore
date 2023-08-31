@@ -27,8 +27,6 @@ public interface JobSkillService {
 
     /**
      * プレイヤーが既に習得したあるジョブのスキルの数を取得する
-     *
-     * @return
      */
     int getLearntSkillCount(OfflinePlayer offlinePlayer, JobType type);
 

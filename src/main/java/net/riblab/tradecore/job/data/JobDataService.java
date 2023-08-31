@@ -24,9 +24,6 @@ public interface JobDataService {
 
     /**
      * プレイヤーのjobデータを差し替える
-     *
-     * @param offlinePlayer
-     * @param dataToSet
      */
     @ParametersAreNonnullByDefault
     void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet);

@@ -35,13 +35,6 @@ public class TCTool extends TCItem implements ITCTool {
 
     /**
      * 　固有アイテムの型を作成する
-     *
-     * @param name            作りたい固有アイテムの名前(ユーザーが読むので必ず日本語にすること)
-     * @param material        作りたい固有アイテムの元となるバニラアイテム
-     * @param internalName    作りたい固有アイテムの内部的な名前<br>
-     *                        召喚コマンドで使われるので必ず半角英数字にしてスペースの代わりに_を使うこと
-     * @param customModelData 固有アイテムにセットするカスタムモデルデータ
-     * @param mods
      */
     public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, int baseDurability, List<IItemMod> mods) {
         super(name, material, internalName, customModelData);
@@ -85,8 +78,7 @@ public class TCTool extends TCItem implements ITCTool {
         if (!isSimilar(instance))
             return null;
 
-        Integer nbt = new ItemCreator(instance).getIntNBT(durabilityTag);
-        int durability = nbt;
+        int durability = new ItemCreator(instance).getIntNBT(durabilityTag);
 
         if (durability == -1) //耐久無限
             return instance;

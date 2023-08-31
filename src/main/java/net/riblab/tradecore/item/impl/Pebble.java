@@ -11,6 +11,7 @@ import net.riblab.tradecore.item.base.TCTool;
 import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class Pebble extends TCTool implements ISellable {
@@ -27,7 +28,7 @@ public class Pebble extends TCTool implements ISellable {
     }
 
     @Override
-    protected ItemCreator createItem() {
+    protected @Nonnull ItemCreator createItem() {
         return super.createItem().setLores(getLore());
     }
 

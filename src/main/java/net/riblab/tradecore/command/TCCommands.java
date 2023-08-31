@@ -236,7 +236,7 @@ public final class TCCommands {
                 .executesPlayer((player, args) -> {
                     player.sendMessage("～ダンジョンリスト～");
                     DungeonService IDungeonService = DungeonService.getImpl();
-                    IDungeonService.getDungeonListInfo().forEach(s -> player.sendMessage(s));
+                    IDungeonService.getDungeonListInfo().forEach(player::sendMessage);
                 });
         dungeonCommand.withSubcommand(enterDungeonCommand);
         dungeonCommand.withSubcommand(leaveDungeonCommand);

@@ -21,8 +21,6 @@ public final class BlockUtils {
 
     /**
      * カスタムブロック破壊を実装
-     *
-     * @param player
      */
     @ParametersAreNonnullByDefault
     public static void addSlowDig(Player player) {
@@ -31,8 +29,6 @@ public final class BlockUtils {
 
     /**
      * カスタムブロック破壊を除去
-     *
-     * @param player
      */
     @ParametersAreNonnullByDefault
     public static void removeSlowDig(Player player) {

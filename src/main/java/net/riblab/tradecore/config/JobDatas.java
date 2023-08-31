@@ -23,6 +23,7 @@ public class JobDatas {
     /**
      * プレイヤーのJobを操作するときはインターフェース経由で
      */
+    @SuppressWarnings("unchecked")
     public Map<UUID, List<IJobData>> getPlayerJobs() {
         return (Map<UUID, List<IJobData>>) (Object) playerJobs;
     }
@@ -30,6 +31,7 @@ public class JobDatas {
     /**
      * プレイヤーのJobスキルを操作するときはインターフェース経由で
      */
+    @SuppressWarnings("unchecked")
     public Map<UUID, List<IJobSkill>> getPlayerJobSkills() {
         return (Map<UUID, List<IJobSkill>>) (Object) playerJobSkills;
     }

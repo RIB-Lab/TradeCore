@@ -157,7 +157,7 @@ public enum TCItems {
     public static Argument<ITCItem> customITCItemArgument(String nodeName) {
 
         // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<ITCItem, String>(new StringArgument(nodeName), info -> {
+        return new CustomArgument<>(new StringArgument(nodeName), info -> {
             // Parse the itcItem from our input
             ITCItem itcItem = commandToTCItem(info.input());
 

@@ -6,8 +6,8 @@ public interface IModifier<T> {
      *
      * @param originalValue 元々の値
      * @param modifiedValue 他のIModifierを通って変化した値(注意：Tが参照型の時originalValueとmodifiedValueは常に同じ！)
-     * @return
+     * @return このmodifierを通って変化した値
      */
 
-    public T apply(T originalValue, T modifiedValue);
+    T apply(T originalValue, T modifiedValue);
 }

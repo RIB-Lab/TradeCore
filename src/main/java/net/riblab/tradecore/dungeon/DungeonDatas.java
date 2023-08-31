@@ -51,7 +51,7 @@ public enum DungeonDatas {
                 return data;
             }
         }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                Arrays.stream(values()).map(dungeons -> dungeons.toString()).toArray(String[]::new))
+                Arrays.stream(values()).map(Enum::toString).toArray(String[]::new))
         );
     }
 

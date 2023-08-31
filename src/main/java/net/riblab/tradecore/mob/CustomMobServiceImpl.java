@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +17,10 @@ enum CustomMobServiceImpl implements CustomMobService {
     /**
      * このプラグインが現在スポーンさせているモブのリスト
      */
-    private List<Mob> spawnedMobs = new ArrayList<>();
+    private final List<Mob> spawnedMobs = new ArrayList<>();
 
     @Override
+    @ParametersAreNonnullByDefault
     public void spawn(Player player, Location spawnlocation, ITCMob type) {
         Mob entity = (Mob) spawnlocation.getWorld().spawnEntity(spawnlocation, type.getBaseType());
         entity.setTarget(player);

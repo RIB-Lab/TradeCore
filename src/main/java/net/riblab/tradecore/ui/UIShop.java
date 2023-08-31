@@ -26,7 +26,7 @@ public final class UIShop {
         }
         
         PaginatedGui gui = Gui.paginated()
-                .title(Component.text(data.getName()))
+                .title(Component.text(data.name()))
                 .rows(6)
                 .disableAllInteractions()
                 .create();
@@ -38,7 +38,7 @@ public final class UIShop {
                 event -> gui.next());
         gui.setItem(50, nextPageButton);
 
-        for (IShopData.ShopItem shopItem : data.getShopItemList()) {
+        for (IShopData.ShopItem shopItem : data.shopItemList()) {
             GuiItem blockButton = new GuiItem(new ItemCreator(shopItem.getItemStack().clone()).addLore(Component.text(shopItem.getPrice() + "RIB").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)).create(),
                     event -> buy(event, shopItem));
             gui.addItem(blockButton);

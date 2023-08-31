@@ -53,8 +53,8 @@ public enum LootTables {
     @ParametersAreNonnullByDefault
     public static Multimap<Float, ITCItem> get(Material material, TCTool.ToolType toolType) {
         Multimap<Float, ITCItem> itemMap = ArrayListMultimap.create();
-        List<Map<Float, ITCItem>> itemMaps = Arrays.stream(LootTables.values()).map(LootTables::get).filter(table1 -> table1.getMaterial().contains(material)).filter(table1 -> table1.getToolType() == toolType)
-                .map(LootTable::getDropChanceMap).toList();
+        List<Map<Float, ITCItem>> itemMaps = Arrays.stream(LootTables.values()).map(LootTables::get).filter(table1 -> table1.material().contains(material)).filter(table1 -> table1.toolType() == toolType)
+                .map(LootTable::dropChanceMap).toList();
         itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach(itemMap::put));
         return itemMap;
     }
@@ -69,10 +69,10 @@ public enum LootTables {
         Multimap<Float, ITCItem> itemMultiMap = ArrayListMultimap.create();
         List<Map<Float, ITCItem>> itemMaps = Arrays.stream(LootTables.values())
                 .map(LootTables::get)
-                .filter(table1 -> table1.getMaterial().contains(material))
-                .filter(table1 -> table1.getToolType() == tool.getToolType())
-                .filter(lootTable -> lootTable.getHarvestLevel() <= tool.getHarvestLevel())
-                .map(LootTable::getDropChanceMap).toList();
+                .filter(table1 -> table1.material().contains(material))
+                .filter(table1 -> table1.toolType() == tool.getToolType())
+                .filter(lootTable -> lootTable.harvestLevel() <= tool.getHarvestLevel())
+                .map(LootTable::dropChanceMap).toList();
         itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach(itemMultiMap::put));
         return itemMultiMap;
     }
@@ -84,9 +84,9 @@ public enum LootTables {
     public static int getMinHardness(Material material, ITCTool tool) {
         List<Integer> hardnessList = Arrays.stream(LootTables.values())
                 .map(LootTables::get)
-                .filter(table1 -> table1.getMaterial().contains(material))
-                .filter(table1 -> table1.getToolType() == tool.getToolType())
-                .map(LootTable::getHarvestLevel).toList();
+                .filter(table1 -> table1.material().contains(material))
+                .filter(table1 -> table1.toolType() == tool.getToolType())
+                .map(LootTable::harvestLevel).toList();
         if (hardnessList.size() == 0)
             return Integer.MAX_VALUE;
 
@@ -95,27 +95,14 @@ public enum LootTables {
 
     /**
      * バニラのルートテーブルとは別の概念
+     *
+     * @param material      ドロップテーブルの対象アイテム
+     * @param toolType      ドロップテーブルを発動させるのに必要なツールの種類
+     * @param harvestLevel  ドロップテーブルを発動させるために必要な最小のツールレベル
+     * @param dropChanceMap ドロップ率(0~1)とその確率でドロップするアイテムのマップ
      */
-    @Data
-    public static class LootTable {
-        /**
-         * ドロップテーブルの対象アイテム
-         */
-        private final Set<Material> material;
-
-        /**
-         * ドロップテーブルを発動させるのに必要なツールの種類
-         */
-        private final TCTool.ToolType toolType;
-
-        /**
-         * ドロップテーブルを発動させるために必要な最小のツールレベル
-         */
-        private final int harvestLevel;
-
-        /**
-         * ドロップ率(0~1)とその確率でドロップするアイテムのマップ
-         */
-        private final Map<Float, ITCItem> dropChanceMap;
-    }
+    public record LootTable(Set<Material> material,
+                            TCTool.ToolType toolType,
+                            int harvestLevel,
+                            Map<Float, ITCItem> dropChanceMap) { }
 }

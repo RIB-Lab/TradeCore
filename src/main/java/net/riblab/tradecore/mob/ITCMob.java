@@ -11,8 +11,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 public interface ITCMob {
     /**
      * エンティティがスポーンするときの処理
-     *
-     * @param mob
      */
     @ParametersAreNonnullByDefault
     void spawn(Mob mob);
