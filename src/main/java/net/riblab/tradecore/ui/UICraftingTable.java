@@ -1,6 +1,7 @@
 package net.riblab.tradecore.ui;
 
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
@@ -35,13 +36,18 @@ import java.util.*;
 /**
  * 作業台UI
  */
-public final class UICraftingTable {
+final class UICraftingTable implements IUI {
 
     /**
      * レシピや材料を置くことが可能なスロット番号のリスト
      */
     private static final Set<Integer> allowedIngredientSlotSet = Set.of(0, 1, 2, 9, 10, 11, 18, 19, 20);
 
+    @Override
+    public BaseGui open(Player player) {
+        return open(player, CraftingScreenType.CATEGORY);
+    }
+    
     /**
      * カテゴリやレシピ選択画面を開く
      *

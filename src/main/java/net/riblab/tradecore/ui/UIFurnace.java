@@ -1,6 +1,7 @@
 package net.riblab.tradecore.ui;
 
 import dev.triumphteam.gui.builder.item.ItemBuilder;
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
@@ -21,7 +22,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
-public final class UIFurnace {
+final class UIFurnace implements IUI {
 
     /**
      * レシピや材料を置くことが可能なスロット番号のリスト
@@ -33,7 +34,8 @@ public final class UIFurnace {
      *
      * @param player
      */
-    public static PaginatedGui open(Player player) {
+    @Override
+    public BaseGui open(Player player) {
         PaginatedGui gui = Gui.paginated()
                 .title(SmeltingScreenType.SELECTION.getTitle())
                 .rows(3)

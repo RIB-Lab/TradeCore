@@ -146,17 +146,17 @@ public final class TCCommands {
         CommandAPICommand adminShopCommand = new CommandAPICommand(SHOP_ADMIN.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    UIAdminShop.open(player);
+                    UIs.ADMINSHOP.get().open(player);
                 });
         CommandAPICommand respecShopCommand = new CommandAPICommand(SHOP_RESPEC.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    UISkillRespec.open(player);
+                    UIs.SKILLRESPEC.get().open(player);
                 });
         CommandAPICommand dungeonShopCommand = new CommandAPICommand(SHOP_DUNGEON.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    UIDungeonEnter.open(player);
+                    UIs.DUNGEONENTER.get().open(player);
                 });
         shopCommand.withSubcommand(adminShopCommand);
         shopCommand.withSubcommand(respecShopCommand);
@@ -166,7 +166,7 @@ public final class TCCommands {
         CommandAPICommand jobCommand = new CommandAPICommand(JOB.get())
                 .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
-                    UIJobs.open(player);
+                    UIs.JOBS.get().open(player);
                 });
         CommandAPICommand jobSetCommand = new CommandAPICommand(JOB_SETJOBLV.get())
                 .withPermission(CommandPermission.OP)

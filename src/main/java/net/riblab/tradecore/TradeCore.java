@@ -22,7 +22,7 @@ import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.mob.CustomMobService;
 import net.riblab.tradecore.mob.FakeVillagerService;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
-import net.riblab.tradecore.ui.UISell;
+import net.riblab.tradecore.ui.UIs;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -94,7 +94,7 @@ public final class TradeCore extends JavaPlugin {
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
-                                    UISell.open(event.getPlayer());
+                                    UIs.SELL.get().open(event.getPlayer());
                                 }
                             }.runTaskLater(TradeCore.getInstance(), 0);
                         }

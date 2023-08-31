@@ -1,5 +1,6 @@
 package net.riblab.tradecore.ui;
 
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
@@ -18,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * 臨時アドミンショップのUI。使い捨て
  */
-public final class UIAdminShop {
+final class UIAdminShop implements IUI {
 
     private static final float exchangeRate = 0.5f;
     private static final float foodPrice = 0.25f;
@@ -26,7 +27,8 @@ public final class UIAdminShop {
     /**
      * ショップ画面を開く
      */
-    public static PaginatedGui open(Player player) {
+    @Override
+    public BaseGui open(Player player) {
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text("臨時ショップ"))
                 .rows(6)

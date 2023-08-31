@@ -1,5 +1,6 @@
 package net.riblab.tradecore.ui;
 
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
@@ -15,12 +16,13 @@ import org.bukkit.inventory.ItemStack;
 /**
  * 売却画面
  */
-public final class UISell {
+final class UISell implements IUI{
 
     /**
      * 売却画面を開く
      */
-    public static PaginatedGui open(Player player) {
+    @Override
+    public BaseGui open(Player player) {
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text("売却"))
                 .rows(3)

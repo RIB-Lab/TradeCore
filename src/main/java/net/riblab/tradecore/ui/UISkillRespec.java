@@ -1,5 +1,6 @@
 package net.riblab.tradecore.ui;
 
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
@@ -18,9 +19,10 @@ import java.util.Arrays;
 /**
  * スキルリセットUI
  */
-public final class UISkillRespec {
+final class UISkillRespec implements IUI{
 
-    public static PaginatedGui open(Player player) {
+    @Override
+    public BaseGui open(Player player) {
         if(!Advancements.IRONAXE.get().isGranted(player)){
             player.sendMessage("もっと強くなってからくるんだな (先に鉄の斧の進捗を開放しましょう)");
             return null;

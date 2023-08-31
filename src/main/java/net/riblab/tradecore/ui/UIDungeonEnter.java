@@ -1,6 +1,7 @@
 package net.riblab.tradecore.ui;
 
 import dev.triumphteam.gui.components.GuiType;
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
@@ -21,8 +22,10 @@ import org.bukkit.inventory.ItemStack;
 /**
  * ダンジョン進入UI
  */
-public final class UIDungeonEnter {
-    public static Gui open(Player player) {
+final class UIDungeonEnter implements IUI {
+
+    @Override
+    public BaseGui open(Player player) {
         if(!Advancements.STONEAXE.get().isGranted(player)){
             player.sendMessage("もっと強くなってからくるんだな (先に石の斧の進捗を開放しましょう)");
             return null;

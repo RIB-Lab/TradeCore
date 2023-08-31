@@ -1,5 +1,6 @@
 package net.riblab.tradecore.ui;
 
+import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
@@ -23,12 +24,13 @@ import java.util.List;
 /**
  * ジョブスキルの習得、確認UI
  */
-public final class UIJobs {
+final class UIJobs implements IUI{
 
     private static final JobDataService JOB_SERVICE = JobDataService.getImpl();
     private static final JobSkillService skillHandler = JobSkillService.getImpl();
 
-    public static PaginatedGui open(Player player) {
+    @Override
+    public BaseGui open(Player player) {
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text("ジョブ選択"))
                 .rows(3)

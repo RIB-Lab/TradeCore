@@ -14,8 +14,7 @@ import net.riblab.tradecore.modifier.IArmorModifier;
 import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
-import net.riblab.tradecore.ui.UICraftingTable;
-import net.riblab.tradecore.ui.UIFurnace;
+import net.riblab.tradecore.ui.UIs;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -103,7 +102,7 @@ public final class GeneralEventHandler {
     public void interactCraftingTable(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.CRAFTING_TABLE) {
             event.setCancelled(true);
-            UICraftingTable.open(event.getPlayer(), UICraftingTable.CraftingScreenType.CATEGORY);
+            UIs.CRAFTING.get().open(event.getPlayer());
         }
     }
 
@@ -113,7 +112,7 @@ public final class GeneralEventHandler {
     public void interactFurnace(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.FURNACE) {
             event.setCancelled(true);
-            UIFurnace.open(event.getPlayer());
+            UIs.FURNACE.get().open(event.getPlayer());
         }
     }
 
