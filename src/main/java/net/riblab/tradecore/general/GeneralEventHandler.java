@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.dungeon.DungeonService;
+import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.PlayerItemModService;
@@ -24,6 +25,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.EquipmentSlot;
@@ -350,5 +352,12 @@ public final class GeneralEventHandler {
             return;
 
         CustomMobService.getImpl().onCustomMobDeath(mob);
+    }
+
+    /**
+     * 射出物の削除処理
+     */
+    public void processProjectileHit(ProjectileHitEvent event){
+        CustomProjectileService.getImpl().onCustomProjectileHit(event.getEntity());
     }
 }
