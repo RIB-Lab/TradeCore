@@ -18,5 +18,7 @@ public interface CustomProjectileService {
 
     void onCustomProjectileHit(Projectile projectile);
 
+    double getCustomProjectileDamage(Projectile projectile);
+
     void deSpawnAll();
 }

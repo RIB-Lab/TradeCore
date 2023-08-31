@@ -30,6 +30,12 @@ enum CustomProjectileServiceImpl implements CustomProjectileService {
         projectile.remove();
     }
 
+    @Override //TODO:これもprojectileの種類が増えたらEnumに移行
+    public double getCustomProjectileDamage(Projectile projectile) {
+        //既にHitイベントでremoveされている可能性を考慮してcontainsチェックはしない
+        return CustomProjectileService.arrow.getDamage(projectile);
+    }
+
     @Override
     public void deSpawnAll() {
         spawnedProjectiles.forEach(Entity::remove);

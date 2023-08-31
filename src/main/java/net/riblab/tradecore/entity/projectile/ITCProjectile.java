@@ -1,6 +1,5 @@
 package net.riblab.tradecore.entity.projectile;
 
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Projectile;
 
 public interface ITCProjectile {
@@ -11,4 +10,6 @@ public interface ITCProjectile {
     Class<? extends Projectile> getBaseClass();
 
     String getInternalName();
+    
+    public double getDamage(Projectile projectile);
 }

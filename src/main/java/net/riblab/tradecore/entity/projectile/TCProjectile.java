@@ -27,6 +27,7 @@ public class TCProjectile implements ITCProjectile {
     public void onSpawn(Projectile projectile, double damage) {
         NBTEntity nbtEntity = new NBTEntity(projectile);
         nbtEntity.getPersistentDataContainer().setString("TCID", internalName);
+        nbtEntity.getPersistentDataContainer().setDouble("ProjectileDamage", damage);
     }
 
     @Override
@@ -41,5 +42,11 @@ public class TCProjectile implements ITCProjectile {
             return false;
 
         return ID.equals(internalName);
+    }
+
+    @Override
+    public double getDamage(Projectile projectile) {
+        NBTEntity nbtEntity = new NBTEntity(projectile);
+        return nbtEntity.getPersistentDataContainer().getDouble("ProjectileDamage");
     }
 }

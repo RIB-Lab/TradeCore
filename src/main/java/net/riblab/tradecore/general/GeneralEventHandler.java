@@ -21,6 +21,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -139,7 +140,7 @@ public final class GeneralEventHandler {
         if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK)
             return;
         
-        if(event.getItem().getType() == Material.BOW){
+        if(event.getItem() != null && event.getItem().getType() == Material.BOW){
             event.setCancelled(true);
         }
     }
@@ -168,8 +169,10 @@ public final class GeneralEventHandler {
     }
 
     public void processEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player))
-            return; //TODO:ここでprojectile攻撃の処理分岐
+        if (!(event.getDamager() instanceof Player)){
+            tryProcessProjectileAttack(event);
+            return;
+        }
 
         tryProcessMeleeAttack(event);
     }
@@ -221,6 +224,13 @@ public final class GeneralEventHandler {
                 player.getInventory().setItemInMainHand(newItemStack);
             }
         }
+    }
+
+    public void tryProcessProjectileAttack(EntityDamageByEntityEvent event) {
+        if(!(event.getDamager() instanceof Projectile projectile))
+            return;
+        
+        event.setDamage(CustomProjectileService.getImpl().getCustomProjectileDamage(projectile));
     }
 
     public void processEntityDamage(EntityDamageEvent event) {
