@@ -6,6 +6,7 @@ import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.general.Advancements;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.base.TCItems;
@@ -19,6 +20,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 public final class UIShop {
 
     public static PaginatedGui open(Player player, IShopData data) {
+        if(!Advancements.STONEAXE.get().isGranted(player)){
+            player.sendMessage("もっと強くなってからくるんだな (先に石の斧の進捗を開放しましょう)");
+            return null;
+        }
+        
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text(data.getName()))
                 .rows(6)

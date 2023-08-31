@@ -4,6 +4,7 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.general.Advancements;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.job.data.JobType;
@@ -20,6 +21,11 @@ import java.util.Arrays;
 public final class UISkillRespec {
 
     public static PaginatedGui open(Player player) {
+        if(!Advancements.IRONAXE.get().isGranted(player)){
+            player.sendMessage("もっと強くなってからくるんだな (先に鉄の斧の進捗を開放しましょう)");
+            return null;
+        }
+        
         //リスペック費用 ＝ 習得したスキルの数 * 100
         double fee = Arrays.stream(JobType.values()).mapToDouble(value -> JobSkillService.getImpl().getLearntSkillCount(player, value) * 100).sum();
         if (fee == 0) {

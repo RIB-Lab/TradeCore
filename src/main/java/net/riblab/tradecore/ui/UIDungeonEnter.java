@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
+import net.riblab.tradecore.general.Advancements;
 import net.riblab.tradecore.item.base.ITCDungeonMap;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
@@ -22,6 +23,11 @@ import org.bukkit.inventory.ItemStack;
  */
 public final class UIDungeonEnter {
     public static Gui open(Player player) {
+        if(!Advancements.STONEAXE.get().isGranted(player)){
+            player.sendMessage("もっと強くなってからくるんだな (先に石の斧の進捗を開放しましょう)");
+            return null;
+        }
+        
         Gui gui = Gui.gui(GuiType.CHEST)
                 .title(Component.text("マップを置いてください"))
                 .rows(1)
