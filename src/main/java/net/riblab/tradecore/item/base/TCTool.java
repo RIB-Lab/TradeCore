@@ -32,7 +32,7 @@ public class TCTool extends TCItem implements ITCTool {
     private final int harvestLevel;
 
     @Getter
-    private final double baseMiningSpeed;
+    private final MiningSpeedTable miningSpeedTable;
 
     @Getter
     private final DurabilityTable durabilityTable;
@@ -43,12 +43,12 @@ public class TCTool extends TCItem implements ITCTool {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, DurabilityTable durabilityTable, List<IItemMod> mods) {
+    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, MiningSpeedTable miningSpeedTable, DurabilityTable durabilityTable, List<IItemMod> mods) {
         super(name, material, internalName, customModelData);
 
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;
-        this.baseMiningSpeed = miningSpeed;
+        this.miningSpeedTable = miningSpeedTable;
         this.durabilityTable = durabilityTable;
         this.defaultMods = mods;
     }
@@ -62,7 +62,7 @@ public class TCTool extends TCItem implements ITCTool {
     @Override
     public @Nonnull ItemStack getItemStack() {
         //TODO:ちゃんと最初のランダムmodを決めるシステムを作る
-        int miningSpeed = (int)((new Random().nextDouble(mineSpeedRandomness * 2)- mineSpeedRandomness + baseMiningSpeed) * 100);
+        int miningSpeed = (int)(new Random().nextDouble(miningSpeedTable.getMinMiningSpeed(), miningSpeedTable.getMaxMiningSpeed()) * 100);
         int maxDurability = new Random().nextInt(durabilityTable.getMinMaxDurability(), durabilityTable.getMaxMaxDurability() + 1);
         List<IItemMod> initMods = List.of(
                 new ModMiningSpeedI(miningSpeed),
@@ -135,7 +135,7 @@ public class TCTool extends TCItem implements ITCTool {
     public double getActualMiningSpeed(ItemStack itemStack){
         List<IItemMod> mods = new ItemCreator(itemStack).getItemMods();
         IItemMod miningSpeedMod = mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
-        double miningSpeed = miningSpeedMod != null ? (double) miningSpeedMod.getLevel() / 100 : baseMiningSpeed;
+        double miningSpeed = miningSpeedMod != null ? (double) miningSpeedMod.getLevel() / 100 : miningSpeedTable.getMiddleMiningSpeed();
         return Math.log10(miningSpeed) + 0.1d;
     }
 }

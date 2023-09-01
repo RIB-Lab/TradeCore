@@ -25,8 +25,8 @@ import java.util.Map;
  */
 public enum TCItems {
     //原始時代
-    PEBBLE(new Pebble(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0, 1.1, DurabilityTable.INFINITE, List.of(), 0.01d)),
-    HATCHET(new TCTool(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, TCTool.ToolType.AXE, 1, 1.2, DurabilityTable.HATCHET, List.of())),
+    PEBBLE(new Pebble(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0, MiningSpeedTable.PEBBLE, DurabilityTable.INFINITE, List.of(), 0.01d)),
+    HATCHET(new TCTool(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, TCTool.ToolType.AXE, 1, MiningSpeedTable.WOODMADE, DurabilityTable.HATCHET, List.of())),
     STICK(new TCSellableItem(Component.text("木の棒"), Material.STICK, "stick", 0, 0.02d)),
     BARK(new TCSellableItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1, 0.02d)),
     TWIG(new TCSellableItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3, 0.02d)),
@@ -34,10 +34,10 @@ public enum TCItems {
     DRYGRASS(new TCSellableItem(Component.text("干し草"), Material.PAPER, "drygrass", 2, 0.01d)),
 
     //原木時代
-    WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, 1.2, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
-    WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, 1.2, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
-    WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, 1.2, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
-    WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, 1.2, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
+    WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
+    WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
+    WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
+    WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
     WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, 32, List.of(new ModEcologyI(1)), new WeaponAttributeSword(3))),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1)),
     DUST(new TCSellableItem(Component.text("塵"), Material.DIRT, "dust", 1, 0.04d)),
@@ -106,18 +106,18 @@ public enum TCItems {
     MESI((new TCItem(Component.text("COMP"), Material.COOKED_BEEF, "meshi", 0))),
 
     //モブ召喚系は他のアイテムを参照するので必ず最後に配置
-    STONE_AXE(new TCEncountableTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, 1.25, DurabilityTable.STONEAGE, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f), List.of())),
-    STONE_SHOVEL(new TCTool(Component.text("石のシャベル"), Material.STONE_SHOVEL, "stone_shovel", 0, TCTool.ToolType.SHOVEL, 1, 1.25, DurabilityTable.STONEAGE, List.of())),
-    STONE_PICKAXE(new TCEncountableTool(Component.text("石のツルハシ"), Material.STONE_PICKAXE, "stone_pickaxe", 0, TCTool.ToolType.PICKAXE, 1, 1.25, DurabilityTable.STONEAGE, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f), List.of())),
-    STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, 1.25, DurabilityTable.STONEAGE, List.of())),
-    IRON_AXE(new TCEncountableTool(Component.text("鉄の斧"), Material.IRON_AXE, "iron_axe", 0, TCTool.ToolType.AXE, 4, 1.3, DurabilityTable.IRONAGE, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f), List.of())),
-    IRON_SHOVEL(new TCTool(Component.text("鉄のシャベル"), Material.IRON_SHOVEL, "iron_shovel", 0, TCTool.ToolType.SHOVEL, 2, 1.3, DurabilityTable.IRONAGE, List.of())),
-    IRON_PICKAXE(new TCEncountableTool(Component.text("鉄のツルハシ"), Material.IRON_PICKAXE, "iron_pickaxe", 0, TCTool.ToolType.PICKAXE, 2, 1.3, DurabilityTable.IRONAGE, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f), List.of())),
-    IRON_HOE(new TCTool(Component.text("鉄のクワ"), Material.IRON_HOE, "iron_hoe", 0, TCTool.ToolType.HOE, 2, 1.3, DurabilityTable.IRONAGE, List.of())),
-    GOLDEN_AXE(new TCEncountableTool(Component.text("金の斧"), Material.GOLDEN_AXE, "golden_axe", 0, TCTool.ToolType.AXE, 4, 1.5, DurabilityTable.IRONAGE, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f), List.of())),
-    GOLDEN_SHOVEL(new TCTool(Component.text("金のシャベル"), Material.GOLDEN_SHOVEL, "golden_shovel", 0, TCTool.ToolType.SHOVEL, 2, 1.5, DurabilityTable.IRONAGE, List.of())),
-    GOLDEN_PICKAXE(new TCEncountableTool(Component.text("金のツルハシ"), Material.GOLDEN_PICKAXE, "golden_pickaxe", 0, TCTool.ToolType.PICKAXE, 2, 1.5, DurabilityTable.IRONAGE, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f), List.of())),
-    GOLDEN_HOE(new TCTool(Component.text("金のクワ"), Material.GOLDEN_HOE, "golden_hoe", 0, TCTool.ToolType.HOE, 2, 1.5, DurabilityTable.IRONAGE, List.of()));
+    STONE_AXE(new TCEncountableTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, MiningSpeedTable.STONEMADE, DurabilityTable.STONEAGE, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f), List.of())),
+    STONE_SHOVEL(new TCTool(Component.text("石のシャベル"), Material.STONE_SHOVEL, "stone_shovel", 0, TCTool.ToolType.SHOVEL, 1, MiningSpeedTable.STONEMADE, DurabilityTable.STONEAGE, List.of())),
+    STONE_PICKAXE(new TCEncountableTool(Component.text("石のツルハシ"), Material.STONE_PICKAXE, "stone_pickaxe", 0, TCTool.ToolType.PICKAXE, 1, MiningSpeedTable.STONEMADE, DurabilityTable.STONEAGE, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f), List.of())),
+    STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, MiningSpeedTable.STONEMADE, DurabilityTable.STONEAGE, List.of())),
+    IRON_AXE(new TCEncountableTool(Component.text("鉄の斧"), Material.IRON_AXE, "iron_axe", 0, TCTool.ToolType.AXE, 4, MiningSpeedTable.IRONMADE, DurabilityTable.IRONAGE, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f), List.of())),
+    IRON_SHOVEL(new TCTool(Component.text("鉄のシャベル"), Material.IRON_SHOVEL, "iron_shovel", 0, TCTool.ToolType.SHOVEL, 2, MiningSpeedTable.IRONMADE, DurabilityTable.IRONAGE, List.of())),
+    IRON_PICKAXE(new TCEncountableTool(Component.text("鉄のツルハシ"), Material.IRON_PICKAXE, "iron_pickaxe", 0, TCTool.ToolType.PICKAXE, 2, MiningSpeedTable.IRONMADE, DurabilityTable.IRONAGE, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f), List.of())),
+    IRON_HOE(new TCTool(Component.text("鉄のクワ"), Material.IRON_HOE, "iron_hoe", 0, TCTool.ToolType.HOE, 2, MiningSpeedTable.IRONMADE, DurabilityTable.IRONAGE, List.of())),
+    GOLDEN_AXE(new TCEncountableTool(Component.text("金の斧"), Material.GOLDEN_AXE, "golden_axe", 0, TCTool.ToolType.AXE, 4, MiningSpeedTable.GOLDMADE, DurabilityTable.IRONAGE, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f), List.of())),
+    GOLDEN_SHOVEL(new TCTool(Component.text("金のシャベル"), Material.GOLDEN_SHOVEL, "golden_shovel", 0, TCTool.ToolType.SHOVEL, 2, MiningSpeedTable.GOLDMADE, DurabilityTable.IRONAGE, List.of())),
+    GOLDEN_PICKAXE(new TCEncountableTool(Component.text("金のツルハシ"), Material.GOLDEN_PICKAXE, "golden_pickaxe", 0, TCTool.ToolType.PICKAXE, 2, MiningSpeedTable.GOLDMADE, DurabilityTable.IRONAGE, Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f), List.of())),
+    GOLDEN_HOE(new TCTool(Component.text("金のクワ"), Material.GOLDEN_HOE, "golden_hoe", 0, TCTool.ToolType.HOE, 2, MiningSpeedTable.GOLDMADE, DurabilityTable.IRONAGE, List.of()));
 
     private final ITCItem tcItem;
 

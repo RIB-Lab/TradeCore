@@ -17,17 +17,14 @@ public interface ITCTool extends IHasDurability, IHasItemMod {
     int getHarvestLevel();
 
     /**
-     * ツールの基礎採掘速度(1が素手と同じ速さで、10000000000で1tick破壊)
+     * ツールの属する採掘速度テーブル
      */
-    double getBaseMiningSpeed();
+    MiningSpeedTable getMiningSpeedTable();
 
     /**
      * ツールを一振りしたらどれくらい亀裂が入るかの実際の値
      */
     double getActualMiningSpeed(ItemStack itemStack);
-    
-    //TODO:tier別で分離
-    double mineSpeedRandomness = 0.05d;
 
     /**
      * ツールの種類

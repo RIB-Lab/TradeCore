@@ -20,8 +20,8 @@ class TCEncountableTool extends TCTool implements ICanSpawnMobOnUse {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCEncountableTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, DurabilityTable baseDurability, Map<ITCMob, Float> spawnTable, List<IItemMod> mods) {
-        super(name, material, internalName, customModelData, toolType, harvestLevel, miningSpeed, baseDurability, mods);
+    public TCEncountableTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, MiningSpeedTable miningSpeedTable, DurabilityTable baseDurability, Map<ITCMob, Float> spawnTable, List<IItemMod> mods) {
+        super(name, material, internalName, customModelData, toolType, harvestLevel, miningSpeedTable, baseDurability, mods);
         this.spawnTable = spawnTable;
     }
 }

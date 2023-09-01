@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.base.DurabilityTable;
 import net.riblab.tradecore.item.base.ISellable;
+import net.riblab.tradecore.item.base.MiningSpeedTable;
 import net.riblab.tradecore.item.base.TCTool;
 import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
@@ -25,8 +26,8 @@ public class Pebble extends TCTool implements ISellable {
     /**
      * 　固有アイテムの型を作成する
      */
-    public Pebble(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, DurabilityTable baseDurability, List<IItemMod> mods, double sellPrice) {
-        super(name, material, internalName, customModelData, toolType, harvestLevel, miningSpeed, baseDurability, mods);
+    public Pebble(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, MiningSpeedTable miningSpeedTable, DurabilityTable baseDurability, List<IItemMod> mods, double sellPrice) {
+        super(name, material, internalName, customModelData, toolType, harvestLevel, miningSpeedTable, baseDurability, mods);
         this.sellPrice = sellPrice;
     }
 
