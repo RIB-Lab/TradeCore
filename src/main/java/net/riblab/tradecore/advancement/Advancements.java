@@ -1,4 +1,4 @@
-package net.riblab.tradecore.general;
+package net.riblab.tradecore.advancement;
 
 import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
@@ -7,8 +7,11 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.AbstractMultiTasksA
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.MultiTasksAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.TaskAdvancement;
 
-import static net.riblab.tradecore.general.AdvancementInitializer.primitiveAgeTab;
+import static net.riblab.tradecore.advancement.AdvancementInitializer.primitiveAgeTab;
 
+/**
+ * 実績の本体レジストリ
+ */
 public enum Advancements {
     GATHERPEBBLE(new RootAdvancement(primitiveAgeTab, "adv_gather_pebble", AdvancementDisplays.GATHERPEBBLES.get(), "textures/block/stone.png", 1)),
     CRAFTHATCHET(new BaseAdvancement("adv_craft_hatchet", AdvancementDisplays.CRAFTHATCHETS.get(), GATHERPEBBLE.get(), 1)),

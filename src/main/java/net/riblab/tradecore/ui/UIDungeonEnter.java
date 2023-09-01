@@ -8,7 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
-import net.riblab.tradecore.general.Advancements;
+import net.riblab.tradecore.advancement.Advancements;
 import net.riblab.tradecore.item.base.ITCDungeonMap;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;

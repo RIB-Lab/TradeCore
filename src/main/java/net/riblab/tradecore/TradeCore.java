@@ -13,7 +13,7 @@ import net.riblab.tradecore.config.ConfigService;
 import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
-import net.riblab.tradecore.general.AdvancementInitializer;
+import net.riblab.tradecore.advancement.AdvancementInitializer;
 import net.riblab.tradecore.general.TCTasksInitializer;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
