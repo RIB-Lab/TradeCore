@@ -2,6 +2,8 @@ package net.riblab.tradecore.item.base;
 
 import lombok.Getter;
 
+import java.util.Random;
+
 /**
  * 採掘速度のテーブル(1が素手と同じ速さで、10000000000で1tick破壊)
  */
@@ -32,5 +34,12 @@ public enum MiningSpeedTable {
         this.minMiningSpeed = minMiningSpeed;
         this.middleMiningSpeed = middleMiningSpeed;
         this.maxMiningSpeed = maxMiningSpeed;
+    }
+
+    /**
+     * テーブルの数値を使って採掘速度(の100倍の値)を生成する
+     */
+    public int getRandomMiningSpeed(){
+         return (int)(new Random().nextDouble(getMinMiningSpeed(), getMaxMiningSpeed()) * 100);
     }
 }

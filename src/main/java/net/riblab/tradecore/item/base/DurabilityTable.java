@@ -2,6 +2,8 @@ package net.riblab.tradecore.item.base;
 
 import lombok.Getter;
 
+import java.util.Random;
+
 /**
  * アイテムの耐久値テーブル
  */
@@ -34,5 +36,12 @@ public enum DurabilityTable {
         this.minMaxDurability = minMaxDurability;
         this.middleMaxDurability = middleMaxDurability;
         this.maxMaxDurability = maxMaxDurability;
+    }
+
+    /**
+     * テーブルの値からランダムな最大耐久値を取得する
+     */
+    public int getRandomMaxDurability(){
+        return new Random().nextInt(getMinMaxDurability(), getMaxMaxDurability() + 1);
     }
 }
