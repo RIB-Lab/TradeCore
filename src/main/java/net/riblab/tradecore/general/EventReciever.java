@@ -136,6 +136,7 @@ public enum EventReciever implements Listener {
         }
         
         blockStateEventHandler.tryProcessHoeDrop(event);
+        generalEventHandler.blockTCItemsPlacement(event);
     }
 
     @EventHandler

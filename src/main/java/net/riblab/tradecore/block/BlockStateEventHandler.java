@@ -174,10 +174,7 @@ public final class BlockStateEventHandler implements Listener {
             else {
                 event.getPlayer().getInventory().setItemInOffHand(newItemStack);
             }
-            return;
         }
-
-        event.setCancelled(true);
     }
 
     /**

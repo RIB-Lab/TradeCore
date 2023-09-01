@@ -23,6 +23,7 @@ import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -369,5 +370,20 @@ public final class GeneralEventHandler {
      */
     public void processProjectileHit(ProjectileHitEvent event){
         CustomProjectileService.getImpl().onCustomProjectileHit(event.getEntity());
+    }
+
+    /**
+     * 通常のTCItemsの設置を妨げる
+     */
+    public void blockTCItemsPlacement(BlockPlaceEvent event){
+        ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
+
+        if (itcItem == null)
+            return;
+
+        if(itcItem instanceof IPlaceable)
+            return;
+
+        event.setCancelled(true);
     }
 }
