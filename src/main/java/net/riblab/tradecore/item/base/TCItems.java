@@ -55,6 +55,7 @@ public enum TCItems {
     BARK_BOOTS(new TCEquipment(Component.text("樹皮のブーツ"), Material.CHAINMAIL_BOOTS, "bark_boots", List.of(new ModAddArmorI(8)), 32, "bark")),
     WALKING_STICK(new TCItemWithMod(Component.text("転ばぬ先の杖"), Material.STICK, "walking_stick", 0, List.of(new ModWalkSpeedI(4)))),
     VANILLA_PLANK(new TCPlacableItem(Component.text("木材"), Material.OAK_PLANKS, "vanilla_plank", 0)),
+    VANILLA_CHEST(new TCPlacableItem(Component.text("チェスト"), Material.CHEST, "vanilla_plank", 0)),
 
     //石器時代
     ROUND_STONE(new TCSellableItem(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, 0.10d)),

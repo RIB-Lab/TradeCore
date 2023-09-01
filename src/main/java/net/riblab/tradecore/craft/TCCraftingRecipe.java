@@ -1,8 +1,6 @@
 package net.riblab.tradecore.craft;
 
-import lombok.Data;
 import net.riblab.tradecore.item.base.ITCItem;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
@@ -15,6 +13,6 @@ import java.util.Map;
  * @param fee          レシピを実行するための費用
  * @param category     レシピのカテゴリ
  */
-record TCCraftingRecipe(Map<ITCItem, Integer> ingredients, ItemStack result, int resultAmount, double fee,
+record TCCraftingRecipe(Map<ITCItem, Integer> ingredients, ITCItem result, int resultAmount, double fee,
                         TCCraftingRecipes.RecipeType category) implements ITCCraftingRecipe {
 }

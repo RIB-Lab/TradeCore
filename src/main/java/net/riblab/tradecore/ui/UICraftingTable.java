@@ -160,7 +160,7 @@ final class UICraftingTable implements IUI {
         gui.setItem(24, nextPageButton);
 
         recipeList.forEach(tcCraftingRecipe -> {
-            ItemStack recipeStack = tcCraftingRecipe.result().clone();
+            ItemStack recipeStack = tcCraftingRecipe.result().getTemplateItemStack();
             GuiItem recipeButton = new GuiItem(recipeStack,
                     event -> open(player, tcCraftingRecipe));
             gui.addItem(recipeButton);
@@ -189,7 +189,7 @@ final class UICraftingTable implements IUI {
             } while (!allowedIngredientSlotSet.contains(slot));
         }
 
-        ItemStack resultStack = recipe.result().clone();
+        ItemStack resultStack = recipe.result().getTemplateItemStack();
         Component craftTip = Component.text("<<クリックで製作>>").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false);
         resultStack = new ItemCreator(resultStack).addLore(craftTip).create();
         resultStack.setAmount(recipe.resultAmount());
@@ -222,7 +222,7 @@ final class UICraftingTable implements IUI {
             packedRecipeData.setAmount(entry.getValue());
             int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
 
-            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(),entry.getKey(), entry.getValue());
+            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(),entry.getKey(), amountSkillApplied);
             if (playerHasItem)
                 continue;
 
@@ -258,7 +258,7 @@ final class UICraftingTable implements IUI {
 
         JobDataService.getImpl().addJobExp(player, JobType.Crafter, (int) recipe.fee());
 
-        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result());
+        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result().getItemStack());
         if (remains.size() == 0)
             return;
 

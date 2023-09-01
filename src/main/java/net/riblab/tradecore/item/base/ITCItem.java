@@ -32,7 +32,7 @@ public interface ITCItem {
     ItemStack getTemplateItemStack();
 
     /**
-     * 固有アイテムの初期値がランダマイズされた実体を取得(プレイヤーに渡す用)
+     * 固有アイテムの初期値がランダマイズされたItemStackを取得(プレイヤーに渡す用)
      * 
      * @return 固有アイテムの新しい実体
      */
