@@ -417,13 +417,17 @@ public final class ItemCreator {
         NBTItem item = new NBTItem(itemStack);
         NBTCompound compound = item.getOrCreateCompound(NBTTagNames.ITEMMOD.get());
         for (String key : compound.getKeys()) {
+            IItemMod mod = null;
             try {
-                IItemMod mod = (IItemMod) Class.forName(key).getDeclaredConstructor(int.class).newInstance(compound.getInteger(key));
-                modList.add(mod);
+                mod = (IItemMod) Class.forName(key).getDeclaredConstructor(int.class).newInstance(compound.getInteger(key));
+
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     NoSuchMethodException | ClassNotFoundException e) {
-                e.printStackTrace();
+                     NoSuchMethodException | ClassNotFoundException ignored) {
+                //クラスの名前が変わっただけかもしれないし、modがなかった時のフォールバックも用意してあるので、握りつぶす
             }
+            
+            if(mod != null)
+                modList.add(mod);
         }
         return modList;
     }
