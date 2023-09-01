@@ -15,6 +15,7 @@ import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.ItemCreator;
+import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
@@ -221,7 +222,7 @@ final class UICraftingTable implements IUI {
             packedRecipeData.setAmount(entry.getValue());
             int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
 
-            boolean playerHasItem = player.getInventory().containsAtLeast(entry.getKey().getItemStack(), amountSkillApplied);
+            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(),entry.getKey(), entry.getValue());
             if (playerHasItem)
                 continue;
 
@@ -245,15 +246,13 @@ final class UICraftingTable implements IUI {
         }
 
         for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            ItemStack itemStack = entry.getKey().getItemStack();
 
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
             packedRecipeData.setRecipe(recipe);
             packedRecipeData.setAmount(entry.getValue());
             int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
-
-            itemStack.setAmount(amountSkillApplied);
-            player.getInventory().removeItemAnySlot(itemStack);
+            
+            ItemUtils.tcRemoveItemAnySlot(player.getInventory(), entry.getKey(), amountSkillApplied);
         }
         TCEconomy.getImpl().withdrawPlayer(player, skillAppliedFee);
 

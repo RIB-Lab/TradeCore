@@ -14,6 +14,7 @@ import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.advancement.AdvancementInitializer;
+import net.riblab.tradecore.entity.projectile.TCProjectile;
 import net.riblab.tradecore.general.TCTasksInitializer;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
@@ -67,6 +68,7 @@ public final class TradeCore extends JavaPlugin {
         isWGLoaded = getServer().getPluginManager().isPluginEnabled("WorldGuard");
         advancementAPI = UltimateAdvancementAPI.getInstance(this);
         CustomMobService.getImpl(); //ondisableでエラーが出ないように強制起動
+        CustomProjectileService.getImpl();
 
         TCCommands.onEnable();
 

@@ -54,21 +54,6 @@ public final class Utils {
     }
 
     /**
-     * ルートテーブルに基づいたアイテムをあるブロックのある場所から落とす //TODO:ItemUtilsに移管
-     */
-    @ParametersAreNonnullByDefault
-    public static void dropItemByLootTable(Player player, Block block, Multimap<Float, ITCItem> table) {
-        Random random = new Random();
-        table.forEach((aFloat, itcItem) -> {
-            float skillAppliedChance = Utils.apply(player, aFloat, IResourceChanceModifier.class);
-            float rand = random.nextFloat();
-            if (rand < skillAppliedChance) {
-                block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
-            }
-        });
-    }
-
-    /**
      * プレイヤーの起こした行動によって発生した値をジョブスキルや装備modによって修飾する
      */
     @ParametersAreNonnullByDefault

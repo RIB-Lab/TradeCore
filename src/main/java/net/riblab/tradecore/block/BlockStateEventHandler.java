@@ -4,6 +4,7 @@ import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.WorldGuardUtil;
+import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.*;
@@ -119,7 +120,7 @@ public final class BlockStateEventHandler implements Listener {
             if (table.size() != 0) {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
-                Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
+                ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
                 JobDataService.getImpl().addJobExp(event.getPlayer(), JobType.Mower, 1);
                 return;
             }
@@ -130,7 +131,7 @@ public final class BlockStateEventHandler implements Listener {
             Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), tool);
             if (table.size() != 0) {
                 event.setCancelled(true);
-                Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
+                ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
                 ItemStack newItemStack = tool.reduceDurability(mainHand, 1);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
@@ -165,7 +166,7 @@ public final class BlockStateEventHandler implements Listener {
 
         if (event.getBlock().getType() == Material.FARMLAND && itcItem instanceof ITCTool tool) { //耕地を耕したときのドロップ
             Multimap<Float, ITCItem> table = LootTables.get(Material.FARMLAND, tool);
-            Utils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
+            ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
             ItemStack newItemStack = tool.reduceDurability(event.getItemInHand(), 1);
             if (event.getHand() == EquipmentSlot.HAND)
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);

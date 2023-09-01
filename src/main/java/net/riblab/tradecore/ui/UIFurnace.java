@@ -13,6 +13,7 @@ import net.riblab.tradecore.craft.ITCFurnaceRecipe;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.ItemCreator;
+import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
@@ -136,14 +137,14 @@ final class UIFurnace implements IUI {
     private static void trySmelt(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
         for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            boolean playerHasItem = player.getInventory().containsAtLeast(entry.getKey().getItemStack(), entry.getValue());
+            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(),entry.getKey(), entry.getValue());
             if (playerHasItem)
                 continue;
 
             missingLore.add(Component.text(entry.getKey().getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
 
-        boolean playerHasFuel = player.getInventory().containsAtLeast(TCItems.FUEL_BALL.get().getItemStack(), recipe.fuelAmount());
+        boolean playerHasFuel = ItemUtils.tcContainsAtLeast(player.getInventory(), TCItems.FUEL_BALL.get(), recipe.fuelAmount());
         if (!playerHasFuel) {
             missingLore.add(Component.text("燃料が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
@@ -156,13 +157,9 @@ final class UIFurnace implements IUI {
         }
 
         for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            ItemStack itemStack = entry.getKey().getItemStack();
-            itemStack.setAmount(entry.getValue());
-            player.getInventory().removeItemAnySlot(itemStack);
+            ItemUtils.tcRemoveItemAnySlot(player.getInventory(), entry.getKey(), entry.getValue());
         }
-        ItemStack fuelStack = TCItems.FUEL_BALL.get().getItemStack();
-        fuelStack.setAmount(recipe.fuelAmount());
-        player.getInventory().removeItemAnySlot(fuelStack);
+        ItemUtils.tcRemoveItemAnySlot(player.getInventory(), TCItems.FUEL_BALL.get(), recipe.fuelAmount());
 
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result());
         if (remains.size() == 0)
