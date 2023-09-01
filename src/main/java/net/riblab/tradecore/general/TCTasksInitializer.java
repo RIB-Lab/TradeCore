@@ -33,7 +33,7 @@ public enum TCTasksInitializer {
             public void run() {
                 TradeCore.getInstance().getConfigService().save();
             }
-        }.runTaskTimer(TradeCore.getInstance(), 0, 3600);
+        }.runTaskTimerAsynchronously(TradeCore.getInstance(), 0, 3600);
 
         //10分に1回プレイチケット配布
         new BukkitRunnable() {
