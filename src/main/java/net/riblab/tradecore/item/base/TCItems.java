@@ -38,7 +38,7 @@ public enum TCItems {
     WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
     WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
     WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
-    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, 32, List.of(new ModEcologyI(1)), new WeaponAttributeSword(3))),
+    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)), new WeaponAttributeSword(3))),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1)),
     DUST(new TCSellableItem(Component.text("塵"), Material.DIRT, "dust", 1, 0.04d)),
     MUD(new TCSellableItem(Component.text("泥"), Material.DIRT, "mud", 2, 0.04d)),
@@ -59,10 +59,10 @@ public enum TCItems {
 
     //石器時代
     ROUND_STONE(new TCSellableItem(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, 0.10d)),
-    STONE_SWORD(new TCWeapon(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, 128, List.of(), new WeaponAttributeSword(5))),
-    STONE_SPEAR(new TCWeapon(Component.text("石の槍"), Material.STONE_SWORD, "stone_spear", 1, 128, List.of(), new WeaponAttributeSpear(3.5))),
-    STONE_DAGGER(new TCWeapon(Component.text("石の短剣"), Material.STONE_SWORD, "stone_dagger", 2, 128, List.of(), new WeaponAttributeDagger(4))),
-    STONE_BATTLEAXE(new TCWeapon(Component.text("石の大斧"), Material.STONE_SWORD, "stone_battleaxe", 3, 128, List.of(), new WeaponAttributeBattleAxe(8))),
+    STONE_SWORD(new TCWeapon(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, DurabilityTable.STONEAGE, List.of(), new WeaponAttributeSword(5))),
+    STONE_SPEAR(new TCWeapon(Component.text("石の槍"), Material.STONE_SWORD, "stone_spear", 1, DurabilityTable.STONEAGE, List.of(), new WeaponAttributeSpear(3.5))),
+    STONE_DAGGER(new TCWeapon(Component.text("石の短剣"), Material.STONE_SWORD, "stone_dagger", 2, DurabilityTable.STONEAGE, List.of(), new WeaponAttributeDagger(4))),
+    STONE_BATTLEAXE(new TCWeapon(Component.text("石の大斧"), Material.STONE_SWORD, "stone_battleaxe", 3, DurabilityTable.STONEAGE, List.of(), new WeaponAttributeBattleAxe(8))),
     FUEL_BALL(new TCSellableItem(Component.text("燃料玉"), Material.HAY_BLOCK, "fuel_ball", 1, 0.10d)),
     STONE_HELMET(new TCEquipment(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", List.of(new ModAddArmorI(16), new ModWalkSpeedI(-1)), 128, "stone")),
     STONE_CHESTPLATE(new TCEquipment(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", List.of(new ModAddArmorI(16), new ModWalkSpeedI(-1)), 128, "stone")),
@@ -88,7 +88,7 @@ public enum TCItems {
     //鉄器時代
     REINFORCED_STICK(new TCSellableItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, 0.10d)),
     REINFORCED_WALKING_STICK(new TCItemWithMod(Component.text("強化歩行杖"), Material.STICK, "reinforced _walking_stick", 0, List.of(new ModWalkSpeedI(6)))),
-    BASIC_BOW(new TCWeapon(Component.text("普通の弓"), Material.BOW, "basic_bow", 0, 128, List.of(), new WeaponAttributeBow(1, 4))),
+    BASIC_BOW(new TCWeapon(Component.text("普通の弓"), Material.BOW, "basic_bow", 0, DurabilityTable.IRONAGE, List.of(), new WeaponAttributeBow(1, 4))),
 
     //店売り限定
     EMERALD_HELMET(new TCEquipment(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", List.of(new ModReduceCraftCostI(3)), 256, "emerald")),
