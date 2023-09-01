@@ -8,7 +8,9 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.item.mod.ModMaxDurabilityI;
 import net.riblab.tradecore.item.mod.ModMiningSpeedI;
+import net.riblab.tradecore.modifier.IDurabilityModifier;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -32,7 +34,7 @@ public class TCTool extends TCItem implements ITCTool {
     private final double baseMiningSpeed;
 
     @Getter
-    private final int baseDurability;
+    private final int baseMaxDurability;
 
     @Getter
     private final List<IItemMod> defaultMods;
@@ -40,28 +42,33 @@ public class TCTool extends TCItem implements ITCTool {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, int baseDurability, List<IItemMod> mods) {
+    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, int baseMaxDurability, List<IItemMod> mods) {
         super(name, material, internalName, customModelData);
 
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;
         this.baseMiningSpeed = miningSpeed;
-        this.baseDurability = baseDurability;
+        this.baseMaxDurability = baseMaxDurability;
         this.defaultMods = mods;
     }
 
     @Override
     protected @Nonnull ItemCreator getTemplate() {
-        return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
-                .setLores(getLore(baseDurability, new ArrayList<>()));
+        return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), baseMaxDurability)
+                .setLores(getLore(baseMaxDurability, new ArrayList<>()));
     }
 
     @Override
     public @Nonnull ItemStack getItemStack() {
         //TODO:ちゃんと最初のランダムmodを決めるシステムを作る
-        List<IItemMod> initMods = List.of(new ModMiningSpeedI((int)((new Random().nextDouble(mineSpeedRandomness * 2)- mineSpeedRandomness + baseMiningSpeed) * 100)));
-        return new ItemCreator(getTemplate().create()).setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
-                .setLores(getLore(baseDurability, initMods))
+        int miningSpeed = (int)((new Random().nextDouble(mineSpeedRandomness * 2)- mineSpeedRandomness + baseMiningSpeed) * 100);
+        int maxDurability = new Random().nextInt(maxDurabilityRandomness * 2) - maxDurabilityRandomness + baseMaxDurability;
+        List<IItemMod> initMods = List.of(
+                new ModMiningSpeedI(miningSpeed),
+                new ModMaxDurabilityI(maxDurability));
+        return new ItemCreator(getTemplate().create())
+                .setIntNBT(NBTTagNames.DURABILITY.get(), maxDurability)
+                .setLores(getLore(maxDurability, initMods))
                 .writeItemMods(initMods).create();
     }
 
@@ -74,15 +81,23 @@ public class TCTool extends TCItem implements ITCTool {
      */
     protected List<Component> getLore(int durability, List<IItemMod> randomMods) {
         List<Component> texts = new ArrayList<>();
-        if (baseDurability != -1) {
+        if (baseMaxDurability != -1) {
+            IItemMod maxDurabilityMod = randomMods.stream().filter(iItemMod -> iItemMod instanceof IDurabilityModifier).findFirst().orElse(null);
+            int maxDurability = maxDurabilityMod != null ? maxDurabilityMod.getLevel() : baseMaxDurability;
+            
             texts.add(Component.text("耐久値: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
-                    .append(Component.text(durability).color(durability == baseDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
-                    .append(Component.text("/" + baseDurability).color(NamedTextColor.WHITE)));
+                    .append(Component.text(durability).color(durability == maxDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
+                    .append(Component.text("/" + maxDurability).color(NamedTextColor.WHITE)));
         }
+        
         for (IItemMod defaultMod : defaultMods) {
             texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
         for (IItemMod randomMod : randomMods) {
+            if(randomMod instanceof IDurabilityModifier){//上で追加した
+                continue;    
+            }
+            
             texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
         return texts;
@@ -103,12 +118,15 @@ public class TCTool extends TCItem implements ITCTool {
         if (durability <= 0) //耐久切れ
             return null;
 
-        if (durability > baseDurability) //耐久MAX
-            durability = baseDurability;
-
-        int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) baseDurability));
-        int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
         List<IItemMod> mods = new ItemCreator(instance).getItemMods();
+        IItemMod maxDurabilityMod = mods.stream().filter(iItemMod -> iItemMod instanceof IDurabilityModifier).findFirst().orElse(null);
+        int maxDurability = maxDurabilityMod != null ? maxDurabilityMod.getLevel() : baseMaxDurability; //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
+        
+        if (durability > maxDurability) //耐久MAX
+            durability = maxDurability;
+
+        int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) maxDurability));
+        int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
         return new ItemCreator(instance).setLores(getLore(durability, mods)).damage(damageToDeal).setIntNBT(NBTTagNames.DURABILITY.get(), durability).create();
     }
 }

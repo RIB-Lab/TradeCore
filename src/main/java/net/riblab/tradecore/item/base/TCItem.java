@@ -30,8 +30,8 @@ public class TCItem implements ITCItem {
     private final Material material;
 
     /**
-     * アイテムのインスタンスのテンプレート、つまり型<br>
-     * アイテムを作製した時これがまず渡されるので必要に応じてインスタンスの固有データを流し込む<br>
+     * アイテムのインスタンスのテンプレートのキャッシュ<br>
+     * アイテムの唯一不変の実体で、固有のmodだけが実装されている<br>
      * 注意：絶対に変更してはいけないので必ずクローンして使うこと
      */
     protected ItemCreator itemStackTemplate;

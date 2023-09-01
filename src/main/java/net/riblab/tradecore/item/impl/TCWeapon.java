@@ -21,7 +21,7 @@ import java.util.List;
 public class TCWeapon extends TCItem implements ITCWeapon {
 
     @Getter
-    private final int baseDurability;
+    private final int baseMaxDurability;
 
     @Getter
     private final List<IItemMod> defaultMods;
@@ -32,9 +32,9 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, int baseDurability, List<IItemMod> defaultMods, IWeaponAttribute attribute) {
+    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, int baseMaxDurability, List<IItemMod> defaultMods, IWeaponAttribute attribute) {
         super(name, material, internalName, customModelData);
-        this.baseDurability = baseDurability;
+        this.baseMaxDurability = baseMaxDurability;
         this.defaultMods = defaultMods;
         this.attribute = attribute;
     }
@@ -42,8 +42,8 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     @Nonnull
     @Override
     protected ItemCreator getTemplate() {
-        return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
-                .setLores(getLore(baseDurability)).setAttackSpeed(attribute.getAttackSpeed());
+        return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), baseMaxDurability)
+                .setLores(getLore(baseMaxDurability)).setAttackSpeed(attribute.getAttackSpeed());
     }
 
     /**
@@ -54,10 +54,10 @@ public class TCWeapon extends TCItem implements ITCWeapon {
      */
     protected List<Component> getLore(int durability) {
         List<Component> texts = new ArrayList<>();
-        if (baseDurability != -1) {
+        if (baseMaxDurability != -1) {
             texts.add(Component.text("耐久値: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
-                    .append(Component.text(durability).color(durability == baseDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
-                    .append(Component.text("/" + baseDurability).color(NamedTextColor.WHITE)));
+                    .append(Component.text(durability).color(durability == baseMaxDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
+                    .append(Component.text("/" + baseMaxDurability).color(NamedTextColor.WHITE)));
         }
         texts.add(Component.text("攻撃速度: " + Math.floor(attribute.getAttackSpeedForDisplay() * 100) / 100).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         texts.add(Component.text("攻撃力: " + Math.floor(attribute.getAttackDamage() * 100) / 100).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
@@ -82,10 +82,10 @@ public class TCWeapon extends TCItem implements ITCWeapon {
         if (durability <= 0) //耐久切れ
             return null;
 
-        if (durability > baseDurability) //耐久MAX
-            durability = baseDurability;
+        if (durability > baseMaxDurability) //耐久MAX
+            durability = baseMaxDurability;
 
-        int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) baseDurability));
+        int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) baseMaxDurability));
         int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
         return new ItemCreator(instance).setLores(getLore(durability)).damage(damageToDeal).setIntNBT(NBTTagNames.DURABILITY.get(), durability).create();
     }

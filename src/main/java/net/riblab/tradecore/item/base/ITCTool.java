@@ -25,6 +25,8 @@ public interface ITCTool extends IHasDurability, IHasItemMod {
     }
     
     double mineSpeedRandomness = 0.05d;
+    
+    int maxDurabilityRandomness = 10;
 
     /**
      * ツールの種類

@@ -8,9 +8,9 @@ import org.bukkit.inventory.ItemStack;
 public interface IHasDurability {
 
     /**
-     * ツールの基礎耐久値。-1で無限
+     * ツールの基礎最大耐久値。-1で無限
      */
-    int getBaseDurability();
+    int getBaseMaxDurability();
 
     /**
      * ツールのインスタンスの耐久値を減らす / 回復させる
