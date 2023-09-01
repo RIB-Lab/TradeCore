@@ -39,7 +39,7 @@ public final class UIShop {
         gui.setItem(50, nextPageButton);
 
         for (IShopData.ShopItem shopItem : data.shopItemList()) {
-            GuiItem blockButton = new GuiItem(new ItemCreator(shopItem.getItemStack().clone()).addLore(Component.text(shopItem.getPrice() + "RIB").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)).create(),
+            GuiItem blockButton = new GuiItem(new ItemCreator(shopItem.getItemToSell().getItemStack().clone()).addLore(Component.text(shopItem.getPrice() + "RIB").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)).create(),
                     event -> buy(event, shopItem));
             gui.addItem(blockButton);
         }
@@ -57,6 +57,6 @@ public final class UIShop {
         }
 
         TCEconomy.getImpl().withdrawPlayer((Player) event.getWhoClicked(), shopItem.getPrice());
-        event.getWhoClicked().getInventory().addItem(shopItem.getItemStack());
+        event.getWhoClicked().getInventory().addItem(shopItem.getItemToSell().getItemStack());
     }
 }
