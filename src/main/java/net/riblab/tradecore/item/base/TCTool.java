@@ -11,6 +11,7 @@ import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.item.mod.ModMaxDurabilityI;
 import net.riblab.tradecore.item.mod.ModMiningSpeedI;
 import net.riblab.tradecore.modifier.IDurabilityModifier;
+import net.riblab.tradecore.modifier.IMiningSpeedModifier;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -127,6 +128,14 @@ public class TCTool extends TCItem implements ITCTool {
 
         int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) maxDurability));
         int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
-        return new ItemCreator(instance).setLores(getLore(durability, mods)).damage(damageToDeal).setIntNBT(NBTTagNames.DURABILITY.get(), durability).create();
+        return new ItemCreator(instance).setLores(getLore(durability, new ItemCreator(instance).getItemMods())).damage(damageToDeal).setIntNBT(NBTTagNames.DURABILITY.get(), durability).create();
+    }
+    
+    @Override
+    public double getActualMiningSpeed(ItemStack itemStack){
+        List<IItemMod> mods = new ItemCreator(itemStack).getItemMods();
+        IItemMod miningSpeedMod = mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
+        double miningSpeed = miningSpeedMod != null ? (double) miningSpeedMod.getLevel() / 100 : baseMiningSpeed;
+        return Math.log10(miningSpeed) + 0.1d;
     }
 }

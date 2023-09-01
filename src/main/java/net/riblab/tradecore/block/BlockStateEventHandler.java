@@ -82,7 +82,8 @@ public final class BlockStateEventHandler implements Listener {
 
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
 
-        ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
+        ItemStack mainHandItem = event.getPlayer().getInventory().getItemInMainHand();
+        ITCItem itcItem = TCItems.toTCItem(mainHandItem);
         if (!(itcItem instanceof ITCTool tool)) {
             getService().incrementDamage(player, 0.1d); //ツールでないアイテムを持っているなら実質素手
             return;
@@ -96,7 +97,7 @@ public final class BlockStateEventHandler implements Listener {
 
         SoundGroup soundGroup = block.getBlockData().getSoundGroup();
         player.playSound(block.getLocation(), soundGroup.getHitSound(), SoundCategory.BLOCKS, 1f, 1f);
-        getService().incrementDamage(player, tool.getActualMiningSpeed());
+        getService().incrementDamage(player, tool.getActualMiningSpeed(mainHandItem));
     }
 
     /**
