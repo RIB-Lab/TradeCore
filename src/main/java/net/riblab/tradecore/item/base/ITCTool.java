@@ -28,8 +28,6 @@ public interface ITCTool extends IHasDurability, IHasItemMod {
     
     //TODO:tier別で分離
     double mineSpeedRandomness = 0.05d;
-    
-    int maxDurabilityRandomness = 10;
 
     /**
      * ツールの種類

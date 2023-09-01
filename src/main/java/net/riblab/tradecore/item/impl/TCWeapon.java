@@ -7,6 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
+import net.riblab.tradecore.item.base.DurabilityTable;
 import net.riblab.tradecore.item.base.ITCWeapon;
 import net.riblab.tradecore.item.base.IWeaponAttribute;
 import net.riblab.tradecore.item.base.TCItem;
@@ -28,6 +29,11 @@ public class TCWeapon extends TCItem implements ITCWeapon {
 
     @Getter
     private final IWeaponAttribute attribute;
+
+    @Override //TODO:武器の耐久値もランダム化してテーブルを使うようにする
+    public DurabilityTable getDurabilityTable() {
+        return null;
+    }
 
     /**
      * 　固有アイテムの型を作成する

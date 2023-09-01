@@ -35,7 +35,7 @@ public class TCTool extends TCItem implements ITCTool {
     private final double baseMiningSpeed;
 
     @Getter
-    private final int baseMaxDurability;
+    private final DurabilityTable durabilityTable;
 
     @Getter
     private final List<IItemMod> defaultMods;
@@ -43,27 +43,27 @@ public class TCTool extends TCItem implements ITCTool {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, int baseMaxDurability, List<IItemMod> mods) {
+    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, double miningSpeed, DurabilityTable durabilityTable, List<IItemMod> mods) {
         super(name, material, internalName, customModelData);
 
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;
         this.baseMiningSpeed = miningSpeed;
-        this.baseMaxDurability = baseMaxDurability;
+        this.durabilityTable = durabilityTable;
         this.defaultMods = mods;
     }
 
     @Override
     protected @Nonnull ItemCreator getTemplate() {
-        return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), baseMaxDurability)
-                .setLores(getLore(baseMaxDurability, new ArrayList<>()));
+        return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), durabilityTable.getMiddleMaxDurability())
+                .setLores(getLore(durabilityTable.getMiddleMaxDurability(), new ArrayList<>()));
     }
 
     @Override
     public @Nonnull ItemStack getItemStack() {
         //TODO:ちゃんと最初のランダムmodを決めるシステムを作る
         int miningSpeed = (int)((new Random().nextDouble(mineSpeedRandomness * 2)- mineSpeedRandomness + baseMiningSpeed) * 100);
-        int maxDurability = new Random().nextInt(maxDurabilityRandomness * 2) - maxDurabilityRandomness + baseMaxDurability;
+        int maxDurability = new Random().nextInt(durabilityTable.getMinMaxDurability(), durabilityTable.getMaxMaxDurability() + 1);
         List<IItemMod> initMods = List.of(
                 new ModMiningSpeedI(miningSpeed),
                 new ModMaxDurabilityI(maxDurability));
@@ -82,9 +82,9 @@ public class TCTool extends TCItem implements ITCTool {
      */
     protected List<Component> getLore(int durability, List<IItemMod> randomMods) {
         List<Component> texts = new ArrayList<>();
-        if (baseMaxDurability != -1) {
+        if (durabilityTable.getMiddleMaxDurability() != -1) {
             IItemMod maxDurabilityMod = randomMods.stream().filter(iItemMod -> iItemMod instanceof IDurabilityModifier).findFirst().orElse(null);
-            int maxDurability = maxDurabilityMod != null ? maxDurabilityMod.getLevel() : baseMaxDurability;
+            int maxDurability = maxDurabilityMod != null ? maxDurabilityMod.getLevel() : durabilityTable.getMiddleMaxDurability();
             
             texts.add(Component.text("耐久値: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
                     .append(Component.text(durability).color(durability == maxDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
@@ -121,7 +121,7 @@ public class TCTool extends TCItem implements ITCTool {
 
         List<IItemMod> mods = new ItemCreator(instance).getItemMods();
         IItemMod maxDurabilityMod = mods.stream().filter(iItemMod -> iItemMod instanceof IDurabilityModifier).findFirst().orElse(null);
-        int maxDurability = maxDurabilityMod != null ? maxDurabilityMod.getLevel() : baseMaxDurability; //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
+        int maxDurability = maxDurabilityMod != null ? maxDurabilityMod.getLevel() : durabilityTable.getMiddleMaxDurability(); //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
         
         if (durability > maxDurability) //耐久MAX
             durability = maxDurability;

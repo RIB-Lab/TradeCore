@@ -10,7 +10,7 @@ public interface IHasDurability {
     /**
      * ツールの基礎最大耐久値。-1で無限
      */
-    int getBaseMaxDurability();
+    DurabilityTable getDurabilityTable();
 
     /**
      * ツールのインスタンスの耐久値を減らす / 回復させる
