@@ -2,7 +2,6 @@ package net.riblab.tradecore.item.impl;
 
 import lombok.Getter;
 import net.riblab.tradecore.general.IWeaponAttributeMelee;
-import net.riblab.tradecore.item.base.IWeaponAttribute;
 import net.riblab.tradecore.entity.mob.MobUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
@@ -23,16 +22,16 @@ public class WeaponAttributeDagger implements IWeaponAttributeMelee {
      * 攻撃の威力。
      */
     @Getter
-    private final double attackDamage;
+    private final double baseAttackDamage;
 
     private final double angle = 60;
 
-    public WeaponAttributeDagger(double attackDamage) {
-        this.attackDamage = attackDamage;
+    public WeaponAttributeDagger(double baseAttackDamage) {
+        this.baseAttackDamage = baseAttackDamage;
     }
     
     @Override
-    public boolean attack(Player player) {
+    public boolean attack(Player player, double damage) {
         boolean isHit = false;
         List<Entity> nearbyEntities = player.getNearbyEntities(1.5d, 1.5d, 1.5d);
         for (Entity nearbyEntity : nearbyEntities) {
@@ -46,7 +45,7 @@ public class WeaponAttributeDagger implements IWeaponAttributeMelee {
             if (!(nearbyEntity instanceof Mob livingEntity))
                 continue;
 
-            MobUtils.tryDealDamageByPlayer(livingEntity, attackDamage, diff.normalize().multiply(0.5f));
+            MobUtils.tryDealDamageByPlayer(livingEntity, damage, diff.normalize().multiply(0.5f));
             isHit = true;
         }
 

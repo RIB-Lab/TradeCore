@@ -8,10 +8,13 @@ import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
+import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.item.base.*;
 import net.riblab.tradecore.entity.mob.CustomMobService;
+import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.modifier.IArmorModifier;
+import net.riblab.tradecore.modifier.IAttackDamageModifier;
 import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
@@ -162,7 +165,11 @@ public final class GeneralEventHandler {
         ITCItem itcItem = TCItems.toTCItem(event.getItem());
         if (itcItem instanceof ITCWeapon weapon) {
             event.setCancelled(true);
-            if (weapon.getAttribute().attack(event.getPlayer())) {
+            
+            IItemMod damageMod = new ItemCreator(event.getItem()).getItemMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
+            double damage = damageMod != null ? (double) damageMod.getLevel() / 100 : weapon.getAttribute().getBaseAttackDamage();
+            
+            if (weapon.getAttribute().attack(event.getPlayer(), damage)) {
                 ItemStack newItemStack = weapon.reduceDurability(event.getPlayer().getInventory().getItemInMainHand(), 1);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
             }
@@ -220,7 +227,10 @@ public final class GeneralEventHandler {
             if (player.getAttackCooldown() != 1)
                 return;
 
-            if (weapon.getAttribute().attack(player)) {
+            IItemMod damageMod = new ItemCreator(player.getInventory().getItemInMainHand()).getItemMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
+            double damage = damageMod != null ? (double) damageMod.getLevel() / 100 : weapon.getAttribute().getBaseAttackDamage();
+
+            if (weapon.getAttribute().attack(player, damage)) {
                 ItemStack newItemStack = ((IHasDurability) item).reduceDurability(player.getInventory().getItemInMainHand(), 1);
                 player.getInventory().setItemInMainHand(newItemStack);
             }

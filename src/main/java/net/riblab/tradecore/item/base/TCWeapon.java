@@ -1,4 +1,4 @@
-package net.riblab.tradecore.item.impl;
+package net.riblab.tradecore.item.base;
 
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -7,13 +7,9 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.base.DurabilityTable;
-import net.riblab.tradecore.item.base.ITCWeapon;
-import net.riblab.tradecore.item.base.IWeaponAttribute;
-import net.riblab.tradecore.item.base.TCItem;
 import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.item.mod.ModAttackDamageI;
 import net.riblab.tradecore.item.mod.ModMaxDurabilityI;
-import net.riblab.tradecore.item.mod.ModMiningSpeedI;
 import net.riblab.tradecore.modifier.IDurabilityModifier;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -32,15 +28,19 @@ public class TCWeapon extends TCItem implements ITCWeapon {
 
     @Getter
     private final IWeaponAttribute attribute;
+    
+    @Getter
+    private final AttackDamageSpread attackDamageSpread;
 
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, DurabilityTable durabilityTable, List<IItemMod> defaultMods, IWeaponAttribute attribute) {
+    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, DurabilityTable durabilityTable, List<IItemMod> defaultMods, IWeaponAttribute attribute, AttackDamageSpread attackDamageSpread) {
         super(name, material, internalName, customModelData);
         this.durabilityTable = durabilityTable;
         this.defaultMods = defaultMods;
         this.attribute = attribute;
+        this.attackDamageSpread = attackDamageSpread;
     }
 
 
@@ -53,9 +53,11 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     @Override
     public @Nonnull ItemStack getItemStack() {
         int maxDurability = durabilityTable.getRandomMaxDurability();
+        double attackDamage = attackDamageSpread.getRandomDamage(attribute.getBaseAttackDamage());
 
         List<IItemMod> initMods = List.of(
-                new ModMaxDurabilityI(maxDurability));
+                new ModMaxDurabilityI(maxDurability),
+                new ModAttackDamageI((int) (attackDamage * 100)));
 
         return new ItemCreator(getTemplate().create())
                 .setIntNBT(NBTTagNames.DURABILITY.get(), maxDurability)
@@ -76,10 +78,8 @@ public class TCWeapon extends TCItem implements ITCWeapon {
             texts.add(getDurabilityLore(durability, randomMods));
         }
         texts.add(Component.text("攻撃速度: " + Math.floor(attribute.getAttackSpeedForDisplay() * 100) / 100).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
-        texts.add(Component.text("攻撃力: " + Math.floor(attribute.getAttackDamage() * 100) / 100).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
-        for (IItemMod defaultMod : defaultMods) {
-            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
-        }
+        texts.addAll(getDefaultModsLore());
+        texts.addAll(getRandomModsLore(randomMods));
         return texts;
     }
 
@@ -109,6 +109,36 @@ public class TCWeapon extends TCItem implements ITCWeapon {
         return maxDurabilityMod != null ? maxDurabilityMod.getLevel() : durabilityTable.getMiddleMaxDurability(); //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
     }
 
+    /**
+     * ツールに元からあるmodの説明文を取得する
+     */
+    private List<TextComponent> getDefaultModsLore(){
+        List<TextComponent> texts = new ArrayList<>();
+
+        for (IItemMod defaultMod : defaultMods) {
+            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        }
+
+        return texts;
+    }
+
+    /**
+     * ツールに付与されているランダムmodの説明文を取得する
+     */
+    private List<TextComponent> getRandomModsLore(List<IItemMod> randomMods){
+        List<TextComponent> texts = new ArrayList<>();
+
+        for (IItemMod randomMod : randomMods) {
+            if(randomMod instanceof IDurabilityModifier){//これだけ現在の耐久値を確認するため追加不可能
+                continue;
+            }
+
+            texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        }
+
+        return texts;
+    }
+    
     @Override
     public ItemStack reduceDurability(ItemStack instance, int amount) {
         if (!isSimilar(instance))

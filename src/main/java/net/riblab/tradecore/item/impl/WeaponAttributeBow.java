@@ -20,16 +20,16 @@ public class WeaponAttributeBow implements IWeaponAttribute {
      * 撃つ矢の威力。
      */
     @Getter
-    private final double attackDamage;
+    private final double baseAttackDamage;
 
     /**
      * 矢のスピード
      */
     private final double force = 3;
 
-    public WeaponAttributeBow(double attackSpeed, double attackDamage) {
+    public WeaponAttributeBow(double attackSpeed, double baseAttackDamage) {
         this.attackSpeed = attackSpeed;
-        this.attackDamage = attackDamage;
+        this.baseAttackDamage = baseAttackDamage;
     }
     
     private double getAttackCooldown(){
@@ -37,12 +37,12 @@ public class WeaponAttributeBow implements IWeaponAttribute {
     }
 
     @Override
-    public boolean attack(Player player) {
+    public boolean attack(Player player, double damage) {
         if(AttackCooldownService.getImpl().getCooldown(player) != 0)
             return false;
         
         Vector direction = player.getLocation().getDirection().multiply(force);
-        CustomProjectileService.getImpl().spawn(player, CustomProjectileService.arrow, direction, attackDamage);
+        CustomProjectileService.getImpl().spawn(player, CustomProjectileService.arrow, direction, damage);
         
         AttackCooldownService.getImpl().add(player, getAttackCooldown());
         

@@ -13,15 +13,15 @@ public interface IWeaponAttribute {
     double getAttackSpeed();
 
     /**
-     * 攻撃の威力
+     * 攻撃の基礎威力(modが乗る前の威力)
      */
-    double getAttackDamage();
+    double getBaseAttackDamage();
 
     /**
      * 攻撃する
      * @return 攻撃が有効かどうか(攻撃によって武器の耐久を減らす必要があるか)
      */
-    boolean attack(Player player);
+    boolean attack(Player player, double damage);
 
     /**
      * ツールチップに表示用の攻撃速度
