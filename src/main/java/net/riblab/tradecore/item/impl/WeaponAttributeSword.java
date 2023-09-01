@@ -1,6 +1,7 @@
 package net.riblab.tradecore.item.impl;
 
 import lombok.Getter;
+import net.riblab.tradecore.general.IWeaponAttributeMelee;
 import net.riblab.tradecore.item.base.IWeaponAttribute;
 import net.riblab.tradecore.entity.mob.MobUtils;
 import org.bukkit.entity.Entity;
@@ -10,7 +11,7 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 
-public class WeaponAttributeSword implements IWeaponAttribute {
+public class WeaponAttributeSword implements IWeaponAttributeMelee {
 
     /**
      * 攻撃速度。4が既定値なので減らしたい場合はそこから引く。
@@ -31,7 +32,7 @@ public class WeaponAttributeSword implements IWeaponAttribute {
     public WeaponAttributeSword(double attackDamage) {
         this.attackDamage = attackDamage;
     }
-
+    
     @Override
     public boolean attack(Player player) {
         boolean isHit = false;

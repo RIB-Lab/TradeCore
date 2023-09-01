@@ -22,4 +22,11 @@ public interface IWeaponAttribute {
      * @return 攻撃が有効かどうか(攻撃によって武器の耐久を減らす必要があるか)
      */
     boolean attack(Player player);
+
+    /**
+     * ツールチップに表示用の攻撃速度
+     */
+    default double getAttackSpeedForDisplay(){
+        return getAttackSpeed();
+    }
 }

@@ -56,6 +56,8 @@ public class TCWeapon extends TCItem implements ITCWeapon {
                     .append(Component.text(durability).color(durability == baseDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
                     .append(Component.text("/" + baseDurability).color(NamedTextColor.WHITE)));
         }
+        texts.add(Component.text("攻撃速度: " + Math.floor(attribute.getAttackSpeedForDisplay() * 100) / 100).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        texts.add(Component.text("攻撃力: " + Math.floor(attribute.getAttackDamage() * 100) / 100).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         for (IItemMod defaultMod : defaultMods) {
             texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
