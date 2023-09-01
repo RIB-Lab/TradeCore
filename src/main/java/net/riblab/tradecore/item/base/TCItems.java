@@ -7,6 +7,7 @@ import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.dungeon.DungeonNames;
+import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.impl.*;
 import net.riblab.tradecore.item.mod.*;
@@ -137,7 +138,7 @@ public enum TCItems {
         if (itemStack == null || itemStack.getType() == Material.AIR)
             return null;
 
-        String id = new ItemCreator(itemStack).getStrNBT("TCID");
+        String id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
         TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(id)).findFirst().orElse(null);
         return itcItem == null ? null : itcItem.get();
     }

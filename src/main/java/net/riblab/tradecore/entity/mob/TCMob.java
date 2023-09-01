@@ -9,6 +9,7 @@ import me.gamercoder215.mobchip.ai.attribute.EntityAttribute;
 import me.gamercoder215.mobchip.bukkit.BukkitBrain;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.general.NBTTagNames;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.inventory.ItemStack;
@@ -63,7 +64,7 @@ class TCMob implements ITCMob {
         mob.setCustomNameVisible(false);
 
         NBTEntity nbtEntity = new NBTEntity(mob);
-        nbtEntity.getPersistentDataContainer().setString("TCID", internalName);
+        nbtEntity.getPersistentDataContainer().setString(NBTTagNames.MOBID.get(), internalName);
 
         EntityBrain brain = BukkitBrain.getBrain(mob);
         //TODO:AIを持ったモブ
@@ -106,7 +107,7 @@ class TCMob implements ITCMob {
             return false;
 
         NBTEntity nbtEntity = new NBTEntity(mob);
-        String ID = nbtEntity.getPersistentDataContainer().getString("TCID");
+        String ID = nbtEntity.getPersistentDataContainer().getString(NBTTagNames.MOBID.get());
 
         if (ID == null)
             return false;

@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.base.ITCWeapon;
 import net.riblab.tradecore.item.base.IWeaponAttribute;
@@ -39,7 +40,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
 
     @Override
     protected ItemCreator createItem() {
-        return super.createItem().setIntNBT(durabilityTag, baseDurability)
+        return super.createItem().setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
                 .setLores(getLore(baseDurability)).setAttackSpeed(attribute.getAttackSpeed());
     }
 
@@ -69,7 +70,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
         if (!isSimilar(instance))
             return null;
 
-        int durability = new ItemCreator(instance).getIntNBT(durabilityTag);
+        int durability = new ItemCreator(instance).getIntNBT(NBTTagNames.DURABILITY.get());
 
         if (durability == -1) //耐久無限
             return instance;
@@ -84,6 +85,6 @@ public class TCWeapon extends TCItem implements ITCWeapon {
 
         int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) baseDurability));
         int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
-        return new ItemCreator(instance).setLores(getLore(durability)).damage(damageToDeal).setIntNBT(durabilityTag, durability).create();
+        return new ItemCreator(instance).setLores(getLore(durability)).damage(damageToDeal).setIntNBT(NBTTagNames.DURABILITY.get(), durability).create();
     }
 }

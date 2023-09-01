@@ -2,6 +2,7 @@ package net.riblab.tradecore.entity.projectile;
 
 import de.tr7zw.nbtapi.NBTEntity;
 import lombok.Getter;
+import net.riblab.tradecore.general.NBTTagNames;
 import org.bukkit.entity.Projectile;
 
 public class TCProjectile implements ITCProjectile {
@@ -26,8 +27,8 @@ public class TCProjectile implements ITCProjectile {
     @Override
     public void onSpawn(Projectile projectile, double damage) {
         NBTEntity nbtEntity = new NBTEntity(projectile);
-        nbtEntity.getPersistentDataContainer().setString("TCID", internalName);
-        nbtEntity.getPersistentDataContainer().setDouble("ProjectileDamage", damage);
+        nbtEntity.getPersistentDataContainer().setString(NBTTagNames.PROJECTILEID.get(), internalName);
+        nbtEntity.getPersistentDataContainer().setDouble(NBTTagNames.PROJECTILEDAMAGE.get(), damage);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class TCProjectile implements ITCProjectile {
             return false;
 
         NBTEntity nbtEntity = new NBTEntity(projectile);
-        String ID = nbtEntity.getPersistentDataContainer().getString("TCID");
+        String ID = nbtEntity.getPersistentDataContainer().getString(NBTTagNames.PROJECTILEID.get());
 
         if (ID == null)
             return false;
@@ -47,6 +48,6 @@ public class TCProjectile implements ITCProjectile {
     @Override
     public double getDamage(Projectile projectile) {
         NBTEntity nbtEntity = new NBTEntity(projectile);
-        return nbtEntity.getPersistentDataContainer().getDouble("ProjectileDamage");
+        return nbtEntity.getPersistentDataContainer().getDouble(NBTTagNames.PROJECTILEDAMAGE.get());
     }
 }

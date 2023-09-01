@@ -7,6 +7,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
@@ -46,10 +47,10 @@ class TCEquipment extends TCItem implements ITCEquipment {
                 .setIntNBT(durabilityTag, baseDurability)
                 .setLores(getLore(baseDurability)).create();
         NBTItem item = new NBTItem(itemStack);
-        item.setInteger("HideFlags", 135);//hideattribute + hidearmorupgrade
-        NBTCompound nbtList = item.getOrCreateCompound("Trim");
-        nbtList.setString("material", "minecraft:" + trimName);
-        nbtList.setString("pattern", "minecraft:" + trimName);
+        item.setInteger(NBTTagNames.ARMOR_HIDEFLAGS.get(), 135);//hideattribute + hidearmorupgrade
+        NBTCompound nbtList = item.getOrCreateCompound(NBTTagNames.ARMOR_TRIM.get());
+        nbtList.setString(NBTTagNames.ARMOR_MATERIAL.get(), "minecraft:" + trimName);
+        nbtList.setString(NBTTagNames.ARMOR_PATTERN.get(), "minecraft:" + trimName);
         itemStack = item.getItem();
         return new ItemCreator(itemStack);
     }

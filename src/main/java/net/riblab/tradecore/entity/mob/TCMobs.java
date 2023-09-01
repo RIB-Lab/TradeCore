@@ -6,6 +6,7 @@ import dev.jorel.commandapi.arguments.ArgumentSuggestions;
 import dev.jorel.commandapi.arguments.CustomArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
@@ -47,7 +48,7 @@ public enum TCMobs {
             return null;
 
         NBTEntity nbtEntity = new NBTEntity(mob);
-        String ID = nbtEntity.getPersistentDataContainer().getString("TCID");
+        String ID = nbtEntity.getPersistentDataContainer().getString(NBTTagNames.MOBID.get());
 
         TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(ID)).findFirst().orElse(null);
         return itcMob == null ? null : itcMob.get();

@@ -7,8 +7,6 @@ import org.bukkit.inventory.ItemStack;
  */
 public interface IHasDurability {
 
-    String durabilityTag = "durability";
-
     /**
      * ツールの基礎耐久値。-1で無限
      */

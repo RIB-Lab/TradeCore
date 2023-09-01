@@ -5,6 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
@@ -48,7 +49,7 @@ public class TCTool extends TCItem implements ITCTool {
 
     @Override
     protected ItemCreator createItem() {
-        return super.createItem().setIntNBT(durabilityTag, baseDurability)
+        return super.createItem().setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
                 .setLores(getLore(baseDurability));
     }
 
@@ -78,7 +79,7 @@ public class TCTool extends TCItem implements ITCTool {
         if (!isSimilar(instance))
             return null;
 
-        int durability = new ItemCreator(instance).getIntNBT(durabilityTag);
+        int durability = new ItemCreator(instance).getIntNBT(NBTTagNames.DURABILITY.get());
 
         if (durability == -1) //耐久無限
             return instance;
@@ -93,6 +94,6 @@ public class TCTool extends TCItem implements ITCTool {
 
         int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) baseDurability));
         int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
-        return new ItemCreator(instance).setLores(getLore(durability)).damage(damageToDeal).setIntNBT(durabilityTag, durability).create();
+        return new ItemCreator(instance).setLores(getLore(durability)).damage(damageToDeal).setIntNBT(NBTTagNames.DURABILITY.get(), durability).create();
     }
 }

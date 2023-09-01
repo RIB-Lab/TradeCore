@@ -5,6 +5,7 @@ import lombok.Data;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -70,7 +71,7 @@ public class TCItem implements ITCItem {
     protected @Nonnull ItemCreator createItem() {
         return new ItemCreator(material)
                 .setName(name.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
-                .setStrNBT("TCID", internalName)
+                .setStrNBT(NBTTagNames.ITEMID.get(), internalName)
                 .hideEnchantment()
                 .setCustomModelData(customModelData)
                 .setUnbreakable(false)
@@ -96,7 +97,7 @@ public class TCItem implements ITCItem {
         if (itemStack == null || itemStack.getType().equals(Material.AIR))
             return false;
 
-        String ID = new ItemCreator(itemStack).getStrNBT("TCID");
+        String ID = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
 
         if (ID == null)
             return false;

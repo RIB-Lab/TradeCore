@@ -1,6 +1,7 @@
 package net.riblab.tradecore.entity.mob;
 
 import de.tr7zw.nbtapi.NBTEntity;
+import net.riblab.tradecore.general.NBTTagNames;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,8 +20,6 @@ import java.util.Random;
  * モブ関連のユーティリティクラス
  */
 public final class MobUtils {
-
-    private static final String lootableTag = "lootable";
 
     private MobUtils() {
 
@@ -71,7 +70,7 @@ public final class MobUtils {
     @ParametersAreNonnullByDefault
     public static void setLootableTag(Mob mob, boolean flag) {
         NBTEntity nbtEntity = new NBTEntity(mob);
-        nbtEntity.getPersistentDataContainer().setBoolean(lootableTag, flag);
+        nbtEntity.getPersistentDataContainer().setBoolean(NBTTagNames.MOB_ISLOOTABLE.get(), flag);
     }
 
     /**
@@ -80,7 +79,7 @@ public final class MobUtils {
     @ParametersAreNonnullByDefault
     public static boolean isLootable(Mob mob) {
         NBTEntity nbtEntity = new NBTEntity(mob);
-        return nbtEntity.getPersistentDataContainer().getBoolean(lootableTag);
+        return nbtEntity.getPersistentDataContainer().getBoolean(NBTTagNames.MOB_ISLOOTABLE.get());
     }
 
     /**
