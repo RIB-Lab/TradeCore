@@ -130,8 +130,9 @@ public final class TCCommands {
         CommandAPICommand mobResetCommand = new CommandAPICommand(MOBS_RESET.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    CustomMobService.getImpl().deSpawnAll();
+                    int size =  CustomMobService.getImpl().deSpawnAll();
                     player.sendMessage("モブシステムをリセットしました");
+                    player.sendMessage(size + "体のモブを消去");
                 });
         mobCommand.withSubcommand(spawnCommand);
         mobCommand.withSubcommand(mobResetCommand);
@@ -266,8 +267,9 @@ public final class TCCommands {
         CommandAPICommand projectileResetCommand = new CommandAPICommand(PROJECTILE_RESET.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    CustomProjectileService.getImpl().deSpawnAll();
+                    int size = CustomProjectileService.getImpl().deSpawnAll();
                     player.sendMessage("射出物をリセットしました");
+                    player.sendMessage(size + "体の射出物を消去しました");
                 });
         projectileCommand.withSubcommand(projectileResetCommand);
         projectileCommand.register();

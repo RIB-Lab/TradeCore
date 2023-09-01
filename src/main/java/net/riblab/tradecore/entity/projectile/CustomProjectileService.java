@@ -20,5 +20,5 @@ public interface CustomProjectileService {
 
     double getCustomProjectileDamage(Projectile projectile);
 
-    void deSpawnAll();
+    int deSpawnAll();
 }

@@ -37,8 +37,10 @@ enum CustomProjectileServiceImpl implements CustomProjectileService {
     }
 
     @Override
-    public void deSpawnAll() {
+    public int deSpawnAll() {
+        int size = spawnedProjectiles.size();
         spawnedProjectiles.forEach(Entity::remove);
         spawnedProjectiles.clear();
+        return size;
     }
 }

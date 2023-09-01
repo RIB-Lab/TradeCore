@@ -26,6 +26,8 @@ public interface CustomMobService {
 
     /**
      * 全てのカスタムモブをデスポーンさせる
+     *
+     * @return
      */
-    void deSpawnAll();
+    int deSpawnAll();
 }
