@@ -31,10 +31,10 @@ public final class UIShop {
                 .disableAllInteractions()
                 .create();
 
-        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getItemStack(),
+        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getTemplateItemStack(),
                 event -> gui.previous());
         gui.setItem(48, previousPageButton);
-        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getItemStack(),
+        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getTemplateItemStack(),
                 event -> gui.next());
         gui.setItem(50, nextPageButton);
 

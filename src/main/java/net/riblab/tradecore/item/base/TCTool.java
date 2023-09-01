@@ -8,11 +8,14 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.item.mod.ModMiningSpeedI;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * プラグインのツールクラス
@@ -48,28 +51,39 @@ public class TCTool extends TCItem implements ITCTool {
     }
 
     @Override
-    protected ItemCreator createItem() {
-        return super.createItem().setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
-                .setLores(getLore(baseDurability));
+    protected @Nonnull ItemCreator getTemplate() {
+        return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
+                .setLores(getLore(baseDurability, new ArrayList<>()));
+    }
+
+    @Override
+    public @Nonnull ItemStack getItemStack() {
+        //TODO:ちゃんと最初のランダムmodを決めるシステムを作る
+        List<IItemMod> initMods = List.of(new ModMiningSpeedI((int)((new Random().nextDouble(mineSpeedRandomness * 2)- mineSpeedRandomness + baseMiningSpeed) * 100)));
+        return new ItemCreator(getTemplate().create()).setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
+                .setLores(getLore(baseDurability, initMods))
+                .writeItemMods(initMods).create();
     }
 
     /**
      * ツールの説明を生成する
      *
      * @param durability インスタンスが持つ耐久値
+     * @param randomMods ツールが持つランダムmod
      * @return ツールの説明
      */
-    protected List<Component> getLore(int durability) {
+    protected List<Component> getLore(int durability, List<IItemMod> randomMods) {
         List<Component> texts = new ArrayList<>();
         if (baseDurability != -1) {
             texts.add(Component.text("耐久値: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
                     .append(Component.text(durability).color(durability == baseDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
                     .append(Component.text("/" + baseDurability).color(NamedTextColor.WHITE)));
         }
-        texts.add(Component.text("採掘速度: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
-                .append(Component.text((Math.floor(baseMiningSpeed * 100)) / 100)));
         for (IItemMod defaultMod : defaultMods) {
             texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        }
+        for (IItemMod randomMod : randomMods) {
+            texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
         return texts;
     }
@@ -94,6 +108,7 @@ public class TCTool extends TCItem implements ITCTool {
 
         int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) baseDurability));
         int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
-        return new ItemCreator(instance).setLores(getLore(durability)).damage(damageToDeal).setIntNBT(NBTTagNames.DURABILITY.get(), durability).create();
+        List<IItemMod> mods = new ItemCreator(instance).getItemMods();
+        return new ItemCreator(instance).setLores(getLore(durability, mods)).damage(damageToDeal).setIntNBT(NBTTagNames.DURABILITY.get(), durability).create();
     }
 }

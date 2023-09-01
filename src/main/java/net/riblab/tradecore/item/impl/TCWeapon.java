@@ -14,6 +14,7 @@ import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,9 +39,10 @@ public class TCWeapon extends TCItem implements ITCWeapon {
         this.attribute = attribute;
     }
 
+    @Nonnull
     @Override
-    protected ItemCreator createItem() {
-        return super.createItem().setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
+    protected ItemCreator getTemplate() {
+        return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), baseDurability)
                 .setLores(getLore(baseDurability)).setAttackSpeed(attribute.getAttackSpeed());
     }
 

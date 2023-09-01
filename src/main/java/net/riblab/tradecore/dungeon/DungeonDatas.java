@@ -23,7 +23,7 @@ public enum DungeonDatas {
     TEST(new DungeonData<>(DungeonNames.TEST.get(), new Vector(-17, 97, -24), List.of(TCMobs.DUNGEON_SKELETON.get(), TCMobs.DUNGEON_ZOMBIE.get()),
             3, DPTExtermination.class, 5, Map.of())),
     STONEROOM(new DungeonData<>(DungeonNames.STONEROOM.get(), new Vector(68.5, 97, -52.5), List.of(TCMobs.DUNGEON_ZOMBIE.get(), TCMobs.DUNGEON_SKELETON.get(), TCMobs.DUNGEON_SILVERFISH.get()),
-            3, DPTExtermination.class, 100, Map.of(TCItems.STONE_DAGGER.get().getItemStack(), 0.33f, TCItems.STONE_SPEAR.get().getItemStack(), 0.33f, TCItems.STONE_BATTLEAXE.get().getItemStack(), 0.34f)));
+            3, DPTExtermination.class, 100, Map.of(TCItems.STONE_DAGGER.get().getTemplateItemStack(), 0.33f, TCItems.STONE_SPEAR.get().getTemplateItemStack(), 0.33f, TCItems.STONE_BATTLEAXE.get().getTemplateItemStack(), 0.34f)));
 
     @Getter
     private final IDungeonData<?> data;

@@ -27,8 +27,8 @@ class TCItemWithMod extends TCItem implements IHasItemMod {
     }
     
     @Override
-    protected @Nonnull ItemCreator createItem() {
-        return super.createItem().setLores(getLore());
+    protected @Nonnull ItemCreator getTemplate() {
+        return super.getTemplate().setLores(getLore());
     }
     
 

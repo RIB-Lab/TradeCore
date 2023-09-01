@@ -69,6 +69,7 @@ public final class TradeCore extends JavaPlugin {
         advancementAPI = UltimateAdvancementAPI.getInstance(this);
         CustomMobService.getImpl(); //ondisableでエラーが出ないように強制起動
         CustomProjectileService.getImpl();
+        Utils.forceInit(BlockUtils.class);
 
         TCCommands.onEnable();
 

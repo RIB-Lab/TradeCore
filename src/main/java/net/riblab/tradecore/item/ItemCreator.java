@@ -1,7 +1,14 @@
 package net.riblab.tradecore.item;
 
+import de.tr7zw.nbtapi.NBT;
+import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.general.NBTTagNames;
+import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.item.mod.ItemMod;
+import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -17,6 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.ParametersAreNullableByDefault;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -390,5 +398,33 @@ public final class ItemCreator {
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier("generic.attackSpeed", value, AttributeModifier.Operation.ADD_NUMBER));
         itemStack.setItemMeta(meta);
         return this;
+    }
+    
+    public ItemCreator writeItemMod(IItemMod mod){
+        NBTItem item = new NBTItem(itemStack);
+        item.getOrCreateCompound(NBTTagNames.ITEMMOD.get()).setInteger(mod.getClass().getCanonicalName(), mod.getLevel());
+        itemStack = item.getItem();
+        return this;
+    }
+    
+    public ItemCreator writeItemMods(List<IItemMod> mods){
+        mods.forEach(this::writeItemMod);
+        return this;
+    }
+    
+    public List<IItemMod> getItemMods(){
+        List<IItemMod> modList = new ArrayList<>();
+        NBTItem item = new NBTItem(itemStack);
+        NBTCompound compound = item.getOrCreateCompound(NBTTagNames.ITEMMOD.get());
+        for (String key : compound.getKeys()) {
+            try {
+                IItemMod mod = (IItemMod) Class.forName(key).getDeclaredConstructor(int.class).newInstance(compound.getInteger(key));
+                modList.add(mod);
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return modList;
     }
 }

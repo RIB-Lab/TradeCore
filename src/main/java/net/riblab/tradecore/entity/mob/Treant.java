@@ -19,7 +19,7 @@ import java.util.Map;
  */
 class Treant extends TCMob {
     public Treant() {
-        super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of(TCItems.BARK.get().getItemStack(), 1f));
+        super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of(TCItems.BARK.get().getTemplateItemStack(), 1f));
     }
 
     @Override

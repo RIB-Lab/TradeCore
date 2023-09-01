@@ -68,7 +68,7 @@ public class TCItem implements ITCItem {
      *
      * @return 作られたアイテムの型の実体
      */
-    protected @Nonnull ItemCreator createItem() {
+    protected @Nonnull ItemCreator getTemplate() {
         return new ItemCreator(material)
                 .setName(name.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
                 .setStrNBT(NBTTagNames.ITEMID.get(), internalName)
@@ -78,16 +78,10 @@ public class TCItem implements ITCItem {
                 .hideAttributes();
     }
 
-    @Override
-    public void onGiveCommand(CommandSender sender, String[] argments) {
-        Player player = (Player) sender;
-        player.getInventory().addItem(itemStackTemplate.create());
-    }
-
     @Nonnull
-    public ItemStack getItemStack() {
+    public ItemStack getTemplateItemStack() {
         if (itemStackTemplate == null)
-            itemStackTemplate = createItem();
+            itemStackTemplate = getTemplate();
 
         return itemStackTemplate.create();
     }

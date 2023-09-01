@@ -14,7 +14,8 @@ public enum NBTTagNames {
     ARMOR_HIDEFLAGS("HideFlags"),
     PROJECTILEID("TCProjectileID"),
     PROJECTILEDAMAGE("ProjectileDamage"),
-    DURABILITY("durability");
+    DURABILITY("durability"),
+    ITEMMOD("ItemMod");
     
     private final String name;
 

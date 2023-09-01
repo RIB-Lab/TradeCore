@@ -42,8 +42,8 @@ class TCEquipment extends TCItem implements ITCEquipment {
     private static final String durabilityTag = "durability";
 
     @Override
-    protected @Nonnull ItemCreator createItem() {
-        ItemStack itemStack = super.createItem()
+    protected @Nonnull ItemCreator getTemplate() {
+        ItemStack itemStack = super.getTemplate()
                 .setIntNBT(durabilityTag, baseDurability)
                 .setLores(getLore(baseDurability)).create();
         NBTItem item = new NBTItem(itemStack);

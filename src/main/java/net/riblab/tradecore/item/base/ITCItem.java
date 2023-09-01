@@ -25,11 +25,20 @@ public interface ITCItem {
     Material getMaterial();
 
     /**
-     * 固有アイテムのテンプレートを取得
+     * 固有アイテムのテンプレートのItemStackを取得(レシピ表示用など)
      *
-     * @return 固有アイテムの実体のコピー
+     * @return 固有アイテムのテンプレートのコピー
      */
-    ItemStack getItemStack();
+    ItemStack getTemplateItemStack();
+
+    /**
+     * 固有アイテムの初期値がランダマイズされた実体を取得(プレイヤーに渡す用)
+     * 
+     * @return 固有アイテムの新しい実体
+     */
+    default ItemStack getItemStack(){
+        return getTemplateItemStack();
+    };
 
     /**
      * 固有アイテムの内部名称を取得
@@ -47,13 +56,4 @@ public interface ITCItem {
     boolean isSimilar(ItemStack itemStack);
 
     boolean isSimilar(String tcID);
-
-    /**
-     * 固有アイテムの実体をプレイヤーに渡すイベントが発火された時の挙動<br>
-     * ここをオーバーライドして固有アイテムの実体に色んなデータを書きこんでからプレイヤーに渡すことができる
-     *
-     * @param sender   固有アイテムを召喚したプレイヤー
-     * @param argments 召喚コマンドの引数
-     */
-    void onGiveCommand(CommandSender sender, String[] argments);
 }

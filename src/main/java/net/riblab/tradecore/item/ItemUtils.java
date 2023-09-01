@@ -26,7 +26,7 @@ public final class ItemUtils {
             float skillAppliedChance = Utils.apply(player, aFloat, IResourceChanceModifier.class);
             float rand = random.nextFloat();
             if (rand < skillAppliedChance) {
-                block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
+                block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getTemplateItemStack());
             }
         });
     }

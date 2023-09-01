@@ -23,6 +23,8 @@ public interface ITCTool extends IHasDurability, IHasItemMod {
     default double getActualMiningSpeed() {
         return Math.log10(getBaseMiningSpeed()) + 0.1d;
     }
+    
+    double mineSpeedRandomness = 0.05d;
 
     /**
      * ツールの種類

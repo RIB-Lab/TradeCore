@@ -83,10 +83,10 @@ final class UIFurnace implements IUI {
         gui.setPageSize(9);
         gui.getFiller().fillBetweenPoints(1, 4, 3, 9, ItemBuilder.from(Material.AIR).asGuiItem());
 
-        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getItemStack(),
+        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getTemplateItemStack(),
                 event -> gui.previous());
         gui.setItem(22, previousPageButton);
-        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getItemStack(),
+        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getTemplateItemStack(),
                 event -> gui.next());
         gui.setItem(24, nextPageButton);
 
@@ -104,7 +104,7 @@ final class UIFurnace implements IUI {
     private static void addSmeltingScreen(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe) {
         int slot = 0;
         for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            ItemStack ingredientStack = entry.getKey().getItemStack();
+            ItemStack ingredientStack = entry.getKey().getTemplateItemStack();
             ingredientStack.setAmount(entry.getValue());
             GuiItem ingredientDisplay = new GuiItem(ingredientStack);
             gui.setItem(slot, ingredientDisplay);
@@ -122,7 +122,7 @@ final class UIFurnace implements IUI {
         GuiItem craftButton = new GuiItem(resultStack, event -> trySmelt(gui, player, recipe, finalResultStack));
         gui.setItem(14, craftButton);
 
-        ItemStack feeStack = TCItems.FUEL_BALL.get().getItemStack();
+        ItemStack feeStack = TCItems.FUEL_BALL.get().getTemplateItemStack();
         Component name = Component.text("燃料: ").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false)
                 .append(Component.text(recipe.fuelAmount()).color(NamedTextColor.YELLOW));
         Component lore = Component.text("タイプ：燃料玉").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY);

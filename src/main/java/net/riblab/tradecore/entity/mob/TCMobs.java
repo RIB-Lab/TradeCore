@@ -26,7 +26,7 @@ public enum TCMobs {
     DUNGEON_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("テクスチャもクソもない何か"), 5, "dungeon_silverfish", Map.of())),
     
     //フィールド専用
-    BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of(TCItems.ROUND_STONE.get().getItemStack(), 0.25f, TCItems.MAP_STONEROOM.get().getItemStack(), 0.25f))),
+    BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of(TCItems.ROUND_STONE.get().getTemplateItemStack(), 0.25f, TCItems.MAP_STONEROOM.get().getTemplateItemStack(), 0.25f))),
     BASIC_TREANT(new Treant());
 
     private final ITCMob ITCMob;

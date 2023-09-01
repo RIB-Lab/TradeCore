@@ -10,8 +10,10 @@ import net.riblab.tradecore.item.base.ISellable;
 import net.riblab.tradecore.item.base.TCTool;
 import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pebble extends TCTool implements ISellable {
@@ -28,15 +30,20 @@ public class Pebble extends TCTool implements ISellable {
     }
 
     @Override
-    protected @Nonnull ItemCreator createItem() {
-        return super.createItem().setLores(getLore());
+    protected @Nonnull ItemCreator getTemplate() {
+        return super.getTemplate().setLores(getLore());
+    }
+
+    @Override
+    public @Nonnull ItemStack getItemStack() {
+        return getTemplateItemStack();
     }
 
     /**
      * 売却可能なアイテムの説明を生成する
      */
-    protected List<Component> getLore() {
-        List<Component> text = super.getLore(-1);
+    protected List<Component> getLore() {//小石にランダムmodはない
+        List<Component> text = new ArrayList<>();
         text.add(Component.text("売価：").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
                 .append(Component.text((Math.floor(sellPrice * 100)) / 100).color(NamedTextColor.YELLOW)));
         return text;

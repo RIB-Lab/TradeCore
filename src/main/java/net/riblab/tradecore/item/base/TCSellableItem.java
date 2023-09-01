@@ -27,8 +27,8 @@ class TCSellableItem extends TCItem implements ISellable {
     }
 
     @Override
-    protected @Nonnull ItemCreator createItem() {
-        return super.createItem().setLore(getLore());
+    protected @Nonnull ItemCreator getTemplate() {
+        return super.getTemplate().setLore(getLore());
     }
 
     /**

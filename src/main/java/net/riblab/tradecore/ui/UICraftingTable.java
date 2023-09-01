@@ -152,10 +152,10 @@ final class UICraftingTable implements IUI {
         gui.setPageSize(9);
         gui.getFiller().fillBetweenPoints(1, 4, 3, 9, ItemBuilder.from(Material.AIR).asGuiItem());
 
-        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getItemStack(),
+        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getTemplateItemStack(),
                 event -> gui.previous());
         gui.setItem(22, previousPageButton);
-        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getItemStack(),
+        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getTemplateItemStack(),
                 event -> gui.next());
         gui.setItem(24, nextPageButton);
 
@@ -173,7 +173,7 @@ final class UICraftingTable implements IUI {
     private static void addCraftingScreen(PaginatedGui gui, Player player, ITCCraftingRecipe recipe) {
         int slot = 0;
         for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            ItemStack ingredientStack = entry.getKey().getItemStack();
+            ItemStack ingredientStack = entry.getKey().getTemplateItemStack();
 
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
             packedRecipeData.setRecipe(recipe);
@@ -202,7 +202,7 @@ final class UICraftingTable implements IUI {
         packedCraftFee.setFee(recipe.fee());
         double skillAppliedFee = Utils.apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
 
-        ItemStack feeStack = TCItems.COIN.get().getItemStack();
+        ItemStack feeStack = TCItems.COIN.get().getTemplateItemStack();
         Component name = Component.text("工費: ").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false)
                 .append(Component.text(Math.floor(skillAppliedFee * 100) / 100).color(NamedTextColor.YELLOW));
         Component lore = Component.text("職人に報酬を支払います").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY);
