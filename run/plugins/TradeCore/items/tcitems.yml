@@ -1,0 +1,12 @@
+type: TCItem
+
+map:
+  nextpage:
+    name: 次のページ
+    material: ARROW
+    customModelData: 1
+
+  cursedHead:
+    name: カースドヘッド
+    material: SKELETON_SKULL
+    customModelData: 0
