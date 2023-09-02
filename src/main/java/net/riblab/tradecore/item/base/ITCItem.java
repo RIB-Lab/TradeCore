@@ -70,17 +70,4 @@ public interface ITCItem {
      * アイテムが既定で持つmodのリスト
      */
     List<IItemMod<?>> getDefaultMods();
-
-    /**
-     * ツールに元からあるmodの説明文を取得する
-     */
-    default List<TextComponent> getDefaultModsLore(){
-        List<TextComponent> texts = new ArrayList<>();
-
-        for (IItemMod defaultMod : getDefaultMods()) {
-            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
-        }
-
-        return texts;
-    }
 }

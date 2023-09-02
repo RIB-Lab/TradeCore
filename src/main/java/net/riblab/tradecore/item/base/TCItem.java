@@ -131,4 +131,20 @@ public class TCItem implements ITCItem {
     public List<Component> getLore(int durability, List<IItemMod<?>> randomMods){
         return new ArrayList<>();
     }
+
+    /**
+     * ツールに元からあるmodの説明文を取得する
+     */
+    public List<TextComponent> getDefaultModsLore(){
+        List<TextComponent> texts = new ArrayList<>();
+
+        for (IItemMod<?> defaultMod : getDefaultMods()) {
+            if(defaultMod.getLore() == null)
+                continue;
+            
+            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        }
+
+        return texts;
+    }
 }

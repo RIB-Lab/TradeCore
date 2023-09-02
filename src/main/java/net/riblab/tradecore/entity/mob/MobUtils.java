@@ -13,6 +13,7 @@ import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -30,20 +31,17 @@ public final class MobUtils {
      *
      * @param player モブがターゲットとするプレイヤー
      * @param block  モブがスポーンする起点のブロック
-     * @param table  スポーンテーブル
+     * @param mobs 沸かせたいモブのリスト
      * @param radius スポーンする半径
      */
     @ParametersAreNonnullByDefault
-    public static void trySpawnMobInRandomArea(Player player, Block block, Map<ITCMob, Float> table, int radius) {
+    public static void trySpawnMobInRandomArea(Player player, Block block, List<ITCMob> mobs, int radius) {
         Random random = new Random();
-        table.forEach((itcmob, aFloat) -> {
-            float rand = random.nextFloat();
-            if (rand < aFloat) {
-                Location safeLocation = findSafeLocationToSpawn(block, radius);
-                if (safeLocation != null)
-                    CustomMobService.getImpl().spawn(player, safeLocation, itcmob);
-            }
-        });
+        for (ITCMob mob : mobs) {
+            Location safeLocation = findSafeLocationToSpawn(block, radius);
+            if (safeLocation != null)
+                CustomMobService.getImpl().spawn(player, safeLocation, mob);
+        }
     }
 
     /**

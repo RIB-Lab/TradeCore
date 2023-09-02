@@ -2,6 +2,7 @@ package net.riblab.tradecore.block;
 
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.LootTables;
@@ -10,8 +11,10 @@ import net.riblab.tradecore.item.base.*;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.entity.mob.MobUtils;
+import net.riblab.tradecore.modifier.IMonsterSpawnModifier;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -23,7 +26,9 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -135,8 +140,11 @@ public final class BlockStateEventHandler implements Listener {
                 ItemStack newItemStack = tool.reduceDurability(mainHand, 1);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
-                if (itcItem instanceof ICanSpawnMobOnUse encountableTool) {
-                    MobUtils.trySpawnMobInRandomArea(event.getPlayer(), event.getBlock(), encountableTool.getSpawnTable(), 5);
+                IMonsterSpawnModifier mod = (IMonsterSpawnModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IMonsterSpawnModifier).findFirst().orElse(null);
+                if (mod != null) {
+                    List<ITCMob> mobsToSpawn = new ArrayList<>();
+                    mobsToSpawn = mod.apply(mobsToSpawn, mobsToSpawn);
+                    MobUtils.trySpawnMobInRandomArea(event.getPlayer(), event.getBlock(), mobsToSpawn, 5);
                 }
 
                 JobType jobType = tool.getToolType().getExpType();
