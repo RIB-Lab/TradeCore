@@ -14,7 +14,6 @@ import net.riblab.tradecore.entity.mob.MobUtils;
 import net.riblab.tradecore.modifier.IMonsterSpawnModifier;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -137,7 +136,7 @@ public final class BlockStateEventHandler implements Listener {
             if (table.size() != 0) {
                 event.setCancelled(true);
                 ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-                ItemStack newItemStack = tool.reduceDurability(mainHand, 1);
+                ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(mainHand, 1);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
                 IMonsterSpawnModifier mod = (IMonsterSpawnModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IMonsterSpawnModifier).findFirst().orElse(null);
@@ -175,7 +174,7 @@ public final class BlockStateEventHandler implements Listener {
         if (event.getBlock().getType() == Material.FARMLAND && itcItem instanceof ITCTool tool) { //耕地を耕したときのドロップ
             Multimap<Float, ITCItem> table = LootTables.get(Material.FARMLAND, tool);
             ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-            ItemStack newItemStack = tool.reduceDurability(event.getItemInHand(), 1);
+            ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(event.getItemInHand(), 1);
             if (event.getHand() == EquipmentSlot.HAND)
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
             else {

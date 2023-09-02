@@ -3,7 +3,7 @@ package net.riblab.tradecore.general;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.base.IHasDurability;
+import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.modifier.IEveryMinuteDurabilityModifier;
@@ -51,9 +51,7 @@ public enum TCTasksInitializer {
                     int repairAmount = Utils.apply(player, 0, IEveryMinuteDurabilityModifier.class);
                     ItemStack itemStack = player.getInventory().getItemInMainHand();
                     ITCItem itcItem = TCItems.toTCItem(itemStack);
-                    if (itcItem instanceof IHasDurability iHasDurability) {
-                        player.getInventory().setItemInMainHand(iHasDurability.reduceDurability(itemStack, -repairAmount));
-                    }
+                    player.getInventory().setItemInMainHand(ItemUtils.reduceDurabilityIfPossible(itemStack, -repairAmount));
                 });
             }
         }.runTaskTimer(TradeCore.getInstance(), 0, 1200);

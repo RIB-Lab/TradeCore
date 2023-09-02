@@ -9,6 +9,7 @@ import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.ItemCreator;
+import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.item.base.*;
 import net.riblab.tradecore.entity.mob.CustomMobService;
@@ -167,7 +168,7 @@ public final class GeneralEventHandler {
             double damage = damageMod != null ? ((Integer)damageMod.getParam()).doubleValue() / 100 : weapon.getAttribute().getBaseAttackDamage();
             
             if (weapon.getAttribute().attack(event.getPlayer(), damage)) {
-                ItemStack newItemStack = weapon.reduceDurability(event.getPlayer().getInventory().getItemInMainHand(), 1);
+                ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(event.getPlayer().getInventory().getItemInMainHand(), 1);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
             }
         }
@@ -215,7 +216,7 @@ public final class GeneralEventHandler {
                 return;
             }
 
-            ItemStack newItemStack = ((IHasDurability) item).reduceDurability(player.getInventory().getItemInMainHand(), 1);
+            ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(player.getInventory().getItemInMainHand(), 1);
             player.getInventory().setItemInMainHand(newItemStack);
         }
 
@@ -228,7 +229,7 @@ public final class GeneralEventHandler {
             double damage = damageMod != null ? ((Integer)damageMod.getParam()).doubleValue() / 100 : weapon.getAttribute().getBaseAttackDamage();
 
             if (weapon.getAttribute().attack(player, damage)) {
-                ItemStack newItemStack = ((IHasDurability) item).reduceDurability(player.getInventory().getItemInMainHand(), 1);
+                ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(player.getInventory().getItemInMainHand(), 1);
                 player.getInventory().setItemInMainHand(newItemStack);
             }
         }
@@ -261,10 +262,7 @@ public final class GeneralEventHandler {
         double rawDamage = event.getDamage();
         ItemStack[] newArmorContent = new ItemStack[4];
         for (int i = 0; i < player.getInventory().getArmorContents().length; i++) {
-            ITCItem itcItem = TCItems.toTCItem(player.getInventory().getArmorContents()[i]);
-            if (!(itcItem instanceof ITCEquipment equipment))
-                continue;
-            newArmorContent[i] = equipment.reduceDurability(player.getInventory().getArmorContents()[i], 1);
+            newArmorContent[i] = ItemUtils.reduceDurabilityIfPossible(player.getInventory().getArmorContents()[i], 1);
         }
         player.getInventory().setArmorContents(newArmorContent);
 

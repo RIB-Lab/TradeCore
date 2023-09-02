@@ -1,7 +1,6 @@
 package net.riblab.tradecore.item;
 
 import lombok.Getter;
-import net.riblab.tradecore.item.base.ITCEquipment;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.mod.IItemMod;
@@ -42,10 +41,10 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
         List<IItemMod<?>> mods = new ArrayList<>();
         for (ItemStack armorContent : player.getInventory().getArmorContents()) {
             ITCItem tcItem = TCItems.toTCItem(armorContent);
-            if (!(tcItem instanceof ITCEquipment equipment))
+            if (tcItem == null)
                 continue;
 
-            mods.addAll(equipment.getDefaultMods());
+            mods.addAll(tcItem.getDefaultMods());
         }
         playerEquipmentModMap.put(player, mods);
 

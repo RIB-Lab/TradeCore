@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * カスタム装備のクラス
  */
-class TCEquipment extends TCItem implements ITCEquipment {
+class TCEquipment extends TCItem implements ITCItem {
 
     /**
      * カスタムのアーマートリムの名前

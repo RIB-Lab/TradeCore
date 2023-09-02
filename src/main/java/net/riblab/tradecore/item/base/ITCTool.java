@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.riblab.tradecore.job.data.JobType;
 import org.bukkit.inventory.ItemStack;
 
-public interface ITCTool extends IHasDurability {
+public interface ITCTool extends ITCItem {
 
     /**
      * ツールの種類
