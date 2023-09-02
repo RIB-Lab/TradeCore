@@ -1,9 +1,13 @@
 package net.riblab.tradecore.item.base;
 
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 /**
  * このプラグインに存在する全ての固有アイテムの親
@@ -56,4 +60,6 @@ public interface ITCItem {
     boolean isSimilar(ItemStack itemStack);
 
     boolean isSimilar(String tcID);
+
+    List<Component> getLore(int durability, List<IItemMod> randomMods);
 }

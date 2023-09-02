@@ -264,7 +264,7 @@ public final class GeneralEventHandler {
             ITCItem itcItem = TCItems.toTCItem(player.getInventory().getArmorContents()[i]);
             if (!(itcItem instanceof ITCEquipment equipment))
                 continue;
-            newArmorContent[i] = equipment.reduceDurability(player.getInventory().getArmorContents()[i]);
+            newArmorContent[i] = equipment.reduceDurability(player.getInventory().getArmorContents()[i], 1);
         }
         player.getInventory().setArmorContents(newArmorContent);
 

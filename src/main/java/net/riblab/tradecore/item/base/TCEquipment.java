@@ -10,6 +10,8 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.item.mod.ModMaxDurabilityI;
+import net.riblab.tradecore.item.mod.ModMiningSpeedI;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -28,24 +30,20 @@ class TCEquipment extends TCItem implements ITCEquipment {
     @Getter
     private final List<IItemMod> defaultMods;
 
-    /**
-     * 装備の基礎耐久値。-1で無限
-     */
+
     @Getter
-    private final int baseDurability;
+    private final DurabilityTable durabilityTable;
 
     /**
      * カスタムのアーマートリムの名前
      */
     private final String trimName;
 
-    private static final String durabilityTag = "durability";
-
     @Override
     protected @Nonnull ItemCreator getTemplate() {
         ItemStack itemStack = super.getTemplate()
-                .setIntNBT(durabilityTag, baseDurability)
-                .setLores(getLore(baseDurability)).create();
+                .setIntNBT(NBTTagNames.DURABILITY.get(), durabilityTable.getMiddleMaxDurability())
+                .setLores(getLore(durabilityTable.getMiddleMaxDurability(), new ArrayList<>())).create();
         NBTItem item = new NBTItem(itemStack);
         item.setInteger(NBTTagNames.ARMOR_HIDEFLAGS.get(), 135);//hideattribute + hidearmorupgrade
         NBTCompound nbtList = item.getOrCreateCompound(NBTTagNames.ARMOR_TRIM.get());
@@ -58,43 +56,33 @@ class TCEquipment extends TCItem implements ITCEquipment {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCEquipment(TextComponent name, Material material, String internalName, List<IItemMod> mod, int baseDurability, String trimName) {
+    public TCEquipment(TextComponent name, Material material, String internalName, List<IItemMod> mod, DurabilityTable durabilityTable, String trimName) {
         super(name, material, internalName, 0);
         this.defaultMods = mod;
-        this.baseDurability = baseDurability;
+        this.durabilityTable = durabilityTable;
         this.trimName = trimName;
     }
-
+    
     @Override
-    public List<Component> getLore(int durability) {
-        List<Component> texts = new ArrayList<>();
-        if (baseDurability != -1) {
-            texts.add(Component.text("耐久値: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)
-                    .append(Component.text(durability).color(durability == baseDurability ? NamedTextColor.WHITE : NamedTextColor.YELLOW))
-                    .append(Component.text("/" + baseDurability).color(NamedTextColor.WHITE)));
-        }
-        for (IItemMod defaultMod : defaultMods) {
-            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
-        }
-        return texts;
+    public @Nonnull ItemStack getItemStack() {
+        int maxDurability = durabilityTable.getRandomMaxDurability();
+
+        List<IItemMod> initMods = List.of(
+                new ModMaxDurabilityI(maxDurability));
+
+        return new ItemCreator(getTemplate().create())
+                .setIntNBT(NBTTagNames.DURABILITY.get(), maxDurability)
+                .setLores(getLore(maxDurability, initMods))
+                .writeItemMods(initMods).create();
     }
 
     @Override
-    public ItemStack reduceDurability(ItemStack instance) {
-        if (!isSimilar(instance))
-            return null;
-
-        int durability = new ItemCreator(instance).getIntNBT(durabilityTag);
-
-        if (durability == -1) //耐久無限
-            return instance;
-
-        durability--;
-        if (durability <= 0) //耐久切れ
-            return null;
-
-        int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durability / (float) baseDurability));
-        int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
-        return new ItemCreator(instance).setLores(getLore(durability)).damage(damageToDeal).setIntNBT(durabilityTag, durability).create();
+    public List<Component> getLore(int durability, List<IItemMod> randomMods) {
+        List<Component> texts = new ArrayList<>();
+        if (durabilityTable.getMiddleMaxDurability() != -1) {
+            texts.add(getDurabilityLore(durability, randomMods));
+        }
+        texts.addAll(getDefaultModsLore());
+        return texts;
     }
 }
