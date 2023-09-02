@@ -1,7 +1,10 @@
 package net.riblab.tradecore.item.base;
 
 
+import de.exlll.configlib.Configuration;
+import de.exlll.configlib.Ignore;
 import lombok.Data;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -17,34 +20,36 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @Data
+@Configuration
 public class TCItem implements ITCItem {
 
     /**
      * アイテムの表示名。金床で変更できる
      */
-    private final TextComponent name;
+    private TextComponent name = Component.text("dummy");
 
     /**
      * アイテムの元となるバニラアイテムの種類
      */
-    private final Material material;
+    private Material material = Material.COBBLESTONE;
 
     /**
      * アイテムのインスタンスのテンプレートのキャッシュ<br>
      * アイテムの唯一不変の実体で、固有のmodだけが実装されている<br>
      * 注意：絶対に変更してはいけないので必ずクローンして使うこと
      */
+    @Ignore
     protected ItemCreator itemStackTemplate;
 
     /**
      * 主に召喚コマンドで用いられる内部的なアイテム名<br>
      */
-    private final String internalName;
+    private String internalName = "dummy";
 
     /**
      * アイテムのカスタムモデルデータ(0に設定した場合なし)
      */
-    private final int customModelData;
+    private int customModelData = 0;
 
     /**
      * 　固有アイテムの型を作成する
@@ -62,6 +67,11 @@ public class TCItem implements ITCItem {
         this.internalName = internalName;
         this.customModelData = customModelData;
     }
+
+    /**
+     * データ読み取り用
+     */
+    public TCItem(){}
 
     /**
      * 固有アイテムの型の実体を作製する内部的な関数

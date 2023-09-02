@@ -5,6 +5,7 @@ import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
+import dev.jorel.commandapi.arguments.StringArgument;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
@@ -13,6 +14,7 @@ import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCDeserializedItemHolder;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
@@ -31,6 +33,8 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
+
+import java.util.List;
 
 import static net.riblab.tradecore.command.CommandArgDescs.*;
 import static net.riblab.tradecore.command.CommandNames.*;
@@ -273,5 +277,20 @@ public final class TCCommands {
                 });
         projectileCommand.withSubcommand(projectileResetCommand);
         projectileCommand.register();
+
+        //TEST
+        CommandAPICommand tcSavedGiveCommand = new CommandAPICommand("savedgive")
+                .withArguments(new IntegerArgument("index", 0, 1000))
+                .executesPlayer((player, args) -> {
+                    int index = (int) args.get(0);
+                    List<ITCItem> items = TCDeserializedItemHolder.INSTANCE.getDeserializedItems();
+                    if(items == null || index >= items.size()){
+                        return;
+                    }
+                    ItemStack newStack = items.get(index).getItemStack();
+                    player.getInventory().addItem(newStack);
+                });
+        tcSavedGiveCommand.setPermission(CommandPermission.OP);
+        tcSavedGiveCommand.register();
     }
 }
