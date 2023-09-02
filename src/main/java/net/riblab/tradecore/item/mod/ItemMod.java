@@ -5,20 +5,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * ゲームに影響を与えるアイテムのmod
+ * ゲームで何らかの意味がある値を保存するアイテムの拡張要素
  */
 @AllArgsConstructor
-public class ItemMod implements IItemMod {
+public class ItemMod<T> implements IItemMod<T> {
 
     /**
-     * 現在習得したこのmodのレベル
+     * このmodパラメータ（ランダムmodとしてアイテム内に焼く場合、Gson対応型である必要がある）
      */
     @Getter
     @Setter
-    private double level;
+    private T param;
 
     @Override
     public String getLore() {
-        return "ダミーを" + level + "増加させる";
+        return "ダミー";
     }
 }

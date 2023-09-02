@@ -2,19 +2,19 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IEveryMinuteDurabilityModifier;
 
-public class ModEcologyI extends ItemMod implements IEveryMinuteDurabilityModifier {
+public class ModEcologyI extends ItemMod<Integer> implements IEveryMinuteDurabilityModifier {
 
-    public ModEcologyI(int level) {
+    public ModEcologyI(Integer level) {
         super(level);
     }
 
     @Override
     public String getLore() {
-        return "エコロジー:" + getLevel();
+        return "エコロジー:" + this.getParam();
     }
 
     @Override
     public Integer apply(Integer originalValue, Integer modifiedValue) {
-        return modifiedValue + (int)getLevel();
+        return modifiedValue + (int) this.getParam();
     }
 }

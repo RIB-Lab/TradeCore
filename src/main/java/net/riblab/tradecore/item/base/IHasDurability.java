@@ -60,15 +60,15 @@ public interface IHasDurability extends ITCItem {
     /**
      * mod達の中から最大耐久値を持つmodを割出し、その値を返す
      */
-    default int getMaxDurability(List<IItemMod> mods){
-        IItemMod maxDurabilityMod = mods.stream().filter(iItemMod -> iItemMod instanceof IDurabilityModifier).findFirst().orElse(null);
-        return maxDurabilityMod != null ? (int)maxDurabilityMod.getLevel() : getDurabilityTable().getMiddleMaxDurability(); //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
+    default int getMaxDurability(List<IItemMod<?>> mods){
+        IItemMod<?> maxDurabilityMod = mods.stream().filter(iItemMod -> iItemMod instanceof IDurabilityModifier).findFirst().orElse(null);
+        return maxDurabilityMod != null ? (int)maxDurabilityMod.getParam() : getDurabilityTable().getMiddleMaxDurability(); //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
     }
 
     /**
      * 耐久値のツールチップを取得する
      */
-    default TextComponent getDurabilityLore(int durability, List<IItemMod> randomMods){
+    default TextComponent getDurabilityLore(int durability, List<IItemMod<?>> randomMods){
         int maxDurability = getMaxDurability(randomMods);
 
         return Component.text("耐久値: ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)

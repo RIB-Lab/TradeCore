@@ -5,9 +5,9 @@ import net.riblab.tradecore.modifier.IPlaceableModifier;
 /**
  * カスタムアイテムを設置可能にする
  */
-public class ModPlaceableI extends ItemMod implements IPlaceableModifier {
-    public ModPlaceableI() {
-        super(0);
+public class ModPlaceableI extends ItemMod<Boolean> implements IPlaceableModifier {
+    public ModPlaceableI(Boolean flag) {
+        super(true);
     }
 
     @Override

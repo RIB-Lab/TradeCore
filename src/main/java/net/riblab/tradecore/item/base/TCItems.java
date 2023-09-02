@@ -55,8 +55,8 @@ public enum TCItems {
     BARK_LEGGINGS(new TCEquipment(Component.text("樹皮のレギンス"), Material.CHAINMAIL_LEGGINGS, "bark_leggings", List.of(new ModAddArmorI(8)), DurabilityTable.WOODENAGE,  "bark")),
     BARK_BOOTS(new TCEquipment(Component.text("樹皮のブーツ"), Material.CHAINMAIL_BOOTS, "bark_boots", List.of(new ModAddArmorI(8)), DurabilityTable.WOODENAGE,  "bark")),
     WALKING_STICK(new TCItem(Component.text("転ばぬ先の杖"), Material.STICK, "walking_stick", 0, List.of(new ModWalkSpeedI(4)))),
-    VANILLA_PLANK(new TCItem(Component.text("木材"), Material.OAK_PLANKS, "vanilla_plank", 0, List.of(new ModPlaceableI()))),
-    VANILLA_CHEST(new TCItem(Component.text("チェスト"), Material.CHEST, "vanilla_plank", 0, List.of(new ModPlaceableI()))),
+    VANILLA_PLANK(new TCItem(Component.text("木材"), Material.OAK_PLANKS, "vanilla_plank", 0, List.of(new ModPlaceableI(true)))),
+    VANILLA_CHEST(new TCItem(Component.text("チェスト"), Material.CHEST, "vanilla_plank", 0, List.of(new ModPlaceableI(true)))),
 
     //石器時代
     ROUND_STONE(new TCItem(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, List.of(new ModSellPriceI(0.10d)))),
@@ -84,7 +84,7 @@ public enum TCItems {
     IRON_INGOT(new TCItem(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
     GOLD_INGOT(new TCItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
     MAP_STONEROOM(new TCDungeonMap(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, DungeonNames.STONEROOM)),
-    FURNACE(new TCItem(Component.text("かまど"), Material.FURNACE, "vanilla_furnace", 0, List.of(new ModPlaceableI()))),
+    FURNACE(new TCItem(Component.text("かまど"), Material.FURNACE, "vanilla_furnace", 0, List.of(new ModPlaceableI(true)))),
 
     //鉄器時代
     REINFORCED_STICK(new TCItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, List.of(new ModSellPriceI(0.10d)))),
@@ -96,10 +96,10 @@ public enum TCItems {
     EMERALD_CHESTPLATE(new TCEquipment(Component.text("エメラルドのチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "emerald_chestplate", List.of(new ModReduceCraftCostI(3)), DurabilityTable.STONEAGE,  "emerald")),
     EMERALD_LEGGINGS(new TCEquipment(Component.text("エメラルドのレギンス"), Material.CHAINMAIL_LEGGINGS, "emerald_leggings", List.of(new ModReduceCraftCostI(3)), DurabilityTable.STONEAGE,  "emerald")),
     EMERALD_BOOTS(new TCEquipment(Component.text("エメラルドのブーツ"), Material.CHAINMAIL_BOOTS, "emerald_boots", List.of(new ModReduceCraftCostI(3)), DurabilityTable.STONEAGE,  "emerald")),
-    WORKER_HELMET(new TCEquipment(Component.text("作業ヘルメット"), Material.CHAINMAIL_HELMET, "worker_helmet", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), DurabilityTable.STONEAGE,  "template")),
-    WORKER_CHESTPLATE(new TCEquipment(Component.text("作業チェストプレート"), Material.CHAINMAIL_CHESTPLATE, "worker_chestplate", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), DurabilityTable.STONEAGE,  "template")),
-    WORKER_LEGGINGS(new TCEquipment(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), DurabilityTable.STONEAGE,  "template")),
-    WORKER_BOOTS(new TCEquipment(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", List.of(new ModZeroHandAttackDamageI(), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), DurabilityTable.STONEAGE,  "template")),
+    WORKER_HELMET(new TCEquipment(Component.text("作業ヘルメット"), Material.CHAINMAIL_HELMET, "worker_helmet", List.of(new ModZeroHandAttackDamageI(-1), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), DurabilityTable.STONEAGE,  "template")),
+    WORKER_CHESTPLATE(new TCEquipment(Component.text("作業チェストプレート"), Material.CHAINMAIL_CHESTPLATE, "worker_chestplate", List.of(new ModZeroHandAttackDamageI(-1), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), DurabilityTable.STONEAGE,  "template")),
+    WORKER_LEGGINGS(new TCEquipment(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", List.of(new ModZeroHandAttackDamageI(-1), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), DurabilityTable.STONEAGE,  "template")),
+    WORKER_BOOTS(new TCEquipment(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", List.of(new ModZeroHandAttackDamageI(-1), new ModWalkSpeedI(-10), new ModResouceChanceI(3)), DurabilityTable.STONEAGE,  "template")),
     WATER_HELMET(new TCEquipment(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", List.of(new ModWaterBreathI(1)), DurabilityTable.STONEAGE,  "template")),
 
     //その他

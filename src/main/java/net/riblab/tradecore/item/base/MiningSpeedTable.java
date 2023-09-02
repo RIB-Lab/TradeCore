@@ -37,9 +37,9 @@ public enum MiningSpeedTable {
     }
 
     /**
-     * テーブルの数値を使って採掘速度(の100倍の値)を生成する
+     * テーブルの数値を使って採掘速度を生成する
      */
-    public int getRandomMiningSpeed(){
-         return (int)(new Random().nextDouble(getMinMiningSpeed(), getMaxMiningSpeed()) * 100);
+    public double getRandomMiningSpeed(){
+         return new Random().nextDouble(getMinMiningSpeed(), getMaxMiningSpeed());
     }
 }

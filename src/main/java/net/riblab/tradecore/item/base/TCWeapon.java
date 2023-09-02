@@ -24,7 +24,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     private final DurabilityTable durabilityTable;
 
     @Getter
-    private final List<IItemMod> defaultMods;
+    private final List<IItemMod<?>> defaultMods;
 
     @Getter
     private final IWeaponAttribute attribute;
@@ -35,7 +35,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, DurabilityTable durabilityTable, List<IItemMod> defaultMods, IWeaponAttribute attribute, AttackDamageSpread attackDamageSpread) {
+    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, DurabilityTable durabilityTable, List<IItemMod<?>> defaultMods, IWeaponAttribute attribute, AttackDamageSpread attackDamageSpread) {
         super(name, material, internalName, customModelData, defaultMods);
         this.durabilityTable = durabilityTable;
         this.defaultMods = defaultMods;
@@ -55,7 +55,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
         int maxDurability = durabilityTable.getRandomMaxDurability();
         double attackDamage = attackDamageSpread.getRandomDamage(attribute.getBaseAttackDamage());
 
-        List<IItemMod> initMods = List.of(
+        List<IItemMod<?>> initMods = List.of(
                 new ModMaxDurabilityI(maxDurability),
                 new ModAttackDamageI((int) (attackDamage * 100)));
 
@@ -72,7 +72,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
      * @param durability インスタンスが持つ耐久値
      * @return ツールの説明
      */
-    public List<Component> getLore(int durability, List<IItemMod> randomMods) {
+    public List<Component> getLore(int durability, List<IItemMod<?>> randomMods) {
         List<Component> texts = new ArrayList<>();
         if (durabilityTable.getMiddleMaxDurability() != -1) {
             texts.add(getDurabilityLore(durability, randomMods));
@@ -86,10 +86,10 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     /**
      * ツールに付与されているランダムmodの説明文を取得する
      */
-    private List<TextComponent> getRandomModsLore(List<IItemMod> randomMods){
+    private List<TextComponent> getRandomModsLore(List<IItemMod<?>> randomMods){
         List<TextComponent> texts = new ArrayList<>();
 
-        for (IItemMod randomMod : randomMods) {
+        for (IItemMod<?> randomMod : randomMods) {
             if(randomMod instanceof IDurabilityModifier){//これだけ現在の耐久値を確認するため追加不可能
                 continue;
             }

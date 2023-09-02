@@ -2,10 +2,10 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
 
-public class ModZeroHandAttackDamageI extends ItemMod implements IHandAttackDamageModifier {
+public class ModZeroHandAttackDamageI extends ItemMod<Integer> implements IHandAttackDamageModifier {
 
-    public ModZeroHandAttackDamageI() {
-        super(1);
+    public ModZeroHandAttackDamageI(Integer dummy) {
+        super(-1);
     }
 
     @Override

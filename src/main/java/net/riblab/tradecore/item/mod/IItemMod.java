@@ -1,12 +1,12 @@
 package net.riblab.tradecore.item.mod;
 
-public interface IItemMod {
+public interface IItemMod<T> {
     /**
-     * modの説明文。
+     * modのツールチップ上での説明文。
      */
     String getLore();
 
-    double getLevel();
+    T getParam();
 
-    void setLevel(double level);
+    void setParam(T level);
 }

@@ -24,12 +24,12 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
     /**
      * 全てのプレイヤーとその装備が持つmodのマップ
      */
-    private final Map<Player, List<IItemMod>> playerEquipmentModMap = new HashMap<>();
+    private final Map<Player, List<IItemMod<?>>> playerEquipmentModMap = new HashMap<>();
 
     /**
      * 全てのプレイヤーとそのアイテムが持つmodのマップ
      */
-    private final Map<Player, List<IItemMod>> playerMainHandModMap = new HashMap<>();
+    private final Map<Player, List<IItemMod<?>>> playerMainHandModMap = new HashMap<>();
 
     /**
      * プレイヤーのアイテムmodが変更された時のイベント
@@ -39,7 +39,7 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
 
     @Override
     public void updateEquipment(Player player) {
-        List<IItemMod> mods = new ArrayList<>();
+        List<IItemMod<?>> mods = new ArrayList<>();
         for (ItemStack armorContent : player.getInventory().getArmorContents()) {
             ITCItem tcItem = TCItems.toTCItem(armorContent);
             if (!(tcItem instanceof ITCEquipment equipment))
@@ -74,19 +74,19 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
     @SuppressWarnings("unchecked")
     public <T> T apply(Player player, T originalValue, Class<? extends IModifier<T>> clazz) {
         //まず装備で修飾
-        List<IItemMod> equipmentMods = playerEquipmentModMap.computeIfAbsent(player, k -> new ArrayList<>());
+        List<IItemMod<?>> equipmentMods = playerEquipmentModMap.computeIfAbsent(player, k -> new ArrayList<>());
 
-        List<IItemMod> applicableMods = equipmentMods.stream().filter(clazz::isInstance).toList();
+        List<IItemMod<?>> applicableMods = equipmentMods.stream().filter(clazz::isInstance).toList();
         T modifiedValue = originalValue;
-        for (IItemMod applicableMod : applicableMods) {
+        for (IItemMod<?> applicableMod : applicableMods) {
             modifiedValue = ((IModifier<T>) applicableMod).apply(originalValue, modifiedValue);
         }
 
         //次にメインハンドで修飾
-        List<IItemMod> mainhandMods = playerMainHandModMap.computeIfAbsent(player, k -> new ArrayList<>());
+        List<IItemMod<?>> mainhandMods = playerMainHandModMap.computeIfAbsent(player, k -> new ArrayList<>());
 
-        List<IItemMod> applicableMods2 = mainhandMods.stream().filter(clazz::isInstance).toList();
-        for (IItemMod applicableMod : applicableMods2) {
+        List<IItemMod<?>> applicableMods2 = mainhandMods.stream().filter(clazz::isInstance).toList();
+        for (IItemMod<?> applicableMod : applicableMods2) {
             modifiedValue = ((IModifier<T>) applicableMod).apply(originalValue, modifiedValue);
         }
 

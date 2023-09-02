@@ -39,7 +39,7 @@ public class TCTool extends TCItem implements ITCTool {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, MiningSpeedTable miningSpeedTable, DurabilityTable durabilityTable, List<IItemMod> defaultMods) {
+    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, MiningSpeedTable miningSpeedTable, DurabilityTable durabilityTable, List<IItemMod<?>> defaultMods) {
         super(name, material, internalName, customModelData, defaultMods);
 
         this.toolType = toolType;
@@ -56,10 +56,10 @@ public class TCTool extends TCItem implements ITCTool {
 
     @Override
     public @Nonnull ItemStack getItemStack() {
-        int miningSpeed = miningSpeedTable.getRandomMiningSpeed();
+        double miningSpeed = miningSpeedTable.getRandomMiningSpeed();
         int maxDurability = durabilityTable.getRandomMaxDurability();
         
-        List<IItemMod> initMods = List.of(
+        List<IItemMod<?>> initMods = List.of(
                 new ModMiningSpeedI(miningSpeed),
                 new ModMaxDurabilityI(maxDurability));
         
@@ -76,7 +76,7 @@ public class TCTool extends TCItem implements ITCTool {
      * @param randomMods ツールが持つランダムmod
      * @return ツールの説明
      */
-    public List<Component> getLore(int durability, List<IItemMod> randomMods) {
+    public List<Component> getLore(int durability, List<IItemMod<?>> randomMods) {
         List<Component> texts = new ArrayList<>();
         if (durabilityTable.getMiddleMaxDurability() != -1) {
             texts.add(getDurabilityLore(durability, randomMods));
@@ -91,10 +91,10 @@ public class TCTool extends TCItem implements ITCTool {
     /**
      * ツールに付与されているランダムmodの説明文を取得する
      */
-    private List<TextComponent> getRandomModsLore(List<IItemMod> randomMods){
+    private List<TextComponent> getRandomModsLore(List<IItemMod<?>> randomMods){
         List<TextComponent> texts = new ArrayList<>();
 
-        for (IItemMod randomMod : randomMods) {
+        for (IItemMod<?> randomMod : randomMods) {
             if(randomMod instanceof IDurabilityModifier){//これだけ現在の耐久値を確認するため追加不可能
                 continue;
             }
@@ -107,9 +107,9 @@ public class TCTool extends TCItem implements ITCTool {
     
     @Override
     public double getActualMiningSpeed(ItemStack itemStack){
-        List<IItemMod> mods = new ItemCreator(itemStack).getItemMods();
-        IItemMod miningSpeedMod = mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
-        double miningSpeed = miningSpeedMod != null ? miningSpeedMod.getLevel() / 100 : miningSpeedTable.getMiddleMiningSpeed();
+        List<IItemMod<?>> mods = new ItemCreator(itemStack).getItemMods();
+        IItemMod<?> miningSpeedMod = mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
+        double miningSpeed = miningSpeedMod != null ? (double)miningSpeedMod.getParam() : miningSpeedTable.getMiddleMiningSpeed();
         return Math.log10(miningSpeed) + 0.1d;
     }
 }

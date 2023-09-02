@@ -1,5 +1,6 @@
 package net.riblab.tradecore.item;
 
+import com.google.gson.Gson;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;
@@ -20,7 +21,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.ParametersAreNullableByDefault;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -388,33 +391,41 @@ public final class ItemCreator {
         return this;
     }
     
-    public ItemCreator writeItemMod(IItemMod mod){
+    public ItemCreator writeItemMod(IItemMod<?> mod){
         NBTItem item = new NBTItem(itemStack);
-        item.getOrCreateCompound(NBTTagNames.ITEMMOD.get()).setDouble(mod.getClass().getCanonicalName(), mod.getLevel());
+        //ItemModの数値をJsonとして焼きこむ
+        String json = new Gson().toJson(mod.getParam().toString());
+        item.getOrCreateCompound(NBTTagNames.ITEMMOD.get()).setString(mod.getClass().getCanonicalName(), json);
         itemStack = item.getItem();
         return this;
     }
     
-    public ItemCreator writeItemMods(List<IItemMod> mods){
+    public ItemCreator writeItemMods(List<IItemMod<?>> mods){
         mods.forEach(this::writeItemMod);
         return this;
     }
     
-    public List<IItemMod> getItemMods(){
-        List<IItemMod> modList = new ArrayList<>();
+    public List<IItemMod<?>> getItemMods(){
+        List<IItemMod<?>> modList = new ArrayList<>();
         NBTItem item = new NBTItem(itemStack);
         NBTCompound compound = item.getOrCreateCompound(NBTTagNames.ITEMMOD.get());
         for (String key : compound.getKeys()) {
-            IItemMod mod = null;
+            IItemMod<?> mod = null;
             try {
-                mod = (IItemMod) Class.forName(key).getDeclaredConstructor(double.class).newInstance(compound.getDouble(key));
+                //Jsonを元の型に還元する
+                Constructor<?> constructor = Class.forName(key).getConstructors()[0];
+                Type[] parameterTypes = constructor.getGenericParameterTypes();
+                String json = compound.getString(key);
+                Object arg =  new Gson().fromJson(json, parameterTypes[0]);
+                mod = (IItemMod<?>) constructor.newInstance(arg);
 
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     NoSuchMethodException | ClassNotFoundException ignored) {
+                     ClassNotFoundException e) {
+                e.printStackTrace();
                 //クラスの名前が変わっただけかもしれないし、modがなかった時のフォールバックも用意してあるので、握りつぶす
             }
             
-            if(mod != null)
+            if(mod != null && mod.getParam() != null)
                 modList.add(mod);
         }
         return modList;

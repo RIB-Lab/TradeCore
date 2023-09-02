@@ -59,7 +59,7 @@ public class TCItem implements ITCItem {
      * アイテムが既定で持つ修飾子のリスト
      */
     @Ignore //TODO:シリアライズ、デシリアライズ可能にする
-    private List<IItemMod> defaultMods = new ArrayList<>();
+    private List<IItemMod<?>> defaultMods = new ArrayList<>();
 
     /**
      * 　固有アイテムの型を作成する
@@ -71,7 +71,7 @@ public class TCItem implements ITCItem {
      * @param customModelData 固有アイテムにセットするカスタムモデルデータ
      */
     @ParametersAreNonnullByDefault
-    public TCItem(TextComponent name, Material material, String internalName, int customModelData, List<IItemMod> defaultMods) {
+    public TCItem(TextComponent name, Material material, String internalName, int customModelData, List<IItemMod<?>> defaultMods) {
         this.name = name;
         this.material = material;
         this.internalName = internalName;
@@ -128,7 +128,7 @@ public class TCItem implements ITCItem {
         return tcID.equals(internalName);
     }
     
-    public List<Component> getLore(int durability, List<IItemMod> randomMods){
+    public List<Component> getLore(int durability, List<IItemMod<?>> randomMods){
         return new ArrayList<>();
     }
 }

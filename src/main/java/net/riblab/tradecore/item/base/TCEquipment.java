@@ -49,7 +49,7 @@ class TCEquipment extends TCItem implements ITCEquipment {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCEquipment(TextComponent name, Material material, String internalName, List<IItemMod> mod, DurabilityTable durabilityTable, String trimName) {
+    public TCEquipment(TextComponent name, Material material, String internalName, List<IItemMod<?>> mod, DurabilityTable durabilityTable, String trimName) {
         super(name, material, internalName, 0, mod);
         this.durabilityTable = durabilityTable;
         this.trimName = trimName;
@@ -59,7 +59,7 @@ class TCEquipment extends TCItem implements ITCEquipment {
     public @Nonnull ItemStack getItemStack() {
         int maxDurability = durabilityTable.getRandomMaxDurability();
 
-        List<IItemMod> initMods = List.of(
+        List<IItemMod<?>> initMods = List.of(
                 new ModMaxDurabilityI(maxDurability));
 
         return new ItemCreator(getTemplate().create())
@@ -69,7 +69,7 @@ class TCEquipment extends TCItem implements ITCEquipment {
     }
 
     @Override
-    public List<Component> getLore(int durability, List<IItemMod> randomMods) {
+    public List<Component> getLore(int durability, List<IItemMod<?>> randomMods) {
         List<Component> texts = new ArrayList<>();
         if (durabilityTable.getMiddleMaxDurability() != -1) {
             texts.add(getDurabilityLore(durability, randomMods));
