@@ -30,10 +30,10 @@ public interface ITCTool extends IHasDurability, IHasItemMod {
      * ツールの種類
      */
     enum ToolType {
-        HAND(JobType.Mower),
-        AXE(JobType.Woodcutter),
-        PICKAXE(JobType.Miner),
-        SHOVEL(JobType.Digger),
+        HAND(JobType.MOWER),
+        AXE(JobType.WOODCUTTER),
+        PICKAXE(JobType.MINER),
+        SHOVEL(JobType.DIGGER),
         HOE(null),
         SHEARS(null);
 

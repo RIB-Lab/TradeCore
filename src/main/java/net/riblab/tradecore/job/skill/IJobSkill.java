@@ -13,7 +13,7 @@ public interface IJobSkill {
     /**
      * このスキルを習得可能なJobのリスト。必ず子クラスで定義する！
      */
-    List<JobType> availableSkillType = List.of(JobType.Miner);
+    List<JobType> availableSkillType = List.of(JobType.MINER);
     /**
      * スキルの紹介文
      */

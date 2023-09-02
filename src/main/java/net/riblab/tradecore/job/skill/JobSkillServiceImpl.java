@@ -21,7 +21,7 @@ import java.util.function.Consumer;
 enum JobSkillServiceImpl implements JobSkillService {
     INSTANCE;
 
-    private final Map<UUID, List<IJobSkill>> datasMap = TradeCore.getInstance().getConfigService().getJobDatas().getPlayerJobSkills();
+    private final Map<UUID, List<IJobSkill>> datasMap = TradeCore.getInstance().getDataService().getJobDatas().getPlayerJobSkills();
 
     /**
      * プレイヤーのJobSkillが変更された時のイベント

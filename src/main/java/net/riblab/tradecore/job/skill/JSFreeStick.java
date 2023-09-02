@@ -14,7 +14,7 @@ import java.util.Set;
 public class JSFreeStick extends JobSkill implements ICraftFeeModifier {
 
     public static final String name = "手斧";
-    public static final List<JobType> availableSkillType = List.of(JobType.Woodcutter);
+    public static final List<JobType> availableSkillType = List.of(JobType.WOODCUTTER);
     public static final List<Component> lore = List.of(Component.text("2ポイント振ると棒系レシピの必要金額が0になる").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY));
     public static final int maxLevel = 2;
 

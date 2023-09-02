@@ -2,7 +2,6 @@ package net.riblab.tradecore.block;
 
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.WorldGuardUtil;
 import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.LootTables;
@@ -122,7 +121,7 @@ public final class BlockStateEventHandler implements Listener {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
                 ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-                JobDataService.getImpl().addJobExp(event.getPlayer(), JobType.Mower, 1);
+                JobDataService.getImpl().addJobExp(event.getPlayer(), JobType.MOWER, 1);
                 return;
             }
         }

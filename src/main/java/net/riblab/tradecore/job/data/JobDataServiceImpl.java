@@ -16,7 +16,7 @@ import java.util.UUID;
 public enum JobDataServiceImpl implements JobDataService {
     INSTANCE;
 
-    private final Map<UUID, List<IJobData>> datasMap = TradeCore.getInstance().getConfigService().getJobDatas().getPlayerJobs();
+    private final Map<UUID, List<IJobData>> datasMap = TradeCore.getInstance().getDataService().getJobDatas().getPlayerJobs();
 
     /**
      * プレイヤーの特定のJobデータを初期化する

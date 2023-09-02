@@ -9,12 +9,11 @@ import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import lombok.Getter;
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.command.TCCommands;
-import net.riblab.tradecore.config.ConfigService;
+import net.riblab.tradecore.config.DataService;
 import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.advancement.AdvancementInitializer;
-import net.riblab.tradecore.entity.projectile.TCProjectile;
 import net.riblab.tradecore.general.TCTasksInitializer;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
@@ -36,7 +35,7 @@ public final class TradeCore extends JavaPlugin {
     private static TradeCore instance;
     private VaultHook vaultHook;
     @Getter
-    private ConfigService configService;
+    private DataService dataService;
     @Getter
     private UltimateAdvancementAPI advancementAPI;
 
@@ -57,8 +56,8 @@ public final class TradeCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        configService = ConfigService.getImpl(getDataFolder());
-        configService.load();
+        dataService = DataService.getImpl(getDataFolder());
+        dataService.load();
         JobSkillService.getImpl().onDeserialize();
         PlayerStatsService.getImpl().init();
         VanillaCraftInitializer.INSTANCE.init(this);
@@ -110,7 +109,7 @@ public final class TradeCore extends JavaPlugin {
     @Override
     public void onDisable() {
         vaultHook.unhook();
-        configService.save();
+        dataService.save();
 
         CustomMobService.getImpl().deSpawnAll();
         CustomProjectileService.getImpl().deSpawnAll();

@@ -11,11 +11,11 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 
 public enum JobType {
-    Miner("鉱夫", Material.IRON_PICKAXE),
-    Digger("整地師", Material.IRON_SHOVEL),
-    Woodcutter("木こり", Material.IRON_AXE),
-    Mower("草刈り機", Material.GRASS),
-    Crafter("クラフター", Material.CRAFTING_TABLE);
+    MINER("鉱夫", Material.IRON_PICKAXE),
+    DIGGER("整地師", Material.IRON_SHOVEL),
+    WOODCUTTER("木こり", Material.IRON_AXE),
+    MOWER("草刈り機", Material.GRASS),
+    CRAFTER("クラフター", Material.CRAFTING_TABLE);
 
     private final String name;
     @Getter

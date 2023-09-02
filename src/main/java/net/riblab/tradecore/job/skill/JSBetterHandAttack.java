@@ -11,7 +11,7 @@ import java.util.List;
 public class JSBetterHandAttack extends JobSkill implements IHandAttackDamageModifier {
 
     public static final String name = "鍛えられた右手";
-    public static final List<JobType> availableSkillType = List.of(JobType.Mower);
+    public static final List<JobType> availableSkillType = List.of(JobType.MOWER);
     public static final List<Component> lore = List.of(Component.text("1レベルごとに素手で殴るダメージが1アップ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY));
     public static final int maxLevel = 10;
 

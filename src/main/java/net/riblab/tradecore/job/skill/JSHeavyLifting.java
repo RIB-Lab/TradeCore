@@ -14,7 +14,7 @@ import java.util.List;
 public class JSHeavyLifting extends JobSkill implements ICanHitWithToolModifier {
 
     public static final String name = "ヘビーリフティング";
-    public static final List<JobType> availableSkillType = List.of(JobType.Digger);
+    public static final List<JobType> availableSkillType = List.of(JobType.DIGGER);
     public static final List<Component> lore = List.of(Component.text("3レベル振ると武器以外のツールで敵を攻撃できるようになる").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY));
     public static final int maxLevel = 3;
 

@@ -31,7 +31,7 @@ public enum TCTasksInitializer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                TradeCore.getInstance().getConfigService().save();
+                TradeCore.getInstance().getDataService().save();
             }
         }.runTaskTimerAsynchronously(TradeCore.getInstance(), 0, 3600);
 

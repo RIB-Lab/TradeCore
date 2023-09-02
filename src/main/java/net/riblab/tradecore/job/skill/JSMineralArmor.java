@@ -11,7 +11,7 @@ import java.util.List;
 public class JSMineralArmor extends JobSkill implements IArmorModifier {
 
     public static final String name = "ミネラルアーマー";
-    public static final List<JobType> availableSkillType = List.of(JobType.Miner);
+    public static final List<JobType> availableSkillType = List.of(JobType.MINER);
     public static final List<Component> lore = List.of(Component.text("1レベルごとに装備から得られるアーマー値が10%上昇する").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY));
     public static final int maxLevel = 10;
 

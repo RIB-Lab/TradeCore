@@ -18,7 +18,7 @@ import java.util.UUID;
 enum EconomyImpl implements TCEconomy {
     INSTANCE;
 
-    private final CurrencyData data = TradeCore.getInstance().getConfigService().getCurrencyData();
+    private final CurrencyData data = TradeCore.getInstance().getDataService().getCurrencyData();
 
     /**
      * 初期所持金

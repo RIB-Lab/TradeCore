@@ -256,7 +256,7 @@ final class UICraftingTable implements IUI {
         }
         TCEconomy.getImpl().withdrawPlayer(player, skillAppliedFee);
 
-        JobDataService.getImpl().addJobExp(player, JobType.Crafter, (int) recipe.fee());
+        JobDataService.getImpl().addJobExp(player, JobType.CRAFTER, (int) recipe.fee());
 
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result().getItemStack());
         if (remains.size() == 0)
