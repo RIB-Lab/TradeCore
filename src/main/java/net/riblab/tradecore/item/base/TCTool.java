@@ -36,20 +36,16 @@ public class TCTool extends TCItem implements ITCTool {
     @Getter
     private final DurabilityTable durabilityTable;
 
-    @Getter
-    private final List<IItemMod> defaultMods;
-
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, MiningSpeedTable miningSpeedTable, DurabilityTable durabilityTable, List<IItemMod> mods) {
-        super(name, material, internalName, customModelData);
+    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, MiningSpeedTable miningSpeedTable, DurabilityTable durabilityTable, List<IItemMod> defaultMods) {
+        super(name, material, internalName, customModelData, defaultMods);
 
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;
         this.miningSpeedTable = miningSpeedTable;
         this.durabilityTable = durabilityTable;
-        this.defaultMods = mods;
     }
 
     @Override

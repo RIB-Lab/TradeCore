@@ -24,13 +24,6 @@ import java.util.List;
  */
 class TCEquipment extends TCItem implements ITCEquipment {
 
-    /**
-     * 装備が既定で持つmodのリスト
-     */
-    @Getter
-    private final List<IItemMod> defaultMods;
-
-
     @Getter
     private final DurabilityTable durabilityTable;
 
@@ -57,8 +50,7 @@ class TCEquipment extends TCItem implements ITCEquipment {
      * 　固有アイテムの型を作成する
      */
     public TCEquipment(TextComponent name, Material material, String internalName, List<IItemMod> mod, DurabilityTable durabilityTable, String trimName) {
-        super(name, material, internalName, 0);
-        this.defaultMods = mod;
+        super(name, material, internalName, 0, mod);
         this.durabilityTable = durabilityTable;
         this.trimName = trimName;
     }

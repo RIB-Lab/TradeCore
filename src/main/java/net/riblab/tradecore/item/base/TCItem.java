@@ -56,6 +56,12 @@ public class TCItem implements ITCItem {
     private int customModelData = 0;
 
     /**
+     * アイテムが既定で持つ修飾子のリスト
+     */
+    @Ignore //TODO:シリアライズ、デシリアライズ可能にする
+    private List<IItemMod> defaultMods = new ArrayList<>();
+
+    /**
      * 　固有アイテムの型を作成する
      *
      * @param name            作りたい固有アイテムの名前(ユーザーが読むので必ず日本語にすること)
@@ -65,11 +71,12 @@ public class TCItem implements ITCItem {
      * @param customModelData 固有アイテムにセットするカスタムモデルデータ
      */
     @ParametersAreNonnullByDefault
-    public TCItem(TextComponent name, Material material, String internalName, int customModelData) {
+    public TCItem(TextComponent name, Material material, String internalName, int customModelData, List<IItemMod> defaultMods) {
         this.name = name;
         this.material = material;
         this.internalName = internalName;
         this.customModelData = customModelData;
+        this.defaultMods = defaultMods;
     }
 
     /**

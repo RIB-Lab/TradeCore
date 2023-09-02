@@ -5,6 +5,8 @@ import net.kyori.adventure.text.TextComponent;
 import net.riblab.tradecore.dungeon.DungeonNames;
 import org.bukkit.Material;
 
+import java.util.ArrayList;
+
 /**
  * ダンジョン入場券
  */
@@ -20,7 +22,7 @@ class TCDungeonMap extends TCItem implements ITCDungeonMap {
      * 　固有アイテムの型を作成する
      */
     public TCDungeonMap(TextComponent name, Material material, String internalName, int customModelData, DungeonNames dungeonName) {
-        super(name, material, internalName, customModelData);
+        super(name, material, internalName, customModelData, new ArrayList<>());
         this.dungeonName = dungeonName;
     }
 }

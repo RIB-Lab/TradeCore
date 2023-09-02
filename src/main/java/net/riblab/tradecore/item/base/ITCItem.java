@@ -2,11 +2,14 @@ package net.riblab.tradecore.item.base;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.item.mod.IItemMod;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,4 +65,22 @@ public interface ITCItem {
     boolean isSimilar(String tcID);
 
     List<Component> getLore(int durability, List<IItemMod> randomMods);
+
+    /**
+     * アイテムが既定で持つmodのリスト
+     */
+    List<IItemMod> getDefaultMods();
+
+    /**
+     * ツールに元からあるmodの説明文を取得する
+     */
+    default List<TextComponent> getDefaultModsLore(){
+        List<TextComponent> texts = new ArrayList<>();
+
+        for (IItemMod defaultMod : getDefaultMods()) {
+            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        }
+
+        return texts;
+    }
 }

@@ -36,7 +36,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
      * 　固有アイテムの型を作成する
      */
     public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, DurabilityTable durabilityTable, List<IItemMod> defaultMods, IWeaponAttribute attribute, AttackDamageSpread attackDamageSpread) {
-        super(name, material, internalName, customModelData);
+        super(name, material, internalName, customModelData, defaultMods);
         this.durabilityTable = durabilityTable;
         this.defaultMods = defaultMods;
         this.attribute = attribute;

@@ -388,7 +388,7 @@ public final class GeneralEventHandler {
         if (itcItem == null)
             return;
 
-        if(itcItem instanceof IHasItemMod iHasItemMod && iHasItemMod.getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))
+        if(itcItem.getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))
             return;
 
         event.setCancelled(true);

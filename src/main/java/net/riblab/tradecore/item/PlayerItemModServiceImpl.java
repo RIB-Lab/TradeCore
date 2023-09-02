@@ -1,7 +1,6 @@
 package net.riblab.tradecore.item;
 
 import lombok.Getter;
-import net.riblab.tradecore.item.base.IHasItemMod;
 import net.riblab.tradecore.item.base.ITCEquipment;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
@@ -56,8 +55,8 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
     @Override
     public void updateMainHand(Player player, int newSlot) {
         ITCItem tcItem = TCItems.toTCItem(player.getInventory().getItem(newSlot));
-        if (tcItem instanceof IHasItemMod modItem) {
-            playerMainHandModMap.put(player, modItem.getDefaultMods());
+        if (tcItem != null) {
+            playerMainHandModMap.put(player, tcItem.getDefaultMods());
         } else {
             playerMainHandModMap.remove(player);
         }

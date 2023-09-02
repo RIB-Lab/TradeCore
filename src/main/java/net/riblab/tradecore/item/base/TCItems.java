@@ -16,6 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -27,11 +28,11 @@ public enum TCItems {
     //原始時代
     PEBBLE(new TCTool(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0, MiningSpeedTable.PEBBLE, DurabilityTable.INFINITE, List.of(new ModSellPriceI(0.01d)))),
     HATCHET(new TCTool(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, TCTool.ToolType.AXE, 1, MiningSpeedTable.WOODMADE, DurabilityTable.HATCHET, List.of())),
-    STICK(new TCItemWithMod(Component.text("木の棒"), Material.STICK, "stick", 0, List.of(new ModSellPriceI(0.02d)))),
-    BARK(new TCItemWithMod(Component.text("樹皮"), Material.OAK_LOG, "bark", 1, List.of(new ModSellPriceI(0.02d)))),
-    TWIG(new TCItemWithMod(Component.text("小枝"), Material.OAK_LOG, "twig", 3, List.of(new ModSellPriceI(0.02d)))),
-    ROUND_TRUNK(new TCItemWithMod(Component.text("丸太"), Material.OAK_LOG, "round_trunk", 2, List.of(new ModSellPriceI(0.04d)))),
-    DRYGRASS(new TCItemWithMod(Component.text("干し草"), Material.PAPER, "drygrass", 2, List.of(new ModSellPriceI(0.01d)))),
+    STICK(new TCItem(Component.text("木の棒"), Material.STICK, "stick", 0, List.of(new ModSellPriceI(0.02d)))),
+    BARK(new TCItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1, List.of(new ModSellPriceI(0.02d)))),
+    TWIG(new TCItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3, List.of(new ModSellPriceI(0.02d)))),
+    ROUND_TRUNK(new TCItem(Component.text("丸太"), Material.OAK_LOG, "round_trunk", 2, List.of(new ModSellPriceI(0.04d)))),
+    DRYGRASS(new TCItem(Component.text("干し草"), Material.PAPER, "drygrass", 2, List.of(new ModSellPriceI(0.01d)))),
 
     //原木時代
     WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
@@ -39,55 +40,55 @@ public enum TCItems {
     WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
     WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, MiningSpeedTable.WOODMADE, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)))),
     WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, DurabilityTable.WOODENAGE, List.of(new ModEcologyI(1)), new WeaponAttributeSword(3), AttackDamageSpread.WOOD)),
-    COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1)),
-    DUST(new TCItemWithMod(Component.text("塵"), Material.DIRT, "dust", 1, List.of(new ModSellPriceI(0.04d)))),
-    MUD(new TCItemWithMod(Component.text("泥"), Material.DIRT, "mud", 2, List.of(new ModSellPriceI(0.04d)))),
-    WIDESTONE(new TCItemWithMod(Component.text("横長の石"), Material.COBBLESTONE, "widestone", 1, List.of(new ModSellPriceI(0.04d)))),
-    TALLSTONE(new TCItemWithMod(Component.text("縦長の石"), Material.COBBLESTONE, "tallstone", 2, List.of(new ModSellPriceI(0.04d)))),
-    WOODPULP(new TCItemWithMod(Component.text("木くず"), Material.OAK_PLANKS, "woodpulp", 1, List.of(new ModSellPriceI(0.04d)))),
-    MOSS(new TCItemWithMod(Component.text("コケ"), Material.DIRT, "moss", 3, List.of(new ModSellPriceI(0.04d)))),
-    WOODEN_COMPONENT(new TCItemWithMod(Component.text("木の強化資材"), Material.OAK_PLANKS, "wooden_component", 2, List.of(new ModSellPriceI(0.10d)))),
-    NEXT_PAGE(new TCItem(Component.text("次のページ"), Material.ARROW, "nextpage", 1)),
-    PREVIOUS_PAGE(new TCItem(Component.text("前のページ"), Material.ARROW, "previouspage", 2)),
+    COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1, new ArrayList<>())),
+    DUST(new TCItem(Component.text("塵"), Material.DIRT, "dust", 1, List.of(new ModSellPriceI(0.04d)))),
+    MUD(new TCItem(Component.text("泥"), Material.DIRT, "mud", 2, List.of(new ModSellPriceI(0.04d)))),
+    WIDESTONE(new TCItem(Component.text("横長の石"), Material.COBBLESTONE, "widestone", 1, List.of(new ModSellPriceI(0.04d)))),
+    TALLSTONE(new TCItem(Component.text("縦長の石"), Material.COBBLESTONE, "tallstone", 2, List.of(new ModSellPriceI(0.04d)))),
+    WOODPULP(new TCItem(Component.text("木くず"), Material.OAK_PLANKS, "woodpulp", 1, List.of(new ModSellPriceI(0.04d)))),
+    MOSS(new TCItem(Component.text("コケ"), Material.DIRT, "moss", 3, List.of(new ModSellPriceI(0.04d)))),
+    WOODEN_COMPONENT(new TCItem(Component.text("木の強化資材"), Material.OAK_PLANKS, "wooden_component", 2, List.of(new ModSellPriceI(0.10d)))),
+    NEXT_PAGE(new TCItem(Component.text("次のページ"), Material.ARROW, "nextpage", 1, List.of())),
+    PREVIOUS_PAGE(new TCItem(Component.text("前のページ"), Material.ARROW, "previouspage", 2, List.of())),
     BARK_HELMET(new TCEquipment(Component.text("樹皮のヘルメット"), Material.CHAINMAIL_HELMET, "bark_helmet", List.of(new ModAddArmorI(8)), DurabilityTable.WOODENAGE, "bark")),
     BARK_CHESTPLATE(new TCEquipment(Component.text("樹皮のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "bark_chestplate", List.of(new ModAddArmorI(8)), DurabilityTable.WOODENAGE, "bark")),
     BARK_LEGGINGS(new TCEquipment(Component.text("樹皮のレギンス"), Material.CHAINMAIL_LEGGINGS, "bark_leggings", List.of(new ModAddArmorI(8)), DurabilityTable.WOODENAGE,  "bark")),
     BARK_BOOTS(new TCEquipment(Component.text("樹皮のブーツ"), Material.CHAINMAIL_BOOTS, "bark_boots", List.of(new ModAddArmorI(8)), DurabilityTable.WOODENAGE,  "bark")),
-    WALKING_STICK(new TCItemWithMod(Component.text("転ばぬ先の杖"), Material.STICK, "walking_stick", 0, List.of(new ModWalkSpeedI(4)))),
-    VANILLA_PLANK(new TCItemWithMod(Component.text("木材"), Material.OAK_PLANKS, "vanilla_plank", 0, List.of(new ModPlaceableI()))),
-    VANILLA_CHEST(new TCItemWithMod(Component.text("チェスト"), Material.CHEST, "vanilla_plank", 0, List.of(new ModPlaceableI()))),
+    WALKING_STICK(new TCItem(Component.text("転ばぬ先の杖"), Material.STICK, "walking_stick", 0, List.of(new ModWalkSpeedI(4)))),
+    VANILLA_PLANK(new TCItem(Component.text("木材"), Material.OAK_PLANKS, "vanilla_plank", 0, List.of(new ModPlaceableI()))),
+    VANILLA_CHEST(new TCItem(Component.text("チェスト"), Material.CHEST, "vanilla_plank", 0, List.of(new ModPlaceableI()))),
 
     //石器時代
-    ROUND_STONE(new TCItemWithMod(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, List.of(new ModSellPriceI(0.10d)))),
+    ROUND_STONE(new TCItem(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, List.of(new ModSellPriceI(0.10d)))),
     STONE_SWORD(new TCWeapon(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, DurabilityTable.STONEAGE, List.of(), new WeaponAttributeSword(5), AttackDamageSpread.STONE)),
     STONE_SPEAR(new TCWeapon(Component.text("石の槍"), Material.STONE_SWORD, "stone_spear", 1, DurabilityTable.STONEAGE, List.of(), new WeaponAttributeSpear(3.5), AttackDamageSpread.STONE)),
     STONE_DAGGER(new TCWeapon(Component.text("石の短剣"), Material.STONE_SWORD, "stone_dagger", 2, DurabilityTable.STONEAGE, List.of(), new WeaponAttributeDagger(4), AttackDamageSpread.STONE)),
     STONE_BATTLEAXE(new TCWeapon(Component.text("石の大斧"), Material.STONE_SWORD, "stone_battleaxe", 3, DurabilityTable.STONEAGE, List.of(), new WeaponAttributeBattleAxe(8), AttackDamageSpread.STONE)),
-    FUEL_BALL(new TCItemWithMod(Component.text("燃料玉"), Material.HAY_BLOCK, "fuel_ball", 1, List.of(new ModSellPriceI(0.10d)))),
+    FUEL_BALL(new TCItem(Component.text("燃料玉"), Material.HAY_BLOCK, "fuel_ball", 1, List.of(new ModSellPriceI(0.10d)))),
     STONE_HELMET(new TCEquipment(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", List.of(new ModAddArmorI(16), new ModWalkSpeedI(-1)), DurabilityTable.STONEAGE,  "stone")),
     STONE_CHESTPLATE(new TCEquipment(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", List.of(new ModAddArmorI(16), new ModWalkSpeedI(-1)), DurabilityTable.STONEAGE,  "stone")),
     STONE_LEGGINGS(new TCEquipment(Component.text("石のレギンス"), Material.CHAINMAIL_LEGGINGS, "stone_leggings", List.of(new ModAddArmorI(16), new ModWalkSpeedI(-1)), DurabilityTable.STONEAGE,  "stone")),
     STONE_BOOTS(new TCEquipment(Component.text("石のブーツ"), Material.CHAINMAIL_BOOTS, "stone_boots", List.of(new ModAddArmorI(16), new ModWalkSpeedI(-1)), DurabilityTable.STONEAGE,  "stone")),
-    ANDESITE_STONE(new TCItemWithMod(Component.text("安山石"), Material.COBBLESTONE, "andesite_stone", 3, List.of(new ModSellPriceI(0.10d)))),
-    GRANITE_STONE(new TCItemWithMod(Component.text("花崗石"), Material.COBBLESTONE, "granite_stone", 4, List.of(new ModSellPriceI(0.10d)))),
-    DIORITE_STONE(new TCItemWithMod(Component.text("閃緑石"), Material.COBBLESTONE, "diorite_stone", 5, List.of(new ModSellPriceI(0.10d)))),
-    STONE_COMPONENT(new TCItemWithMod(Component.text("石の強化資材"), Material.COBBLESTONE, "stone_component", 7, List.of(new ModSellPriceI(0.20d)))),
-    GRAVEL_DUST(new TCItemWithMod(Component.text("砂利の粉"), Material.GRAVEL, "gravel_dust", 1, List.of(new ModSellPriceI(0.10d)))),
-    FLINT(new TCItemWithMod(Component.text("火打石"), Material.FLINT, "flint", 0, List.of(new ModSellPriceI(0.10d)))),
-    METEORIC_IRON_ORE(new TCItemWithMod(Component.text("隕鉄鉱石"), Material.IRON_ORE, "meteoric_iron_ore", 1, List.of(new ModSellPriceI(0.10d)))),
-    SAND_DUST(new TCItemWithMod(Component.text("粉状の砂"), Material.SAND, "sand_dust", 1, List.of(new ModSellPriceI(0.10d)))),
-    SANDGOLD(new TCItemWithMod(Component.text("砂金"), Material.SAND, "sandgold", 2, List.of(new ModSellPriceI(0.10d)))),
-    ASH(new TCItemWithMod(Component.text("灰"), Material.SAND, "ash", 3, List.of(new ModSellPriceI(0.10d)))),
-    IRON_SHARD(new TCItemWithMod(Component.text("鉄の欠片"), Material.IRON_NUGGET, "iron_shard", 0, List.of(new ModSellPriceI(0.10d)))),
-    GOLD_SHARD(new TCItemWithMod(Component.text("金の欠片"), Material.GOLD_NUGGET, "gold_shard", 0, List.of(new ModSellPriceI(0.10d)))),
-    IRON_INGOT(new TCItemWithMod(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
-    GOLD_INGOT(new TCItemWithMod(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
+    ANDESITE_STONE(new TCItem(Component.text("安山石"), Material.COBBLESTONE, "andesite_stone", 3, List.of(new ModSellPriceI(0.10d)))),
+    GRANITE_STONE(new TCItem(Component.text("花崗石"), Material.COBBLESTONE, "granite_stone", 4, List.of(new ModSellPriceI(0.10d)))),
+    DIORITE_STONE(new TCItem(Component.text("閃緑石"), Material.COBBLESTONE, "diorite_stone", 5, List.of(new ModSellPriceI(0.10d)))),
+    STONE_COMPONENT(new TCItem(Component.text("石の強化資材"), Material.COBBLESTONE, "stone_component", 7, List.of(new ModSellPriceI(0.20d)))),
+    GRAVEL_DUST(new TCItem(Component.text("砂利の粉"), Material.GRAVEL, "gravel_dust", 1, List.of(new ModSellPriceI(0.10d)))),
+    FLINT(new TCItem(Component.text("火打石"), Material.FLINT, "flint", 0, List.of(new ModSellPriceI(0.10d)))),
+    METEORIC_IRON_ORE(new TCItem(Component.text("隕鉄鉱石"), Material.IRON_ORE, "meteoric_iron_ore", 1, List.of(new ModSellPriceI(0.10d)))),
+    SAND_DUST(new TCItem(Component.text("粉状の砂"), Material.SAND, "sand_dust", 1, List.of(new ModSellPriceI(0.10d)))),
+    SANDGOLD(new TCItem(Component.text("砂金"), Material.SAND, "sandgold", 2, List.of(new ModSellPriceI(0.10d)))),
+    ASH(new TCItem(Component.text("灰"), Material.SAND, "ash", 3, List.of(new ModSellPriceI(0.10d)))),
+    IRON_SHARD(new TCItem(Component.text("鉄の欠片"), Material.IRON_NUGGET, "iron_shard", 0, List.of(new ModSellPriceI(0.10d)))),
+    GOLD_SHARD(new TCItem(Component.text("金の欠片"), Material.GOLD_NUGGET, "gold_shard", 0, List.of(new ModSellPriceI(0.10d)))),
+    IRON_INGOT(new TCItem(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
+    GOLD_INGOT(new TCItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
     MAP_STONEROOM(new TCDungeonMap(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, DungeonNames.STONEROOM)),
-    FURNACE(new TCItemWithMod(Component.text("かまど"), Material.FURNACE, "vanilla_furnace", 0, List.of(new ModPlaceableI()))),
+    FURNACE(new TCItem(Component.text("かまど"), Material.FURNACE, "vanilla_furnace", 0, List.of(new ModPlaceableI()))),
 
     //鉄器時代
-    REINFORCED_STICK(new TCItemWithMod(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, List.of(new ModSellPriceI(0.10d)))),
-    REINFORCED_WALKING_STICK(new TCItemWithMod(Component.text("強化歩行杖"), Material.STICK, "reinforced _walking_stick", 0, List.of(new ModWalkSpeedI(6)))),
+    REINFORCED_STICK(new TCItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, List.of(new ModSellPriceI(0.10d)))),
+    REINFORCED_WALKING_STICK(new TCItem(Component.text("強化歩行杖"), Material.STICK, "reinforced _walking_stick", 0, List.of(new ModWalkSpeedI(6)))),
     BASIC_BOW(new TCWeapon(Component.text("普通の弓"), Material.BOW, "basic_bow", 0, DurabilityTable.IRONAGE, List.of(), new WeaponAttributeBow(1, 4), AttackDamageSpread.IRON)),
 
     //店売り限定
@@ -102,8 +103,8 @@ public enum TCItems {
     WATER_HELMET(new TCEquipment(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", List.of(new ModWaterBreathI(1)), DurabilityTable.STONEAGE,  "template")),
 
     //その他
-    DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1)),
-    MESI((new TCItem(Component.text("COMP"), Material.COOKED_BEEF, "meshi", 0))),
+    DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1, List.of())),
+    MESI((new TCItem(Component.text("COMP"), Material.COOKED_BEEF, "meshi", 0, List.of()))),
 
     //モブ召喚系は他のアイテムを参照するので必ず最後に配置
     STONE_AXE(new TCEncountableTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, MiningSpeedTable.STONEMADE, DurabilityTable.STONEAGE, Map.of(TCMobs.BASIC_TREANT.get(), 0.05f), List.of())),
