@@ -5,10 +5,12 @@ import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.PaginatedGui;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.base.ISellable;
+import net.riblab.tradecore.item.base.IHasItemMod;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.entity.mob.FakeVillagerService;
+import net.riblab.tradecore.item.mod.ModSellPriceI;
+import net.riblab.tradecore.modifier.ISellPriceModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
@@ -51,12 +53,18 @@ final class UISell implements IUI{
                 continue;
 
             ITCItem itcItem = TCItems.toTCItem(content);
-            if (!(itcItem instanceof ISellable)) {
+            if (!(itcItem instanceof IHasItemMod iHasItemMod)) {
+                event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
+                continue;
+            }
+            
+            ISellPriceModifier mod = (ISellPriceModifier) iHasItemMod.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof ISellPriceModifier).findFirst().orElse(null);
+            if(mod == null){
                 event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
                 continue;
             }
 
-            totalGain += ((ISellable) itcItem).getSellPrice() * content.getAmount();
+            totalGain += mod.apply(0d, 0d) * content.getAmount();
             totalAmount += content.getAmount();
         }
 
