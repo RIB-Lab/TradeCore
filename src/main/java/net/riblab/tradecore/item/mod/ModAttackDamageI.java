@@ -13,11 +13,11 @@ public class ModAttackDamageI extends ItemMod<Integer> implements IAttackDamageM
 
     @Override
     public String getLore() {
-        return "攻撃力: " + (double) this.getParam() / 100;
+        return "攻撃力: " + ((double) this.getParam()) / 100;
     }
 
     @Override
     public Double apply(Double originalValue, Double modifiedValue) {
-        return modifiedValue + (double) this.getParam() / 100;
+        return modifiedValue + ((double) this.getParam()) / 100;
     }
 }

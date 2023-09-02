@@ -9,8 +9,10 @@ import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.item.mod.ModAttackDamageI;
-import net.riblab.tradecore.item.mod.ModMaxDurabilityI;
+import net.riblab.tradecore.item.mod.ModMiningSpeedI;
+import net.riblab.tradecore.item.mod.ModRandomDurabilityI;
 import net.riblab.tradecore.modifier.IDurabilityModifier;
+import net.riblab.tradecore.modifier.IRandomItemModCreator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -19,9 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TCWeapon extends TCItem implements ITCWeapon {
-
-    @Getter
-    private final DurabilityTable durabilityTable;
 
     @Getter
     private final List<IItemMod<?>> defaultMods;
@@ -35,9 +34,8 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, DurabilityTable durabilityTable, List<IItemMod<?>> defaultMods, IWeaponAttribute attribute, AttackDamageSpread attackDamageSpread) {
+    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, List<IItemMod<?>> defaultMods, IWeaponAttribute attribute, AttackDamageSpread attackDamageSpread) {
         super(name, material, internalName, customModelData, defaultMods);
-        this.durabilityTable = durabilityTable;
         this.defaultMods = defaultMods;
         this.attribute = attribute;
         this.attackDamageSpread = attackDamageSpread;
@@ -46,22 +44,23 @@ public class TCWeapon extends TCItem implements ITCWeapon {
 
     @Override
     protected @Nonnull ItemCreator getTemplate() {
-        return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), durabilityTable.getMiddleMaxDurability())
-                .setLores(getLore(durabilityTable.getMiddleMaxDurability(), new ArrayList<>())).setAttackSpeedAttr(attribute.getAttackSpeed());
+        return super.getTemplate().setAttackSpeedAttr(attribute.getAttackSpeed());
     }
 
     @Override
     public @Nonnull ItemStack getItemStack() {
-        int maxDurability = durabilityTable.getRandomMaxDurability();
         double attackDamage = attackDamageSpread.getRandomDamage(attribute.getBaseAttackDamage());
 
-        List<IItemMod<?>> initMods = List.of(
-                new ModMaxDurabilityI(maxDurability),
-                new ModAttackDamageI((int) (attackDamage * 100)));
+        IRandomItemModCreator mod = (IRandomItemModCreator) getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IRandomItemModCreator).findFirst().orElse(null);
+        //TODO:randomModsがなかった時の処理
+        List<IItemMod<?>> randomMods = new ArrayList<>();
+        randomMods = mod.apply(randomMods, randomMods);
+        List<IItemMod<?>> initMods = new ArrayList<>();
+        initMods.add(new ModAttackDamageI((int)(attackDamage * 100)));
+        initMods.addAll(randomMods);
 
         return new ItemCreator(getTemplate().create())
-                .setIntNBT(NBTTagNames.DURABILITY.get(), maxDurability)
-                .setLores(getLore(maxDurability, initMods))
+                .setLores(getLore(initMods))
                 .writeItemMods(initMods).create();
     }
 
@@ -69,14 +68,10 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     /**
      * 武器の説明を生成する
      *
-     * @param durability インスタンスが持つ耐久値
      * @return ツールの説明
      */
-    public List<Component> getLore(int durability, List<IItemMod<?>> randomMods) {
+    public List<Component> getLore(List<IItemMod<?>> randomMods) {
         List<Component> texts = new ArrayList<>();
-        if (durabilityTable.getMiddleMaxDurability() != -1) {
-            texts.add(getDurabilityLore(durability, randomMods));
-        }
         texts.add(Component.text("攻撃速度: " + Math.floor(attribute.getAttackSpeedForDisplay() * 100) / 100).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         texts.addAll(getDefaultModsLore());
         texts.addAll(getRandomModsLore(randomMods));
@@ -90,10 +85,6 @@ public class TCWeapon extends TCItem implements ITCWeapon {
         List<TextComponent> texts = new ArrayList<>();
 
         for (IItemMod<?> randomMod : randomMods) {
-            if(randomMod instanceof IDurabilityModifier){//これだけ現在の耐久値を確認するため追加不可能
-                continue;
-            }
-
             texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
 

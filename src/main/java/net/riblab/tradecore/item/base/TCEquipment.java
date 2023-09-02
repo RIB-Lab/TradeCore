@@ -2,7 +2,6 @@ package net.riblab.tradecore.item.base;
 
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -10,8 +9,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
-import net.riblab.tradecore.item.mod.ModMaxDurabilityI;
-import net.riblab.tradecore.item.mod.ModMiningSpeedI;
+import net.riblab.tradecore.modifier.IRandomItemModCreator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,9 +22,6 @@ import java.util.List;
  */
 class TCEquipment extends TCItem implements ITCEquipment {
 
-    @Getter
-    private final DurabilityTable durabilityTable;
-
     /**
      * カスタムのアーマートリムの名前
      */
@@ -34,9 +29,7 @@ class TCEquipment extends TCItem implements ITCEquipment {
 
     @Override
     protected @Nonnull ItemCreator getTemplate() {
-        ItemStack itemStack = super.getTemplate()
-                .setIntNBT(NBTTagNames.DURABILITY.get(), durabilityTable.getMiddleMaxDurability())
-                .setLores(getLore(durabilityTable.getMiddleMaxDurability(), new ArrayList<>())).create();
+        ItemStack itemStack = super.getTemplate().create();
         NBTItem item = new NBTItem(itemStack);
         item.setInteger(NBTTagNames.ARMOR_HIDEFLAGS.get(), 135);//hideattribute + hidearmorupgrade
         NBTCompound nbtList = item.getOrCreateCompound(NBTTagNames.ARMOR_TRIM.get());
@@ -49,32 +42,46 @@ class TCEquipment extends TCItem implements ITCEquipment {
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCEquipment(TextComponent name, Material material, String internalName, List<IItemMod<?>> mod, DurabilityTable durabilityTable, String trimName) {
+    public TCEquipment(TextComponent name, Material material, String internalName, List<IItemMod<?>> mod, String trimName) {
         super(name, material, internalName, 0, mod);
-        this.durabilityTable = durabilityTable;
         this.trimName = trimName;
     }
     
     @Override
     public @Nonnull ItemStack getItemStack() {
-        int maxDurability = durabilityTable.getRandomMaxDurability();
+        List<IRandomItemModCreator> mods = getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IRandomItemModCreator).map(iItemMod -> (IRandomItemModCreator) iItemMod).toList();
+        List<IItemMod<?>> randomMods = new ArrayList<>();
+        for (IRandomItemModCreator mod : mods) {
+            randomMods = mod.apply(randomMods, randomMods);
+        }
 
-        List<IItemMod<?>> initMods = List.of(
-                new ModMaxDurabilityI(maxDurability));
+        List<IItemMod<?>> initMods = new ArrayList<>();
+        initMods.addAll(randomMods);
 
         return new ItemCreator(getTemplate().create())
-                .setIntNBT(NBTTagNames.DURABILITY.get(), maxDurability)
-                .setLores(getLore(maxDurability, initMods))
+                .setLores(getLore(initMods))
                 .writeItemMods(initMods).create();
     }
 
     @Override
-    public List<Component> getLore(int durability, List<IItemMod<?>> randomMods) {
+    public List<Component> getLore(List<IItemMod<?>> randomMods) {
         List<Component> texts = new ArrayList<>();
-        if (durabilityTable.getMiddleMaxDurability() != -1) {
-            texts.add(getDurabilityLore(durability, randomMods));
-        }
         texts.addAll(getDefaultModsLore());
+        texts.addAll(getRandomModsLore(randomMods));
+        return texts;
+    }
+
+    /**
+     * ツールに付与されているランダムmodの説明文を取得する
+     */
+    private List<TextComponent> getRandomModsLore(List<IItemMod<?>> randomMods){
+        List<TextComponent> texts = new ArrayList<>();
+
+        for (IItemMod<?> randomMod : randomMods) {
+            if(randomMod.getLore() != null)
+                texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        }
+
         return texts;
     }
 }

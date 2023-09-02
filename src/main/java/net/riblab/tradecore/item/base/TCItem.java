@@ -128,7 +128,8 @@ public class TCItem implements ITCItem {
         return tcID.equals(internalName);
     }
     
-    public List<Component> getLore(int durability, List<IItemMod<?>> randomMods){
+    @Override
+    public List<Component> getLore(List<IItemMod<?>> randomMods){
         return new ArrayList<>();
     }
 

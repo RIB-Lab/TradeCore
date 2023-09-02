@@ -64,7 +64,7 @@ public interface ITCItem {
 
     boolean isSimilar(String tcID);
 
-    List<Component> getLore(int durability, List<IItemMod<?>> randomMods);
+    List<Component> getLore(List<IItemMod<?>> randomMods);
 
     /**
      * アイテムが既定で持つmodのリスト

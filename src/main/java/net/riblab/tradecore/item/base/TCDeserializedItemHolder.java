@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * yamlで書かれたアイテムをデシリアライズして保持するクラス
+ */
 public enum TCDeserializedItemHolder {
     INSTANCE;
 

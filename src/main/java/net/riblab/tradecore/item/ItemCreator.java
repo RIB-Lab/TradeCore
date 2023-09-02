@@ -1,6 +1,7 @@
 package net.riblab.tradecore.item;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;
@@ -35,6 +36,8 @@ import java.util.Random;
 public final class ItemCreator {
 
     private ItemStack itemStack;
+    
+    private static Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();;
 
     /**
      * バニラアイテムの型からバニラアイテムの実体/固有アイテムの型を生成する
@@ -394,7 +397,7 @@ public final class ItemCreator {
     public ItemCreator writeItemMod(IItemMod<?> mod){
         NBTItem item = new NBTItem(itemStack);
         //ItemModの数値をJsonとして焼きこむ
-        String json = new Gson().toJson(mod.getParam().toString());
+        String json = gson.toJson(mod.getParam());
         item.getOrCreateCompound(NBTTagNames.ITEMMOD.get()).setString(mod.getClass().getCanonicalName(), json);
         itemStack = item.getItem();
         return this;
@@ -416,7 +419,7 @@ public final class ItemCreator {
                 Constructor<?> constructor = Class.forName(key).getConstructors()[0];
                 Type[] parameterTypes = constructor.getGenericParameterTypes();
                 String json = compound.getString(key);
-                Object arg =  new Gson().fromJson(json, parameterTypes[0]);
+                Object arg =  gson.fromJson(json, parameterTypes[0]);
                 mod = (IItemMod<?>) constructor.newInstance(arg);
 
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
