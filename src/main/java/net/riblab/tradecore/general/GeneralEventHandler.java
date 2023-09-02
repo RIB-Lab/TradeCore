@@ -13,10 +13,7 @@ import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.item.base.*;
 import net.riblab.tradecore.entity.mob.CustomMobService;
 import net.riblab.tradecore.item.mod.IItemMod;
-import net.riblab.tradecore.modifier.IArmorModifier;
-import net.riblab.tradecore.modifier.IAttackDamageModifier;
-import net.riblab.tradecore.modifier.ICanHitWithToolModifier;
-import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
+import net.riblab.tradecore.modifier.*;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
 import net.riblab.tradecore.ui.UIs;
 import org.bukkit.Bukkit;
@@ -391,7 +388,7 @@ public final class GeneralEventHandler {
         if (itcItem == null)
             return;
 
-        if(itcItem instanceof IPlaceable)
+        if(itcItem instanceof IHasItemMod iHasItemMod && iHasItemMod.getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))
             return;
 
         event.setCancelled(true);

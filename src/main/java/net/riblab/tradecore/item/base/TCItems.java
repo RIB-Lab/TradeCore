@@ -54,8 +54,8 @@ public enum TCItems {
     BARK_LEGGINGS(new TCEquipment(Component.text("樹皮のレギンス"), Material.CHAINMAIL_LEGGINGS, "bark_leggings", List.of(new ModAddArmorI(8)), 32, "bark")),
     BARK_BOOTS(new TCEquipment(Component.text("樹皮のブーツ"), Material.CHAINMAIL_BOOTS, "bark_boots", List.of(new ModAddArmorI(8)), 32, "bark")),
     WALKING_STICK(new TCItemWithMod(Component.text("転ばぬ先の杖"), Material.STICK, "walking_stick", 0, List.of(new ModWalkSpeedI(4)))),
-    VANILLA_PLANK(new TCPlacableItem(Component.text("木材"), Material.OAK_PLANKS, "vanilla_plank", 0)),
-    VANILLA_CHEST(new TCPlacableItem(Component.text("チェスト"), Material.CHEST, "vanilla_plank", 0)),
+    VANILLA_PLANK(new TCItemWithMod(Component.text("木材"), Material.OAK_PLANKS, "vanilla_plank", 0, List.of(new ModPlaceableI()))),
+    VANILLA_CHEST(new TCItemWithMod(Component.text("チェスト"), Material.CHEST, "vanilla_plank", 0, List.of(new ModPlaceableI()))),
 
     //石器時代
     ROUND_STONE(new TCSellableItem(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, 0.10d)),
@@ -83,7 +83,7 @@ public enum TCItems {
     IRON_INGOT(new TCSellableItem(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, 0.10d)),
     GOLD_INGOT(new TCSellableItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, 0.10d)),
     MAP_STONEROOM(new TCDungeonMap(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, DungeonNames.STONEROOM)),
-    FURNACE(new TCPlacableItem(Component.text("かまど"), Material.FURNACE, "vanilla_furnace", 0)),
+    FURNACE(new TCItemWithMod(Component.text("かまど"), Material.FURNACE, "vanilla_furnace", 0, List.of(new ModPlaceableI()))),
 
     //鉄器時代
     REINFORCED_STICK(new TCSellableItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, 0.10d)),
