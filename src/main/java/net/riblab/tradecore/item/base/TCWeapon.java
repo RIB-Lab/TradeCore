@@ -5,13 +5,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.item.mod.ModAttackDamageI;
-import net.riblab.tradecore.item.mod.ModMiningSpeedI;
-import net.riblab.tradecore.item.mod.ModRandomDurabilityI;
-import net.riblab.tradecore.modifier.IDurabilityModifier;
 import net.riblab.tradecore.modifier.IRandomItemModCreator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -21,9 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TCWeapon extends TCItem implements ITCWeapon {
-
-    @Getter
-    private final List<IItemMod<?>> defaultMods;
 
     @Getter
     private final IWeaponAttribute attribute;
@@ -36,7 +29,6 @@ public class TCWeapon extends TCItem implements ITCWeapon {
      */
     public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, List<IItemMod<?>> defaultMods, IWeaponAttribute attribute, AttackDamageSpread attackDamageSpread) {
         super(name, material, internalName, customModelData, defaultMods);
-        this.defaultMods = defaultMods;
         this.attribute = attribute;
         this.attackDamageSpread = attackDamageSpread;
     }
@@ -61,7 +53,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
 
         return new ItemCreator(getTemplate().create())
                 .setLores(getLore(initMods))
-                .writeItemMods(initMods).create();
+                .writeItemRandomMods(initMods).create();
     }
 
 

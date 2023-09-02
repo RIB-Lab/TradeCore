@@ -1,5 +1,7 @@
 package net.riblab.tradecore.item.base;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 
 import java.util.Random;

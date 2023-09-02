@@ -393,8 +393,11 @@ public final class ItemCreator {
         itemStack.setItemMeta(meta);
         return this;
     }
-    
-    public ItemCreator writeItemMod(IItemMod<?> mod){
+
+    /**
+     * アイテムにレアリティなどのアイテムそれぞれで異なるべき値を書きこむ
+     */
+    public ItemCreator writeItemRandomMod(IItemMod<?> mod){
         NBTItem item = new NBTItem(itemStack);
         //ItemModの数値をJsonとして焼きこむ
         String json = gson.toJson(mod.getParam());
@@ -403,12 +406,15 @@ public final class ItemCreator {
         return this;
     }
     
-    public ItemCreator writeItemMods(List<IItemMod<?>> mods){
-        mods.forEach(this::writeItemMod);
+    public ItemCreator writeItemRandomMods(List<IItemMod<?>> mods){
+        mods.forEach(this::writeItemRandomMod);
         return this;
     }
-    
-    public List<IItemMod<?>> getItemMods(){
+
+    /**
+     * アイテムそれぞれに付与されたレアリティなどのランダム化されたパラメータを取得する
+     */
+    public List<IItemMod<?>> getItemRandomMods(){
         List<IItemMod<?>> modList = new ArrayList<>();
         NBTItem item = new NBTItem(itemStack);
         NBTCompound compound = item.getOrCreateCompound(NBTTagNames.ITEMMOD.get());

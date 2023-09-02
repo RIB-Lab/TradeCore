@@ -4,7 +4,7 @@ import lombok.Getter;
 import net.riblab.tradecore.job.data.JobType;
 import org.bukkit.inventory.ItemStack;
 
-public interface ITCTool extends ITCItem {
+public interface ITCTool {
 
     /**
      * ツールの種類
@@ -15,11 +15,6 @@ public interface ITCTool extends ITCItem {
      * ツールの採掘レベル
      */
     int getHarvestLevel();
-
-    /**
-     * ツールの属する採掘速度テーブル
-     */
-    MiningSpeedTable getMiningSpeedTable();
 
     /**
      * ツールを一振りしたらどれくらい亀裂が入るかの実際の値

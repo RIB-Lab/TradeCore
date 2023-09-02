@@ -94,7 +94,7 @@ public final class ItemUtils {
 
         int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durs.getCurrentDur() / (float) durs.getMaxDur()));
         int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
-        return new ItemCreator(instance).setLores(itcItem.getLore(new ItemCreator(instance).getItemMods())).writeItemMod(new ModRandomDurabilityI(durs)).damage(damageToDeal).create();
+        return new ItemCreator(instance).setLores(itcItem.getLore(new ItemCreator(instance).getItemRandomMods())).writeItemRandomMod(new ModRandomDurabilityI(durs)).damage(damageToDeal).create();
     }
 
 
@@ -102,7 +102,7 @@ public final class ItemUtils {
      * ItemStackに付与されたmodから耐久値と最大耐久値を割り出す
      */
     public static PackedDurabilityData getDurability(ItemStack instance){
-        return getDurability(new ItemCreator(instance).getItemMods());
+        return getDurability(new ItemCreator(instance).getItemRandomMods());
     }
 
     /**

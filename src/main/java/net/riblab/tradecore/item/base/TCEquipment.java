@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * カスタム装備のクラス
  */
-class TCEquipment extends TCItem implements ITCItem {
+class TCEquipment extends TCItem {
 
     /**
      * カスタムのアーマートリムの名前
@@ -60,7 +60,7 @@ class TCEquipment extends TCItem implements ITCItem {
 
         return new ItemCreator(getTemplate().create())
                 .setLores(getLore(initMods))
-                .writeItemMods(initMods).create();
+                .writeItemRandomMods(initMods).create();
     }
 
     @Override

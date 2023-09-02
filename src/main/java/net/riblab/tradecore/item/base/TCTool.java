@@ -5,13 +5,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
-import net.riblab.tradecore.item.mod.ModDefaultMaxDurabilityI;
-import net.riblab.tradecore.item.mod.ModRandomDurabilityI;
 import net.riblab.tradecore.item.mod.ModMiningSpeedI;
-import net.riblab.tradecore.modifier.IDurabilityModifier;
 import net.riblab.tradecore.modifier.IMiningSpeedModifier;
 import net.riblab.tradecore.modifier.IRandomItemModCreator;
 import org.bukkit.Material;
@@ -59,7 +55,7 @@ public class TCTool extends TCItem implements ITCTool {
 
         return new ItemCreator(getTemplate().create())
                 .setLores(getLore(initMods))
-                .writeItemMods(initMods).create();
+                .writeItemRandomMods(initMods).create();
     }
 
     /**
@@ -93,7 +89,7 @@ public class TCTool extends TCItem implements ITCTool {
     
     @Override
     public double getActualMiningSpeed(ItemStack itemStack){
-        List<IItemMod<?>> mods = new ItemCreator(itemStack).getItemMods();
+        List<IItemMod<?>> mods = new ItemCreator(itemStack).getItemRandomMods();
         IItemMod<?> miningSpeedMod = mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
         double miningSpeed = miningSpeedMod != null ? (double)miningSpeedMod.getParam() : miningSpeedTable.getMiddleMiningSpeed();
         return Math.log10(miningSpeed) + 0.1d;

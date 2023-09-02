@@ -164,7 +164,7 @@ public final class GeneralEventHandler {
         if (itcItem instanceof ITCWeapon weapon) {
             event.setCancelled(true);
             
-            IItemMod<?> damageMod = new ItemCreator(event.getItem()).getItemMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
+            IItemMod<?> damageMod = new ItemCreator(event.getItem()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
             double damage = damageMod != null ? ((Integer)damageMod.getParam()).doubleValue() / 100 : weapon.getAttribute().getBaseAttackDamage();
             
             if (weapon.getAttribute().attack(event.getPlayer(), damage)) {
@@ -225,7 +225,7 @@ public final class GeneralEventHandler {
             if (player.getAttackCooldown() != 1)
                 return;
 
-            IItemMod<?> damageMod = new ItemCreator(player.getInventory().getItemInMainHand()).getItemMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
+            IItemMod<?> damageMod = new ItemCreator(player.getInventory().getItemInMainHand()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
             double damage = damageMod != null ? ((Integer)damageMod.getParam()).doubleValue() / 100 : weapon.getAttribute().getBaseAttackDamage();
 
             if (weapon.getAttribute().attack(player, damage)) {
