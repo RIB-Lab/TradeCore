@@ -83,7 +83,7 @@ public enum TCItems {
     GOLD_SHARD(new TCItem(Component.text("金の欠片"), Material.GOLD_NUGGET, "gold_shard", 0, List.of(new ModSellPriceI(0.10d)))),
     IRON_INGOT(new TCItem(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
     GOLD_INGOT(new TCItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
-    MAP_STONEROOM(new TCDungeonMap(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, DungeonNames.STONEROOM)),
+    MAP_STONEROOM(new TCItem(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, List.of(new ModEnterDungeonI(DungeonNames.STONEROOM)))),
     FURNACE(new TCItem(Component.text("かまど"), Material.FURNACE, "vanilla_furnace", 0, List.of(new ModPlaceableI(true)))),
 
     //鉄器時代

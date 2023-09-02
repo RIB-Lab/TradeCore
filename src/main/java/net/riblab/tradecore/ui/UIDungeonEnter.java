@@ -9,9 +9,9 @@ import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.advancement.Advancements;
-import net.riblab.tradecore.item.base.ITCDungeonMap;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.modifier.IEnterDungeonModifier;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -51,9 +51,13 @@ final class UIDungeonEnter implements IUI {
 
     public static void onClose(InventoryCloseEvent event) {
         ItemStack map = event.getInventory().getContents()[4];
-        ITCItem tcMap = TCItems.toTCItem(map);
-        if(tcMap instanceof ITCDungeonMap dungeonMap){
-            IDungeonData<?> data = DungeonDatas.nameToDungeonData(dungeonMap.getDungeonName().get());
+        ITCItem tcItem = TCItems.toTCItem(map);
+        if(tcItem == null)
+            return;
+
+        IEnterDungeonModifier mod = (IEnterDungeonModifier) tcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IEnterDungeonModifier).findFirst().orElse(null);
+        if(mod != null){
+            IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).get());
             DungeonService IDungeonService = DungeonService.getImpl();
             World instance = IDungeonService.create(data, -1);
             IDungeonService.enter((Player) event.getPlayer(), instance);
