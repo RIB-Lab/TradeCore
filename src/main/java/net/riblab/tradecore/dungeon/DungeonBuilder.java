@@ -25,7 +25,7 @@ final class DungeonBuilder {
 
     private static final String tmpDirName = "dungeontemplate";
     private static final String copySchemDir = "schematics";
-    private static final File pasteSchemDir = TradeCore.getInstance().getDataFolder();
+    private static final File pasteSchemDir = new File(TradeCore.getInstance().getDataFolder() + "/tmp");
     private static final Vector dungeonGenerateLoc = new Vector(0, 100, 0);
 
     /**
