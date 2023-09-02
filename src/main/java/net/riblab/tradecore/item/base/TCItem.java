@@ -22,7 +22,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @Data
 @Configuration
 public class TCItem implements ITCItem {
-
+    
     /**
      * アイテムの表示名。金床で変更できる
      */
@@ -44,6 +44,7 @@ public class TCItem implements ITCItem {
     /**
      * 主に召喚コマンドで用いられる内部的なアイテム名<br>
      */
+    @Ignore
     private String internalName = "dummy";
 
     /**

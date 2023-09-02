@@ -2,23 +2,19 @@ package net.riblab.tradecore.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.riblab.tradecore.item.base.TCDeserializedItemHolder;
 import net.riblab.tradecore.item.base.TCItem;
-import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * コンフィグ管理システム
@@ -111,8 +107,12 @@ final class DataServiceImpl implements DataService {
             throw new RuntimeException(e);
         }
         itemFiles.forEach(TCDeserializedItemHolder.INSTANCE::deserialize);
-        
+
         //SAVE TEST
-//        YamlConfigurations.save(new File(itemDir + "/nextpage.yml").toPath(), TCItem.class, new TCItem(Component.text("次のページ"), Material.ARROW, "nextpage", 1), TCDeserializedItemHolder.customProperties);
+//        TCDeserializedItemHolder.SerializedTCItems items = new TCDeserializedItemHolder.SerializedTCItems();
+//        items.getMap().put("nextpage" ,new TCItem(Component.text("次のページ"), Material.ARROW, "nextpage", 1));
+//        items.getMap().put("cursedHead" ,new TCItem(Component.text("カースドヘッド"), Material.SKELETON_SKULL, "cursedHead", 0));
+//        YamlConfigurations.save(new File(itemDir + "/nextpage.yml").toPath(), TCDeserializedItemHolder.SerializedTCItems.class,
+//                items, TCDeserializedItemHolder.customProperties);
     }
 }

@@ -1,18 +1,20 @@
 package net.riblab.tradecore.item.base;
 
+import de.exlll.configlib.Comment;
+import de.exlll.configlib.Configuration;
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
 import net.kyori.adventure.text.TextComponent;
 import net.riblab.tradecore.config.TextComponentSerializer;
-import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public enum TCDeserializedItemHolder {
     INSTANCE;
@@ -34,19 +36,35 @@ public enum TCDeserializedItemHolder {
      * アイテムファイルをアイテムの実体に変換する
      */
     public void deserialize(File file){
-        FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-        String type = yaml.getString("type");
+        String type = YamlConfiguration.loadConfiguration(file).getString("type");
         if(type == null){
-            Bukkit.getLogger().severe(file + "のアイテムのタイプが設定されていません。アイテムは無視されます...");
+            Bukkit.getLogger().severe(file + "のアイテムのタイプが設定されていません。ファイルは無視されます...");
             return;
         }
         
         //ymlconfigがワイルドカードに対応していないのでちまちまクラスを書くしかない
         if(type.equals(TCItem.class.getSimpleName())){
-            deserializedItems.add(YamlConfigurations.load(file.toPath(), TCItem.class, customProperties));
+            SerializedTCItems items = YamlConfigurations.load(file.toPath(), SerializedTCItems.class, customProperties);
+            for (Map.Entry<String, TCItem> stringTCItemEntry : items.getMap().entrySet()) {
+
+                stringTCItemEntry.getValue().setInternalName(stringTCItemEntry.getKey());//yml上でのアイテム名をinternalnameとする
+                deserializedItems.add(stringTCItemEntry.getValue());
+            }
             return;
         }
+        
+        Bukkit.getLogger().severe(file + "のタイプ:" + type + "が不正です。ファイルは無視されます...");
+    }
 
-        Bukkit.getLogger().severe(file + "のアイテムのタイプ:" + type + "が不正です。アイテムは無視されます...");
+    /**
+     * 複数アイテムをまとめてシリアライズするためのクラス
+     */
+    @Configuration
+    public static class SerializedTCItems {
+        @Comment("シリアライズしたいアイテムが属する種類")
+        String type;
+        @Comment("シリアライズしたいアイテムの定義たち")
+        @Getter
+        private Map<String, TCItem> map = new HashMap<>();
     }
 }
