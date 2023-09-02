@@ -6,7 +6,7 @@ public interface IItemMod {
      */
     String getLore();
 
-    int getLevel();
+    double getLevel();
 
-    void setLevel(int level);
+    void setLevel(double level);
 }

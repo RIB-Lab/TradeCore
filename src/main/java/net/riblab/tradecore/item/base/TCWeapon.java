@@ -47,7 +47,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
     @Override
     protected @Nonnull ItemCreator getTemplate() {
         return super.getTemplate().setIntNBT(NBTTagNames.DURABILITY.get(), durabilityTable.getMiddleMaxDurability())
-                .setLores(getLore(durabilityTable.getMiddleMaxDurability(), new ArrayList<>())).setAttackSpeed(attribute.getAttackSpeed());
+                .setLores(getLore(durabilityTable.getMiddleMaxDurability(), new ArrayList<>())).setAttackSpeedAttr(attribute.getAttackSpeed());
     }
 
     @Override
@@ -106,7 +106,7 @@ public class TCWeapon extends TCItem implements ITCWeapon {
      */
     private int getMaxDurability(List<IItemMod> mods){
         IItemMod maxDurabilityMod = mods.stream().filter(iItemMod -> iItemMod instanceof IDurabilityModifier).findFirst().orElse(null);
-        return maxDurabilityMod != null ? maxDurabilityMod.getLevel() : durabilityTable.getMiddleMaxDurability(); //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
+        return maxDurabilityMod != null ? (int) maxDurabilityMod.getLevel() : durabilityTable.getMiddleMaxDurability(); //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
     }
 
     /**

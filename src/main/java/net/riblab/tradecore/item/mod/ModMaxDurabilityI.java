@@ -14,11 +14,11 @@ public class ModMaxDurabilityI extends ItemMod implements IDurabilityModifier {
 
     @Override
     public String getLore() {
-        return "採掘速度:" + (double) getLevel() / 100;
+        return "採掘速度:" + getLevel() / 100;
     }
 
     @Override
     public Integer apply(Integer originalValue, Integer modifiedValue) {
-        return modifiedValue + getLevel();
+        return modifiedValue + (int) getLevel();
     }
 }

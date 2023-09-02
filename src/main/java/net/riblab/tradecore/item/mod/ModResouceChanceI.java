@@ -15,6 +15,6 @@ public class ModResouceChanceI extends ItemMod implements IResourceChanceModifie
 
     @Override
     public Float apply(Float originalChance, Float modifiedChance) {
-        return modifiedChance + originalChance * (getLevel() * 0.01f);
+        return modifiedChance + originalChance * (float)getLevel() * 0.01f;
     }
 }

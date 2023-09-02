@@ -22,6 +22,6 @@ public class ModWalkSpeedI extends ItemMod implements IWalkSpeedModifier {
 
     @Override
     public Float apply(Float originalValue, Float modifiedValue) {
-        return modifiedValue + originalValue * .01f * getLevel();
+        return modifiedValue + originalValue * .01f * (float)getLevel();
     }
 }

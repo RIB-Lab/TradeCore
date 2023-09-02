@@ -15,6 +15,6 @@ public class ModEcologyI extends ItemMod implements IEveryMinuteDurabilityModifi
 
     @Override
     public Integer apply(Integer originalValue, Integer modifiedValue) {
-        return modifiedValue + getLevel();
+        return modifiedValue + (int)getLevel();
     }
 }

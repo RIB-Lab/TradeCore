@@ -15,7 +15,7 @@ public class ItemMod implements IItemMod {
      */
     @Getter
     @Setter
-    private int level;
+    private double level;
 
     @Override
     public String getLore() {

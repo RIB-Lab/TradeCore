@@ -1,14 +1,10 @@
 package net.riblab.tradecore.item;
 
-import de.tr7zw.nbtapi.NBT;
 import de.tr7zw.nbtapi.NBTCompound;
 import de.tr7zw.nbtapi.NBTItem;
-import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.mod.IItemMod;
-import net.riblab.tradecore.item.mod.ItemMod;
-import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -384,15 +380,7 @@ public final class ItemCreator {
         return meta.getCustomModelData();
     }
 
-    public ItemCreator setAttackDamage(double value) {
-        ItemMeta meta = itemStack.getItemMeta();
-        meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE);
-        meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, new AttributeModifier("generic.attackDamage", value, AttributeModifier.Operation.ADD_NUMBER));
-        itemStack.setItemMeta(meta);
-        return this;
-    }
-
-    public ItemCreator setAttackSpeed(double value) {
+    public ItemCreator setAttackSpeedAttr(double value) {
         ItemMeta meta = itemStack.getItemMeta();
         meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
         meta.addAttributeModifier(Attribute.GENERIC_ATTACK_SPEED, new AttributeModifier("generic.attackSpeed", value, AttributeModifier.Operation.ADD_NUMBER));
@@ -402,7 +390,7 @@ public final class ItemCreator {
     
     public ItemCreator writeItemMod(IItemMod mod){
         NBTItem item = new NBTItem(itemStack);
-        item.getOrCreateCompound(NBTTagNames.ITEMMOD.get()).setInteger(mod.getClass().getCanonicalName(), mod.getLevel());
+        item.getOrCreateCompound(NBTTagNames.ITEMMOD.get()).setDouble(mod.getClass().getCanonicalName(), mod.getLevel());
         itemStack = item.getItem();
         return this;
     }
@@ -419,7 +407,7 @@ public final class ItemCreator {
         for (String key : compound.getKeys()) {
             IItemMod mod = null;
             try {
-                mod = (IItemMod) Class.forName(key).getDeclaredConstructor(int.class).newInstance(compound.getInteger(key));
+                mod = (IItemMod) Class.forName(key).getDeclaredConstructor(double.class).newInstance(compound.getDouble(key));
 
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
                      NoSuchMethodException | ClassNotFoundException ignored) {

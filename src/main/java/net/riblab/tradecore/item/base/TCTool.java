@@ -170,14 +170,14 @@ public class TCTool extends TCItem implements ITCTool {
      */
     private int getMaxDurability(List<IItemMod> mods){
         IItemMod maxDurabilityMod = mods.stream().filter(iItemMod -> iItemMod instanceof IDurabilityModifier).findFirst().orElse(null);
-        return maxDurabilityMod != null ? maxDurabilityMod.getLevel() : durabilityTable.getMiddleMaxDurability(); //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
+        return maxDurabilityMod != null ? (int)maxDurabilityMod.getLevel() : durabilityTable.getMiddleMaxDurability(); //アイテムにランダムな最大耐久値が付与されていなかったらフォールバックとして基礎最大耐久値を使う
     }
     
     @Override
     public double getActualMiningSpeed(ItemStack itemStack){
         List<IItemMod> mods = new ItemCreator(itemStack).getItemMods();
         IItemMod miningSpeedMod = mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
-        double miningSpeed = miningSpeedMod != null ? (double) miningSpeedMod.getLevel() / 100 : miningSpeedTable.getMiddleMiningSpeed();
+        double miningSpeed = miningSpeedMod != null ? miningSpeedMod.getLevel() / 100 : miningSpeedTable.getMiddleMiningSpeed();
         return Math.log10(miningSpeed) + 0.1d;
     }
 }
