@@ -2,11 +2,14 @@ package net.riblab.tradecore.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * コンフィグ管理システム
@@ -20,6 +23,8 @@ final class DataServiceImpl implements DataService {
     private CurrencyData currencyData;
     @Getter
     private JobDatas jobDatas;
+    
+    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
      * コンフィグの保存Path
@@ -44,21 +49,15 @@ final class DataServiceImpl implements DataService {
 
     @Override
     public void save() {
-//        YamlConfigurations.save(currencyDataFile, CurrencyData.class, currencyData);
-//        YamlConfigurations.save(jobsDataFile, JobDatas.class, jobDatas);
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String currencyStr = gson.toJson(currencyData);
+        save(currencyData, currencyDataFile);
+        save(jobDatas, jobsDataFile);
+    }
+    
+    private void save(Object dataInstance, File file){
+        String str = gson.toJson(dataInstance);
         try {
-            FileUtils.forceMkdir(saveDir);
-            FileUtils.fileWrite(currencyDataFile, currencyStr);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        String jobsStr = gson.toJson(jobDatas);
-        try {
-            FileUtils.forceMkdir(saveDir);
-            FileUtils.fileWrite(jobsDataFile, jobsStr);
+            FileUtils.forceMkdir(new File(file.getParent()));
+            FileUtils.fileWrite(file, str);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -66,26 +65,25 @@ final class DataServiceImpl implements DataService {
 
     @Override
     public void load() {
-        // Load a new instance from the configuration file
-//        currencyData = YamlConfigurations.update(currencyDataFile, CurrencyData.class);
-//        jobDatas = YamlConfigurations.update(jobsDataFile, JobDatas.class);
-        String currencyStr = null;
+        currencyData =  load(currencyDataFile, CurrencyData.class);
+        jobDatas = load(jobsDataFile, JobDatas.class);
+    }
+    
+    private <T> T load(File dataFile, Class<T> dataType){
+        String str = null;
         try {
-            currencyStr =  FileUtils.fileRead(currencyDataFile);
+            str =  FileUtils.fileRead(dataFile);
         } catch (IOException ignored) {
         }
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        currencyData = gson.fromJson(currencyStr, CurrencyData.class);
-        if(currencyData == null)
-            currencyData = new CurrencyData();
-
-        String jobsStr = null;
-        try {
-            jobsStr =  FileUtils.fileRead(jobsDataFile);
-        } catch (IOException ignored) {
+        T dataInstance = gson.fromJson(str, dataType);
+        if(dataInstance == null) {
+            try {
+                dataInstance = dataType.getDeclaredConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
         }
-        jobDatas = gson.fromJson(jobsStr, JobDatas.class);
-        if(jobDatas == null)
-            jobDatas = new JobDatas();
+        return dataInstance;
     }
 }

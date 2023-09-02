@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.riblab.tradecore.job.data.JobType;
 
-@Configuration
 public class JobSkill implements IJobSkill {
 
     /**

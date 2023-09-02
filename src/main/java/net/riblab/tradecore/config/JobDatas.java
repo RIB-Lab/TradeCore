@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-@Configuration
 public class JobDatas {
     @Comment({"職業"})
     private Map<UUID, List<JobData>> playerJobs = new HashMap<>();

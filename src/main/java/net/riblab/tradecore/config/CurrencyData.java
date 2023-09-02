@@ -10,7 +10,6 @@ import java.util.UUID;
 /**
  * 保存するコンフィグの型
  */
-@Configuration
 public class CurrencyData {
     @Comment({"所持金"})
     public Map<UUID, Double> playerBank = new HashMap<>();

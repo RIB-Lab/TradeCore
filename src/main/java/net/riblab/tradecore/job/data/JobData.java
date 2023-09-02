@@ -7,7 +7,6 @@ import lombok.Data;
  * プレイヤーが配列で持つジョブ一つ分のデータ
  */
 @Data
-@Configuration
 public class JobData implements IJobData {
 
     /**
