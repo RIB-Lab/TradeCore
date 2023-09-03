@@ -92,9 +92,9 @@ public final class MobUtils {
         if (mob.getType() == EntityType.VILLAGER) //ショップ店員を殴るの防止
             return;
 
+        setLootableTag(mob, true);
         mob.damage(damage);
         if (knockback != null)
             mob.setVelocity(knockback);
-        setLootableTag(mob, true);
     }
 }
