@@ -6,6 +6,7 @@ import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
+import net.riblab.tradecore.config.DataService;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
@@ -292,5 +293,23 @@ public final class TCCommands {
                 });
         tcSavedGiveCommand.setPermission(CommandPermission.OP);
         tcSavedGiveCommand.register();
+
+        CommandAPICommand itemCommand = new CommandAPICommand("item")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                });
+
+        CommandAPICommand itemExportCommand = new CommandAPICommand("export")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
+                    if(item == null)
+                        return;
+                    
+                    DataService.getImpl().exportItem(item);
+                    player.sendMessage("手持ちのアイテムをコンフィグのitemexportにエクスポートしました");
+                });
+        itemCommand.withSubcommand(itemExportCommand);
+        itemCommand.register();
     }
 }

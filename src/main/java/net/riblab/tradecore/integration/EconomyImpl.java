@@ -4,6 +4,7 @@ package net.riblab.tradecore.integration;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.config.CurrencyData;
+import net.riblab.tradecore.config.DataService;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -18,7 +19,7 @@ import java.util.UUID;
 enum EconomyImpl implements TCEconomy {
     INSTANCE;
 
-    private final CurrencyData data = TradeCore.getInstance().getDataService().getCurrencyData();
+    private final CurrencyData data = DataService.getImpl().getCurrencyData();
 
     /**
      * 初期所持金

@@ -1,6 +1,7 @@
 package net.riblab.tradecore.general;
 
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.config.DataService;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemUtils;
@@ -31,7 +32,7 @@ public enum TCTasksInitializer {
         new BukkitRunnable() {
             @Override
             public void run() {
-                TradeCore.getInstance().getDataService().save();
+                DataService.getImpl().save();
             }
         }.runTaskTimerAsynchronously(TradeCore.getInstance(), 0, 3600);
 

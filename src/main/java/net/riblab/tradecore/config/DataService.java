@@ -1,12 +1,14 @@
 package net.riblab.tradecore.config;
 
+import net.riblab.tradecore.item.base.ITCItem;
+
 import javax.annotation.Nullable;
 import java.io.File;
 
 public interface DataService {
 
-    static DataService getImpl(File dataFolder) {
-        return new DataServiceImpl(dataFolder);
+    static DataService getImpl() {
+        return DataServiceImpl.INSTANCE;
     }
 
     /**
@@ -24,4 +26,6 @@ public interface DataService {
 
     @Nullable
     JobDatas getJobDatas();
+
+    void exportItem(ITCItem item);
 }

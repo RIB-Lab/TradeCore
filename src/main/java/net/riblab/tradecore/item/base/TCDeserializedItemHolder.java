@@ -8,6 +8,7 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.item.mod.ShortHandModNames;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.codehaus.plexus.util.FileUtils;
 import org.yaml.snakeyaml.DumperOptions;
@@ -121,6 +122,7 @@ public enum TCDeserializedItemHolder {
                 }
             }
         } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            Bukkit.getLogger().severe("ファイルの解析に失敗しました: " + file);
             e.printStackTrace();
         }
     }

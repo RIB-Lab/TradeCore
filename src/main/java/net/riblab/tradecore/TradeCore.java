@@ -35,8 +35,6 @@ public final class TradeCore extends JavaPlugin {
     private static TradeCore instance;
     private VaultHook vaultHook;
     @Getter
-    private DataService dataService;
-    @Getter
     private UltimateAdvancementAPI advancementAPI;
 
     public TradeCore() {
@@ -56,8 +54,7 @@ public final class TradeCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        dataService = DataService.getImpl(getDataFolder());
-        dataService.load();
+        DataService.getImpl().load();
         JobSkillService.getImpl().onDeserialize();
         PlayerStatsService.getImpl().init();
         VanillaCraftInitializer.INSTANCE.init(this);
@@ -109,7 +106,7 @@ public final class TradeCore extends JavaPlugin {
     @Override
     public void onDisable() {
         vaultHook.unhook();
-        dataService.save();
+        DataService.getImpl().save();
 
         CustomMobService.getImpl().deSpawnAll();
         CustomProjectileService.getImpl().deSpawnAll();

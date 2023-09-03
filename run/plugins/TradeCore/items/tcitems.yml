@@ -13,3 +13,12 @@ map:
     customModelData: 0
     defaultMods:
       AddArmor: 1
+
+  stone_sword:
+    customModelData: 0
+    defaultMods:
+      defaultattackdamage: '{"baseDamage":5.0,"spread":"STONE"}'
+      weaponattribute: '"SWORD"'
+      defaultmaxdurability: '"STONEAGE"'
+    material: STONE_SWORD
+    name: 石の剣

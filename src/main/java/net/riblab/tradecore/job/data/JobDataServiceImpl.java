@@ -2,6 +2,7 @@ package net.riblab.tradecore.job.data;
 
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.config.DataService;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.modifier.IJobExpModifier;
 import org.bukkit.OfflinePlayer;
@@ -16,7 +17,7 @@ import java.util.UUID;
 public enum JobDataServiceImpl implements JobDataService {
     INSTANCE;
 
-    private final Map<UUID, List<IJobData>> datasMap = TradeCore.getInstance().getDataService().getJobDatas().getPlayerJobs();
+    private final Map<UUID, List<IJobData>> datasMap = DataService.getImpl().getJobDatas().getPlayerJobs();
 
     /**
      * プレイヤーの特定のJobデータを初期化する

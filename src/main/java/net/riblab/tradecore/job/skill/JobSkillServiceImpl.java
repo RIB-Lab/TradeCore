@@ -2,6 +2,7 @@ package net.riblab.tradecore.job.skill;
 
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.config.DataService;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.IModifier;
@@ -21,7 +22,7 @@ import java.util.function.Consumer;
 enum JobSkillServiceImpl implements JobSkillService {
     INSTANCE;
 
-    private final Map<UUID, List<IJobSkill>> datasMap = TradeCore.getInstance().getDataService().getJobDatas().getPlayerJobSkills();
+    private final Map<UUID, List<IJobSkill>> datasMap = DataService.getImpl().getJobDatas().getPlayerJobSkills();
 
     /**
      * プレイヤーのJobSkillが変更された時のイベント

@@ -2,17 +2,10 @@ package net.riblab.tradecore.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
-import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.item.base.AttackDamageSpread;
+import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCDeserializedItemHolder;
-import net.riblab.tradecore.item.base.TCItem;
-import net.riblab.tradecore.item.mod.ModDefaultAttackDamageI;
-import net.riblab.tradecore.item.mod.ModDefaultMiningSpeedI;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -23,7 +16,8 @@ import java.util.List;
 /**
  * コンフィグ管理システム
  */
-final class DataServiceImpl implements DataService {
+enum DataServiceImpl implements DataService {
+    INSTANCE;
 
     /**
      * 保存するコンフィグの実体
@@ -55,14 +49,14 @@ final class DataServiceImpl implements DataService {
      */
     private final File itemDir;
     
-    private final File itemExportDir;
+    private final File itemExportFile;
 
-    public DataServiceImpl(File dataFolder) {
-        saveDir = new File(dataFolder, "/saves");
+    DataServiceImpl() {
+        saveDir = new File(TradeCore.getInstance().getDataFolder(), "/saves");
         currencyDataFile = new File(saveDir, "/currency.json");
         jobsDataFile = new File(saveDir, "/jobs.json");
-        itemDir = new File(dataFolder, "items");
-        itemExportDir = new File(dataFolder, "itemexport");
+        itemDir = new File(TradeCore.getInstance().getDataFolder(), "items");
+        itemExportFile = new File(TradeCore.getInstance().getDataFolder(), "/itemexport/exportedItem.yml");
     }
 
     @Override
@@ -105,7 +99,10 @@ final class DataServiceImpl implements DataService {
         }
         return dataInstance;
     }
-    
+
+    /**
+     * アイテムをデータフォルダから読み込む
+     */
     public void loadItems(){
         TCDeserializedItemHolder.INSTANCE.clear();
         
@@ -116,12 +113,12 @@ final class DataServiceImpl implements DataService {
             throw new RuntimeException(e);
         }
         itemFiles.forEach(TCDeserializedItemHolder.INSTANCE::deserialize);
-
-        //SAVE TEST
-        saveItem(new TCItem(Component.text("カースドヘッド"), Material.SKELETON_SKULL, "cursedHead", 0, List.of(new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(5, AttackDamageSpread.STONE)))));
     }
-    
-    public void saveItem(ITCItem item){
-        TCDeserializedItemHolder.INSTANCE.saveItem(item, new File(itemExportDir, "/exportedItem.yml"));
+
+    /**
+     * アイテムを既定のファイルにエクスポートする
+     */
+    public void exportItem(ITCItem item){
+        TCDeserializedItemHolder.INSTANCE.saveItem(item, itemExportFile);
     }
 }
