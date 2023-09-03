@@ -8,8 +8,9 @@ import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.item.mod.ShortHandModNames;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.codehaus.plexus.util.FileUtils;
+import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.nodes.*;
 
@@ -37,6 +38,10 @@ public enum TCDeserializedItemHolder {
 
     private static final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
 
+    public void clear(){
+        deserializedItems.clear();
+    }
+    
     /**
      * アイテムファイルをアイテムの実体に変換する
      */
@@ -116,6 +121,39 @@ public enum TCDeserializedItemHolder {
                 }
             }
         } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void saveItem(ITCItem item, File file){
+        Map<String, Object> defaultModsMap = new HashMap<>();
+        for (IItemMod<?> defaultMod : item.getDefaultMods()) {
+            String key = ShortHandModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) defaultMod.getClass());
+            String value = gson.toJson(defaultMod.getParam());
+            defaultModsMap.put(key, value);
+        }
+        
+        Map<String, Object> itemInfo = new HashMap<>();
+        itemInfo.put("name", item.getName().content());
+        itemInfo.put("material", item.getMaterial().toString());
+        itemInfo.put("customModelData", item.getCustomModelData());
+        itemInfo.put("defaultMods", defaultModsMap);
+
+        Map<String, Object> itemRoot = new HashMap<>();
+        itemRoot.put(item.getInternalName(), itemInfo);
+
+        // SnakeYAMLの設定をカスタマイズ（オプション）
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK); // フロースタイルを指定
+        Yaml yaml = new Yaml(options);
+
+        // YAMLファイルにデータを書き込む
+        if(!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+        FileUtils.getFile(file.toString());
+        try (FileWriter writer = new FileWriter(file)) {
+            yaml.dump(itemRoot, writer); // マップのデータをYAMLファイルに書き込む
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

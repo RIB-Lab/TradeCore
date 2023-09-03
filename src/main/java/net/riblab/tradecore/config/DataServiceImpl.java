@@ -6,9 +6,11 @@ import de.exlll.configlib.YamlConfigurations;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.base.AttackDamageSpread;
+import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCDeserializedItemHolder;
 import net.riblab.tradecore.item.base.TCItem;
 import net.riblab.tradecore.item.mod.ModDefaultAttackDamageI;
+import net.riblab.tradecore.item.mod.ModDefaultMiningSpeedI;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.codehaus.plexus.util.FileUtils;
@@ -52,12 +54,15 @@ final class DataServiceImpl implements DataService {
      * アイテムデータの保存フォルダ
      */
     private final File itemDir;
+    
+    private final File itemExportDir;
 
     public DataServiceImpl(File dataFolder) {
         saveDir = new File(dataFolder, "/saves");
         currencyDataFile = new File(saveDir, "/currency.json");
         jobsDataFile = new File(saveDir, "/jobs.json");
         itemDir = new File(dataFolder, "items");
+        itemExportDir = new File(dataFolder, "itemexport");
     }
 
     @Override
@@ -101,7 +106,9 @@ final class DataServiceImpl implements DataService {
         return dataInstance;
     }
     
-    private void loadItems(){
+    public void loadItems(){
+        TCDeserializedItemHolder.INSTANCE.clear();
+        
         List<File> itemFiles;
         try {
             itemFiles = FileUtils.getFiles(itemDir,null,null);
@@ -111,8 +118,10 @@ final class DataServiceImpl implements DataService {
         itemFiles.forEach(TCDeserializedItemHolder.INSTANCE::deserialize);
 
         //SAVE TEST
-        TCDeserializedItemHolder.SerializedTCItems items = new TCDeserializedItemHolder.SerializedTCItems();
-        items.getMap().put("nextpage" ,new TCItem(Component.text("次のページ"), Material.ARROW, "nextpage", 1, List.of()));
-        items.getMap().put("cursedHead" ,new TCItem(Component.text("カースドヘッド"), Material.SKELETON_SKULL, "cursedHead", 0, List.of()));
+        saveItem(new TCItem(Component.text("カースドヘッド"), Material.SKELETON_SKULL, "cursedHead", 0, List.of(new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(5, AttackDamageSpread.STONE)))));
+    }
+    
+    public void saveItem(ITCItem item){
+        TCDeserializedItemHolder.INSTANCE.saveItem(item, new File(itemExportDir, "/exportedItem.yml"));
     }
 }

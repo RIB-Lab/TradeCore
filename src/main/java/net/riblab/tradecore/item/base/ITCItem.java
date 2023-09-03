@@ -37,6 +37,8 @@ public interface ITCItem {
      * @return 固有アイテムのテンプレートのコピー
      */
     ItemStack getTemplateItemStack();
+    
+    int getCustomModelData();
 
     /**
      * 固有アイテムの初期値がランダマイズされたItemStackを生成して取得(プレイヤーに渡す用)

@@ -4,6 +4,7 @@ package net.riblab.tradecore.item.base;
 import de.exlll.configlib.Configuration;
 import de.exlll.configlib.Ignore;
 import lombok.Data;
+import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -54,6 +55,7 @@ public class TCItem implements ITCItem {
     /**
      * アイテムのカスタムモデルデータ(0に設定した場合なし)
      */
+    @Getter
     private int customModelData = 0;
 
     /**
