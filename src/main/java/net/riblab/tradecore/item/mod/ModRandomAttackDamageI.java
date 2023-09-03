@@ -2,12 +2,12 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IAttackDamageModifier;
 
-public class ModAttackDamageI extends ItemMod<Integer> implements IAttackDamageModifier {
+public class ModRandomAttackDamageI extends ItemMod<Integer> implements IAttackDamageModifier {
 
     /**
      * @param level　追加したいダメージの100倍
      */
-    public ModAttackDamageI(Integer level) {
+    public ModRandomAttackDamageI(Integer level) {
         super(level);
     }
 

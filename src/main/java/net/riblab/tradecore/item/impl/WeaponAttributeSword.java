@@ -18,19 +18,9 @@ public class WeaponAttributeSword implements IWeaponAttributeMelee {
     @Getter
     private final double attackSpeed = -2.7d;
 
-    /**
-     * 攻撃の威力。
-     */
-    @Getter
-    private final double baseAttackDamage;
-
     private final double reach = 3;
 
     private final double angle = 90;
-
-    public WeaponAttributeSword(double baseAttackDamage) {
-        this.baseAttackDamage = baseAttackDamage;
-    }
     
     @Override
     public boolean attack(Player player, double damage) {

@@ -18,19 +18,9 @@ public class WeaponAttributeSpear implements IWeaponAttributeMelee {
     @Getter
     private final double attackSpeed = -3.2d;
 
-    /**
-     * 攻撃の威力。
-     */
-    @Getter
-    private final double baseAttackDamage;
-
     private final double reach = 5;
 
     private final double angle = 30;
-
-    public WeaponAttributeSpear(double baseAttackDamage) {
-        this.baseAttackDamage = baseAttackDamage;
-    }
     
     @Override
     public boolean attack(Player player, double damage) {

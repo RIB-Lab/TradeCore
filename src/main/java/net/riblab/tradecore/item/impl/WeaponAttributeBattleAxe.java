@@ -18,16 +18,6 @@ public class WeaponAttributeBattleAxe implements IWeaponAttributeMelee {
     @Getter
     private final double attackSpeed = -3.6d;
 
-    /**
-     * 攻撃の威力。
-     */
-    @Getter
-    private final double baseAttackDamage;
-
-    public WeaponAttributeBattleAxe(double baseAttackDamage) {
-        this.baseAttackDamage = baseAttackDamage;
-    }
-
     @Override
     public boolean attack(Player player, double damage) {
         boolean isHit = false;

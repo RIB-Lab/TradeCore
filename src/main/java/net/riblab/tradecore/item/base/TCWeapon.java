@@ -7,7 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
-import net.riblab.tradecore.item.mod.ModAttackDamageI;
+import net.riblab.tradecore.item.mod.ModRandomAttackDamageI;
 import net.riblab.tradecore.modifier.IRandomItemModCreator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -20,40 +20,19 @@ public class TCWeapon extends TCItem implements ITCWeapon {
 
     @Getter
     private final IWeaponAttribute attribute;
-    
-    @Getter
-    private final AttackDamageSpread attackDamageSpread;
 
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, List<IItemMod<?>> defaultMods, IWeaponAttribute attribute, AttackDamageSpread attackDamageSpread) {
+    public TCWeapon(TextComponent name, Material material, String internalName, int customModelData, List<IItemMod<?>> defaultMods, IWeaponAttribute attribute) {
         super(name, material, internalName, customModelData, defaultMods);
         this.attribute = attribute;
-        this.attackDamageSpread = attackDamageSpread;
     }
 
 
     @Override
     protected @Nonnull ItemCreator getTemplate() {
         return super.getTemplate().setAttackSpeedAttr(attribute.getAttackSpeed());
-    }
-
-    @Override
-    public @Nonnull ItemStack getItemStack() {
-        double attackDamage = attackDamageSpread.getRandomDamage(attribute.getBaseAttackDamage());
-
-        IRandomItemModCreator mod = (IRandomItemModCreator) getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IRandomItemModCreator).findFirst().orElse(null);
-        //TODO:randomModsがなかった時の処理
-        List<IItemMod<?>> randomMods = new ArrayList<>();
-        randomMods = mod.apply(randomMods, randomMods);
-        List<IItemMod<?>> initMods = new ArrayList<>();
-        initMods.add(new ModAttackDamageI((int)(attackDamage * 100)));
-        initMods.addAll(randomMods);
-
-        return new ItemCreator(getTemplate().create())
-                .setLores(getLore(initMods))
-                .writeItemRandomMods(initMods).create();
     }
 
 

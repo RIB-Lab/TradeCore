@@ -40,7 +40,7 @@ public enum TCItems {
     WOODEN_SHOVEL(new TCItem(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.SHOVEL, 0)), new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
     WOODEN_PICKAXE(new TCItem(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.PICKAXE, 0)), new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
     WOODEN_HOE(new TCItem(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.HOE, 0)), new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
-    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, List.of(new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)), new WeaponAttributeSword(3), AttackDamageSpread.WOOD)),
+    WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, List.of(new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(3, AttackDamageSpread.WOOD))), new WeaponAttributeSword())),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1, new ArrayList<>())),
     DUST(new TCItem(Component.text("塵"), Material.DIRT, "dust", 1, List.of(new ModSellPriceI(0.04d)))),
     MUD(new TCItem(Component.text("泥"), Material.DIRT, "mud", 2, List.of(new ModSellPriceI(0.04d)))),
@@ -61,10 +61,10 @@ public enum TCItems {
 
     //石器時代
     ROUND_STONE(new TCItem(Component.text("丸い石"), Material.COBBLESTONE, "round_stone", 6, List.of(new ModSellPriceI(0.10d)))),
-    STONE_SWORD(new TCWeapon(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)), new WeaponAttributeSword(5), AttackDamageSpread.STONE)),
-    STONE_SPEAR(new TCWeapon(Component.text("石の槍"), Material.STONE_SWORD, "stone_spear", 1, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)), new WeaponAttributeSpear(3.5), AttackDamageSpread.STONE)),
-    STONE_DAGGER(new TCWeapon(Component.text("石の短剣"), Material.STONE_SWORD, "stone_dagger", 2, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)), new WeaponAttributeDagger(4), AttackDamageSpread.STONE)),
-    STONE_BATTLEAXE(new TCWeapon(Component.text("石の大斧"), Material.STONE_SWORD, "stone_battleaxe", 3, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)), new WeaponAttributeBattleAxe(8), AttackDamageSpread.STONE)),
+    STONE_SWORD(new TCWeapon(Component.text("石の剣"), Material.STONE_SWORD, "stone_sword", 0, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(5, AttackDamageSpread.STONE))), new WeaponAttributeSword())),
+    STONE_SPEAR(new TCWeapon(Component.text("石の槍"), Material.STONE_SWORD, "stone_spear", 1, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(3.5, AttackDamageSpread.STONE))), new WeaponAttributeSpear())),
+    STONE_DAGGER(new TCWeapon(Component.text("石の短剣"), Material.STONE_SWORD, "stone_dagger", 2, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(4, AttackDamageSpread.STONE))), new WeaponAttributeDagger())),
+    STONE_BATTLEAXE(new TCWeapon(Component.text("石の大斧"), Material.STONE_SWORD, "stone_battleaxe", 3, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(8, AttackDamageSpread.STONE))), new WeaponAttributeBattleAxe())),
     FUEL_BALL(new TCItem(Component.text("燃料玉"), Material.HAY_BLOCK, "fuel_ball", 1, List.of(new ModSellPriceI(0.10d)))),
     STONE_HELMET(new TCItem(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
     STONE_CHESTPLATE(new TCItem(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
@@ -91,7 +91,7 @@ public enum TCItems {
     //鉄器時代
     REINFORCED_STICK(new TCItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, List.of(new ModSellPriceI(0.10d)))),
     REINFORCED_WALKING_STICK(new TCItem(Component.text("強化歩行杖"), Material.STICK, "reinforced _walking_stick", 0, List.of(new ModWalkSpeedI(6)))),
-    BASIC_BOW(new TCWeapon(Component.text("普通の弓"), Material.BOW, "basic_bow", 0, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE)), new WeaponAttributeBow(1, 4), AttackDamageSpread.IRON)),
+    BASIC_BOW(new TCWeapon(Component.text("普通の弓"), Material.BOW, "basic_bow", 0, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(4, AttackDamageSpread.IRON))), new WeaponAttributeBow())),
 
     //店売り限定
     EMERALD_HELMET(new TCItem(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", 0, List.of(new ModCustomArmor("emerald"), new ModReduceCraftCostI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),

@@ -18,17 +18,7 @@ public class WeaponAttributeDagger implements IWeaponAttributeMelee {
     @Getter
     private final double attackSpeed = -1.5d;
 
-    /**
-     * 攻撃の威力。
-     */
-    @Getter
-    private final double baseAttackDamage;
-
     private final double angle = 60;
-
-    public WeaponAttributeDagger(double baseAttackDamage) {
-        this.baseAttackDamage = baseAttackDamage;
-    }
     
     @Override
     public boolean attack(Player player, double damage) {

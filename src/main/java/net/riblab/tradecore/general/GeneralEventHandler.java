@@ -149,7 +149,7 @@ public final class GeneralEventHandler {
     }
 
     /**
-     * 宙に向かって武器を振ったとき
+     * 宙に向かって攻撃力のあるアイテムを振ったとき
      */
     public void swingWeapon(PlayerInteractEvent event) {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)
@@ -162,13 +162,16 @@ public final class GeneralEventHandler {
             return;
 
         ITCItem itcItem = TCItems.toTCItem(event.getItem());
-        if (itcItem instanceof ITCWeapon weapon) {
+        if(itcItem == null)
+            return;
+
+        IItemMod<?> damageMod = new ItemCreator(event.getItem()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
+        if (damageMod != null && itcItem instanceof ITCWeapon weapon) { //武器で攻撃
             event.setCancelled(true);
             
-            IItemMod<?> damageMod = new ItemCreator(event.getItem()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
-            double damage = damageMod != null ? ((Integer)damageMod.getParam()).doubleValue() / 100 : weapon.getAttribute().getBaseAttackDamage();
+            double damage = ((Integer)damageMod.getParam()).doubleValue() / 100;
             
-            if (weapon.getAttribute().attack(event.getPlayer(), damage)) {
+            if (weapon.getAttribute().attack(event.getPlayer(), damage)) { //TODO:Attributeをmod化
                 ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(event.getPlayer().getInventory().getItemInMainHand(), 1);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
             }
@@ -225,15 +228,17 @@ public final class GeneralEventHandler {
 
             ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(player.getInventory().getItemInMainHand(), 1);
             player.getInventory().setItemInMainHand(newItemStack);
+            return;
         }
 
-        if (item instanceof ITCWeapon weapon) { //武器で攻撃
+        IItemMod<?> damageMod = new ItemCreator(player.getInventory().getItemInMainHand()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
+        if (damageMod != null && item instanceof ITCWeapon weapon) { //武器で攻撃
             event.setCancelled(true);
             if (player.getAttackCooldown() != 1)
                 return;
 
-            IItemMod<?> damageMod = new ItemCreator(player.getInventory().getItemInMainHand()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
-            double damage = damageMod != null ? ((Integer)damageMod.getParam()).doubleValue() / 100 : weapon.getAttribute().getBaseAttackDamage();
+
+            double damage = ((Integer)damageMod.getParam()).doubleValue() / 100;
 
             if (weapon.getAttribute().attack(player, damage)) {
                 ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(player.getInventory().getItemInMainHand(), 1);

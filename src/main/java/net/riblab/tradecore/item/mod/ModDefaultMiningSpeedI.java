@@ -5,6 +5,9 @@ import net.riblab.tradecore.modifier.IRandomItemModCreator;
 
 import java.util.List;
 
+/**
+ * アイテムが生成されたときのランダム採掘速度を決めるmod
+ */
 public class ModDefaultMiningSpeedI extends ItemMod<MiningSpeedTable> implements IRandomItemModCreator {
     public ModDefaultMiningSpeedI(MiningSpeedTable param) {
         super(param);

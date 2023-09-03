@@ -14,23 +14,12 @@ public class WeaponAttributeBow implements IWeaponAttribute {
      * 攻撃速度。逆数がそのままクールダウンになる
      */
     @Getter
-    private final double attackSpeed;
-
-    /**
-     * 撃つ矢の威力。
-     */
-    @Getter
-    private final double baseAttackDamage;
+    private final double attackSpeed = 1;
 
     /**
      * 矢のスピード
      */
     private final double force = 3;
-
-    public WeaponAttributeBow(double attackSpeed, double baseAttackDamage) {
-        this.attackSpeed = attackSpeed;
-        this.baseAttackDamage = baseAttackDamage;
-    }
     
     private double getAttackCooldown(){
         return 1 / attackSpeed;
