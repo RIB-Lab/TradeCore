@@ -94,6 +94,7 @@ public class TCItem implements ITCItem {
     protected @Nonnull ItemCreator getTemplate() {
         ItemStack template = new ItemCreator(material)
                 .setName(name.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
+                .setLores(getDefaultModsLore())
                 .setStrNBT(NBTTagNames.ITEMID.get(), internalName)
                 .hideEnchantment()
                 .setCustomModelData(customModelData)
@@ -166,8 +167,8 @@ public class TCItem implements ITCItem {
     /**
      * ツールに元からあるmodの説明文を取得する
      */
-    public List<TextComponent> getDefaultModsLore(){
-        List<TextComponent> texts = new ArrayList<>();
+    public List<Component> getDefaultModsLore(){
+        List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> defaultMod : getDefaultMods()) {
             if(defaultMod.getLore() == null)
@@ -182,8 +183,8 @@ public class TCItem implements ITCItem {
     /**
      * ツールに付与されているランダムmodの説明文を取得する
      */
-    public List<TextComponent> getRandomModsLore(List<IItemMod<?>> randomMods){
-        List<TextComponent> texts = new ArrayList<>();
+    public List<Component> getRandomModsLore(List<IItemMod<?>> randomMods){
+        List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> randomMod : randomMods) {
             if(randomMod.getLore() != null)

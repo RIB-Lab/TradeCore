@@ -43,9 +43,7 @@ public interface ITCItem {
      * 
      * @return 固有アイテムの新しい実体
      */
-    default ItemStack getItemStack(){
-        return getTemplateItemStack();
-    };
+    ItemStack getItemStack();
 
     /**
      * 固有アイテムの内部名称を取得
