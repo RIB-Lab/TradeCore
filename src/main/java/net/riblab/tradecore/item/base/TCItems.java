@@ -9,7 +9,6 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.dungeon.DungeonNames;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.impl.*;
 import net.riblab.tradecore.item.mod.*;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
@@ -55,7 +54,7 @@ public enum TCItems {
     BARK_CHESTPLATE(new TCItem(Component.text("樹皮のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "bark_chestplate", 0, List.of(new ModCustomArmor("bark"),new ModAddArmorI(8), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
     BARK_LEGGINGS(new TCItem(Component.text("樹皮のレギンス"), Material.CHAINMAIL_LEGGINGS, "bark_leggings", 0, List.of(new ModCustomArmor("bark"), new ModAddArmorI(8), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
     BARK_BOOTS(new TCItem(Component.text("樹皮のブーツ"), Material.CHAINMAIL_BOOTS, "bark_boots", 0, List.of(new ModCustomArmor("bark"), new ModAddArmorI(8),new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
-    WALKING_STICK(new TCItem(Component.text("転ばぬ先の杖"), Material.STICK, "walking_stick", 0, List.of(new ModWalkSpeedI(4)))),
+    WALKING_STICK(new TCItem(Component.text("転ばぬ先の杖"), Material.STICK, "walking_stick", 0, List.of(new ModAddWalkSpeedI(4)))),
     VANILLA_PLANK(new TCItem(Component.text("木材"), Material.OAK_PLANKS, "vanilla_plank", 0, List.of(new ModPlaceableI(true)))),
     VANILLA_CHEST(new TCItem(Component.text("チェスト"), Material.CHEST, "vanilla_plank", 0, List.of(new ModPlaceableI(true)))),
 
@@ -66,10 +65,10 @@ public enum TCItems {
     STONE_DAGGER(new TCItem(Component.text("石の短剣"), Material.STONE_SWORD, "stone_dagger", 2, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE),new ModWeaponAttribute(ModWeaponAttribute.WeaponType.DAGGER), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(4, AttackDamageSpread.STONE))))),
     STONE_BATTLEAXE(new TCItem(Component.text("石の大斧"), Material.STONE_SWORD, "stone_battleaxe", 3, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE),new ModWeaponAttribute(ModWeaponAttribute.WeaponType.BATTLEAXE), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(8, AttackDamageSpread.STONE))))),
     FUEL_BALL(new TCItem(Component.text("燃料玉"), Material.HAY_BLOCK, "fuel_ball", 1, List.of(new ModSellPriceI(0.10d)))),
-    STONE_HELMET(new TCItem(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    STONE_CHESTPLATE(new TCItem(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    STONE_LEGGINGS(new TCItem(Component.text("石のレギンス"), Material.CHAINMAIL_LEGGINGS, "stone_leggings", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    STONE_BOOTS(new TCItem(Component.text("石のブーツ"), Material.CHAINMAIL_BOOTS, "stone_boots", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    STONE_HELMET(new TCItem(Component.text("石のヘルメット"), Material.CHAINMAIL_HELMET, "stone_helmet", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModAddWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    STONE_CHESTPLATE(new TCItem(Component.text("石のチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "stone_chestplate", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModAddWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    STONE_LEGGINGS(new TCItem(Component.text("石のレギンス"), Material.CHAINMAIL_LEGGINGS, "stone_leggings", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModAddWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    STONE_BOOTS(new TCItem(Component.text("石のブーツ"), Material.CHAINMAIL_BOOTS, "stone_boots", 0, List.of(new ModCustomArmor("stone"), new ModAddArmorI(16), new ModAddWalkSpeedI(-1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
     ANDESITE_STONE(new TCItem(Component.text("安山石"), Material.COBBLESTONE, "andesite_stone", 3, List.of(new ModSellPriceI(0.10d)))),
     GRANITE_STONE(new TCItem(Component.text("花崗石"), Material.COBBLESTONE, "granite_stone", 4, List.of(new ModSellPriceI(0.10d)))),
     DIORITE_STONE(new TCItem(Component.text("閃緑石"), Material.COBBLESTONE, "diorite_stone", 5, List.of(new ModSellPriceI(0.10d)))),
@@ -84,25 +83,25 @@ public enum TCItems {
     GOLD_SHARD(new TCItem(Component.text("金の欠片"), Material.GOLD_NUGGET, "gold_shard", 0, List.of(new ModSellPriceI(0.10d)))),
     IRON_INGOT(new TCItem(Component.text("鉄インゴット"), Material.IRON_INGOT, "iron_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
     GOLD_INGOT(new TCItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
-    MAP_STONEROOM(new TCItem(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, List.of(new ModEnterDungeonI(DungeonNames.STONEROOM)))),
+    MAP_STONEROOM(new TCItem(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, List.of(new ModDungeonMapI(DungeonNames.STONEROOM)))),
     FURNACE(new TCItem(Component.text("かまど"), Material.FURNACE, "vanilla_furnace", 0, List.of(new ModPlaceableI(true)))),
     TORCH(new TCItem(Component.text("松明"), Material.TORCH, "vanilla_torch", 0, List.of(new ModPlaceableI(true)))),
 
     //鉄器時代
     REINFORCED_STICK(new TCItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, List.of(new ModSellPriceI(0.10d)))),
-    REINFORCED_WALKING_STICK(new TCItem(Component.text("強化歩行杖"), Material.STICK, "reinforced _walking_stick", 0, List.of(new ModWalkSpeedI(6)))),
+    REINFORCED_WALKING_STICK(new TCItem(Component.text("強化歩行杖"), Material.STICK, "reinforced _walking_stick", 0, List.of(new ModAddWalkSpeedI(6)))),
     BASIC_BOW(new TCItem(Component.text("普通の弓"), Material.BOW, "basic_bow", 0, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE),new ModWeaponAttribute(ModWeaponAttribute.WeaponType.BOW), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(4, AttackDamageSpread.IRON))))),
 
     //店売り限定
-    EMERALD_HELMET(new TCItem(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", 0, List.of(new ModCustomArmor("emerald"), new ModReduceCraftCostI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    EMERALD_CHESTPLATE(new TCItem(Component.text("エメラルドのチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "emerald_chestplate", 0, List.of(new ModCustomArmor("emerald"), new ModReduceCraftCostI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    EMERALD_LEGGINGS(new TCItem(Component.text("エメラルドのレギンス"), Material.CHAINMAIL_LEGGINGS, "emerald_leggings", 0, List.of(new ModCustomArmor("emerald"), new ModReduceCraftCostI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    EMERALD_BOOTS(new TCItem(Component.text("エメラルドのブーツ"), Material.CHAINMAIL_BOOTS, "emerald_boots", 0, List.of(new ModCustomArmor("emerald"), new ModReduceCraftCostI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    WORKER_HELMET(new TCItem(Component.text("作業ヘルメット"), Material.CHAINMAIL_HELMET, "worker_helmet", 0, List.of(new ModCustomArmor("template"), new ModZeroHandAttackDamageI(-1), new ModWalkSpeedI(-10), new ModResouceChanceI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    WORKER_CHESTPLATE(new TCItem(Component.text("作業チェストプレート"), Material.CHAINMAIL_CHESTPLATE, "worker_chestplate", 0, List.of(new ModCustomArmor("template"), new ModZeroHandAttackDamageI(-1), new ModWalkSpeedI(-10), new ModResouceChanceI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    WORKER_LEGGINGS(new TCItem(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", 0, List.of(new ModCustomArmor("template"), new ModZeroHandAttackDamageI(-1), new ModWalkSpeedI(-10), new ModResouceChanceI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    WORKER_BOOTS(new TCItem(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", 0, List.of(new ModCustomArmor("template"), new ModZeroHandAttackDamageI(-1), new ModWalkSpeedI(-10), new ModResouceChanceI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    WATER_HELMET(new TCItem(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", 0, List.of(new ModCustomArmor("template"), new ModWaterBreathI(1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    EMERALD_HELMET(new TCItem(Component.text("エメラルドのヘルメット"), Material.CHAINMAIL_HELMET, "emerald_helmet", 0, List.of(new ModCustomArmor("emerald"), new ModAddCraftCostI(-3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    EMERALD_CHESTPLATE(new TCItem(Component.text("エメラルドのチェストプレート"), Material.CHAINMAIL_CHESTPLATE, "emerald_chestplate", 0, List.of(new ModCustomArmor("emerald"), new ModAddCraftCostI(-3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    EMERALD_LEGGINGS(new TCItem(Component.text("エメラルドのレギンス"), Material.CHAINMAIL_LEGGINGS, "emerald_leggings", 0, List.of(new ModCustomArmor("emerald"), new ModAddCraftCostI(-3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    EMERALD_BOOTS(new TCItem(Component.text("エメラルドのブーツ"), Material.CHAINMAIL_BOOTS, "emerald_boots", 0, List.of(new ModCustomArmor("emerald"), new ModAddCraftCostI(-3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    WORKER_HELMET(new TCItem(Component.text("作業ヘルメット"), Material.CHAINMAIL_HELMET, "worker_helmet", 0, List.of(new ModCustomArmor("template"), new ModZeroHandAttackDamageI(-1), new ModAddWalkSpeedI(-10), new ModAddResouceChanceI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    WORKER_CHESTPLATE(new TCItem(Component.text("作業チェストプレート"), Material.CHAINMAIL_CHESTPLATE, "worker_chestplate", 0, List.of(new ModCustomArmor("template"), new ModZeroHandAttackDamageI(-1), new ModAddWalkSpeedI(-10), new ModAddResouceChanceI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    WORKER_LEGGINGS(new TCItem(Component.text("作業レギンス"), Material.CHAINMAIL_LEGGINGS, "worker_leggings", 0, List.of(new ModCustomArmor("template"), new ModZeroHandAttackDamageI(-1), new ModAddWalkSpeedI(-10), new ModAddResouceChanceI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    WORKER_BOOTS(new TCItem(Component.text("作業ブーツ"), Material.CHAINMAIL_BOOTS, "worker_boots", 0, List.of(new ModCustomArmor("template"), new ModZeroHandAttackDamageI(-1), new ModAddWalkSpeedI(-10), new ModAddResouceChanceI(3), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    WATER_HELMET(new TCItem(Component.text("水気を帯びたヘルメット"), Material.CHAINMAIL_HELMET, "water_helmet", 0, List.of(new ModCustomArmor("template"), new ModAddWaterBreathI(1), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
 
     //その他
     DESTRUCTORS_WAND(new TCItem(Component.text("メインワールド高速破壊杖"), Material.STICK, "destructors_wand", 1, List.of())),

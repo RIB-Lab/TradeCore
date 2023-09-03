@@ -2,12 +2,12 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IWalkSpeedModifier;
 
-public class ModWalkSpeedI extends ItemMod<Integer> implements IWalkSpeedModifier {
+public class ModAddWalkSpeedI extends ItemMod<Integer> implements IWalkSpeedModifier {
 
     /**
      * @param level 何パーセント歩行速度を上昇/下降させるか
      */
-    public ModWalkSpeedI(Integer level) {
+    public ModAddWalkSpeedI(Integer level) {
         super(level);
     }
 

@@ -5,9 +5,9 @@ import net.riblab.tradecore.modifier.IResourceChanceModifier;
 /**
  * アイテムのドロップ率を上げるmod
  */
-public class ModResouceChanceI extends ItemMod<Integer> implements IResourceChanceModifier {
+public class ModAddResouceChanceI extends ItemMod<Integer> implements IResourceChanceModifier {
 
-    public ModResouceChanceI(Integer level) {
+    public ModAddResouceChanceI(Integer level) {
         super(level);
     }
 

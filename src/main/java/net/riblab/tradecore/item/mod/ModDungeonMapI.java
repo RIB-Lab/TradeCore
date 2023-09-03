@@ -3,8 +3,8 @@ package net.riblab.tradecore.item.mod;
 import net.riblab.tradecore.dungeon.DungeonNames;
 import net.riblab.tradecore.modifier.IEnterDungeonModifier;
 
-public class ModEnterDungeonI extends ItemMod<DungeonNames> implements IEnterDungeonModifier {
-    public ModEnterDungeonI(DungeonNames name) {
+public class ModDungeonMapI extends ItemMod<DungeonNames> implements IEnterDungeonModifier {
+    public ModDungeonMapI(DungeonNames name) {
         super(name);
     }
 
