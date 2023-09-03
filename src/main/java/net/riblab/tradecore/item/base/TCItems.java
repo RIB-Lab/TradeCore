@@ -12,6 +12,7 @@ import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.impl.*;
 import net.riblab.tradecore.item.mod.*;
 import net.riblab.tradecore.entity.mob.TCMobs;
+import net.riblab.tradecore.modifier.IToolStatsModifier;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,8 +27,8 @@ import java.util.Map;
  */
 public enum TCItems {
     //原始時代
-    PEBBLE(new TCTool(Component.text("小石"), Material.PAPER, "pebble", 1, TCTool.ToolType.AXE, 0, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.PEBBLE),new ModSellPriceI(0.01d), new ModDefaultMaxDurabilityI(DurabilityTable.INFINITE)))),
-    HATCHET(new TCTool(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, TCTool.ToolType.AXE, 1, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModDefaultMaxDurabilityI(DurabilityTable.HATCHET)))),
+    PEBBLE(new TCItem(Component.text("小石"), Material.PAPER, "pebble", 1, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 0)), new ModDefaultMiningSpeedI(MiningSpeedTable.PEBBLE),new ModSellPriceI(0.01d), new ModDefaultMaxDurabilityI(DurabilityTable.INFINITE)))),
+    HATCHET(new TCItem(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 1)), new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModDefaultMaxDurabilityI(DurabilityTable.HATCHET)))),
     STICK(new TCItem(Component.text("木の棒"), Material.STICK, "stick", 0, List.of(new ModSellPriceI(0.02d)))),
     BARK(new TCItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1, List.of(new ModSellPriceI(0.02d)))),
     TWIG(new TCItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3, List.of(new ModSellPriceI(0.02d)))),
@@ -35,10 +36,10 @@ public enum TCItems {
     DRYGRASS(new TCItem(Component.text("干し草"), Material.PAPER, "drygrass", 2, List.of(new ModSellPriceI(0.01d)))),
 
     //原木時代
-    WOODEN_AXE(new TCTool(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, TCTool.ToolType.AXE, 2, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
-    WOODEN_SHOVEL(new TCTool(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, TCTool.ToolType.SHOVEL, 0, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
-    WOODEN_PICKAXE(new TCTool(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, TCTool.ToolType.PICKAXE, 0, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
-    WOODEN_HOE(new TCTool(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, TCTool.ToolType.HOE, 0, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
+    WOODEN_AXE(new TCItem(Component.text("木の斧"), Material.WOODEN_AXE, "wooden_axe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 2)), new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
+    WOODEN_SHOVEL(new TCItem(Component.text("木のシャベル"), Material.WOODEN_SHOVEL, "wooden_shovel", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.SHOVEL, 0)), new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
+    WOODEN_PICKAXE(new TCItem(Component.text("木のツルハシ"), Material.WOODEN_PICKAXE, "wooden_pickaxe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.PICKAXE, 0)), new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
+    WOODEN_HOE(new TCItem(Component.text("木のクワ"), Material.WOODEN_HOE, "wooden_hoe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.HOE, 0)), new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)))),
     WOODEN_SWORD(new TCWeapon(Component.text("木の剣"), Material.WOODEN_SWORD, "wooden_sword", 0, List.of(new ModEcologyI(1), new ModDefaultMaxDurabilityI(DurabilityTable.WOODENAGE)), new WeaponAttributeSword(3), AttackDamageSpread.WOOD)),
     COIN(new TCItem(Component.text("工費："), Material.GOLD_INGOT, "coin", 1, new ArrayList<>())),
     DUST(new TCItem(Component.text("塵"), Material.DIRT, "dust", 1, List.of(new ModSellPriceI(0.04d)))),
@@ -107,18 +108,18 @@ public enum TCItems {
     MESI((new TCItem(Component.text("COMP"), Material.COOKED_BEEF, "meshi", 0, List.of()))),
 
     //モブ召喚系は他のアイテムを参照するので必ず最後に配置
-    STONE_AXE(new TCTool(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, TCTool.ToolType.AXE, 3, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.STONEMADE),new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))))),
-    STONE_SHOVEL(new TCTool(Component.text("石のシャベル"), Material.STONE_SHOVEL, "stone_shovel", 0, TCTool.ToolType.SHOVEL, 1, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.STONEMADE), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    STONE_PICKAXE(new TCTool(Component.text("石のツルハシ"), Material.STONE_PICKAXE, "stone_pickaxe", 0, TCTool.ToolType.PICKAXE, 1, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.STONEMADE), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE),new ModMonsterSpawnI(Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))))),
-    STONE_HOE(new TCTool(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, TCTool.ToolType.HOE, 1, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.STONEMADE), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
-    IRON_AXE(new TCTool(Component.text("鉄の斧"), Material.IRON_AXE, "iron_axe", 0, TCTool.ToolType.AXE, 4, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))))),
-    IRON_SHOVEL(new TCTool(Component.text("鉄のシャベル"), Material.IRON_SHOVEL, "iron_shovel", 0, TCTool.ToolType.SHOVEL, 2, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE)))),
-    IRON_PICKAXE(new TCTool(Component.text("鉄のツルハシ"), Material.IRON_PICKAXE, "iron_pickaxe", 0, TCTool.ToolType.PICKAXE, 2, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))))),
-    IRON_HOE(new TCTool(Component.text("鉄のクワ"), Material.IRON_HOE, "iron_hoe", 0, TCTool.ToolType.HOE, 2, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE)))),
-    GOLDEN_AXE(new TCTool(Component.text("金の斧"), Material.GOLDEN_AXE, "golden_axe", 0, TCTool.ToolType.AXE, 4, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.GOLDMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))))),
-    GOLDEN_SHOVEL(new TCTool(Component.text("金のシャベル"), Material.GOLDEN_SHOVEL, "golden_shovel", 0, TCTool.ToolType.SHOVEL, 2, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE)))),
-    GOLDEN_PICKAXE(new TCTool(Component.text("金のツルハシ"), Material.GOLDEN_PICKAXE, "golden_pickaxe", 0, TCTool.ToolType.PICKAXE, 2, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))))),
-    GOLDEN_HOE(new TCTool(Component.text("金のクワ"), Material.GOLDEN_HOE, "golden_hoe", 0, TCTool.ToolType.HOE, 2, List.of(new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE))));
+    STONE_AXE(new TCItem(Component.text("石の斧"), Material.STONE_AXE, "stone_axe", 0, List.of(new ModToolStatsI( new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 3)),new ModDefaultMiningSpeedI(MiningSpeedTable.STONEMADE),new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))))),
+    STONE_SHOVEL(new TCItem(Component.text("石のシャベル"), Material.STONE_SHOVEL, "stone_shovel", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.SHOVEL, 1)), new ModDefaultMiningSpeedI(MiningSpeedTable.STONEMADE), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    STONE_PICKAXE(new TCItem(Component.text("石のツルハシ"), Material.STONE_PICKAXE, "stone_pickaxe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.PICKAXE, 1)), new ModDefaultMiningSpeedI(MiningSpeedTable.STONEMADE), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE),new ModMonsterSpawnI(Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))))),
+    STONE_HOE(new TCItem(Component.text("石のクワ"), Material.STONE_HOE, "stone_hoe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.HOE, 1)), new ModDefaultMiningSpeedI(MiningSpeedTable.STONEMADE), new ModDefaultMaxDurabilityI(DurabilityTable.STONEAGE)))),
+    IRON_AXE(new TCItem(Component.text("鉄の斧"), Material.IRON_AXE, "iron_axe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 4)),  new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))))),
+    IRON_SHOVEL(new TCItem(Component.text("鉄のシャベル"), Material.IRON_SHOVEL, "iron_shovel", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.SHOVEL, 2)), new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE)))),
+    IRON_PICKAXE(new TCItem(Component.text("鉄のツルハシ"), Material.IRON_PICKAXE, "iron_pickaxe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.PICKAXE, 2)), new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))))),
+    IRON_HOE(new TCItem(Component.text("鉄のクワ"), Material.IRON_HOE, "iron_hoe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.HOE, 2)),new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE)))),
+    GOLDEN_AXE(new TCItem(Component.text("金の斧"), Material.GOLDEN_AXE, "golden_axe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 4)),new ModDefaultMiningSpeedI(MiningSpeedTable.GOLDMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_TREANT.get(), 0.05f))))),
+    GOLDEN_SHOVEL(new TCItem(Component.text("金のシャベル"), Material.GOLDEN_SHOVEL, "golden_shovel", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.SHOVEL, 2)),new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE)))),
+    GOLDEN_PICKAXE(new TCItem(Component.text("金のツルハシ"), Material.GOLDEN_PICKAXE, "golden_pickaxe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.PICKAXE, 2)),new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE), new ModMonsterSpawnI(Map.of(TCMobs.BASIC_SILVERFISH.get(), 0.01f))))),
+    GOLDEN_HOE(new TCItem(Component.text("金のクワ"), Material.GOLDEN_HOE, "golden_hoe", 0, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.HOE, 2)),new ModDefaultMiningSpeedI(MiningSpeedTable.IRONMADE), new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE))));
 
     private final ITCItem tcItem;
 

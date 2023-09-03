@@ -36,6 +36,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -209,7 +210,13 @@ public final class GeneralEventHandler {
         }
 
         ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-        if (item instanceof TCTool) { //ツールで攻撃
+        if(item == null){
+            return;
+        }
+
+        List<IItemMod<?>> mods = item.getDefaultMods();
+        IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
+        if (toolMod != null) { //ツールで攻撃
             boolean canhitWithTool = Utils.apply(player, false, ICanHitWithToolModifier.class);
             if (!canhitWithTool) {
                 event.setCancelled(true);

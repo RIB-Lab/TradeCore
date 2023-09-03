@@ -1,22 +1,18 @@
 package net.riblab.tradecore.general;
 
-import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.PlayerItemModService;
-import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.ITCTool;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.modifier.IModifier;
-import net.riblab.tradecore.modifier.IResourceChanceModifier;
+import net.riblab.tradecore.modifier.IToolStatsModifier;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -207,7 +203,7 @@ public final class Utils {
         TCFurnaceRecipes.values();
 
         JobType.values();
-        ITCTool.ToolType.values();
+        IToolStatsModifier.ToolType.values();
     }
 
     /**

@@ -1,20 +1,21 @@
-package net.riblab.tradecore.item.base;
+package net.riblab.tradecore.modifier;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import net.riblab.tradecore.job.data.JobType;
-import org.bukkit.inventory.ItemStack;
 
-public interface ITCTool {
+/**
+ * アイテムのツールとしての側面を定義するmod
+ */
+public interface IToolStatsModifier extends IModifier<IToolStatsModifier.ToolStats>{
 
-    /**
-     * ツールの種類
-     */
-    ToolType getToolType();
-
-    /**
-     * ツールの採掘レベル
-     */
-    int getHarvestLevel();
+    @Data
+    @AllArgsConstructor
+    class ToolStats{
+        ToolType toolType;
+        int harvestLevel;
+    }
 
     /**
      * ツールの種類
