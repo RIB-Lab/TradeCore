@@ -1,7 +1,6 @@
 package net.riblab.tradecore.item.impl;
 
 import lombok.Getter;
-import net.riblab.tradecore.general.IWeaponAttributeMelee;
 import net.riblab.tradecore.entity.mob.MobUtils;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Mob;
@@ -10,18 +9,11 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 
-public class WeaponAttributeDagger implements IWeaponAttributeMelee {
+public class WeaponAttributeDagger {
 
-    /**
-     * 攻撃速度。4が既定値なので減らしたい場合はそこから引く。
-     */
-    @Getter
-    private final double attackSpeed = -1.5d;
-
-    private final double angle = 60;
+    private static final double angle = 60;
     
-    @Override
-    public boolean attack(Player player, double damage) {
+    public static boolean attack(Player player, double damage) {
         boolean isHit = false;
         List<Entity> nearbyEntities = player.getNearbyEntities(1.5d, 1.5d, 1.5d);
         for (Entity nearbyEntity : nearbyEntities) {

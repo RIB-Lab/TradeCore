@@ -11,11 +11,10 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.item.mod.ModWeaponAttribute;
 import net.riblab.tradecore.modifier.IItemTemplateModifier;
 import net.riblab.tradecore.modifier.IRandomItemModCreator;
 import org.bukkit.Material;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -92,21 +91,25 @@ public class TCItem implements ITCItem {
      * @return 作られたアイテムの型の実体
      */
     protected @Nonnull ItemCreator getTemplate() {
-        ItemStack template = new ItemCreator(material)
+        ItemCreator template = new ItemCreator(material)
                 .setName(name.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
                 .setLores(getDefaultModsLore())
                 .setStrNBT(NBTTagNames.ITEMID.get(), internalName)
                 .hideEnchantment()
                 .setCustomModelData(customModelData)
                 .setUnbreakable(false)
-                .hideAttributes()
-                .create();
+                .hideAttributes();
 
+        ModWeaponAttribute speedMod = (ModWeaponAttribute) getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof ModWeaponAttribute).findFirst().orElse(null);
+        if(speedMod != null)
+            template.setAttackSpeedAttr(speedMod.getParam().getAttackSpeed());//TODO:技術的負債なのでもっと汎用的な処理に変更
+
+        ItemStack templateStack = template.create();
         List<IItemTemplateModifier> mods = getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IItemTemplateModifier).map(iItemMod -> (IItemTemplateModifier) iItemMod).toList();
         for (IItemTemplateModifier mod : mods) {
-            template = mod.apply(template, template);
+            templateStack = mod.apply(templateStack, templateStack);
         }
-        return new ItemCreator(template);
+        return new ItemCreator(templateStack);
     }
 
     @Nonnull

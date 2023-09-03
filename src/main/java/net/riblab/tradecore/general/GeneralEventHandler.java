@@ -165,13 +165,15 @@ public final class GeneralEventHandler {
         if(itcItem == null)
             return;
 
+        IWeaponAttackModifier attackMod = (IWeaponAttackModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
         IItemMod<?> damageMod = new ItemCreator(event.getItem()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
-        if (damageMod != null && itcItem instanceof ITCWeapon weapon) { //武器で攻撃
+        if (damageMod != null && attackMod != null) { //武器で攻撃
             event.setCancelled(true);
             
             double damage = ((Integer)damageMod.getParam()).doubleValue() / 100;
-            
-            if (weapon.getAttribute().attack(event.getPlayer(), damage)) { //TODO:Attributeをmod化
+
+            IWeaponAttackModifier.PackedAttackData data = new IWeaponAttackModifier.PackedAttackData(event.getPlayer(), damage, false);
+            if (attackMod.apply(data, data).isResult()) {
                 ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(event.getPlayer().getInventory().getItemInMainHand(), 1);
                 event.getPlayer().getInventory().setItemInMainHand(newItemStack);
             }
@@ -217,8 +219,8 @@ public final class GeneralEventHandler {
             return;
         }
 
-        List<IItemMod<?>> mods = item.getDefaultMods();
-        IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
+        List<IItemMod<?>> defaultMods = item.getDefaultMods();
+        IToolStatsModifier toolMod = (IToolStatsModifier) defaultMods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (toolMod != null) { //ツールで攻撃
             boolean canhitWithTool = Utils.apply(player, false, ICanHitWithToolModifier.class);
             if (!canhitWithTool) {
@@ -231,16 +233,18 @@ public final class GeneralEventHandler {
             return;
         }
 
+        event.setCancelled(true);
+        
         IItemMod<?> damageMod = new ItemCreator(player.getInventory().getItemInMainHand()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
-        if (damageMod != null && item instanceof ITCWeapon weapon) { //武器で攻撃
-            event.setCancelled(true);
+        IWeaponAttackModifier attackMod = (IWeaponAttackModifier) defaultMods.stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
+        if (damageMod != null && attackMod != null) { //武器で攻撃
             if (player.getAttackCooldown() != 1)
                 return;
-
-
+            
             double damage = ((Integer)damageMod.getParam()).doubleValue() / 100;
 
-            if (weapon.getAttribute().attack(player, damage)) {
+            IWeaponAttackModifier.PackedAttackData data = new IWeaponAttackModifier.PackedAttackData(player, damage, false);
+            if (attackMod.apply(data, data).isResult()) {
                 ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(player.getInventory().getItemInMainHand(), 1);
                 player.getInventory().setItemInMainHand(newItemStack);
             }
