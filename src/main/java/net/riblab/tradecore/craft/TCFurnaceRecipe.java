@@ -14,6 +14,6 @@ import java.util.Map;
  * @param resultAmount 完成品の量
  * @param fuelAmount   レシピを実行するために消費する燃料の量
  */
-record TCFurnaceRecipe(Map<ITCItem, Integer> ingredients, ItemStack result, int resultAmount,
+record TCFurnaceRecipe(Map<ITCItem, Integer> ingredients, ITCItem result, int resultAmount,
                        int fuelAmount) implements ITCFurnaceRecipe {
 }

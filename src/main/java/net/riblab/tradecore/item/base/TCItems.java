@@ -27,8 +27,8 @@ import java.util.Map;
  */
 public enum TCItems {
     //原始時代
-    PEBBLE(new TCItem(Component.text("小石"), Material.PAPER, "pebble", 1, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 0)), new ModDefaultMiningSpeedI(MiningSpeedTable.PEBBLE),new ModSellPriceI(0.01d), new ModDefaultMaxDurabilityI(DurabilityTable.INFINITE)))),
-    HATCHET(new TCItem(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 1)), new ModDefaultMiningSpeedI(MiningSpeedTable.WOODMADE), new ModDefaultMaxDurabilityI(DurabilityTable.HATCHET)))),
+    PEBBLE(new TCItem(Component.text("小石"), Material.PAPER, "pebble", 1, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 0)), new ModDefaultMiningSpeedI(MiningSpeedTable.PEBBLE),new ModSellPriceI(0.01d)))),
+    HATCHET(new TCItem(Component.text("ハチェット"), Material.IRON_AXE, "hatchet", 1, List.of(new ModToolStatsI(new IToolStatsModifier.ToolStats(IToolStatsModifier.ToolType.AXE, 1)), new ModDefaultMiningSpeedI(MiningSpeedTable.HATCHET), new ModDefaultMaxDurabilityI(DurabilityTable.HATCHET)))),
     STICK(new TCItem(Component.text("木の棒"), Material.STICK, "stick", 0, List.of(new ModSellPriceI(0.02d)))),
     BARK(new TCItem(Component.text("樹皮"), Material.OAK_LOG, "bark", 1, List.of(new ModSellPriceI(0.02d)))),
     TWIG(new TCItem(Component.text("小枝"), Material.OAK_LOG, "twig", 3, List.of(new ModSellPriceI(0.02d)))),
@@ -86,6 +86,7 @@ public enum TCItems {
     GOLD_INGOT(new TCItem(Component.text("金インゴット"), Material.GOLD_INGOT, "gold_ingot", 0, List.of(new ModSellPriceI(0.10d)))),
     MAP_STONEROOM(new TCItem(Component.text("石の部屋のマップ"), Material.STONE_BRICKS, "map_stoneroom", 0, List.of(new ModEnterDungeonI(DungeonNames.STONEROOM)))),
     FURNACE(new TCItem(Component.text("かまど"), Material.FURNACE, "vanilla_furnace", 0, List.of(new ModPlaceableI(true)))),
+    TORCH(new TCItem(Component.text("松明"), Material.TORCH, "vanilla_torch", 0, List.of(new ModPlaceableI(true)))),
 
     //鉄器時代
     REINFORCED_STICK(new TCItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, List.of(new ModSellPriceI(0.10d)))),

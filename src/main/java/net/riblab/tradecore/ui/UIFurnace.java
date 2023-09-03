@@ -91,7 +91,7 @@ final class UIFurnace implements IUI {
         gui.setItem(24, nextPageButton);
 
         recipeList.forEach(tcCraftingRecipe -> {
-            ItemStack recipeStack = tcCraftingRecipe.result().clone();
+            ItemStack recipeStack = tcCraftingRecipe.result().getTemplateItemStack();
             GuiItem recipeButton = new GuiItem(recipeStack,
                     event -> open(player, tcCraftingRecipe));
             gui.addItem(recipeButton);
@@ -114,7 +114,7 @@ final class UIFurnace implements IUI {
             } while (!allowedIngredientSlotSet.contains(slot));
         }
 
-        ItemStack resultStack = recipe.result().clone();
+        ItemStack resultStack = recipe.result().getTemplateItemStack();
         Component craftTip = Component.text("<<クリックで精錬>>").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false);
         resultStack = new ItemCreator(resultStack).addLore(craftTip).create();
         resultStack.setAmount(recipe.resultAmount());
@@ -161,7 +161,7 @@ final class UIFurnace implements IUI {
         }
         ItemUtils.tcRemoveItemAnySlot(player.getInventory(), TCItems.FUEL_BALL.get(), recipe.fuelAmount());
 
-        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result());
+        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result().getItemStack());
         if (remains.size() == 0)
             return;
 

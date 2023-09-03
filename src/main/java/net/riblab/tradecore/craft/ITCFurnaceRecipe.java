@@ -11,7 +11,7 @@ public interface ITCFurnaceRecipe {
     Map<ITCItem, Integer> ingredients();
 
     @Nonnull
-    ItemStack result();
+    ITCItem result();
 
     int resultAmount();
 

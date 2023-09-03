@@ -9,7 +9,7 @@ import java.util.Random;
  */
 public enum DurabilityTable {
     INFINITE(-1,-1,-1),
-    HATCHET(8, 10, 12),
+    HATCHET(10, 10, 10), //バニラのクラフトシステムを利用するためプロパティを固定する必要がある
     WOODENAGE(25, 32, 39),
     STONEAGE(108, 128, 148),
     IRONAGE(452, 512, 572);

@@ -5,6 +5,7 @@ import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.PlayerItemModService;
+import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
@@ -94,21 +95,6 @@ public final class Utils {
             }
         }
         jar.close();
-    }
-
-    @ParametersAreNonnullByDefault
-    public static @Nullable ItemStack getRandomItemFromPool(Map<ItemStack, Float> pool) {
-        double randomNumber = new Random().nextFloat();
-        double cumulativeProbability = 0.0;
-
-        for (Map.Entry<ItemStack, Float> entry : pool.entrySet()) {
-            cumulativeProbability += entry.getValue();
-            if (randomNumber < cumulativeProbability) {
-                return entry.getKey();
-            }
-        }
-
-        return null;
     }
 
     /**

@@ -1,6 +1,7 @@
 package net.riblab.tradecore.entity.mob;
 
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.inventory.ItemStack;
@@ -34,5 +35,5 @@ public interface ITCMob {
 
     String getInternalName();
 
-    java.util.Map<ItemStack, Float> getDrops();
+    java.util.Map<ITCItem, Float> getDrops();
 }

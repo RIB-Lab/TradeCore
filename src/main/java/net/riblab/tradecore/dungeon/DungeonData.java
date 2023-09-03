@@ -3,6 +3,7 @@ package net.riblab.tradecore.dungeon;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.riblab.tradecore.entity.mob.ITCMob;
+import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -46,5 +47,5 @@ class DungeonData<T> implements IDungeonData<T> {
     /**
      * 報酬プール
      */
-    private final Map<ItemStack, Float> rewardPool;
+    private final Map<ITCItem, Float> rewardPool;
 }

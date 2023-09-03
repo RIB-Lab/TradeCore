@@ -1,6 +1,7 @@
 package net.riblab.tradecore.dungeon;
 
 import net.riblab.tradecore.entity.mob.ITCMob;
+import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -20,5 +21,5 @@ public interface IDungeonData<T> {
 
     T getProgressionVariable();
 
-    Map<ItemStack, Float> getRewardPool();
+    Map<ITCItem, Float> getRewardPool();
 }

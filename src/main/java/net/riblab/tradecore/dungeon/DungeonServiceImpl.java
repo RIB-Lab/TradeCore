@@ -4,6 +4,7 @@ import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.general.WorldNames;
+import net.riblab.tradecore.item.ItemUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -244,7 +245,7 @@ enum DungeonServiceImpl implements DungeonService {
         if (data == null)
             throw new RuntimeException("ワールド名からダンジョンデータが推測できません！");
 
-        ItemStack reward = Utils.getRandomItemFromPool(data.getRewardPool());
+        ItemStack reward = ItemUtils.getRandomItemFromPool(data.getRewardPool());
         if (reward != null) {
             instance.getPlayers().forEach(player -> {
                 final HashMap<Integer, ItemStack> item = player.getInventory().addItem(reward);

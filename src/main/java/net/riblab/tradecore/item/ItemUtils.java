@@ -13,8 +13,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -111,5 +113,25 @@ public final class ItemUtils {
     public static PackedDurabilityData getDurability(List<IItemMod<?>> mods){
         ModRandomDurabilityI maxDurabilityMod = (ModRandomDurabilityI) mods.stream().filter(iItemMod -> iItemMod instanceof ModRandomDurabilityI).findFirst().orElse(null);
         return maxDurabilityMod != null ? maxDurabilityMod.getParam() : new PackedDurabilityData(-1,-1);
+    }
+
+    /**
+     * 報酬テーブルからランダムな報酬を1個だけ取得する
+     * @param pool 報酬テーブル
+     */
+
+    @ParametersAreNonnullByDefault
+    public static @Nullable ItemStack getRandomItemFromPool(Map<ITCItem, Float> pool) {
+        double randomNumber = new Random().nextFloat();
+        double cumulativeProbability = 0.0;
+
+        for (Map.Entry<ITCItem, Float> entry : pool.entrySet()) {
+            cumulativeProbability += entry.getValue();
+            if (randomNumber < cumulativeProbability) {
+                return entry.getKey().getItemStack();
+            }
+        }
+
+        return null;
     }
 }
