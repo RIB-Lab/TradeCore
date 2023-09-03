@@ -5,10 +5,9 @@ import lombok.Data;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.item.base.PackedDurabilityData;
 import net.riblab.tradecore.modifier.IDurabilityModifier;
 
-public class ModRandomDurabilityI extends ItemMod<PackedDurabilityData> implements IDurabilityModifier {
+public class ModRandomDurabilityI extends ItemMod<ModRandomDurabilityI.PackedDurabilityData> implements IDurabilityModifier {
 
     /**
      * アイテムのランダムな最大耐久値と現在の耐久値を保存するmod。アイテム内に焼きこまれる
@@ -26,5 +25,12 @@ public class ModRandomDurabilityI extends ItemMod<PackedDurabilityData> implemen
     @Override
     public Integer apply(Integer originalValue, Integer modifiedValue) {
         return -1; //保存専用modです
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class PackedDurabilityData{
+        int currentDur;
+        int maxDur;
     }
 }

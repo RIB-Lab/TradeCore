@@ -3,7 +3,6 @@ package net.riblab.tradecore.item;
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.PackedDurabilityData;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.item.mod.ModRandomDurabilityI;
@@ -81,7 +80,7 @@ public final class ItemUtils {
         if(itcItem == null)
             return instance;
         
-        PackedDurabilityData durs = getDurability(instance);
+        ModRandomDurabilityI.PackedDurabilityData durs = getDurability(instance);
 
         if (durs.getCurrentDur() == -1) //耐久無限
             return instance;
@@ -103,16 +102,16 @@ public final class ItemUtils {
     /**
      * ItemStackに付与されたmodから耐久値と最大耐久値を割り出す
      */
-    public static PackedDurabilityData getDurability(ItemStack instance){
+    public static ModRandomDurabilityI.PackedDurabilityData getDurability(ItemStack instance){
         return getDurability(new ItemCreator(instance).getItemRandomMods());
     }
 
     /**
      * mod達の中から耐久値と最大耐久値を持つmodを割出し、その値を返す(modがなかったら耐久無限として扱う)
      */
-    public static PackedDurabilityData getDurability(List<IItemMod<?>> mods){
+    public static ModRandomDurabilityI.PackedDurabilityData getDurability(List<IItemMod<?>> mods){
         ModRandomDurabilityI maxDurabilityMod = (ModRandomDurabilityI) mods.stream().filter(iItemMod -> iItemMod instanceof ModRandomDurabilityI).findFirst().orElse(null);
-        return maxDurabilityMod != null ? maxDurabilityMod.getParam() : new PackedDurabilityData(-1,-1);
+        return maxDurabilityMod != null ? maxDurabilityMod.getParam() : new ModRandomDurabilityI.PackedDurabilityData(-1,-1);
     }
 
     /**

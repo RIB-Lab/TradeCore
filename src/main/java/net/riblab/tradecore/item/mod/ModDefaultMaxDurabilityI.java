@@ -1,7 +1,6 @@
 package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.item.base.DurabilityTable;
-import net.riblab.tradecore.item.base.PackedDurabilityData;
 import net.riblab.tradecore.modifier.IRandomItemModCreator;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class ModDefaultMaxDurabilityI extends ItemMod<DurabilityTable> implement
     @Override
     public List<IItemMod<?>> apply(List<IItemMod<?>> originalValue, List<IItemMod<?>> modifiedValue) {
         int dur = getParam().getRandomMaxDurability();
-        modifiedValue.add(new ModRandomDurabilityI(new PackedDurabilityData(dur, dur)));
+        modifiedValue.add(new ModRandomDurabilityI(new ModRandomDurabilityI.PackedDurabilityData(dur, dur)));
         return modifiedValue;
     }
 }
