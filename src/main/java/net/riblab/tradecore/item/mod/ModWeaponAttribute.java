@@ -1,6 +1,7 @@
 package net.riblab.tradecore.item.mod;
 
 import lombok.Getter;
+import net.riblab.tradecore.general.AttackCooldownService;
 import net.riblab.tradecore.item.impl.*;
 import net.riblab.tradecore.modifier.IWeaponAttackModifier;
 import org.bukkit.entity.Player;
@@ -16,7 +17,7 @@ public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> i
 
     @Override
     public String getLore() {
-        double rawAttackSpeedForDisplay = getParam().convertAttackSpeedToDisplayable == null ? getParam().attackSpeed : getParam().convertAttackSpeedToDisplayable.apply(getParam().attackSpeed);
+        double rawAttackSpeedForDisplay = getParam().attackSpeed > 0 ? getParam().attackSpeed : WeaponType.getMeleeAttackSpeedForDisplay(getParam().attackSpeed);
         double formattedAttackSpeedForDisplay = Math.floor(rawAttackSpeedForDisplay * 100) / 100;
         return "攻撃速度: " + Math.floor(formattedAttackSpeedForDisplay * 100) / 100;
     }
@@ -24,36 +25,35 @@ public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> i
     @Override
     public PackedAttackData apply(PackedAttackData originalValue, PackedAttackData modifiedValue) {
         modifiedValue.setResult(getParam().attackFunction.apply(modifiedValue.getPlayer(), modifiedValue.getDamage()));
+        if(getParam().attackSpeed > 0)
+            AttackCooldownService.getImpl().add(modifiedValue.getPlayer(), getParam().attackSpeed);
+        
         return modifiedValue;
     }
 
     public enum WeaponType{
-        SWORD(WeaponAttributeSword::attack, -2.7d, WeaponType::getMeleeAttackSpeedForDisplay),
-        SPEAR(WeaponAttributeSpear::attack, -3.2d, WeaponType::getMeleeAttackSpeedForDisplay),
-        DAGGER(WeaponAttributeDagger::attack, -1.5d, WeaponType::getMeleeAttackSpeedForDisplay),
-        BATTLEAXE(WeaponAttributeBattleAxe::attack, -3.6d, WeaponType::getMeleeAttackSpeedForDisplay),
-        BOW(WeaponAttributeBow::attack, 1, null);
+        SWORD(WeaponAttributeSword::attack, -2.7d),
+        SPEAR(WeaponAttributeSpear::attack, -3.2d),
+        DAGGER(WeaponAttributeDagger::attack, -1.5d),
+        BATTLEAXE(WeaponAttributeBattleAxe::attack, -3.6d),
+        BOW(WeaponAttributeBow::attack, 1);
 
         /**
          * 敵を攻撃するfunction<br>
          * Player:プレイヤー、　Double:ダメージ, Boolean: 攻撃に成功したかどうか
          */
         private final BiFunction<Player, Double, Boolean> attackFunction;
-        
-        @Getter
-        private final double attackSpeed;
 
         /**
-         * 武器の攻撃速度(Double型)を表示用に変換するFunction
-         * 
+         * 攻撃速度。近接武器なら-4~0にする、遠隔武器なら0より大きくする（攻撃速度で近接か遠隔かの処理が分かれる）
          */
-        private final Function<Double, Double> convertAttackSpeedToDisplayable;
+        @Getter
+        private final double attackSpeed;
         private static final double vanillaAttackSpeed = 4.0d;
 
-        WeaponType(BiFunction<Player, Double, Boolean> attackFunction, double attackSpeed, Function<Double, Double> convertAttackSpeedToDisplayable) {
+        WeaponType(BiFunction<Player, Double, Boolean> attackFunction, double attackSpeed) {
             this.attackFunction = attackFunction;
             this.attackSpeed = attackSpeed;
-            this.convertAttackSpeedToDisplayable = convertAttackSpeedToDisplayable;
         }
         
         public BiFunction<Player, Double, Boolean> get(){

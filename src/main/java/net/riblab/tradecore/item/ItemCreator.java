@@ -227,6 +227,9 @@ public final class ItemCreator {
         return this;
     }
 
+    /**
+     * アイテムの説明文を複数行追加する
+     */
     @ParametersAreNonnullByDefault
     public ItemCreator addLores(List<Component> newLore) {
         if (newLore.size() == 0) {
@@ -255,6 +258,9 @@ public final class ItemCreator {
         return itemStack.getItemMeta().lore();
     }
 
+    /**
+     * アイテムに1レベルのエンチャントを追加する
+     */
     @ParametersAreNonnullByDefault
     public ItemCreator addEnchantment(Enchantment enchantment) {
         return addEnchantment(enchantment, 1);
@@ -329,6 +335,9 @@ public final class ItemCreator {
         return this;
     }
 
+    /**
+     * アイテムにint型のNBTを追加する
+     */
     @ParametersAreNonnullByDefault
     public ItemCreator setIntNBT(String key, int value) {
         NBTItem item = new NBTItem(itemStack);
@@ -337,11 +346,19 @@ public final class ItemCreator {
         return this;
     }
 
+    /**
+     * アイテムからint型のNBTを取得する
+     * @param key
+     * @return
+     */
     @Nonnull
     public Integer getIntNBT(String key) {
         return new NBTItem(itemStack).getInteger(key);
     }
 
+    /**
+     * アイテムにstr型のNBTを追加する
+     */
     @ParametersAreNonnullByDefault
     public ItemCreator setStrNBT(String key, String value) {
         NBTItem item = new NBTItem(itemStack);
@@ -355,6 +372,9 @@ public final class ItemCreator {
         return new NBTItem(itemStack).getString(key);
     }
 
+    /**
+     * アイテムにBoolean型のNBTを追加する
+     */
     @ParametersAreNonnullByDefault
     public ItemCreator setBooleanNBT(String key, boolean value) {
         NBTItem item = new NBTItem(itemStack);
@@ -363,11 +383,17 @@ public final class ItemCreator {
         return this;
     }
 
+    /**
+     * アイテムからBoolean型のNBTを取得する
+     */
     @Nullable
     public Boolean getBooleanNBT(String key) {
         return new NBTItem(itemStack).getBoolean(key);
     }
 
+    /**
+     * アイテムにランダムなIDを割り振る
+     */
     @ParametersAreNonnullByDefault
     public ItemCreator assignRandomIDtoItem(String key) {
         int id = new Random().nextInt(Integer.MAX_VALUE);
@@ -375,6 +401,9 @@ public final class ItemCreator {
         return this;
     }
 
+    /**
+     * アイテムにカスタムモデルデータを設定する
+     */
     public ItemCreator setCustomModelData(int id) {
         ItemMeta meta = itemStack.getItemMeta();
         meta.setCustomModelData(id);
@@ -382,11 +411,17 @@ public final class ItemCreator {
         return this;
     }
 
+    /**
+     * アイテムのカスタムモデルデータの番号を取得
+     */
     public int getCustomModelData() {
         ItemMeta meta = itemStack.getItemMeta();
         return meta.getCustomModelData();
     }
 
+    /**
+     * アイテムにバニラの攻撃速度のパラメータを設定する(-4以上)
+     */
     public ItemCreator setAttackSpeedAttr(double value) {
         ItemMeta meta = itemStack.getItemMeta();
         meta.removeAttributeModifier(Attribute.GENERIC_ATTACK_SPEED);
@@ -406,7 +441,10 @@ public final class ItemCreator {
         itemStack = item.getItem();
         return this;
     }
-    
+
+    /**
+     * アイテムが持つこのプラグイン特有のmodをアイテムにNBTとして書きこむ
+     */
     public ItemCreator writeItemRandomMods(List<IItemMod<?>> mods){
         mods.forEach(this::writeItemRandomMod);
         return this;
@@ -440,10 +478,13 @@ public final class ItemCreator {
         }
         return modList;
     }
-    
+
+    /**
+     * アイテムの攻撃速度modからバニラの攻撃速度を抽出して、アイテムに書きこむ
+     */
     public ItemCreator setAttackSpeedAttr(@Nullable ModWeaponAttribute weaponMod){
         if(weaponMod != null)
-            setAttackSpeedAttr(weaponMod.getParam().getAttackSpeed());
+            return setAttackSpeedAttr(weaponMod.getParam().getAttackSpeed());
         return this;
     }
 }
