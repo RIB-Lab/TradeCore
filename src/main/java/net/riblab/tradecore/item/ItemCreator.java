@@ -8,6 +8,7 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.item.mod.ModWeaponAttribute;
+import net.riblab.tradecore.item.mod.ShortHandModNames;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -437,7 +438,8 @@ public final class ItemCreator {
         NBTItem item = new NBTItem(itemStack);
         //ItemModの数値をJsonとして焼きこむ
         String json = gson.toJson(mod.getParam());
-        item.getOrCreateCompound(NBTTagNames.ITEMMOD.get()).setString(mod.getClass().getCanonicalName(), json);
+        String key = ShortHandModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) mod.getClass());
+        item.getOrCreateCompound(NBTTagNames.ITEMMOD.get()).setString(key, json);
         itemStack = item.getItem();
         return this;
     }
@@ -460,15 +462,18 @@ public final class ItemCreator {
         for (String key : compound.getKeys()) {
             IItemMod<?> mod = null;
             try {
+                Class<? extends IItemMod<?>> clazz = ShortHandModNames.getClassFromShortHandName(key);
+                if(clazz == null)
+                    continue;
+
                 //Jsonを元の型に還元する
-                Constructor<?> constructor = Class.forName(key).getConstructors()[0];
+                Constructor<?> constructor = clazz.getConstructors()[0];
                 Type[] parameterTypes = constructor.getGenericParameterTypes();
                 String json = compound.getString(key);
                 Object arg =  gson.fromJson(json, parameterTypes[0]);
                 mod = (IItemMod<?>) constructor.newInstance(arg);
 
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     ClassNotFoundException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
                 //クラスの名前が変わっただけかもしれないし、modがなかった時のフォールバックも用意してあるので、握りつぶす
             }

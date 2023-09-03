@@ -19,7 +19,7 @@ public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> i
     public String getLore() {
         double rawAttackSpeedForDisplay = getParam().attackSpeed > 0 ? getParam().attackSpeed : WeaponType.getMeleeAttackSpeedForDisplay(getParam().attackSpeed);
         double formattedAttackSpeedForDisplay = Math.floor(rawAttackSpeedForDisplay * 100) / 100;
-        return "攻撃速度: " + Math.floor(formattedAttackSpeedForDisplay * 100) / 100;
+        return "攻撃速度:" + Math.floor(formattedAttackSpeedForDisplay * 100) / 100;
     }
     
     @Override
