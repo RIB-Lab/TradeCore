@@ -2,13 +2,13 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IMiningSpeedModifier;
 
-public class ModMiningSpeedI extends ItemMod<Double> implements IMiningSpeedModifier {
+public class ModRandomMiningSpeedI extends ItemMod<Double> implements IMiningSpeedModifier {
 
     /**
      * 採掘スピード1.2などを代入
      * @param level　レベル
      */
-    public ModMiningSpeedI(Double level) {
+    public ModRandomMiningSpeedI(Double level) {
         super(level);
     }
 
@@ -19,6 +19,6 @@ public class ModMiningSpeedI extends ItemMod<Double> implements IMiningSpeedModi
 
     @Override
     public Double apply(Double originalValue, Double modifiedValue) {
-        return modifiedValue + this.getParam();
+        return modifiedValue + Math.log10(this.getParam());
     }
 }

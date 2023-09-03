@@ -4,13 +4,16 @@ import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.integration.WorldGuardUtil;
+import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.*;
+import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.entity.mob.MobUtils;
+import net.riblab.tradecore.modifier.IMiningSpeedModifier;
 import net.riblab.tradecore.modifier.IMonsterSpawnModifier;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -100,7 +103,19 @@ public final class BlockStateEventHandler implements Listener {
 
         SoundGroup soundGroup = block.getBlockData().getSoundGroup();
         player.playSound(block.getLocation(), soundGroup.getHitSound(), SoundCategory.BLOCKS, 1f, 1f);
-        getService().incrementDamage(player, tool.getActualMiningSpeed(mainHandItem));
+        getService().incrementDamage(player, getActualMiningSpeed(mainHandItem));
+    }
+
+    /**
+     * ツールを一振りしたらどれくらい亀裂が入るかの実際の値を取得
+     */
+    public double getActualMiningSpeed(ItemStack itemStack){
+        List<IItemMod<?>> mods = new ItemCreator(itemStack).getItemRandomMods();
+        IMiningSpeedModifier miningSpeedMod = (IMiningSpeedModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
+        double miningSpeed = 0.1d;
+        if(miningSpeedMod != null)
+            miningSpeed = miningSpeedMod.apply(miningSpeed, miningSpeed);
+        return miningSpeed;
     }
 
     /**

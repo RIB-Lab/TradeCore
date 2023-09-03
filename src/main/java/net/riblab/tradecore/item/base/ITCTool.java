@@ -17,11 +17,6 @@ public interface ITCTool {
     int getHarvestLevel();
 
     /**
-     * ツールを一振りしたらどれくらい亀裂が入るかの実際の値
-     */
-    double getActualMiningSpeed(ItemStack itemStack);
-
-    /**
      * ツールの種類
      */
     enum ToolType {

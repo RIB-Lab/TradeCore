@@ -7,7 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
-import net.riblab.tradecore.item.mod.ModMiningSpeedI;
+import net.riblab.tradecore.item.mod.ModRandomMiningSpeedI;
 import net.riblab.tradecore.modifier.IMiningSpeedModifier;
 import net.riblab.tradecore.modifier.IRandomItemModCreator;
 import org.bukkit.Material;
@@ -28,29 +28,25 @@ public class TCTool extends TCItem implements ITCTool {
     @Getter
     private final int harvestLevel;
 
-    @Getter
-    private final MiningSpeedTable miningSpeedTable;
-
     /**
      * 　固有アイテムの型を作成する
      */
-    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, MiningSpeedTable miningSpeedTable, List<IItemMod<?>> defaultMods) {
+    public TCTool(TextComponent name, Material material, String internalName, int customModelData, ToolType toolType, int harvestLevel, List<IItemMod<?>> defaultMods) {
         super(name, material, internalName, customModelData, defaultMods);
 
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;
-        this.miningSpeedTable = miningSpeedTable;
     }
 
     @Override
     public @Nonnull ItemStack getItemStack() {
-        double miningSpeed = miningSpeedTable.getRandomMiningSpeed();
-        IRandomItemModCreator mod = (IRandomItemModCreator) getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IRandomItemModCreator).findFirst().orElse(null);
-        //TODO:randomModsがなかった時の処理
+        List<IRandomItemModCreator> mods = getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IRandomItemModCreator).map(iItemMod -> (IRandomItemModCreator) iItemMod).toList();
         List<IItemMod<?>> randomMods = new ArrayList<>();
-        randomMods = mod.apply(randomMods, randomMods);
+        for (IRandomItemModCreator mod : mods) {
+            randomMods = mod.apply(randomMods, randomMods);
+        }
+
         List<IItemMod<?>> initMods = new ArrayList<>();
-        initMods.add(new ModMiningSpeedI(miningSpeed));
         initMods.addAll(randomMods);
 
         return new ItemCreator(getTemplate().create())
@@ -85,13 +81,5 @@ public class TCTool extends TCItem implements ITCTool {
         }
 
         return texts;
-    }
-    
-    @Override
-    public double getActualMiningSpeed(ItemStack itemStack){
-        List<IItemMod<?>> mods = new ItemCreator(itemStack).getItemRandomMods();
-        IItemMod<?> miningSpeedMod = mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
-        double miningSpeed = miningSpeedMod != null ? (double)miningSpeedMod.getParam() : miningSpeedTable.getMiddleMiningSpeed();
-        return Math.log10(miningSpeed) + 0.1d;
     }
 }
