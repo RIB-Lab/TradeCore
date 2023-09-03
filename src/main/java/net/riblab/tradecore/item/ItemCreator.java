@@ -39,7 +39,7 @@ public final class ItemCreator {
 
     private ItemStack itemStack;
     
-    private static Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();;
+    private static final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
 
     /**
      * バニラアイテムの型からバニラアイテムの実体/固有アイテムの型を生成する

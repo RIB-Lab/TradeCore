@@ -59,7 +59,6 @@ public class TCItem implements ITCItem {
     /**
      * アイテムが既定で持つ修飾子のリスト
      */
-    @Ignore //TODO:シリアライズ、デシリアライズ可能にする
     private List<IItemMod<?>> defaultMods = new ArrayList<>();
 
     /**
