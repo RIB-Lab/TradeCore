@@ -91,6 +91,7 @@ public class TCItem implements ITCItem {
      * @return 作られたアイテムの型の実体
      */
     protected @Nonnull ItemCreator getTemplate() {
+        ModWeaponAttribute speedMod = (ModWeaponAttribute) getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof ModWeaponAttribute).findFirst().orElse(null);
         ItemCreator template = new ItemCreator(material)
                 .setName(name.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
                 .setLores(getDefaultModsLore())
@@ -98,11 +99,8 @@ public class TCItem implements ITCItem {
                 .hideEnchantment()
                 .setCustomModelData(customModelData)
                 .setUnbreakable(false)
+                .setAttackSpeedAttr(speedMod)
                 .hideAttributes();
-
-        ModWeaponAttribute speedMod = (ModWeaponAttribute) getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof ModWeaponAttribute).findFirst().orElse(null);
-        if(speedMod != null)
-            template.setAttackSpeedAttr(speedMod.getParam().getAttackSpeed());//TODO:技術的負債なのでもっと汎用的な処理に変更
 
         ItemStack templateStack = template.create();
         List<IItemTemplateModifier> mods = getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IItemTemplateModifier).map(iItemMod -> (IItemTemplateModifier) iItemMod).toList();

@@ -7,6 +7,7 @@ import de.tr7zw.nbtapi.NBTItem;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.item.mod.ModWeaponAttribute;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
@@ -438,5 +439,11 @@ public final class ItemCreator {
                 modList.add(mod);
         }
         return modList;
+    }
+    
+    public ItemCreator setAttackSpeedAttr(@Nullable ModWeaponAttribute weaponMod){
+        if(weaponMod != null)
+            setAttackSpeedAttr(weaponMod.getParam().getAttackSpeed());
+        return this;
     }
 }
