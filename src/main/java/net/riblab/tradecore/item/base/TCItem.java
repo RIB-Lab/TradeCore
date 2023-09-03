@@ -11,6 +11,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.modifier.IItemTemplateModifier;
 import net.riblab.tradecore.modifier.IRandomItemModCreator;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -91,13 +92,20 @@ public class TCItem implements ITCItem {
      * @return 作られたアイテムの型の実体
      */
     protected @Nonnull ItemCreator getTemplate() {
-        return new ItemCreator(material)
+        ItemStack template = new ItemCreator(material)
                 .setName(name.decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE))
                 .setStrNBT(NBTTagNames.ITEMID.get(), internalName)
                 .hideEnchantment()
                 .setCustomModelData(customModelData)
                 .setUnbreakable(false)
-                .hideAttributes();
+                .hideAttributes()
+                .create();
+
+        List<IItemTemplateModifier> mods = getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IItemTemplateModifier).map(iItemMod -> (IItemTemplateModifier) iItemMod).toList();
+        for (IItemTemplateModifier mod : mods) {
+            template = mod.apply(template, template);
+        }
+        return new ItemCreator(template);
     }
 
     @Nonnull
