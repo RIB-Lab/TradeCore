@@ -69,17 +69,4 @@ public class TCWeapon extends TCItem implements ITCWeapon {
         texts.addAll(getRandomModsLore(randomMods));
         return texts;
     }
-
-    /**
-     * ツールに付与されているランダムmodの説明文を取得する
-     */
-    private List<TextComponent> getRandomModsLore(List<IItemMod<?>> randomMods){
-        List<TextComponent> texts = new ArrayList<>();
-
-        for (IItemMod<?> randomMod : randomMods) {
-            texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
-        }
-
-        return texts;
-    }
 }

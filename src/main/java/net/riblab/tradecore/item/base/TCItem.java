@@ -11,6 +11,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.modifier.IRandomItemModCreator;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -107,6 +108,23 @@ public class TCItem implements ITCItem {
         return itemStackTemplate.create();
     }
 
+
+    @Override
+    public @Nonnull ItemStack getItemStack() {
+        List<IRandomItemModCreator> mods = getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IRandomItemModCreator).map(iItemMod -> (IRandomItemModCreator) iItemMod).toList();
+        List<IItemMod<?>> randomMods = new ArrayList<>();
+        for (IRandomItemModCreator mod : mods) {
+            randomMods = mod.apply(randomMods, randomMods);
+        }
+
+        List<IItemMod<?>> initMods = new ArrayList<>(randomMods);
+
+        return new ItemCreator(getTemplate().create())
+                .setLores(getLore(initMods))
+                .writeItemRandomMods(initMods).create();
+    }
+
+
     @Override
     public boolean isSimilar(@Nullable ItemStack itemStack) {
         if (itemStack == null || itemStack.getType().equals(Material.AIR))
@@ -127,10 +145,14 @@ public class TCItem implements ITCItem {
 
         return tcID.equals(internalName);
     }
-    
+
+
     @Override
-    public List<Component> getLore(List<IItemMod<?>> randomMods){
-        return new ArrayList<>();
+    public List<Component> getLore(List<IItemMod<?>> randomMods) {
+        List<Component> texts = new ArrayList<>();
+        texts.addAll(getDefaultModsLore());
+        texts.addAll(getRandomModsLore(randomMods));
+        return texts;
     }
 
     /**
@@ -144,6 +166,20 @@ public class TCItem implements ITCItem {
                 continue;
             
             texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+        }
+
+        return texts;
+    }
+
+    /**
+     * ツールに付与されているランダムmodの説明文を取得する
+     */
+    public List<TextComponent> getRandomModsLore(List<IItemMod<?>> randomMods){
+        List<TextComponent> texts = new ArrayList<>();
+
+        for (IItemMod<?> randomMod : randomMods) {
+            if(randomMod.getLore() != null)
+                texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
 
         return texts;
