@@ -128,8 +128,8 @@ public final class ItemCreator {
      */
     @ParametersAreNonnullByDefault
     public ItemCreator setData(BlockData data) {
-        if (itemStack instanceof BlockDataMeta) {
-            ((BlockDataMeta) itemStack).setBlockData(data);
+        if (itemStack instanceof BlockDataMeta blockData) {
+            blockData.setBlockData(data);
         }
         return this;
     }

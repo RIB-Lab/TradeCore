@@ -45,17 +45,14 @@ public final class ItemIOUtils {
             // YAMLデータを読み込み、ルートノードを取得
             Node rootNode = yaml.compose(reader);
 
-            if (rootNode instanceof MappingNode) {
-                MappingNode mappingNode = (MappingNode) rootNode;
-
+            if (rootNode instanceof MappingNode mappingNode) {
                 // マップ内のアイテムを1個ずつ取得
                 Iterator<NodeTuple> iterator = mappingNode.getValue().iterator();
                 while (iterator.hasNext()) {
                     NodeTuple nodeTuple = iterator.next();
 
                     Node valueNode = nodeTuple.getValueNode();//一番上の中身
-                    if (valueNode instanceof MappingNode) {
-                        MappingNode valueNodeMap = (MappingNode) valueNode;
+                    if (valueNode instanceof MappingNode valueNodeMap) {
                         Iterator<NodeTuple> iterator2 = valueNodeMap.getValue().iterator();
                         while (iterator2.hasNext()) {
                             NodeTuple nodeTuple2 = iterator2.next();
@@ -66,8 +63,7 @@ public final class ItemIOUtils {
                             List<IItemMod<?>> defaultMods = new ArrayList<>();
 
                             Node valueNode2 = nodeTuple2.getValueNode();
-                            if(valueNode2 instanceof MappingNode){
-                                MappingNode valueNode2Map = ((MappingNode) valueNode2);
+                            if(valueNode2 instanceof MappingNode valueNode2Map){
                                 Iterator<NodeTuple> iterator3 = valueNode2Map.getValue().iterator();
                                 while (iterator3.hasNext()){
                                     NodeTuple nodeTuple3 = iterator3.next();
@@ -85,8 +81,7 @@ public final class ItemIOUtils {
                                     }
                                     else if(itemPropertiesNode.getValue().equals(ItemIOTags.DEFAULTMODS.get())){
                                         Node valueNode3 = nodeTuple3.getValueNode();
-                                        if(valueNode3 instanceof MappingNode){
-                                            MappingNode valueNode3Map = ((MappingNode) valueNode3);
+                                        if(valueNode3 instanceof MappingNode valueNode3Map){
                                             Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
                                             while (iterator4.hasNext()){
                                                 NodeTuple nodeTuple4 = iterator4.next();
