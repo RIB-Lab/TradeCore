@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * カスタムモブの定義一覧
@@ -44,14 +45,14 @@ public enum TCMobs {
      */
     @Nullable
     public static ITCMob toTCMob(@Nullable Mob mob) {
-        if (mob == null)
+        if (Objects.isNull(mob))
             return null;
 
         NBTEntity nbtEntity = new NBTEntity(mob);
         String ID = nbtEntity.getPersistentDataContainer().getString(NBTTagNames.MOBID.get());
 
         TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(ID)).findFirst().orElse(null);
-        return itcMob == null ? null : itcMob.get();
+        return Objects.isNull(itcMob) ? null : itcMob.get();
     }
 
     /**
@@ -61,7 +62,7 @@ public enum TCMobs {
     @ParametersAreNonnullByDefault
     public static ITCMob commandToTCMob(String command) {
         TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(command)).findFirst().orElse(null);
-        return itcMob == null ? null : itcMob.get();
+        return Objects.isNull(itcMob) ? null : itcMob.get();
     }
 
     // Function that returns our custom argument
@@ -72,7 +73,7 @@ public enum TCMobs {
             // Parse the itcMob from our input
             ITCMob itcMob = commandToTCMob(info.input());
 
-            if (itcMob == null) {
+            if (Objects.isNull(itcMob)) {
                 throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown mob: ").appendArgInput());
             } else {
                 return itcMob;

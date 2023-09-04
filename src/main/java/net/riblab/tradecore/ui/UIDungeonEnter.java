@@ -18,6 +18,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
+
 /**
  * ダンジョン進入UI
  */
@@ -51,11 +53,11 @@ final class UIDungeonEnter implements IUI {
 
     public static void onClose(InventoryCloseEvent event) {
         ItemStack map = event.getInventory().getContents()[4];
-        ITCItem tcItem = TCItems.toTCItem(map);
-        if(tcItem == null)
+        ITCItem iTCItem = TCItems.toTCItem(map);
+        if(Objects.isNull(iTCItem))
             return;
 
-        IEnterDungeonModifier mod = (IEnterDungeonModifier) tcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IEnterDungeonModifier).findFirst().orElse(null);
+        IEnterDungeonModifier mod = (IEnterDungeonModifier) iTCItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IEnterDungeonModifier).findFirst().orElse(null);
         if(mod != null){
             IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).getInternalName());
             DungeonService IDungeonService = DungeonService.getImpl();

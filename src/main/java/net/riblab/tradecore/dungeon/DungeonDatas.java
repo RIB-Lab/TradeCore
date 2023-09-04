@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * ダンジョンのデータ管理クラス
@@ -38,14 +39,14 @@ public enum DungeonDatas {
     @Nullable
     public static IDungeonData<?> commandToDungeonData(@Nullable String command) {
         DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
-        return datas == null ? null : datas.getData();
+        return Objects.isNull(datas) ? null : datas.getData();
     }
 
     public static Argument<IDungeonData<?>> customDungeonDataArgument(@Nonnull String nodeName) {
         return new CustomArgument<IDungeonData<?>, String>(new StringArgument(nodeName), info -> {
             IDungeonData<?> data = commandToDungeonData(info.input());
 
-            if (data == null) {
+            if (Objects.isNull(data)) {
                 throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown dungeon: ").appendArgInput());
             } else {
                 return data;
@@ -61,6 +62,6 @@ public enum DungeonDatas {
     @Nullable
     public static IDungeonData<?> nameToDungeonData(@Nullable String name) {
         DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.getData().getNames().getInternalName().equals(name)).findFirst().orElse(null);
-        return datas == null ? null : datas.getData();
+        return Objects.isNull(datas) ? null : datas.getData();
     }
 }

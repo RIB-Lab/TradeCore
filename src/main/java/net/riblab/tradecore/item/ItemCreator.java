@@ -29,6 +29,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -212,13 +213,13 @@ public final class ItemCreator {
      */
     @ParametersAreNullableByDefault
     public ItemCreator addLore(Component lore) {
-        if (lore == null) {
+        if (Objects.isNull(lore)) {
             return this;
         }
         ItemMeta meta = itemStack.getItemMeta();
         if (meta != null) {
             List<Component> lores = meta.lore();
-            if (lores == null) {
+            if (Objects.isNull(lores)) {
                 lores = new ArrayList<>();
             }
             lores.add(lore);
@@ -239,7 +240,7 @@ public final class ItemCreator {
         ItemMeta meta = itemStack.getItemMeta();
         if (meta != null) {
             List<Component> lores = meta.lore();
-            if (lores == null) {
+            if (Objects.isNull(lores)) {
                 lores = new ArrayList<>();
             }
             lores.addAll(newLore);
@@ -463,7 +464,7 @@ public final class ItemCreator {
             IItemMod<?> mod = null;
             try {
                 Class<? extends IItemMod<?>> clazz = ShortHandModNames.getClassFromShortHandName(key);
-                if(clazz == null)
+                if(Objects.isNull(clazz))
                     continue;
 
                 //Jsonを元の型に還元する

@@ -9,6 +9,7 @@ import org.bukkit.Material;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Objects;
 
 public enum JobType {
     MINER("鉱夫", Material.IRON_PICKAXE),
@@ -36,7 +37,7 @@ public enum JobType {
         return new CustomArgument<>(new StringArgument(nodeName), info -> {
             JobType type = commandToJOBType(info.input());
 
-            if (type == null) {
+            if (Objects.isNull(type)) {
                 throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown job: ").appendArgInput());
             } else {
                 return type;

@@ -10,6 +10,7 @@ import net.riblab.tradecore.item.base.TCItems;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ショップのリスト
@@ -48,7 +49,7 @@ public enum Shops {
     @Nullable
     public static IShopData commandToShop(String command) {
         Shops data = Arrays.stream(Shops.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
-        return data == null ? null : data.getShop();
+        return Objects.isNull(data) ? null : data.getShop();
     }
 
     // Function that returns our custom argument
@@ -59,7 +60,7 @@ public enum Shops {
             // Parse the data from our input
             IShopData data = commandToShop(info.input());
 
-            if (data == null) {
+            if (Objects.isNull(data)) {
                 throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown shop: ").appendArgInput());
             } else {
                 return data;

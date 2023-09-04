@@ -29,10 +29,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * ブロックの状態変更関連のイベントハンドラ
@@ -91,13 +88,13 @@ public final class BlockStateEventHandler implements Listener {
 
         ItemStack mainHandItem = event.getPlayer().getInventory().getItemInMainHand();
         ITCItem itcItem = TCItems.toTCItem(mainHandItem);
-        if(itcItem == null){
+        if(Objects.isNull(itcItem)){
             getService().incrementDamage(player, 0.1d); //カスタムアイテム以外を持っているなら実質素手
             return;
         }
         List<IItemMod<?>> mods = itcItem.getDefaultMods();
         IToolStatsModifier mod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
-        if(mod == null){
+        if(Objects.isNull(mod)){
             getService().incrementDamage(player, 0.1d); //ツールステータスが付与されているアイテム以外を持っているなら実質素手
             return;
         }
@@ -153,7 +150,7 @@ public final class BlockStateEventHandler implements Listener {
         }
 
         ITCItem itcItem = TCItems.toTCItem(mainHand);
-        if(itcItem == null){
+        if(Objects.isNull(itcItem)){
             event.setDropItems(false);//適正ツール以外での採掘は何も落とさない
             return;
         }
@@ -197,7 +194,7 @@ public final class BlockStateEventHandler implements Listener {
     public void tryProcessHoeDrop(BlockPlaceEvent event) {
         ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
 
-        if (itcItem == null)
+        if (Objects.isNull(itcItem))
             return;
 
         List<IItemMod<?>> mods = itcItem.getDefaultMods();

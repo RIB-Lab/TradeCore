@@ -17,10 +17,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 enum DungeonServiceImpl implements DungeonService {
     INSTANCE;
@@ -102,7 +99,7 @@ enum DungeonServiceImpl implements DungeonService {
     @Override
     @ParametersAreNonnullByDefault
     public void enter(Player player, @Nullable World world) {
-        if (world == null) {
+        if (Objects.isNull(world)) {
             player.sendMessage("その名前またはインスタンスIDのダンジョンは存在しません");
             return;
         }
@@ -242,8 +239,7 @@ enum DungeonServiceImpl implements DungeonService {
 
         String unfixedName = getUnfixedDungeonName(instance.getName());
         IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName);
-        if (data == null)
-            throw new RuntimeException("ワールド名からダンジョンデータが推測できません！");
+        Objects.requireNonNull(data, "ワールド名からダンジョンデータが推測できません！");
 
         ItemStack reward = ItemUtils.getRandomItemFromPool(data.getRewardPool());
         if (reward != null) {

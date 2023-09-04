@@ -13,6 +13,7 @@ import org.bukkit.potion.PotionEffectType;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * プレイヤーステータスの管理クラス
@@ -42,7 +43,7 @@ enum PlayerStatsServiceImpl implements PlayerStatsService {
     @ParametersAreNonnullByDefault
     public void update(Player player) {
         IPlayerStats iPlayerStats = playerStatsMap.get(player);
-        if (iPlayerStats == null) {
+        if (Objects.isNull(iPlayerStats)) {
             iPlayerStats = new PlayerStats();
             playerStatsMap.put(player, iPlayerStats);
         }
@@ -58,7 +59,7 @@ enum PlayerStatsServiceImpl implements PlayerStatsService {
     @ParametersAreNonnullByDefault
     public void apply(Player player) {
         IPlayerStats IPlayerStats = playerStatsMap.get(player);
-        if (IPlayerStats == null) {
+        if (Objects.isNull(IPlayerStats)) {
             return;
         }
 

@@ -21,6 +21,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 public class TCItem implements ITCItem {
@@ -108,7 +109,7 @@ public class TCItem implements ITCItem {
 
     @Nonnull
     public ItemStack getTemplateItemStack() {
-        if (itemStackTemplate == null)
+        if (Objects.isNull(itemStackTemplate))
             itemStackTemplate = getTemplate();
 
         return itemStackTemplate.create();
@@ -133,20 +134,20 @@ public class TCItem implements ITCItem {
 
     @Override
     public boolean isSimilar(@Nullable ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType().equals(Material.AIR))
+        if (Objects.isNull(itemStack) || itemStack.getType().equals(Material.AIR))
             return false;
 
-        String ID = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
+        String id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
 
-        if (ID == null)
+        if (Objects.isNull(id))
             return false;
 
-        return ID.equals(internalName);
+        return id.equals(internalName);
     }
 
     @Override
     public boolean isSimilar(@Nullable String tcID) {
-        if (tcID == null)
+        if (Objects.isNull(tcID))
             return false;
 
         return tcID.equals(internalName);
@@ -168,7 +169,7 @@ public class TCItem implements ITCItem {
         List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> defaultMod : getDefaultMods()) {
-            if(defaultMod.getLore() == null)
+            if(Objects.isNull(defaultMod.getLore()))
                 continue;
             
             texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));

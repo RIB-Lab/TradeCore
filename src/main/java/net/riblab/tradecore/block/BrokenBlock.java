@@ -11,6 +11,7 @@ import org.bukkit.SoundGroup;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -76,7 +77,7 @@ class BrokenBlock {
         if (onDestruction != null)
             onDestruction.accept(breaker);
 //        SoundPlayerUtils.playBlockSound(block);
-        if (breaker == null) return;
+        if (Objects.isNull(breaker)) return;
 
         SoundGroup soundGroup = block.getBlockData().getSoundGroup();
         breaker.playSound(block.getLocation(), soundGroup.getBreakSound(), SoundCategory.BLOCKS, 1f, 1f);

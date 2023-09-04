@@ -20,6 +20,7 @@ import org.bukkit.util.Vector;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 final class DungeonBuilder {
 
@@ -49,11 +50,8 @@ final class DungeonBuilder {
         WorldCreator wc = new WorldCreator(affixedDungeonName, new NamespacedKey(TradeCore.getInstance(), affixedDungeonName));
         wc.generator(new EmptyChunkGenerator());
         World world = Bukkit.getServer().createWorld(wc);
-        
-        if(world == null){
-            Bukkit.getLogger().severe("ワールドの生成に失敗しました");
-            return null;
-        }
+
+        Objects.requireNonNull(world, "ワールドの生成に失敗しました");
 
         //ダンジョン名に対応したschemをresourceからコピーする
         File instantiatedSchemFile = new File(pasteSchemDir + "/" + schemName + ".schem");

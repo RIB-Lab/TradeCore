@@ -18,6 +18,7 @@ import org.bukkit.event.world.WorldInitEvent;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -31,7 +32,7 @@ public final class DungeonEventHandler {
     @ParametersAreNonnullByDefault
     public void tryProcessDungeonSpawn(PlayerRespawnEvent event) {
         DungeonProgressionTracker<?> tracker = getservice().getTracker(event.getPlayer().getWorld());
-        if (tracker == null)
+        if (Objects.isNull(tracker))
             return;
 
         tracker.onPlayerRespawn(event);
@@ -44,14 +45,12 @@ public final class DungeonEventHandler {
 
             String unfixedName = getservice().getUnfixedDungeonName(player.getWorld().getName());
             IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName);
-            if (data == null)
-                throw new RuntimeException("ダンジョン名からダンジョンデータを推測できません！");
+            Objects.requireNonNull(data, "ダンジョン名からダンジョンデータを推測できません！");
 
             trySpawnMob(player, data);
 
             DungeonProgressionTracker<?> tracker = getservice().getTracker(player.getWorld());
-            if (tracker == null)
-                throw new RuntimeException("ダンジョンにトラッカーが紐づいていません！");
+            Objects.requireNonNull(tracker, "ダンジョンにトラッカーが紐づいていません！");
 
             tracker.onDungeonSecond(player);
         });
@@ -88,7 +87,7 @@ public final class DungeonEventHandler {
         }
 
         DungeonProgressionTracker<?> tracker = DungeonService.getImpl().getTracker(mob.getWorld());
-        if (tracker == null)
+        if (Objects.isNull(tracker))
             return;
 
         if (tracker instanceof IPlayerKillHandler handler) {

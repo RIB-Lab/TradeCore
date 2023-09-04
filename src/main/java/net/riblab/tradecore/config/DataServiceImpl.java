@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * コンフィグ管理システム
@@ -89,7 +90,7 @@ enum DataServiceImpl implements DataService {
         } catch (IOException ignored) {
         }
         T dataInstance = gson.fromJson(str, dataType);
-        if(dataInstance == null) {
+        if(Objects.isNull(dataInstance)) {
             try {
                 dataInstance = dataType.getDeclaredConstructor().newInstance();
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException |

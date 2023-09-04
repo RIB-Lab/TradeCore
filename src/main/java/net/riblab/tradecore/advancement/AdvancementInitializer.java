@@ -16,6 +16,8 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 
+import java.util.Objects;
+
 /**
  * 進捗管理クラス
  */
@@ -48,7 +50,7 @@ public enum AdvancementInitializer {
         //TODO:プレイヤー単位で実績を管理。ロード時にプレイヤーが未取得の実績を洗い出してそこにだけイベントが飛ぶようにする
         primitiveAgeTab.getEventManager().register(primitiveAgeTab, PlayerAttemptPickupItemEvent.class, playerPickItemEvent -> {
             ITCItem itcItem = TCItems.toTCItem(playerPickItemEvent.getItem().getItemStack());
-            if (itcItem == null)
+            if (Objects.isNull(itcItem))
                 return;
 
             Player player = playerPickItemEvent.getPlayer();
@@ -72,7 +74,7 @@ public enum AdvancementInitializer {
             }
 
             ITCItem itcItem = TCItems.toTCItem(event.getRecipe().getResult());
-            if (itcItem == null)
+            if (Objects.isNull(itcItem))
                 return;
 
             check(itcItem, TCItems.HATCHET, Advancements.CRAFTHATCHET.get(), player);
@@ -80,7 +82,7 @@ public enum AdvancementInitializer {
 
         primitiveAgeTab.getEventManager().register(primitiveAgeTab, BlockBreakEvent.class, event -> {
             ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
-            if (itcItem == null)
+            if (Objects.isNull(itcItem))
                 return;
 
             Player player = event.getPlayer();

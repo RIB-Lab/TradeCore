@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -77,7 +78,7 @@ public final class ItemUtils {
      */
     public static ItemStack reduceDurabilityIfPossible(ItemStack instance, int amount){
         ITCItem itcItem = TCItems.toTCItem(instance);
-        if(itcItem == null)
+        if(Objects.isNull(itcItem))
             return instance;
         
         ModRandomDurabilityI.PackedDurabilityData durs = getDurability(instance);

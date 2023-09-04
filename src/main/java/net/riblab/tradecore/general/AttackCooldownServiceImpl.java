@@ -6,6 +6,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 enum AttackCooldownServiceImpl implements AttackCooldownService {
     INSTANCE;
@@ -24,7 +25,7 @@ enum AttackCooldownServiceImpl implements AttackCooldownService {
             @Override
             public void run() {
                 Double oldDuration = cooldownMap.get(player);
-                if(oldDuration == null){
+                if(Objects.isNull(oldDuration)){
                     cancel();
                     return;
                 }

@@ -10,10 +10,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -53,7 +50,7 @@ enum JobSkillServiceImpl implements JobSkillService {
     public int getLearntSkillCount(OfflinePlayer offlinePlayer, JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
-        if (datas == null) {
+        if (Objects.isNull(datas)) {
             datasMap.put(uuid, new ArrayList<>());
             return 0;
         }

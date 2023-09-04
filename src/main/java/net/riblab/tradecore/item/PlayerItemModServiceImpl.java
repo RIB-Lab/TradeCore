@@ -8,10 +8,7 @@ import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
@@ -41,7 +38,7 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
         List<IItemMod<?>> mods = new ArrayList<>();
         for (ItemStack armorContent : player.getInventory().getArmorContents()) {
             ITCItem tcItem = TCItems.toTCItem(armorContent);
-            if (tcItem == null)
+            if (Objects.isNull(tcItem))
                 continue;
 
             mods.addAll(tcItem.getDefaultMods());

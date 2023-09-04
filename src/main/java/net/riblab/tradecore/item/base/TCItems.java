@@ -16,10 +16,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * アイテムレジストリ
@@ -140,12 +137,12 @@ public enum TCItems {
      */
     @Nullable
     public static ITCItem toTCItem(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == Material.AIR)
+        if (Objects.isNull(itemStack) || itemStack.getType() == Material.AIR)
             return null;
 
         String id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
         TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(id)).findFirst().orElse(null);
-        return itcItem == null ? null : itcItem.get();
+        return Objects.isNull(itcItem) ? null : itcItem.get();
     }
 
     /**
@@ -157,7 +154,7 @@ public enum TCItems {
     @Nullable
     public static ITCItem commandToTCItem(String command) {
         TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(command)).findFirst().orElse(null);
-        return itcItem == null ? null : itcItem.get();
+        return Objects.isNull(itcItem) ? null : itcItem.get();
     }
 
     // Function that returns our custom argument
@@ -168,7 +165,7 @@ public enum TCItems {
             // Parse the itcItem from our input
             ITCItem itcItem = commandToTCItem(info.input());
 
-            if (itcItem == null) {
+            if (Objects.isNull(itcItem)) {
                 throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput());
             } else {
                 return itcItem;

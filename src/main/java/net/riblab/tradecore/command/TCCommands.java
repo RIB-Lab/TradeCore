@@ -35,6 +35,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.Objects;
 
 import static net.riblab.tradecore.command.CommandArgDescs.*;
 import static net.riblab.tradecore.command.CommandNames.*;
@@ -286,7 +287,7 @@ public final class TCCommands {
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-                    if(item == null)
+                    if(Objects.isNull(item))
                         return;
                     
                     DataService.getImpl().exportItem(item);
@@ -298,7 +299,7 @@ public final class TCCommands {
                 .executesPlayer((player, args) -> {
                     int index = (int) args.get(0);
                     List<ITCItem> items = TCDeserializedItemHolder.INSTANCE.getDeserializedItems();
-                    if(items == null || index >= items.size()){
+                    if(Objects.isNull(items) || index >= items.size()){
                         return;
                     }
                     ItemStack newStack = items.get(index).getItemStack();

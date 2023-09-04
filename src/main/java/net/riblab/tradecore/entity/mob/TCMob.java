@@ -18,6 +18,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -104,15 +105,15 @@ class TCMob implements ITCMob {
 
     @Override
     public boolean isSimilar(Mob mob) {
-        if (mob == null)
+        if (Objects.isNull(mob))
             return false;
 
         NBTEntity nbtEntity = new NBTEntity(mob);
-        String ID = nbtEntity.getPersistentDataContainer().getString(NBTTagNames.MOBID.get());
+        String id = nbtEntity.getPersistentDataContainer().getString(NBTTagNames.MOBID.get());
 
-        if (ID == null)
+        if (Objects.isNull(id))
             return false;
 
-        return ID.equals(internalName);
+        return id.equals(internalName);
     }
 }

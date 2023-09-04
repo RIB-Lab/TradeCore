@@ -9,10 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public enum JobDataServiceImpl implements JobDataService {
     INSTANCE;
@@ -38,13 +35,13 @@ public enum JobDataServiceImpl implements JobDataService {
     public void addJobExp(OfflinePlayer offlinePlayer, JobType type, int amount) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
-        if (datas == null) {
+        if (Objects.isNull(datas)) {
             datasMap.put(uuid, new ArrayList<>());
             datas = datasMap.get(uuid);
         }
 
         IJobData data = datas.stream().filter(jobData -> jobData.getJobType() == type).findAny().orElse(null);
-        if (data == null) {
+        if (Objects.isNull(data)) {
             data = initPlayerJobData(offlinePlayer, type);
         }
 
@@ -86,13 +83,13 @@ public enum JobDataServiceImpl implements JobDataService {
     public IJobData getJobData(OfflinePlayer offlinePlayer, JobType type) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
-        if (datas == null) {
+        if (Objects.isNull(datas)) {
             datasMap.put(uuid, new ArrayList<>());
             datas = datasMap.get(uuid);
         }
 
         IJobData data = datas.stream().filter(jobData -> jobData.getJobType() == type).findAny().orElse(null);
-        if (data == null) {
+        if (Objects.isNull(data)) {
             data = initPlayerJobData(offlinePlayer, type);
         }
 
@@ -104,13 +101,13 @@ public enum JobDataServiceImpl implements JobDataService {
     public void setJobData(OfflinePlayer offlinePlayer, JobData dataToSet) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
-        if (datas == null) {
+        if (Objects.isNull(datas)) {
             datasMap.put(uuid, new ArrayList<>());
             datas = datasMap.get(uuid);
         }
 
         IJobData data = datas.stream().filter(jobData -> jobData.getJobType() == dataToSet.jobType).findAny().orElse(null);
-        if (data == null) {
+        if (Objects.isNull(data)) {
             data = initPlayerJobData(offlinePlayer, dataToSet.jobType);
         }
 
@@ -122,7 +119,7 @@ public enum JobDataServiceImpl implements JobDataService {
     public void resetJobData(OfflinePlayer offlinePlayer) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobData> datas = datasMap.get(uuid);
-        if (datas == null) {
+        if (Objects.isNull(datas)) {
             return;
         }
 

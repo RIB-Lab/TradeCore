@@ -37,6 +37,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -155,14 +156,14 @@ public final class GeneralEventHandler {
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)
             return;
 
-        if (event.getItem() == null)
+        if (Objects.isNull(event.getItem()))
             return;
 
         if (event.getPlayer().getAttackCooldown() != 1)
             return;
 
         ITCItem itcItem = TCItems.toTCItem(event.getItem());
-        if(itcItem == null)
+        if(Objects.isNull(itcItem))
             return;
 
         IWeaponAttackModifier attackMod = (IWeaponAttackModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
@@ -215,7 +216,7 @@ public final class GeneralEventHandler {
         }
 
         ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-        if(item == null){
+        if(Objects.isNull(item)){
             return;
         }
 
@@ -399,7 +400,7 @@ public final class GeneralEventHandler {
     public void blockTCItemsPlacement(BlockPlaceEvent event){
         ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
 
-        if (itcItem == null)
+        if (Objects.isNull(itcItem))
             return;
 
         if(itcItem.getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))

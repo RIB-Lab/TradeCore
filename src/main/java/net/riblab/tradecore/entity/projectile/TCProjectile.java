@@ -5,6 +5,8 @@ import lombok.Getter;
 import net.riblab.tradecore.general.NBTTagNames;
 import org.bukkit.entity.Projectile;
 
+import java.util.Objects;
+
 public class TCProjectile implements ITCProjectile {
 
     /**
@@ -33,16 +35,13 @@ public class TCProjectile implements ITCProjectile {
 
     @Override
     public boolean isSimilar(Projectile projectile) {
-        if (projectile == null)
+        if (Objects.isNull(projectile))
             return false;
 
         NBTEntity nbtEntity = new NBTEntity(projectile);
-        String ID = nbtEntity.getPersistentDataContainer().getString(NBTTagNames.PROJECTILEID.get());
+        String id = nbtEntity.getPersistentDataContainer().getString(NBTTagNames.PROJECTILEID.get());
 
-        if (ID == null)
-            return false;
-
-        return ID.equals(internalName);
+        return Objects.equals(id, internalName);
     }
 
     @Override

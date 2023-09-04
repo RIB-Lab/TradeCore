@@ -76,7 +76,7 @@ enum FakeVillagerServiceImpl implements FakeVillagerService {
     @Override
     public void tryDeSpawnFakeVillager(Player player) {
         Integer entityID = idMap.remove(player);
-        if (entityID == null)
+        if (Objects.isNull(entityID))
             return;
 
         List<Integer> entityIDList = new ArrayList<>();

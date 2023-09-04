@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * このプラグイン独自のモブをスポーンさせたりデスポーンイベントを発行したりするシステム
@@ -41,11 +42,11 @@ enum CustomMobServiceImpl implements CustomMobService {
         if (!isLootable)
             return;
 
-        ITCMob ITCMob = TCMobs.toTCMob(mob);
-        if (ITCMob == null)
+        ITCMob iTCMob = TCMobs.toTCMob(mob);
+        if (Objects.isNull(iTCMob))
             return;
 
-        ITCMob.onKilledByPlayer(mob);
+        iTCMob.onKilledByPlayer(mob);
     }
 
     @Override
