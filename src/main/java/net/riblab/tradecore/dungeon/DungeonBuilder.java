@@ -22,12 +22,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
 
-final class DungeonBuilder {
+public final class DungeonBuilder {
 
-    private static final String tmpDirName = "dungeontemplate";
-    private static final String copySchemDir = "schematics";
-    private static final File pasteSchemDir = new File(TradeCore.getInstance().getDataFolder() + "/tmp");
-    private static final Vector dungeonGenerateLoc = new Vector(0, 100, 0);
+    private static final String TEMP_DIR_NAME = "dungeontemplate";
+    private static final String COPY_SCHEM_DIR = "schematics";
+    private static final File PASTE_SCHEM_DIR = new File(TradeCore.getInstance().getDataFolder(), "tmp");
+    private static final Vector DUNGEON_GENERATE_LOC = new Vector(0, 100, 0);
 
     /**
      * ダンジョンを建設する
@@ -38,36 +38,65 @@ final class DungeonBuilder {
      * @return 建設されたダンジョン
      */
     public static World build(IDungeonData<?> data, String affixedDungeonName, String schemName) {
-        //ワールドをresourceからコピー
+        World world = copyWorldFolder(affixedDungeonName);
+                
+        File instantiatedSchemFile = copySchem(schemName);
+        if(Objects.isNull(instantiatedSchemFile)){
+            return world;
+        }
+        
+        generateTerrain(world, instantiatedSchemFile);
+
+        setupWorld(world, data);
+        
+        return world;
+    }
+
+    /**
+     * 空のワールドをResourceフォルダからコピーして、新しいワールドのデータを作る
+     */
+    private static World copyWorldFolder(String affixedDungeonName){
         File destDir = new File(affixedDungeonName);
         try {
-            Utils.copyFolder(tmpDirName, destDir);
+            Utils.copyFolder(TEMP_DIR_NAME, destDir);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File uidFile = new File(affixedDungeonName + "/uid.dat");
+        File uidFile = new File(destDir, "uid.dat");
         uidFile.delete();
         WorldCreator wc = new WorldCreator(affixedDungeonName, new NamespacedKey(TradeCore.getInstance(), affixedDungeonName));
         wc.generator(new EmptyChunkGenerator());
         World world = Bukkit.getServer().createWorld(wc);
 
         Objects.requireNonNull(world, "ワールドの生成に失敗しました");
+        
+        return world;
+    }
 
-        //ダンジョン名に対応したschemをresourceからコピーする
-        File instantiatedSchemFile = new File(pasteSchemDir + "/" + schemName + ".schem");
+    /**
+     * ダンジョン名に対応したschemをresourceからコピーする
+     */
+    private static File copySchem(String schemName){
+        File instantiatedSchemFile = new File(PASTE_SCHEM_DIR, schemName + ".schem");
         boolean fileHasCopied = false;
         try {
-            fileHasCopied = Utils.copyFile(copySchemDir + "/" + schemName + ".schem", instantiatedSchemFile);
+            fileHasCopied = Utils.copyFile(COPY_SCHEM_DIR + "/" + schemName + ".schem", instantiatedSchemFile);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         if (!fileHasCopied) {
-            Bukkit.getLogger().severe("schemファイルが見つかりません：" + copySchemDir + "/" + schemName + ".schem");
-            return world;
+            Bukkit.getLogger().severe("schemファイルが見つかりません：" + COPY_SCHEM_DIR + "/" + schemName + ".schem");
+            return null;
         }
+        
+        return instantiatedSchemFile;
+    }
 
-        //schemから地形生成
+    /**
+     * schemから地形生成
+     */
+    private static void generateTerrain(World world, File instantiatedSchemFile){
         Clipboard clipboard;
         ClipboardFormat format = ClipboardFormats.findByFile(instantiatedSchemFile);
         try {
@@ -82,12 +111,17 @@ final class DungeonBuilder {
         try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
             Operation operation = new ClipboardHolder(clipboard)
                     .createPaste(editSession)
-                    .to(BlockVector3.at(dungeonGenerateLoc.getX(), dungeonGenerateLoc.getY(), dungeonGenerateLoc.getZ()))
+                    .to(BlockVector3.at(DUNGEON_GENERATE_LOC.getX(), DUNGEON_GENERATE_LOC.getY(), DUNGEON_GENERATE_LOC.getZ()))
                     .copyEntities(true)
                     .build();
             Operations.complete(operation);
         }
+    }
 
+    /**
+     * 生成したワールドの初期設定を行う
+     */
+    private static void setupWorld(World world, IDungeonData<?> data){
         world.setAutoSave(false);
         world.setGameRule(GameRule.KEEP_INVENTORY, true);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
@@ -97,7 +131,6 @@ final class DungeonBuilder {
         world.setTime(6000);
         Vector loc = data.getSpawnPoint();
         world.setSpawnLocation(new Location(world, loc.getX(), loc.getY(), loc.getZ()));
-        return world;
     }
 
     /**
