@@ -44,7 +44,7 @@ enum DungeonServiceImpl implements DungeonService {
     @Override
     @ParametersAreNonnullByDefault
     public World create(IDungeonData<?> data, int instanceID) {
-        String name = data.getName();
+        String name = data.getNames().getInternalName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
         if (instanceID >= 0) {
@@ -74,7 +74,7 @@ enum DungeonServiceImpl implements DungeonService {
     @Override
     @ParametersAreNonnullByDefault
     public boolean isDungeonExist(IDungeonData<?> data, int id) {
-        return isDungeonExist(data.getName(), id);
+        return isDungeonExist(data.getNames().getInternalName(), id);
     }
 
     private boolean isDungeonExist(String name, int id) {
@@ -96,7 +96,7 @@ enum DungeonServiceImpl implements DungeonService {
     @Override
     @ParametersAreNonnullByDefault
     public void enter(Player player, IDungeonData<?> data, int id) {
-        enter(player, getDungeonWorld(data.getName(), id));
+        enter(player, getDungeonWorld(data.getNames().getInternalName(), id));
     }
 
     @Override

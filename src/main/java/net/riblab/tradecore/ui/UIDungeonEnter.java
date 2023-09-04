@@ -57,7 +57,7 @@ final class UIDungeonEnter implements IUI {
 
         IEnterDungeonModifier mod = (IEnterDungeonModifier) tcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IEnterDungeonModifier).findFirst().orElse(null);
         if(mod != null){
-            IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).get());
+            IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).getInternalName());
             DungeonService IDungeonService = DungeonService.getImpl();
             World instance = IDungeonService.create(data, -1);
             IDungeonService.enter((Player) event.getPlayer(), instance);

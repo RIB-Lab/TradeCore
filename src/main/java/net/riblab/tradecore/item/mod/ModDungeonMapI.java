@@ -9,6 +9,11 @@ public class ModDungeonMapI extends ItemMod<DungeonNames> implements IEnterDunge
     }
 
     @Override
+    public String getLore() {
+        return "「" +this.getParam().getDisplayName() + "」に入場できる";
+    }
+
+    @Override
     public DungeonNames apply(DungeonNames originalValue, DungeonNames modifiedValue) {
         return getParam();
     }

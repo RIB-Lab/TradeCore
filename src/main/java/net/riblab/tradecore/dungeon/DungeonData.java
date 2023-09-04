@@ -17,7 +17,7 @@ class DungeonData<T> implements IDungeonData<T> {
     /**
      * ダンジョン名
      */
-    private final String name;
+    private final DungeonNames names;
 
     /**
      * ダンジョンのスポーン地点
