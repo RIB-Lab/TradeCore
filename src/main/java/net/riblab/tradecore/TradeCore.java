@@ -54,7 +54,7 @@ public final class TradeCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        DataService.getImpl().load();
+        DataService.getImpl().loadAll();
         JobSkillService.getImpl().onDeserialize();
         PlayerStatsService.getImpl().init();
         VanillaCraftInitializer.INSTANCE.init(this);
@@ -106,7 +106,7 @@ public final class TradeCore extends JavaPlugin {
     @Override
     public void onDisable() {
         vaultHook.unhook();
-        DataService.getImpl().save();
+        DataService.getImpl().saveAll();
 
         CustomMobService.getImpl().deSpawnAll();
         CustomProjectileService.getImpl().deSpawnAll();

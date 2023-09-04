@@ -3,7 +3,6 @@ package net.riblab.tradecore.config;
 import net.riblab.tradecore.item.base.ITCItem;
 
 import javax.annotation.Nullable;
-import java.io.File;
 
 public interface DataService {
 
@@ -12,15 +11,18 @@ public interface DataService {
     }
 
     /**
-     * コンフィグを保存する
+     * プラグインの保存できる全てのデータを保存する
      */
-    void save();
+    void saveAll();
 
     /**
-     * コンフィグをロードする
+     * プラグインの全てのデータをロードする
      */
-    void load();
-    
+    void loadAll();
+
+    /**
+     * プラグインのアイテムレジストリだけをロードする
+     */
     void loadItems();
 
     @Nullable
@@ -29,5 +31,9 @@ public interface DataService {
     @Nullable
     JobDatas getJobDatas();
 
+    /**
+     * アイテムをファイルにスクリプトとしてエクスポートする
+     * @param item アイテム
+     */
     void exportItem(ITCItem item);
 }

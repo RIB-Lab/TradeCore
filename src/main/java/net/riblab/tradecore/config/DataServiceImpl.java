@@ -60,7 +60,7 @@ enum DataServiceImpl implements DataService {
     }
 
     @Override
-    public void save() {
+    public void saveAll() {
         save(currencyData, currencyDataFile);
         save(jobDatas, jobsDataFile);
     }
@@ -76,7 +76,7 @@ enum DataServiceImpl implements DataService {
     }
 
     @Override
-    public void load() {
+    public void loadAll() {
         currencyData =  load(currencyDataFile, CurrencyData.class);
         jobDatas = load(jobsDataFile, JobDatas.class);
         loadItems();
@@ -104,7 +104,7 @@ enum DataServiceImpl implements DataService {
      * アイテムをデータフォルダから読み込む
      */
     public void loadItems(){
-        TCDeserializedItemHolder.INSTANCE.clear();
+        TCDeserializedItemHolder.INSTANCE.getDeserializedItems().clear();
         
         List<File> itemFiles;
         try {
@@ -112,13 +112,16 @@ enum DataServiceImpl implements DataService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        itemFiles.forEach(TCDeserializedItemHolder.INSTANCE::deserialize);
+        for (File itemFile : itemFiles) {
+            List<ITCItem> deserializedItems = ItemIOUtils.deserialize(itemFile);
+            TCDeserializedItemHolder.INSTANCE.getDeserializedItems().addAll(deserializedItems);
+        }
     }
 
     /**
      * アイテムを既定のファイルにエクスポートする
      */
     public void exportItem(ITCItem item){
-        TCDeserializedItemHolder.INSTANCE.saveItem(item, itemExportFile);
+        ItemIOUtils.saveItem(item, itemExportFile);
     }
 }
