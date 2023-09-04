@@ -15,6 +15,7 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.Utils;
 import org.bukkit.*;
 import org.bukkit.generator.ChunkGenerator;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.io.File;
@@ -45,7 +46,7 @@ public final class DungeonBuilder {
             return world;
         }
         
-        generateTerrain(world, instantiatedSchemFile);
+        generateTerrainAsync(world, instantiatedSchemFile);
 
         setupWorld(world, data);
         
@@ -96,7 +97,7 @@ public final class DungeonBuilder {
     /**
      * schemから地形生成
      */
-    private static void generateTerrain(World world, File instantiatedSchemFile){
+    private static void generateTerrainAsync(World world, File instantiatedSchemFile){
         Clipboard clipboard;
         ClipboardFormat format = ClipboardFormats.findByFile(instantiatedSchemFile);
         try {
@@ -108,14 +109,19 @@ public final class DungeonBuilder {
             throw new RuntimeException(e);
         }
         com.sk89q.worldedit.world.World weWorld = BukkitAdapter.adapt(world);
-        try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
-            Operation operation = new ClipboardHolder(clipboard)
-                    .createPaste(editSession)
-                    .to(BlockVector3.at(DUNGEON_GENERATE_LOC.getX(), DUNGEON_GENERATE_LOC.getY(), DUNGEON_GENERATE_LOC.getZ()))
-                    .copyEntities(true)
-                    .build();
-            Operations.complete(operation);
-        }
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
+                    Operation operation = new ClipboardHolder(clipboard)
+                            .createPaste(editSession)
+                            .to(BlockVector3.at(DUNGEON_GENERATE_LOC.getX(), DUNGEON_GENERATE_LOC.getY(), DUNGEON_GENERATE_LOC.getZ()))
+                            .copyEntities(true)
+                            .build();
+                    Operations.complete(operation);
+                }
+            }
+        }.runTaskAsynchronously(TradeCore.getInstance());
     }
 
     /**
