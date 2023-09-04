@@ -20,6 +20,8 @@ public interface DataService {
      * コンフィグをロードする
      */
     void load();
+    
+    void loadItems();
 
     @Nullable
     CurrencyData getCurrencyData();

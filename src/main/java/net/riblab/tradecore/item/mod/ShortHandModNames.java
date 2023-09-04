@@ -22,7 +22,7 @@ public enum ShortHandModNames {
     RANDOMDURABILITY(ModRandomDurabilityI.class),
     RANDOMMININGSPEED(ModRandomMiningSpeedI.class),
     ADDCRAFTCOST(ModAddCraftCostI.class),
-    RESOURCECHANCE(ModAddResouceChanceI.class),
+    ADDRESOURCECHANCE(ModAddResouceChanceI.class),
     SELLPRICE(ModSellPriceI.class),
     TOOLSTATS(ModToolStatsI.class),
     ADDWALKSPEED(ModAddWalkSpeedI.class),

@@ -89,7 +89,7 @@ public enum TCItems {
 
     //鉄器時代
     REINFORCED_STICK(new TCItem(Component.text("強化棒"), Material.STICK, "reinforced_stick", 0, List.of(new ModSellPriceI(0.10d)))),
-    REINFORCED_WALKING_STICK(new TCItem(Component.text("強化歩行杖"), Material.STICK, "reinforced _walking_stick", 0, List.of(new ModAddWalkSpeedI(6)))),
+    REINFORCED_WALKING_STICK(new TCItem(Component.text("強化歩行杖"), Material.STICK, "reinforced_walking_stick", 0, List.of(new ModAddWalkSpeedI(6)))),
     BASIC_BOW(new TCItem(Component.text("普通の弓"), Material.BOW, "basic_bow", 0, List.of(new ModDefaultMaxDurabilityI(DurabilityTable.IRONAGE),new ModWeaponAttribute(ModWeaponAttribute.WeaponType.BOW), new ModDefaultAttackDamageI(new ModDefaultAttackDamageI.DamageData(4, AttackDamageSpread.IRON))))),
 
     //店売り限定

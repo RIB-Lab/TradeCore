@@ -9,7 +9,6 @@ depend:
   - FastAsyncWorldEdit
   - CommandAPI
   - NBTAPI
-  - ConfigLib
   - HoloMobHealth
 softdepend:
   - WorldGuard

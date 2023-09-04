@@ -1,8 +1,6 @@
 package net.riblab.tradecore.item.base;
 
 
-import de.exlll.configlib.Configuration;
-import de.exlll.configlib.Ignore;
 import lombok.Data;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Configuration
 public class TCItem implements ITCItem {
     
     /**
@@ -43,13 +40,11 @@ public class TCItem implements ITCItem {
      * アイテムの唯一不変の実体で、固有のmodだけが実装されている<br>
      * 注意：絶対に変更してはいけないので必ずクローンして使うこと
      */
-    @Ignore
     protected ItemCreator itemStackTemplate;
 
     /**
      * 主に召喚コマンドで用いられる内部的なアイテム名<br>
      */
-    @Ignore
     private String internalName = "dummy";
 
     /**

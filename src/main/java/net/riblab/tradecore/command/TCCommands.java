@@ -5,7 +5,6 @@ import dev.jorel.commandapi.CommandPermission;
 import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
-import dev.jorel.commandapi.arguments.StringArgument;
 import net.riblab.tradecore.config.DataService;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
@@ -279,26 +278,10 @@ public final class TCCommands {
         projectileCommand.withSubcommand(projectileResetCommand);
         projectileCommand.register();
 
-        //TEST
-        CommandAPICommand tcSavedGiveCommand = new CommandAPICommand("savedgive")
-                .withArguments(new IntegerArgument("index", 0, 1000))
-                .executesPlayer((player, args) -> {
-                    int index = (int) args.get(0);
-                    List<ITCItem> items = TCDeserializedItemHolder.INSTANCE.getDeserializedItems();
-                    if(items == null || index >= items.size()){
-                        return;
-                    }
-                    ItemStack newStack = items.get(index).getItemStack();
-                    player.getInventory().addItem(newStack);
-                });
-        tcSavedGiveCommand.setPermission(CommandPermission.OP);
-        tcSavedGiveCommand.register();
-
         CommandAPICommand itemCommand = new CommandAPICommand("item")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                 });
-
         CommandAPICommand itemExportCommand = new CommandAPICommand("export")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
@@ -309,7 +292,27 @@ public final class TCCommands {
                     DataService.getImpl().exportItem(item);
                     player.sendMessage("手持ちのアイテムをコンフィグのitemexportにエクスポートしました");
                 });
+        CommandAPICommand loadedItemGiveCommand = new CommandAPICommand("give")
+                .withPermission(CommandPermission.OP)
+                .withArguments(new IntegerArgument("index", 0, 1000))
+                .executesPlayer((player, args) -> {
+                    int index = (int) args.get(0);
+                    List<ITCItem> items = TCDeserializedItemHolder.INSTANCE.getDeserializedItems();
+                    if(items == null || index >= items.size()){
+                        return;
+                    }
+                    ItemStack newStack = items.get(index).getItemStack();
+                    player.getInventory().addItem(newStack);
+                });
+        CommandAPICommand itemReloadCommand = new CommandAPICommand("reload")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    DataService.getImpl().loadItems();
+                    player.sendMessage("アイテムをコンフィグから読み込みました");
+                });
         itemCommand.withSubcommand(itemExportCommand);
+        itemCommand.withSubcommand(loadedItemGiveCommand);
+        itemCommand.withSubcommand(itemReloadCommand);
         itemCommand.register();
     }
 }
