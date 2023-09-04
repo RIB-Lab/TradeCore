@@ -31,12 +31,6 @@ public final class ItemIOUtils {
     private ItemIOUtils(){
         
     }
-    
-    private static final String nameTag = "name";
-    private static final String materialTag = "material";
-    private static final String customModelDataTag = "model";
-
-    private static final String defaultModsTag = "mods";
 
     private static final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
     
@@ -80,16 +74,16 @@ public final class ItemIOUtils {
 
                                     ScalarNode itemPropertiesNode = (ScalarNode) nodeTuple3.getKeyNode();//プロパティ達のノード
 
-                                    if(itemPropertiesNode.getValue().equals(nameTag)){
+                                    if(itemPropertiesNode.getValue().equals(ItemIOTags.NAME.get())){
                                         tcItem.setName(Component.text(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
                                     }
-                                    else if(itemPropertiesNode.getValue().equals(materialTag)){
+                                    else if(itemPropertiesNode.getValue().equals(ItemIOTags.MATERIAL.get())){
                                         tcItem.setMaterial(Material.getMaterial(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
                                     }
-                                    else if(itemPropertiesNode.getValue().equals(customModelDataTag)){
+                                    else if(itemPropertiesNode.getValue().equals(ItemIOTags.CUSTOMMODELDATA.get())){
                                         tcItem.setCustomModelData(Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
                                     }
-                                    else if(itemPropertiesNode.getValue().equals(defaultModsTag)){
+                                    else if(itemPropertiesNode.getValue().equals(ItemIOTags.DEFAULTMODS.get())){
                                         Node valueNode3 = nodeTuple3.getValueNode();
                                         if(valueNode3 instanceof MappingNode){
                                             MappingNode valueNode3Map = ((MappingNode) valueNode3);
@@ -142,10 +136,10 @@ public final class ItemIOUtils {
 
         //アイテムの情報をセーブ
         Map<String, Object> itemInfo = new HashMap<>();
-        itemInfo.put(nameTag, item.getName().content());
-        itemInfo.put(materialTag, item.getMaterial().toString());
-        itemInfo.put(customModelDataTag, item.getCustomModelData());
-        itemInfo.put(defaultModsTag, defaultModsMap);
+        itemInfo.put(ItemIOTags.NAME.get(), item.getName().content());
+        itemInfo.put(ItemIOTags.MATERIAL.get(), item.getMaterial().toString());
+        itemInfo.put(ItemIOTags.CUSTOMMODELDATA.get(), item.getCustomModelData());
+        itemInfo.put(ItemIOTags.DEFAULTMODS.get(), defaultModsMap);
 
         //アイテムのinternalnameをキーとしてセーブ
         Map<String, Object> itemRoot = new HashMap<>();
