@@ -118,7 +118,7 @@ public final class BlockStateEventHandler implements Listener {
         List<IItemMod<?>> mods = new ItemCreator(itemStack).getItemRandomMods();
         IMiningSpeedModifier miningSpeedMod = (IMiningSpeedModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
         double miningSpeed = 0.1d;
-        if(miningSpeedMod != null)
+        if(Objects.nonNull(miningSpeedMod))
             miningSpeed = miningSpeedMod.apply(miningSpeed, miningSpeed);
         return miningSpeed;
     }
@@ -158,34 +158,37 @@ public final class BlockStateEventHandler implements Listener {
         
         List<IItemMod<?>> mods = itcItem.getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
-        if (toolMod != null) { //ツール
-            Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), toolMod);
-            if (table.size() != 0) {
-                event.setCancelled(true);
-                ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
-                ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(mainHand, 1);
-                event.getPlayer().getInventory().setItemInMainHand(newItemStack);
-
-                IMonsterSpawnModifier spawnMod = (IMonsterSpawnModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IMonsterSpawnModifier).findFirst().orElse(null);
-                if (spawnMod != null) {
-                    List<ITCMob> mobsToSpawn = new ArrayList<>();
-                    mobsToSpawn = spawnMod.apply(mobsToSpawn, mobsToSpawn);
-                    MobUtils.trySpawnMobInRandomArea(event.getPlayer(), event.getBlock(), mobsToSpawn, 5);
-                }
-
-                JobType jobType = toolMod.apply(null,null).getToolType().getExpType();
-                if (jobType != null) {
-                    //硬度によって経験値が決まるが、硬度0でも1は入るようにする
-                    JobDataService.getImpl().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), toolMod) + 1);
-                }
-
-                event.getBlock().setType(Material.AIR);
-                return;
-            }
+        if (Objects.isNull(toolMod)) { //ツール
+            //適正ツール以外での採掘は何も落とさない
+            event.setDropItems(false);
+            return;
         }
 
-        //適正ツール以外での採掘は何も落とさない
-        event.setDropItems(false);
+        Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), toolMod);
+        if (table.isEmpty()) {
+            event.setDropItems(false);
+            return;
+        }
+
+        event.setCancelled(true);
+        ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
+        ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(mainHand, 1);
+        event.getPlayer().getInventory().setItemInMainHand(newItemStack);
+
+        IMonsterSpawnModifier spawnMod = (IMonsterSpawnModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IMonsterSpawnModifier).findFirst().orElse(null);
+        if (Objects.nonNull(spawnMod)) {
+            List<ITCMob> mobsToSpawn = new ArrayList<>();
+            mobsToSpawn = spawnMod.apply(mobsToSpawn, mobsToSpawn);
+            MobUtils.trySpawnMobInRandomArea(event.getPlayer(), event.getBlock(), mobsToSpawn, 5);
+        }
+
+        JobType jobType = toolMod.apply(null,null).getToolType().getExpType();
+        if (Objects.nonNull(jobType)) {
+            //硬度によって経験値が決まるが、硬度0でも1は入るようにする
+            JobDataService.getImpl().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), toolMod) + 1);
+        }
+
+        event.getBlock().setType(Material.AIR);
     }
 
     /**
@@ -200,7 +203,7 @@ public final class BlockStateEventHandler implements Listener {
 
         List<IItemMod<?>> mods = itcItem.getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
-        if (event.getBlock().getType() == Material.FARMLAND && toolMod != null) { //耕地を耕したときのドロップ
+        if (event.getBlock().getType() == Material.FARMLAND && Objects.nonNull(toolMod)) { //耕地を耕したときのドロップ
             Multimap<Float, ITCItem> table = LootTables.get(Material.FARMLAND, toolMod);
             ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
             ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(event.getItemInHand(), 1);

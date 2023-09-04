@@ -112,7 +112,7 @@ public final class ItemUtils {
      */
     public static ModRandomDurabilityI.PackedDurabilityData getDurability(List<IItemMod<?>> mods){
         ModRandomDurabilityI maxDurabilityMod = (ModRandomDurabilityI) mods.stream().filter(iItemMod -> iItemMod instanceof ModRandomDurabilityI).findFirst().orElse(null);
-        return maxDurabilityMod != null ? maxDurabilityMod.getParam() : new ModRandomDurabilityI.PackedDurabilityData(-1,-1);
+        return Objects.nonNull(maxDurabilityMod) ? maxDurabilityMod.getParam() : new ModRandomDurabilityI.PackedDurabilityData(-1,-1);
     }
 
     /**

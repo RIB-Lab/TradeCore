@@ -76,7 +76,7 @@ enum DungeonServiceImpl implements DungeonService {
 
     private boolean isDungeonExist(String name, int id) {
         String dungeonName = getAffixedDungeonName(name, id);
-        return dungeons.keySet().stream().filter(world -> world.getName().equals(dungeonName)).findFirst().orElse(null) != null;
+        return dungeons.keySet().stream().anyMatch(world -> world.getName().equals(dungeonName));
     }
 
     /**
@@ -147,7 +147,7 @@ enum DungeonServiceImpl implements DungeonService {
 
     @Override
     public boolean isPlayerInDungeon(Player player) {
-        return dungeons.keySet().stream().filter(world -> player.getWorld().equals(world)).findAny().orElse(null) != null;
+        return dungeons.keySet().stream().anyMatch(world -> player.getWorld().equals(world));
     }
 
     @Override
@@ -242,7 +242,7 @@ enum DungeonServiceImpl implements DungeonService {
         Objects.requireNonNull(data, "ワールド名からダンジョンデータが推測できません！");
 
         ItemStack reward = ItemUtils.getRandomItemFromPool(data.getRewardPool());
-        if (reward != null) {
+        if (Objects.nonNull(reward)) {
             instance.getPlayers().forEach(player -> {
                 final HashMap<Integer, ItemStack> item = player.getInventory().addItem(reward);
                 item.forEach((integer, itemStack) -> instance.dropItemNaturally(player.getLocation(), itemStack));

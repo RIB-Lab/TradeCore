@@ -51,7 +51,7 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
     @Override
     public void updateMainHand(Player player, int newSlot) {
         ITCItem tcItem = TCItems.toTCItem(player.getInventory().getItem(newSlot));
-        if (tcItem != null) {
+        if (Objects.nonNull(tcItem)) {
             playerMainHandModMap.put(player, tcItem.getDefaultMods());
         } else {
             playerMainHandModMap.remove(player);

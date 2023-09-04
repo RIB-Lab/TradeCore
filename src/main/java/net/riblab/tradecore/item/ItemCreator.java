@@ -71,7 +71,7 @@ public final class ItemCreator {
     @ParametersAreNonnullByDefault
     public ItemCreator setName(Component name) {
         ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
+        if (Objects.nonNull(meta)) {
             meta.displayName(name);
             itemStack.setItemMeta(meta);
         }
@@ -142,7 +142,7 @@ public final class ItemCreator {
      */
     public ItemCreator setUnbreakable(boolean value) {
         ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
+        if (Objects.nonNull(meta)) {
             meta.setUnbreakable(value);
             itemStack.setItemMeta(meta);
             itemStack.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
@@ -159,7 +159,7 @@ public final class ItemCreator {
     @ParametersAreNonnullByDefault
     public ItemCreator SetFlags(ItemFlag... flags) {
         ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
+        if (Objects.nonNull(meta)) {
             meta.addItemFlags(flags);
             itemStack.setItemMeta(meta);
         }
@@ -198,7 +198,7 @@ public final class ItemCreator {
     @ParametersAreNullableByDefault
     public ItemCreator setLores(List<Component> lores) {
         ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
+        if (Objects.nonNull(meta)) {
             meta.lore(lores);
         }
         itemStack.setItemMeta(meta);
@@ -217,7 +217,7 @@ public final class ItemCreator {
             return this;
         }
         ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
+        if (Objects.nonNull(meta)) {
             List<Component> lores = meta.lore();
             if (Objects.isNull(lores)) {
                 lores = new ArrayList<>();
@@ -238,7 +238,7 @@ public final class ItemCreator {
             return this;
         }
         ItemMeta meta = itemStack.getItemMeta();
-        if (meta != null) {
+        if (Objects.nonNull(meta)) {
             List<Component> lores = meta.lore();
             if (Objects.isNull(lores)) {
                 lores = new ArrayList<>();
@@ -479,7 +479,7 @@ public final class ItemCreator {
                 //クラスの名前が変わっただけかもしれないし、modがなかった時のフォールバックも用意してあるので、握りつぶす
             }
             
-            if(mod != null && mod.getParam() != null)
+            if(Objects.nonNull(mod) && Objects.nonNull(mod.getParam()))
                 modList.add(mod);
         }
         return modList;
@@ -489,7 +489,7 @@ public final class ItemCreator {
      * アイテムの攻撃速度modからバニラの攻撃速度を抽出して、アイテムに書きこむ
      */
     public ItemCreator setAttackSpeedAttr(@Nullable ModWeaponAttribute weaponMod){
-        if(weaponMod != null)
+        if(Objects.nonNull(weaponMod))
             return setAttackSpeedAttr(weaponMod.getParam().getAttackSpeed());
         return this;
     }

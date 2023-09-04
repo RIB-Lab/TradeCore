@@ -185,7 +185,7 @@ public class TCItem implements ITCItem {
         List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> randomMod : randomMods) {
-            if(randomMod.getLore() != null)
+            if(Objects.nonNull(randomMod.getLore()))
                 texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
 

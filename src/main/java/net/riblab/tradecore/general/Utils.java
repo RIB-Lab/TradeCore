@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.Enumeration;
+import java.util.Objects;
 import java.util.Random;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -78,7 +79,7 @@ public final class Utils {
             if (entry.getName().startsWith(srcDirName + "/") && !entry.isDirectory()) {
                 File dest = new File(destDir, entry.getName().substring(srcDirName.length() + 1));
                 File parent = dest.getParentFile();
-                if (parent != null) {
+                if (Objects.nonNull(parent)) {
                     parent.mkdirs();
                 }
                 try (FileOutputStream out = new FileOutputStream(dest); InputStream in = jar.getInputStream(entry)) {
@@ -116,7 +117,7 @@ public final class Utils {
             JarEntry entry = entries.nextElement();
             if (entry.getName().equals(srcFileName) && !entry.isDirectory()) {
                 File parent = destDir.getParentFile();
-                if (parent != null) {
+                if (Objects.nonNull(parent)) {
                     parent.mkdirs();
                 }
                 FileOutputStream out = new FileOutputStream(destDir);

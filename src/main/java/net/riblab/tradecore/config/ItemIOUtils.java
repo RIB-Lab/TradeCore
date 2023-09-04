@@ -94,7 +94,7 @@ public final class ItemIOUtils {
                                                 Node modsNameNode = nodeTuple4.getKeyNode(); //アイテムmodの名前ノード
                                                 Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
                                                 Class<? extends IItemMod> modsClass =  ShortHandModNames.getClassFromShortHandName(((ScalarNode)modsNameNode).getValue());
-                                                if(modsClass != null){
+                                                if(Objects.nonNull(modsClass)){
                                                     //Jsonを元の型に還元する
                                                     Constructor<?> constructor = modsClass.getConstructors()[0];
                                                     Type[] parameterTypes = constructor.getGenericParameterTypes();

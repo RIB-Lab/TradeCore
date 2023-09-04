@@ -4,6 +4,7 @@ import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * modの種類と、その短縮形の名前を記録するenum
@@ -43,7 +44,7 @@ public enum ShortHandModNames {
      */
     public static String getShortHandNameFromClass(Class<? extends IItemMod<?>> clazz){
         ShortHandModNames names = Arrays.stream(ShortHandModNames.values()).filter(shortHandModNames -> shortHandModNames.getModClass().equals(clazz)).findFirst().orElse(null);
-        return names != null ? names.name().toLowerCase(Locale.ROOT) : null;
+        return Objects.nonNull(names) ? names.name().toLowerCase(Locale.ROOT) : null;
     }
 
     /**
@@ -52,6 +53,6 @@ public enum ShortHandModNames {
     public static Class<? extends IItemMod<?>> getClassFromShortHandName(String shortHandName){
         String capitalName = shortHandName.toUpperCase(Locale.ROOT);
         ShortHandModNames names = Arrays.stream(ShortHandModNames.values()).filter(shortHandModNames -> shortHandModNames.name().equals(capitalName)).findFirst().orElse(null);
-        return names != null ? names.getModClass() : null;
+        return Objects.nonNull(names) ? names.getModClass() : null;
     }
 }

@@ -10,6 +10,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -80,7 +81,7 @@ public abstract class DungeonProgressionTracker<T> {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    if (onGameOver != null)
+                    if (Objects.nonNull(onGameOver))
                         onGameOver.accept(event.getPlayer().getWorld());
                 }
             }.runTaskLater(JavaPlugin.getPlugin(TradeCore.class), 0);

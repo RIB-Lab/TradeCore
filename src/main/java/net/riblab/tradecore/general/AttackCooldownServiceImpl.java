@@ -43,7 +43,8 @@ enum AttackCooldownServiceImpl implements AttackCooldownService {
     
     @Override
     public double getCooldown(Player player){
-        return cooldownMap.get(player) != null ? cooldownMap.get(player) : 0;
+        Double cooldown = cooldownMap.get(player);
+        return Objects.nonNull(cooldown) ? cooldown: 0;
     }
 
     @Override

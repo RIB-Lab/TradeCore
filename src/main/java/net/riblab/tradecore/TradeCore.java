@@ -29,6 +29,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.Objects;
+
 
 public final class TradeCore extends JavaPlugin {
 
@@ -90,7 +92,7 @@ public final class TradeCore extends JavaPlugin {
                         PacketContainer packet = event.getPacket();
                         int id = packet.getIntegers().read(0);
                         Integer integer = FakeVillagerService.getImpl().getCurrentID(player);
-                        if (integer != null && id == integer) {
+                        if (Objects.equals(id, integer)) {
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {

@@ -71,7 +71,7 @@ final class DungeonBuilder {
         Clipboard clipboard;
         ClipboardFormat format = ClipboardFormats.findByFile(instantiatedSchemFile);
         try {
-            assert format != null;
+            assert Objects.nonNull(format);
             try (ClipboardReader reader = format.getReader(new FileInputStream(instantiatedSchemFile))) {
                 clipboard = reader.read();
             }

@@ -74,7 +74,7 @@ class BrokenBlock {
     public void breakBlock(Player breaker) {
         damage = -1;
         sendBreakPacket(breaker);
-        if (onDestruction != null)
+        if (Objects.nonNull(onDestruction))
             onDestruction.accept(breaker);
 //        SoundPlayerUtils.playBlockSound(block);
         if (Objects.isNull(breaker)) return;
@@ -90,7 +90,7 @@ class BrokenBlock {
     public void resetBlockObject(Player player) {
         damage = -1;
         sendBreakPacket(player);
-        if (onDestruction != null)
+        if (Objects.nonNull(onDestruction))
             onDestruction.accept(player);
     }
 

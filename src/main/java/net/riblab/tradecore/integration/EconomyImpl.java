@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -69,7 +70,7 @@ enum EconomyImpl implements TCEconomy {
     @Override
     public boolean hasAccount(OfflinePlayer offlinePlayer) {
         UUID uuid = offlinePlayer.getUniqueId();
-        return data.playerBank.get(uuid) != null;
+        return Objects.nonNull(data.playerBank.get(uuid));
     }
 
     @Override

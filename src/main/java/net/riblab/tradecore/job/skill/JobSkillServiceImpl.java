@@ -30,7 +30,7 @@ enum JobSkillServiceImpl implements JobSkillService {
     public void resetPlayerJobSkillData(OfflinePlayer offlinePlayer) {
         UUID uuid = offlinePlayer.getUniqueId();
         List<IJobSkill> datas = datasMap.get(uuid);
-        if (datas != null)
+        if (Objects.nonNull(datas))
             datas.clear();
         else {
             datasMap.put(uuid, new ArrayList<>());
@@ -70,7 +70,7 @@ enum JobSkillServiceImpl implements JobSkillService {
         IJobSkill learnedSkillInstance = datas.stream().filter(
                 skillInData -> skillType.isInstance(skillInData) && skillInData.getLearnedJobType() == jobType).findFirst().orElse(null);
 
-        if (learnedSkillInstance != null) { //既にスキルを習得済みの場合、スキルのレベルを1上げる
+        if (Objects.nonNull(learnedSkillInstance)) { //既にスキルを習得済みの場合、スキルのレベルを1上げる
             learnedSkillInstance.setLevel(learnedSkillInstance.getLevel() + 1);
 
             if (offlinePlayer instanceof Player player)
@@ -104,7 +104,7 @@ enum JobSkillServiceImpl implements JobSkillService {
         IJobSkill learnedSkillInstance = datas.stream().filter(
                 skillInData -> skillType.isInstance(skillInData) && skillInData.getLearnedJobType() == jobType).findFirst().orElse(null);
 
-        if (learnedSkillInstance != null) {
+        if (Objects.nonNull(learnedSkillInstance)) {
             return learnedSkillInstance.getLevel();
         } else
             return 0;

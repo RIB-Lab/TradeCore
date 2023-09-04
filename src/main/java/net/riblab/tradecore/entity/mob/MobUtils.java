@@ -14,6 +14,7 @@ import org.bukkit.util.Vector;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -38,7 +39,7 @@ public final class MobUtils {
         Random random = new Random();
         for (ITCMob mob : mobs) {
             Location safeLocation = findSafeLocationToSpawn(block, radius);
-            if (safeLocation != null)
+            if (Objects.nonNull(safeLocation))
                 CustomMobService.getImpl().spawn(player, safeLocation, mob);
         }
     }
@@ -93,7 +94,7 @@ public final class MobUtils {
 
         setLootableTag(mob, true);
         mob.damage(damage);
-        if (knockback != null)
+        if (Objects.nonNull(knockback))
             mob.setVelocity(knockback);
     }
 }

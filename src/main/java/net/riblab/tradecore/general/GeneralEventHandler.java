@@ -101,7 +101,7 @@ public final class GeneralEventHandler {
      * 金床をブロック
      */
     public void blockAnvilInteraction(PlayerInteractEvent event) {
-        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.ANVIL) {
+        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && Objects.nonNull(event.getClickedBlock()) && event.getClickedBlock().getType() == Material.ANVIL) {
             event.setCancelled(true);
         }
     }
@@ -110,7 +110,7 @@ public final class GeneralEventHandler {
      * カスタム作業台 TODO:カスタムブロックで管理
      */
     public void interactCraftingTable(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.CRAFTING_TABLE) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && Objects.nonNull(event.getClickedBlock()) && event.getClickedBlock().getType() == Material.CRAFTING_TABLE) {
             event.setCancelled(true);
             UIs.CRAFTING.get().open(event.getPlayer());
         }
@@ -120,7 +120,7 @@ public final class GeneralEventHandler {
      * カスタムかまど
      */
     public void interactFurnace(PlayerInteractEvent event) {
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && event.getClickedBlock().getType() == Material.FURNACE) {
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && Objects.nonNull(event.getClickedBlock()) && event.getClickedBlock().getType() == Material.FURNACE) {
             event.setCancelled(true);
             UIs.FURNACE.get().open(event.getPlayer());
         }
@@ -130,7 +130,7 @@ public final class GeneralEventHandler {
      * 投票プラグインでもらえる引換券を右クリックしたときの処理
      */
     public void interactVoteTicket(PlayerInteractEvent event) {
-        if (event.getItem() != null && event.getItem().getItemMeta().hasDisplayName() && event.getItem().getItemMeta().getDisplayName().equals("§a投票引換券")) {
+        if (Objects.nonNull(event.getItem()) && event.getItem().getItemMeta().hasDisplayName() && event.getItem().getItemMeta().getDisplayName().equals("§a投票引換券")) {
             event.setCancelled(true);
             TCEconomy.getImpl().depositTickets(event.getPlayer(), 1);
             event.getPlayer().sendMessage(Component.text("投票引換券をプレイチケットと引き換えました！"));
@@ -145,7 +145,7 @@ public final class GeneralEventHandler {
         if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK)
             return;
         
-        if(event.getItem() != null && event.getItem().getType() == Material.BOW){
+        if(Objects.nonNull(event.getItem()) && event.getItem().getType() == Material.BOW){
             event.setCancelled(true);
         }
     }
@@ -169,7 +169,7 @@ public final class GeneralEventHandler {
 
         IWeaponAttackModifier attackMod = (IWeaponAttackModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
         IItemMod<?> damageMod = new ItemCreator(event.getItem()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
-        if (damageMod != null && attackMod != null) { //武器で攻撃
+        if (Objects.nonNull(damageMod) && Objects.nonNull(attackMod)) { //武器で攻撃
             event.setCancelled(true);
             
             double damage = ((Integer)damageMod.getParam()).doubleValue() / 100;
@@ -223,7 +223,7 @@ public final class GeneralEventHandler {
 
         List<IItemMod<?>> defaultMods = item.getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) defaultMods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
-        if (toolMod != null) { //ツールで攻撃
+        if (Objects.nonNull(toolMod)) { //ツールで攻撃
             boolean canhitWithTool = Utils.apply(player, false, ICanHitWithToolModifier.class);
             if (!canhitWithTool) {
                 event.setCancelled(true);
@@ -239,7 +239,7 @@ public final class GeneralEventHandler {
         
         IItemMod<?> damageMod = new ItemCreator(player.getInventory().getItemInMainHand()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
         IWeaponAttackModifier attackMod = (IWeaponAttackModifier) defaultMods.stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
-        if (damageMod != null && attackMod != null) { //武器で攻撃
+        if (Objects.nonNull(damageMod) && Objects.nonNull(attackMod)) { //武器で攻撃
             if (player.getAttackCooldown() != 1)
                 return;
             
