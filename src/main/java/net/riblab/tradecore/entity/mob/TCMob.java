@@ -13,7 +13,6 @@ import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.annotation.ParametersAreNonnullByDefault;

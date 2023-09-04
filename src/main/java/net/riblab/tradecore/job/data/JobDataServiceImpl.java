@@ -1,7 +1,6 @@
 package net.riblab.tradecore.job.data;
 
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.config.DataService;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.modifier.IJobExpModifier;

@@ -1,7 +1,6 @@
 package net.riblab.tradecore.job.skill;
 
 import lombok.Getter;
-import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.config.DataService;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;

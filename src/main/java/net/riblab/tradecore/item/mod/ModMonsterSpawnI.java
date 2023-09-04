@@ -1,9 +1,7 @@
 package net.riblab.tradecore.item.mod;
 
-import net.riblab.tradecore.entity.mob.CustomMobService;
 import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.modifier.IMonsterSpawnModifier;
-import org.bukkit.Location;
 
 import java.util.List;
 import java.util.Map;

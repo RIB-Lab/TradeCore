@@ -2,9 +2,6 @@ package net.riblab.tradecore.item.mod;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.modifier.IDurabilityModifier;
 
 public class ModRandomDurabilityI extends ItemMod<ModRandomDurabilityI.PackedDurabilityData> implements IDurabilityModifier {

@@ -1,6 +1,5 @@
 package net.riblab.tradecore.item.impl;
 
-import lombok.Getter;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.AttackCooldownService;
 import org.bukkit.entity.Player;

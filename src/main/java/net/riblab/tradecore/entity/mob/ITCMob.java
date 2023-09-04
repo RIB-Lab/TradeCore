@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
-import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;

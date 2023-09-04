@@ -2,8 +2,6 @@ package net.riblab.tradecore.craft;
 
 import lombok.Getter;
 import net.riblab.tradecore.item.base.TCItems;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 

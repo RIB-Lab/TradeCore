@@ -7,7 +7,6 @@ import net.riblab.tradecore.modifier.IWeaponAttackModifier;
 import org.bukkit.entity.Player;
 
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> implements IWeaponAttackModifier {
 

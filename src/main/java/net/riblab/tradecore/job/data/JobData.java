@@ -1,6 +1,5 @@
 package net.riblab.tradecore.job.data;
 
-import de.exlll.configlib.Configuration;
 import lombok.Data;
 
 /**

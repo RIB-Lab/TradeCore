@@ -1,7 +1,6 @@
 package net.riblab.tradecore.shop;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
