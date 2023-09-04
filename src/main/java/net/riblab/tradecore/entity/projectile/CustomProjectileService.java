@@ -5,10 +5,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
 
-public interface CustomProjectileService {
+public sealed interface CustomProjectileService permits CustomProjectileServiceImpl {
 
     //TODO:種類が増えたらenum
-    ITCProjectile arrow = new TCProjectile(Arrow.class, "tcarrow");
+    ITCProjectile ARROW = new TCProjectile(Arrow.class, "tcarrow");
     
     static CustomProjectileService getImpl(){
         return CustomProjectileServiceImpl.INSTANCE;

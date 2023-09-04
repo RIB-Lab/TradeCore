@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public interface FakeVillagerService {
+public sealed interface FakeVillagerService permits FakeVillagerServiceImpl {
     static FakeVillagerService getImpl() {
         return FakeVillagerServiceImpl.INSTANCE;
     }

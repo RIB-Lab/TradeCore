@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
-public interface DungeonService {
+public sealed interface DungeonService permits DungeonServiceImpl {
 
     String dungeonPrefix = "dungeons";
 

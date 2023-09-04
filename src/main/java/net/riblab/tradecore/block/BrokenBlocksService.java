@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public interface BrokenBlocksService {
+public sealed interface BrokenBlocksService permits BrokenBlocksServiceImpl {
 
     static BrokenBlocksService getImpl() {
         return BrokenBlocksServiceImpl.INSTANCE;

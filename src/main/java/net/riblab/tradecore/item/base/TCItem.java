@@ -23,8 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * このクラスでアイテムを表現するためのクラス。yamlにエクスポートするため、オーバーライド禁止(オーバーライドしてもその部分の情報は保存されない)！<br>
+ * アイテムに情報を加えたかったらmodを使おう
+ */
 @Data
-public class TCItem implements ITCItem {
+public final class TCItem implements ITCItem {
     
     /**
      * アイテムの表示名。金床で変更できる

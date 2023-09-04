@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.Map;
 
-public interface IDungeonData<T> {
+public sealed interface IDungeonData<T> permits DungeonData {
     DungeonNames getNames();
 
     Vector getSpawnPoint();

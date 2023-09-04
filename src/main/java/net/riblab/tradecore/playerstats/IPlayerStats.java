@@ -1,6 +1,6 @@
 package net.riblab.tradecore.playerstats;
 
-interface IPlayerStats {
+sealed interface IPlayerStats permits PlayerStats {
 
     int defaultMaxHP = 20;
     float defaultWalkSpeed = 0.2f;

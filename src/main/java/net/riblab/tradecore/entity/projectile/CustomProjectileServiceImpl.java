@@ -35,7 +35,7 @@ enum CustomProjectileServiceImpl implements CustomProjectileService {
     @Override //TODO:これもprojectileの種類が増えたらEnumに移行
     public double getCustomProjectileDamage(Projectile projectile) {
         //既にHitイベントでremoveされている可能性を考慮してcontainsチェックはしない
-        return CustomProjectileService.arrow.getDamage(projectile);
+        return CustomProjectileService.ARROW.getDamage(projectile);
     }
 
     @Override

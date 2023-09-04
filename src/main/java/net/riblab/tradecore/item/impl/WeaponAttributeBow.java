@@ -17,7 +17,7 @@ public class WeaponAttributeBow {
             return false;
         
         Vector direction = player.getLocation().getDirection().multiply(force);
-        CustomProjectileService.getImpl().spawn(player, CustomProjectileService.arrow, direction, damage);
+        CustomProjectileService.getImpl().spawn(player, CustomProjectileService.ARROW, direction, damage);
         
         return true;
     }

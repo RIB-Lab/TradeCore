@@ -5,7 +5,13 @@ import org.bukkit.World;
 import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 
+/**
+ * 敵を殲滅するダンジョンの目標を定義する
+ */
 class DPTExtermination extends DungeonProgressionTracker<Integer> implements IPlayerKillHandler {
+    /**
+     * 殺した数
+     */
     int killedCount = 0;
 
     public DPTExtermination(Integer objective, World instance) {

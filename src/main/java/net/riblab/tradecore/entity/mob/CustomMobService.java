@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public interface CustomMobService {
+public sealed interface CustomMobService permits CustomMobServiceImpl {
 
     static CustomMobService getImpl() {
         return CustomMobServiceImpl.INSTANCE;

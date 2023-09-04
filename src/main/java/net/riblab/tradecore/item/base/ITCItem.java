@@ -9,9 +9,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 
 /**
- * このプラグインに存在する全ての固有アイテムの親
+ * このプラグインに存在する全ての固有アイテムの韻テーフェース
  */
-public interface ITCItem {
+public sealed interface ITCItem permits TCItem {
 
     /**
      * この固有アイテムの表示名を取得

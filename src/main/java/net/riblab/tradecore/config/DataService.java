@@ -4,7 +4,7 @@ import net.riblab.tradecore.item.base.ITCItem;
 
 import javax.annotation.Nullable;
 
-public interface DataService {
+public sealed interface DataService permits DataServiceImpl {
 
     static DataService getImpl() {
         return DataServiceImpl.INSTANCE;

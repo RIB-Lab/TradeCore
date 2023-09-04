@@ -4,7 +4,7 @@ import org.bukkit.OfflinePlayer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public interface JobDataService {
+public sealed interface JobDataService permits JobDataServiceImpl {
 
     static JobDataService getImpl() {
         return JobDataServiceImpl.INSTANCE;

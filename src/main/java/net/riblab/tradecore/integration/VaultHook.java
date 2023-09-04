@@ -1,6 +1,6 @@
 package net.riblab.tradecore.integration;
 
-public interface VaultHook {
+public sealed interface VaultHook permits VaultHookImpl {
     static VaultHook getImpl() {
         return VaultHookImpl.INSTANCE;
     }

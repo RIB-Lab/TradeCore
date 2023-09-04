@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-public interface PlayerStatsService {
+public sealed interface PlayerStatsService permits PlayerStatsServiceImpl {
     static PlayerStatsService getImpl() {
         return PlayerStatsServiceImpl.INSTANCE;
     }

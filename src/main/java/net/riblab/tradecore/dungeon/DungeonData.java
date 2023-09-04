@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Data
 @AllArgsConstructor
-class DungeonData<T> implements IDungeonData<T> {
+final class DungeonData<T> implements IDungeonData<T> {
 
     /**
      * ダンジョン名

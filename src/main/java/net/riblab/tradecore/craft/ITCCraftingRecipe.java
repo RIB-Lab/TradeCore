@@ -6,7 +6,7 @@ import net.riblab.tradecore.item.base.ITCItem;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public interface ITCCraftingRecipe {
+public sealed interface ITCCraftingRecipe permits TCCraftingRecipe {
 
     @Nonnull
     Map<ITCItem, Integer> ingredients();

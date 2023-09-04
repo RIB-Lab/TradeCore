@@ -6,7 +6,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.function.Consumer;
 
-public interface PlayerItemModService {
+public sealed interface PlayerItemModService permits PlayerItemModServiceImpl{
 
     static PlayerItemModService getImpl() {
         return PlayerItemModServiceImpl.INSTANCE;
