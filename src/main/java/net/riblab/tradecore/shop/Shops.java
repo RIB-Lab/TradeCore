@@ -1,9 +1,5 @@
 package net.riblab.tradecore.shop;
 
-import dev.jorel.commandapi.arguments.Argument;
-import dev.jorel.commandapi.arguments.ArgumentSuggestions;
-import dev.jorel.commandapi.arguments.CustomArgument;
-import dev.jorel.commandapi.arguments.StringArgument;
 import lombok.Getter;
 import net.riblab.tradecore.item.base.TCItems;
 

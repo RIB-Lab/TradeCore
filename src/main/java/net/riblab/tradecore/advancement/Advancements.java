@@ -11,21 +11,21 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.TaskAdvancement;
  * 実績の本体レジストリ
  */
 public enum Advancements {
-    GATHERPEBBLE(new RootAdvancement(AdvancementInitializer.getPrimitiveAgeTab(), "adv_gather_pebble", AdvancementDisplays.GATHERPEBBLES.get(), "textures/block/stone.png", 1)),
-    CRAFTHATCHET(new BaseAdvancement("adv_craft_hatchet", AdvancementDisplays.CRAFTHATCHETS.get(), GATHERPEBBLE.get(), 1)),
-    CRAFTTABLE(new BaseAdvancement("adv_craft_table", AdvancementDisplays.CRAFTTABLE.get(), CRAFTHATCHET.get(), 1)),
-    WOODENAXE(new BaseAdvancement("adv_wooden_axe", AdvancementDisplays.WOODENAXE.get(), CRAFTTABLE.get(), 1)),
-    WOODENCOMPONENT(new MultiTasksAdvancement("adv_wooden_component", AdvancementDisplays.WOODENCOMPONENT.get(), WOODENAXE.get(), 3)),
-    WOODENCOMPONENT_SUB1(new TaskAdvancement("task_woodpulp", (AbstractMultiTasksAdvancement) WOODENCOMPONENT.get())),
-    WOODENCOMPONENT_SUB2(new TaskAdvancement("task_dust", (AbstractMultiTasksAdvancement) WOODENCOMPONENT.get())),
-    WOODENCOMPONENT_SUB3(new TaskAdvancement("task_moss", (AbstractMultiTasksAdvancement) WOODENCOMPONENT.get())),
-    STONEAXE(new BaseAdvancement("adv_stone_axe", AdvancementDisplays.STONEAXE.get(), WOODENCOMPONENT.get(), 1)),
-    STONECOMPONENT(new MultiTasksAdvancement("adv_stone_component", AdvancementDisplays.STONECOMPONENT.get(), STONEAXE.get(), 4)),
-    STONECOMPONENT_SUB1(new TaskAdvancement("task_andestitestone", (AbstractMultiTasksAdvancement) STONECOMPONENT.get())),
-    STONECOMPONENT_SUB2(new TaskAdvancement("task_granitestone", (AbstractMultiTasksAdvancement) STONECOMPONENT.get())),
-    STONECOMPONENT_SUB3(new TaskAdvancement("task_dioritestone", (AbstractMultiTasksAdvancement) STONECOMPONENT.get())),
-    STONECOMPONENT_SUB4(new TaskAdvancement("task_roundstone", (AbstractMultiTasksAdvancement) STONECOMPONENT.get())),
-    IRONAXE(new BaseAdvancement("adv_iron_axe", AdvancementDisplays.IRONAXE.get(), STONECOMPONENT.get(), 1))
+    GATHER_PEBBLE(new RootAdvancement(AdvancementInitializer.getPrimitiveAgeTab(), "adv_gather_pebble", AdvancementDisplays.GATHER_PEBBLES.get(), "textures/block/stone.png", 1)),
+    CRAFT_HATCHET(new BaseAdvancement("adv_craft_hatchet", AdvancementDisplays.CRAFT_HATCHETS.get(), GATHER_PEBBLE.get(), 1)),
+    CRAFT_TABLE(new BaseAdvancement("adv_craft_table", AdvancementDisplays.CRAFT_TABLE.get(), CRAFT_HATCHET.get(), 1)),
+    WOODEN_AXE(new BaseAdvancement("adv_wooden_axe", AdvancementDisplays.WOODEN_AXE.get(), CRAFT_TABLE.get(), 1)),
+    WOODEN_COMPONENT(new MultiTasksAdvancement("adv_wooden_component", AdvancementDisplays.WOODEN_COMPONENT.get(), WOODEN_AXE.get(), 3)),
+    WOODEN_COMPONENT_SUB1(new TaskAdvancement("task_woodpulp", (AbstractMultiTasksAdvancement) WOODEN_COMPONENT.get())),
+    WOODEN_COMPONENT_SUB2(new TaskAdvancement("task_dust", (AbstractMultiTasksAdvancement) WOODEN_COMPONENT.get())),
+    WOODEN_COMPONENT_SUB3(new TaskAdvancement("task_moss", (AbstractMultiTasksAdvancement) WOODEN_COMPONENT.get())),
+    STONE_AXE(new BaseAdvancement("adv_stone_axe", AdvancementDisplays.STONE_AXE.get(), WOODEN_COMPONENT.get(), 1)),
+    STONE_COMPONENT(new MultiTasksAdvancement("adv_stone_component", AdvancementDisplays.STONE_COMPONENT.get(), STONE_AXE.get(), 4)),
+    STONE_COMPONENT_SUB1(new TaskAdvancement("task_andestitestone", (AbstractMultiTasksAdvancement) STONE_COMPONENT.get())),
+    STONE_COMPONENT_SUB2(new TaskAdvancement("task_granitestone", (AbstractMultiTasksAdvancement) STONE_COMPONENT.get())),
+    STONE_COMPONENT_SUB3(new TaskAdvancement("task_dioritestone", (AbstractMultiTasksAdvancement) STONE_COMPONENT.get())),
+    STONE_COMPONENT_SUB4(new TaskAdvancement("task_roundstone", (AbstractMultiTasksAdvancement) STONE_COMPONENT.get())),
+    IRON_AXE(new BaseAdvancement("adv_iron_axe", AdvancementDisplays.IRON_AXE.get(), STONE_COMPONENT.get(), 1))
     ;
 
     private final Advancement adv;

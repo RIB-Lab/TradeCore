@@ -20,7 +20,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 public final class UIShop {
 
     public static PaginatedGui open(Player player, IShopData data) {
-        if(!Advancements.STONEAXE.get().isGranted(player)){
+        if(!Advancements.STONE_AXE.get().isGranted(player)){
             player.sendMessage("もっと強くなってからくるんだな (先に石の斧の進捗を開放しましょう)");
             return null;
         }

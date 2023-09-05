@@ -57,7 +57,7 @@ final class UIAdminShop implements IUI {
             if (Materials.UNBREAKABLE.get().contains(value))
                 continue;
 
-            if (Materials.BANNEDFROMSHOP.get().contains(value))
+            if (Materials.BANNED_FROM_SHOP.get().contains(value))
                 continue;
 
             GuiItem blockButton = new GuiItem(new ItemCreator(value).setLore(Component.text("1RIB").decoration(TextDecoration.ITALIC, false)).create(),

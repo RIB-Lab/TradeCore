@@ -7,7 +7,7 @@ import lombok.Getter;
  */
 public enum DungeonNames {
     TEST("test", "テスト"),
-    STONEROOM("stoneroom", "石の部屋");
+    STONE_ROOM("stoneroom", "石の部屋");
     
     @Getter
     private final String internalName;

@@ -43,14 +43,14 @@ public enum AdvancementInitializer {
 
         api.disableVanillaAdvancements();
 
-        ((MultiTasksAdvancement)Advancements.WOODENCOMPONENT.get()).registerTasks((TaskAdvancement) Advancements.WOODENCOMPONENT_SUB1.get(),(TaskAdvancement) Advancements.WOODENCOMPONENT_SUB2.get(),
-                (TaskAdvancement) Advancements.WOODENCOMPONENT_SUB3.get());
+        ((MultiTasksAdvancement)Advancements.WOODEN_COMPONENT.get()).registerTasks((TaskAdvancement) Advancements.WOODEN_COMPONENT_SUB1.get(),(TaskAdvancement) Advancements.WOODEN_COMPONENT_SUB2.get(),
+                (TaskAdvancement) Advancements.WOODEN_COMPONENT_SUB3.get());
 
-        ((MultiTasksAdvancement)Advancements.STONECOMPONENT.get()).registerTasks((TaskAdvancement) Advancements.STONECOMPONENT_SUB1.get(), (TaskAdvancement) Advancements.STONECOMPONENT_SUB2.get(), 
-                (TaskAdvancement) Advancements.STONECOMPONENT_SUB3.get(), (TaskAdvancement) Advancements.STONECOMPONENT_SUB4.get());
+        ((MultiTasksAdvancement)Advancements.STONE_COMPONENT.get()).registerTasks((TaskAdvancement) Advancements.STONE_COMPONENT_SUB1.get(), (TaskAdvancement) Advancements.STONE_COMPONENT_SUB2.get(), 
+                (TaskAdvancement) Advancements.STONE_COMPONENT_SUB3.get(), (TaskAdvancement) Advancements.STONE_COMPONENT_SUB4.get());
 
-        primitiveAgeTab.registerAdvancements((RootAdvancement) Advancements.GATHERPEBBLE.get(), (BaseAdvancement) Advancements.CRAFTHATCHET.get(),(BaseAdvancement) Advancements.CRAFTTABLE.get(),
-                (BaseAdvancement) Advancements.WOODENAXE.get(), (BaseAdvancement) Advancements.WOODENCOMPONENT.get(), (BaseAdvancement) Advancements.STONEAXE.get(), (BaseAdvancement) Advancements.STONECOMPONENT.get(), (BaseAdvancement) Advancements.IRONAXE.get());
+        primitiveAgeTab.registerAdvancements((RootAdvancement) Advancements.GATHER_PEBBLE.get(), (BaseAdvancement) Advancements.CRAFT_HATCHET.get(),(BaseAdvancement) Advancements.CRAFT_TABLE.get(),
+                (BaseAdvancement) Advancements.WOODEN_AXE.get(), (BaseAdvancement) Advancements.WOODEN_COMPONENT.get(), (BaseAdvancement) Advancements.STONE_AXE.get(), (BaseAdvancement) Advancements.STONE_COMPONENT.get(), (BaseAdvancement) Advancements.IRON_AXE.get());
         primitiveAgeTab.automaticallyShowToPlayers();
 
         //TODO:プレイヤー単位で実績を管理。ロード時にプレイヤーが未取得の実績を洗い出してそこにだけイベントが飛ぶようにする
@@ -60,14 +60,14 @@ public enum AdvancementInitializer {
                 return;
 
             Player player = playerPickItemEvent.getPlayer();
-            check(itcItem, TCItems.PEBBLE, Advancements.GATHERPEBBLE.get(), player);
-            check(itcItem, TCItems.WOODPULP, Advancements.WOODENCOMPONENT_SUB1.get(), player);
-            check(itcItem, TCItems.DUST, Advancements.WOODENCOMPONENT_SUB2.get(), player);
-            check(itcItem, TCItems.MOSS, Advancements.WOODENCOMPONENT_SUB3.get(), player);
-            check(itcItem, TCItems.ANDESITE_STONE, Advancements.STONECOMPONENT_SUB1.get(), player);
-            check(itcItem, TCItems.GRANITE_STONE, Advancements.STONECOMPONENT_SUB2.get(), player);
-            check(itcItem, TCItems.DIORITE_STONE, Advancements.STONECOMPONENT_SUB3.get(), player);
-            check(itcItem, TCItems.ROUND_STONE, Advancements.STONECOMPONENT_SUB4.get(), player);
+            check(itcItem, TCItems.PEBBLE, Advancements.GATHER_PEBBLE.get(), player);
+            check(itcItem, TCItems.WOODPULP, Advancements.WOODEN_COMPONENT_SUB1.get(), player);
+            check(itcItem, TCItems.DUST, Advancements.WOODEN_COMPONENT_SUB2.get(), player);
+            check(itcItem, TCItems.MOSS, Advancements.WOODEN_COMPONENT_SUB3.get(), player);
+            check(itcItem, TCItems.ANDESITE_STONE, Advancements.STONE_COMPONENT_SUB1.get(), player);
+            check(itcItem, TCItems.GRANITE_STONE, Advancements.STONE_COMPONENT_SUB2.get(), player);
+            check(itcItem, TCItems.DIORITE_STONE, Advancements.STONE_COMPONENT_SUB3.get(), player);
+            check(itcItem, TCItems.ROUND_STONE, Advancements.STONE_COMPONENT_SUB4.get(), player);
 
         });
 
@@ -76,14 +76,14 @@ public enum AdvancementInitializer {
                 return;
 
             if (event.getRecipe().getResult().getType() == Material.CRAFTING_TABLE) {
-                Advancements.CRAFTTABLE.get().incrementProgression(player);
+                Advancements.CRAFT_TABLE.get().incrementProgression(player);
             }
 
             ITCItem itcItem = TCItems.toTCItem(event.getRecipe().getResult());
             if (Objects.isNull(itcItem))
                 return;
 
-            check(itcItem, TCItems.HATCHET, Advancements.CRAFTHATCHET.get(), player);
+            check(itcItem, TCItems.HATCHET, Advancements.CRAFT_HATCHET.get(), player);
         });
 
         primitiveAgeTab.getEventManager().register(primitiveAgeTab, BlockBreakEvent.class, event -> {
@@ -92,10 +92,10 @@ public enum AdvancementInitializer {
                 return;
 
             Player player = event.getPlayer();
-            check(itcItem, TCItems.WOODEN_AXE, Advancements.WOODENAXE.get(), player);
-            check(itcItem, TCItems.STONE_AXE, Advancements.STONEAXE.get(), player);
-            check(itcItem, TCItems.IRON_AXE, Advancements.IRONAXE.get(), player);
-            check(itcItem, TCItems.GOLDEN_AXE, Advancements.IRONAXE.get(), player);
+            check(itcItem, TCItems.WOODEN_AXE, Advancements.WOODEN_AXE.get(), player);
+            check(itcItem, TCItems.STONE_AXE, Advancements.STONE_AXE.get(), player);
+            check(itcItem, TCItems.IRON_AXE, Advancements.IRON_AXE.get(), player);
+            check(itcItem, TCItems.GOLDEN_AXE, Advancements.IRON_AXE.get(), player);
         });
 
         Bukkit.getOnlinePlayers().forEach(primitiveAgeTab::showTab);

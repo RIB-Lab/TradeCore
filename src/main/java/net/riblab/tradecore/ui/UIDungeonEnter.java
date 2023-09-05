@@ -27,7 +27,7 @@ final class UIDungeonEnter implements IUI {
 
     @Override
     public BaseGui open(Player player) {
-        if(!Advancements.STONEAXE.get().isGranted(player)){
+        if(!Advancements.STONE_AXE.get().isGranted(player)){
             player.sendMessage("もっと強くなってからくるんだな (先に石の斧の進捗を開放しましょう)");
             return null;
         }

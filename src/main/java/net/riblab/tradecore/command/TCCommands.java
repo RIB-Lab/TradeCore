@@ -6,13 +6,11 @@ import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.IntegerArgument;
 import dev.jorel.commandapi.arguments.PlayerArgument;
 import net.riblab.tradecore.config.DataService;
-import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.entity.mob.CustomMobService;
 import net.riblab.tradecore.entity.mob.FakeVillagerService;
 import net.riblab.tradecore.entity.mob.ITCMob;
-import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.CustomEnumArguments;
@@ -26,7 +24,6 @@ import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.shop.IShopData;
-import net.riblab.tradecore.shop.Shops;
 import net.riblab.tradecore.ui.UIShop;
 import net.riblab.tradecore.ui.UIs;
 import org.bukkit.Location;
@@ -177,7 +174,7 @@ public final class TCCommands {
                 .executesPlayer((player, args) -> {
                     UIs.JOBS.get().open(player);
                 });
-        CommandAPICommand jobSetCommand = new CommandAPICommand(JOB_SETJOBLV.get())
+        CommandAPICommand jobSetCommand = new CommandAPICommand(JOB_SET_JOBLV.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument(PLAYER.get()))
                 .withArguments(CustomEnumArguments.customJobTypeArgument(JOBTYPE.get()))
@@ -192,14 +189,14 @@ public final class TCCommands {
                     newData.setExp(0);
                     JobDataService.getImpl().setJobData(targetPlayer, newData);
                 });
-        CommandAPICommand jobResetCommand = new CommandAPICommand(JOB_RESETJOBLV.get())
+        CommandAPICommand jobResetCommand = new CommandAPICommand(JOB_RESET_JOBLV.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument(PLAYER.get()))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
                     JobDataService.getImpl().resetJobData(targetPlayer);
                 });
-        CommandAPICommand skillResetCommand = new CommandAPICommand(JOB_RESETSKILLLV.get())
+        CommandAPICommand skillResetCommand = new CommandAPICommand(JOB_RESET_SKILLLV.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     JobSkillService.getImpl().resetPlayerJobSkillData(player);

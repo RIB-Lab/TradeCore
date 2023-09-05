@@ -18,7 +18,7 @@ import java.util.Objects;
 public enum DungeonDatas {
     TEST(new DungeonData<>(DungeonNames.TEST, new Vector(-17, 97, -24), List.of(TCMobs.DUNGEON_SKELETON.get(), TCMobs.DUNGEON_ZOMBIE.get()),
             3, DPTExtermination.class, 5, Map.of())),
-    STONEROOM(new DungeonData<>(DungeonNames.STONEROOM, new Vector(68.5, 97, -52.5), List.of(TCMobs.DUNGEON_ZOMBIE.get(), TCMobs.DUNGEON_SKELETON.get(), TCMobs.DUNGEON_SILVERFISH.get()),
+    STONE_ROOM(new DungeonData<>(DungeonNames.STONE_ROOM, new Vector(68.5, 97, -52.5), List.of(TCMobs.DUNGEON_ZOMBIE.get(), TCMobs.DUNGEON_SKELETON.get(), TCMobs.DUNGEON_SILVERFISH.get()),
             3, DPTExtermination.class, 100, Map.of(TCItems.STONE_DAGGER.get(), 0.33f, TCItems.STONE_SPEAR.get(), 0.33f, TCItems.STONE_BATTLEAXE.get(), 0.34f)));
 
     @Getter
