@@ -15,10 +15,14 @@ import net.riblab.tradecore.integration.ProtocolInitializer;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.item.PlayerItemModService;
+import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Arrays;
 
 
 public class TradeCore extends JavaPlugin {
@@ -80,6 +84,8 @@ public class TradeCore extends JavaPlugin {
             AdvancementInitializer.INSTANCE.init();
             ProtocolInitializer.INSTANCE.init();
         }
+
+        DataService.getImpl().exportItem(Arrays.stream(TCItems.values()).map(TCItems::get).toList());
     }
 
     @Override

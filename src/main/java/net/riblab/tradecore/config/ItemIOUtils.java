@@ -47,69 +47,61 @@ public final class ItemIOUtils {
 
             if (rootNode instanceof MappingNode mappingNode) {
                 // マップ内のアイテムを1個ずつ取得
-                Iterator<NodeTuple> iterator = mappingNode.getValue().iterator();
-                while (iterator.hasNext()) {
-                    NodeTuple nodeTuple = iterator.next();
+                Iterator<NodeTuple> iterator2 = mappingNode.getValue().iterator();
+                while (iterator2.hasNext()) {
+                    NodeTuple nodeTuple2 = iterator2.next();
+                    ScalarNode internalNameNode = (ScalarNode) nodeTuple2.getKeyNode();
 
-                    Node valueNode = nodeTuple.getValueNode();//一番上の中身
-                    if (valueNode instanceof MappingNode valueNodeMap) {
-                        Iterator<NodeTuple> iterator2 = valueNodeMap.getValue().iterator();
-                        while (iterator2.hasNext()) {
-                            NodeTuple nodeTuple2 = iterator2.next();
-                            ScalarNode internalNameNode = (ScalarNode) nodeTuple2.getKeyNode();
+                    TCItem tcItem = new TCItem();
+                    tcItem.setInternalName(internalNameNode.getValue());
+                    List<IItemMod<?>> defaultMods = new ArrayList<>();
 
-                            TCItem tcItem = new TCItem();
-                            tcItem.setInternalName(internalNameNode.getValue());
-                            List<IItemMod<?>> defaultMods = new ArrayList<>();
+                    Node valueNode2 = nodeTuple2.getValueNode();
+                    if(valueNode2 instanceof MappingNode valueNode2Map){
+                        Iterator<NodeTuple> iterator3 = valueNode2Map.getValue().iterator();
+                        while (iterator3.hasNext()){
+                            NodeTuple nodeTuple3 = iterator3.next();
 
-                            Node valueNode2 = nodeTuple2.getValueNode();
-                            if(valueNode2 instanceof MappingNode valueNode2Map){
-                                Iterator<NodeTuple> iterator3 = valueNode2Map.getValue().iterator();
-                                while (iterator3.hasNext()){
-                                    NodeTuple nodeTuple3 = iterator3.next();
+                            ScalarNode itemPropertiesNode = (ScalarNode) nodeTuple3.getKeyNode();//プロパティ達のノード
 
-                                    ScalarNode itemPropertiesNode = (ScalarNode) nodeTuple3.getKeyNode();//プロパティ達のノード
+                            if(itemPropertiesNode.getValue().equals(ItemIOTags.NAME.get())){
+                                tcItem.setName(Component.text(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
+                            }
+                            else if(itemPropertiesNode.getValue().equals(ItemIOTags.MATERIAL.get())){
+                                tcItem.setMaterial(Material.getMaterial(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
+                            }
+                            else if(itemPropertiesNode.getValue().equals(ItemIOTags.CUSTOMMODELDATA.get())){
+                                tcItem.setCustomModelData(Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
+                            }
+                            else if(itemPropertiesNode.getValue().equals(ItemIOTags.DEFAULTMODS.get())){
+                                Node valueNode3 = nodeTuple3.getValueNode();
+                                if(valueNode3 instanceof MappingNode valueNode3Map){
+                                    Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
+                                    while (iterator4.hasNext()){
+                                        NodeTuple nodeTuple4 = iterator4.next();
 
-                                    if(itemPropertiesNode.getValue().equals(ItemIOTags.NAME.get())){
-                                        tcItem.setName(Component.text(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
-                                    }
-                                    else if(itemPropertiesNode.getValue().equals(ItemIOTags.MATERIAL.get())){
-                                        tcItem.setMaterial(Material.getMaterial(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
-                                    }
-                                    else if(itemPropertiesNode.getValue().equals(ItemIOTags.CUSTOMMODELDATA.get())){
-                                        tcItem.setCustomModelData(Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
-                                    }
-                                    else if(itemPropertiesNode.getValue().equals(ItemIOTags.DEFAULTMODS.get())){
-                                        Node valueNode3 = nodeTuple3.getValueNode();
-                                        if(valueNode3 instanceof MappingNode valueNode3Map){
-                                            Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
-                                            while (iterator4.hasNext()){
-                                                NodeTuple nodeTuple4 = iterator4.next();
-
-                                                Node modsNameNode = nodeTuple4.getKeyNode(); //アイテムmodの名前ノード
-                                                Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
-                                                Class<? extends IItemMod> modsClass =  ShortHandModNames.getClassFromShortHandName(((ScalarNode)modsNameNode).getValue());
-                                                if(Objects.nonNull(modsClass)){
-                                                    //Jsonを元の型に還元する
-                                                    Constructor<?> constructor = modsClass.getConstructors()[0];
-                                                    Type[] parameterTypes = constructor.getGenericParameterTypes();
-                                                    String json = ((ScalarNode) modsContentNode).getValue();
-                                                    Object arg =  gson.fromJson(json, parameterTypes[0]);
-                                                    IItemMod<?> mod = (IItemMod<?>) constructor.newInstance(arg);
-                                                    defaultMods.add(mod);
-                                                }
-                                                else{
-                                                    Bukkit.getLogger().severe(((ScalarNode)modsNameNode).getValue() + "に対応するmodが見つかりません！");
-                                                }
-                                            }
+                                        Node modsNameNode = nodeTuple4.getKeyNode(); //アイテムmodの名前ノード
+                                        Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
+                                        Class<? extends IItemMod> modsClass =  ShortHandModNames.getClassFromShortHandName(((ScalarNode)modsNameNode).getValue());
+                                        if(Objects.nonNull(modsClass)){
+                                            //Jsonを元の型に還元する
+                                            Constructor<?> constructor = modsClass.getConstructors()[0];
+                                            Type[] parameterTypes = constructor.getGenericParameterTypes();
+                                            String json = ((ScalarNode) modsContentNode).getValue();
+                                            Object arg =  gson.fromJson(json, parameterTypes[0]);
+                                            IItemMod<?> mod = (IItemMod<?>) constructor.newInstance(arg);
+                                            defaultMods.add(mod);
+                                        }
+                                        else{
+                                            Bukkit.getLogger().severe(((ScalarNode)modsNameNode).getValue() + "に対応するmodが見つかりません！");
                                         }
                                     }
                                 }
                             }
-                            tcItem.setDefaultMods(defaultMods);
-                            deserializedItems.add(tcItem);
                         }
                     }
+                    tcItem.setDefaultMods(defaultMods);
+                    deserializedItems.add(tcItem);
                 }
             }
         } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
@@ -120,25 +112,28 @@ public final class ItemIOUtils {
         return deserializedItems;
     }
 
-    public static void saveItem(ITCItem item, File file){
-        //modをセーブ
-        Map<String, Object> defaultModsMap = new HashMap<>();
-        for (IItemMod<?> defaultMod : item.getDefaultMods()) {
-            String key = ShortHandModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) defaultMod.getClass());
-            String value = gson.toJson(defaultMod.getParam());
-            defaultModsMap.put(key, value);
-        }
-
-        //アイテムの情報をセーブ
-        Map<String, Object> itemInfo = new HashMap<>();
-        itemInfo.put(ItemIOTags.NAME.get(), item.getName().content());
-        itemInfo.put(ItemIOTags.MATERIAL.get(), item.getMaterial().toString());
-        itemInfo.put(ItemIOTags.CUSTOMMODELDATA.get(), item.getCustomModelData());
-        itemInfo.put(ItemIOTags.DEFAULTMODS.get(), defaultModsMap);
-
-        //アイテムのinternalnameをキーとしてセーブ
+    public static void saveItem(List<ITCItem> items, File file){
         Map<String, Object> itemRoot = new HashMap<>();
-        itemRoot.put(item.getInternalName(), itemInfo);
+        
+        for (ITCItem item : items) {
+            //modをセーブ
+            Map<String, Object> defaultModsMap = new HashMap<>();
+            for (IItemMod<?> defaultMod : item.getDefaultMods()) {
+                String key = ShortHandModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) defaultMod.getClass());
+                String value = gson.toJson(defaultMod.getParam());
+                defaultModsMap.put(key, value);
+            }
+
+            //アイテムの情報をセーブ
+            Map<String, Object> itemInfo = new HashMap<>();
+            itemInfo.put(ItemIOTags.NAME.get(), item.getName().content());
+            itemInfo.put(ItemIOTags.MATERIAL.get(), item.getMaterial().toString());
+            itemInfo.put(ItemIOTags.CUSTOMMODELDATA.get(), item.getCustomModelData());
+            itemInfo.put(ItemIOTags.DEFAULTMODS.get(), defaultModsMap);
+
+            //アイテムのinternalnameをキーとしてセーブ
+            itemRoot.put(item.getInternalName(), itemInfo);
+        }
 
         // SnakeYAMLの設定をカスタマイズ（オプション）
         DumperOptions options = new DumperOptions();
@@ -154,13 +149,5 @@ public final class ItemIOUtils {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 複数アイテムをまとめてシリアライズするためのクラス
-     */
-    public static class SerializedTCItems {
-        @Getter
-        public Map<String, TCItem> map = new HashMap<>();
     }
 }

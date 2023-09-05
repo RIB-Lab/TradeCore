@@ -115,6 +115,10 @@ enum DataServiceImpl implements DataService {
      * アイテムを既定のファイルにエクスポートする
      */
     public void exportItem(ITCItem item){
-        ItemIOUtils.saveItem(item, itemExportFile);
+        ItemIOUtils.saveItem(List.of(item), itemExportFile);
+    }
+
+    public void exportItem(List<ITCItem> items){
+        ItemIOUtils.saveItem(items, itemExportFile);
     }
 }

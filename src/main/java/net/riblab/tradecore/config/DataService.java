@@ -4,6 +4,7 @@ import net.riblab.tradecore.item.base.ITCItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 
 public sealed interface DataService permits DataServiceImpl {
 
@@ -38,4 +39,6 @@ public sealed interface DataService permits DataServiceImpl {
      * @param item アイテム
      */
     void exportItem(ITCItem item);
+    
+    void exportItem(List<ITCItem> items);
 }

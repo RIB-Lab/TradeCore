@@ -4,7 +4,7 @@ public enum ItemIOTags {
     NAME("name"),
     MATERIAL("material"),
     CUSTOMMODELDATA("model"),
-    DEFAULTMODS("mod");
+    DEFAULTMODS("mods");
     
     private final String name;
 
