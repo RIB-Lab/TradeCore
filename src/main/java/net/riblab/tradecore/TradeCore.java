@@ -84,8 +84,6 @@ public class TradeCore extends JavaPlugin {
             AdvancementInitializer.INSTANCE.init();
             ProtocolInitializer.INSTANCE.init();
         }
-
-        DataService.getImpl().exportItem(Arrays.stream(TCItems.values()).map(TCItems::get).toList());
     }
 
     @Override

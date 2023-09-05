@@ -17,7 +17,7 @@ import net.riblab.tradecore.integration.CustomEnumArguments;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCDeserializedItemHolder;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
@@ -294,14 +294,13 @@ public final class TCCommands {
                 });
         CommandAPICommand loadedItemGiveCommand = new CommandAPICommand("give")
                 .withPermission(CommandPermission.OP)
-                .withArguments(new IntegerArgument("index", 0, 1000))
+                .withArguments(CustomEnumArguments.customNewITCItemArgument("name"))
+                .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
                 .executesPlayer((player, args) -> {
-                    int index = (int) args.get(0);
-                    List<ITCItem> items = TCDeserializedItemHolder.INSTANCE.getDeserializedItems();
-                    if(Objects.isNull(items) || index >= items.size()){
-                        return;
-                    }
-                    ItemStack newStack = items.get(index).getItemStack();
+                    ITCItem itcItem = (ITCItem) args.get(0);
+                    int amount = (int) args.get(1);
+                    ItemStack newStack = itcItem.getItemStack();
+                    newStack.setAmount(amount);
                     player.getInventory().addItem(newStack);
                 });
         CommandAPICommand itemReloadCommand = new CommandAPICommand("reload")

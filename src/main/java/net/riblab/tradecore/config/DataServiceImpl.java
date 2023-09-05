@@ -5,15 +5,12 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCDeserializedItemHolder;
-import net.riblab.tradecore.job.data.JobData;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * コンフィグ管理システム
@@ -97,7 +94,7 @@ enum DataServiceImpl implements DataService {
      * アイテムをデータフォルダから読み込む
      */
     public void loadItems(){
-        TCDeserializedItemHolder.INSTANCE.getDeserializedItems().clear();
+        TCItemRegistry.INSTANCE.getDeserializedItems().clear();
         
         List<File> itemFiles;
         try {
@@ -107,7 +104,7 @@ enum DataServiceImpl implements DataService {
         }
         for (File itemFile : itemFiles) {
             List<ITCItem> deserializedItems = ItemIOUtils.deserialize(itemFile);
-            TCDeserializedItemHolder.INSTANCE.getDeserializedItems().addAll(deserializedItems);
+            TCItemRegistry.INSTANCE.getDeserializedItems().addAll(deserializedItems);
         }
     }
 

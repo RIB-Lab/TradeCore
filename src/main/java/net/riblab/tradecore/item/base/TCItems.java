@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 
 /**
- * アイテムレジストリ
+ * 旧ハードコードアイテムレジストリ TODO:REMOVE
  */
 public enum TCItems {
     //原始時代

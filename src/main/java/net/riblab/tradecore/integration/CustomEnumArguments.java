@@ -9,6 +9,7 @@ import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.shop.IShopData;
@@ -103,6 +104,22 @@ public class CustomEnumArguments {
         }).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 // List of shops on the server
                 Arrays.stream(Shops.values()).map(Enum::toString).toArray(String[]::new))
+        );
+    }
+
+    public static Argument<ITCItem> customNewITCItemArgument(String nodeName) {
+        // Construct our CustomArgument that takes in a String input and returns a World object
+        return new CustomArgument<>(new StringArgument(nodeName), info -> {
+            // Parse the itcItem from our input
+            ITCItem itcItem = TCItemRegistry.commandToTCItem(info.input());
+
+            if (Objects.isNull(itcItem)) {
+                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput());
+            } else {
+                return itcItem;
+            }
+        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
+                TCItemRegistry.getDeserializedItems().stream().map(ITCItem::getInternalName).toArray(String[]::new))
         );
     }
 }

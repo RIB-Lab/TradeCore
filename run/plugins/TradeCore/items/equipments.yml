@@ -1,0 +1,164 @@
+worker_helmet:
+  mods:
+    zerohandattackdamage: '-1'
+    customarmor: '"template"'
+    addresourcechance: '3'
+    addwalkspeed: '-10'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_HELMET
+  name: 作業ヘルメット
+  model: 0
+
+worker_chestplate:
+  mods:
+    zerohandattackdamage: '-1'
+    customarmor: '"template"'
+    addresourcechance: '3'
+    addwalkspeed: '-10'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_CHESTPLATE
+  name: 作業チェストプレート
+  model: 0
+
+worker_leggings:
+  mods:
+    zerohandattackdamage: '-1'
+    customarmor: '"template"'
+    addresourcechance: '3'
+    addwalkspeed: '-10'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_LEGGINGS
+  name: 作業レギンス
+  model: 0
+
+worker_boots:
+  mods:
+    zerohandattackdamage: '-1'
+    customarmor: '"template"'
+    addresourcechance: '3'
+    addwalkspeed: '-10'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_BOOTS
+  name: 作業ブーツ
+  model: 0
+  
+emerald_helmet:
+  mods:
+    addcraftcost: '-3'
+    customarmor: '"emerald"'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_HELMET
+  name: エメラルドのヘルメット
+  model: 0
+
+emerald_chestplate:
+  mods:
+    addcraftcost: '-3'
+    customarmor: '"emerald"'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_CHESTPLATE
+  name: エメラルドのチェストプレート
+  model: 0
+  
+emerald_leggings:
+  mods:
+    addcraftcost: '-3'
+    customarmor: '"emerald"'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_LEGGINGS
+  name: エメラルドのレギンス
+  model: 0
+  
+emerald_boots:
+  mods:
+    addcraftcost: '-3'
+    customarmor: '"emerald"'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_BOOTS
+  name: エメラルドのブーツ
+  model: 0
+
+water_helmet:
+  mods:
+    customarmor: '"template"'
+    addwaterbreath: '1'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_HELMET
+  name: 水気を帯びたヘルメット
+  model: 0
+  
+bark_helmet:
+  mods:
+    customarmor: '"bark"'
+    addarmor: '8'
+    defaultmaxdurability: '"WOODENAGE"'
+  material: CHAINMAIL_HELMET
+  name: 樹皮のヘルメット
+  model: 0
+  
+bark_chestplate:
+  mods:
+    customarmor: '"bark"'
+    addarmor: '8'
+    defaultmaxdurability: '"WOODENAGE"'
+  material: CHAINMAIL_CHESTPLATE
+  name: 樹皮のチェストプレート
+  model: 0
+  
+bark_leggings:
+  mods:
+    customarmor: '"bark"'
+    addarmor: '8'
+    defaultmaxdurability: '"WOODENAGE"'
+  material: CHAINMAIL_LEGGINGS
+  name: 樹皮のレギンス
+  model: 0
+  
+bark_boots:
+  mods:
+    customarmor: '"bark"'
+    addarmor: '8'
+    defaultmaxdurability: '"WOODENAGE"'
+  material: CHAINMAIL_BOOTS
+  name: 樹皮のブーツ
+  model: 0
+  
+stone_helmet:
+  mods:
+    customarmor: '"stone"'
+    addwalkspeed: '-1'
+    addarmor: '16'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_HELMET
+  name: 石のヘルメット
+  model: 0
+  
+stone_chestplate:
+  mods:
+    customarmor: '"stone"'
+    addwalkspeed: '-1'
+    addarmor: '16'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_CHESTPLATE
+  name: 石のチェストプレート
+  model: 0
+  
+stone_leggings:
+  mods:
+    customarmor: '"stone"'
+    addwalkspeed: '-1'
+    addarmor: '16'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_LEGGINGS
+  name: 石のレギンス
+  model: 0
+  
+stone_boots:
+  mods:
+    customarmor: '"stone"'
+    addwalkspeed: '-1'
+    addarmor: '16'
+    defaultmaxdurability: '"STONEAGE"'
+  material: CHAINMAIL_BOOTS
+  name: 石のブーツ
+  model: 0
