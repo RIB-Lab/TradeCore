@@ -34,7 +34,6 @@ public class CustomEnumArguments {
                 return itcItem;
             }
         }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                // List of world names on the server
                 Arrays.stream(TCItems.values()).map(tcItems -> tcItems.get().getInternalName()).toArray(String[]::new))
         );
     }
