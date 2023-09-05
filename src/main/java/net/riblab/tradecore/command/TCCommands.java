@@ -15,6 +15,7 @@ import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.Utils;
+import net.riblab.tradecore.integration.CustomEnumArguments;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
@@ -95,7 +96,7 @@ public final class TCCommands {
         currencyCommand.register();
 
         CommandAPICommand tcGiveCommand = new CommandAPICommand(GIVE.get())
-                .withArguments(TCItems.customITCItemArgument(TCITEM.get()))
+                .withArguments(CustomEnumArguments.customITCItemArgument(TCITEM.get()))
                 .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
                 .executesPlayer((player, args) -> {
                     ITCItem itcItem = (ITCItem) args.get(0);
@@ -125,7 +126,7 @@ public final class TCCommands {
 
         CommandAPICommand spawnCommand = new CommandAPICommand(MOBS_SPAWN.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(TCMobs.customITCMobArgument(MOBNAME.get()))
+                .withArguments(CustomEnumArguments.customITCMobArgument(MOBNAME.get()))
                 .executesPlayer((player, args) -> {
                     ITCMob type = (ITCMob) args.get(0);
                     Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
@@ -146,7 +147,7 @@ public final class TCCommands {
 
         CommandAPICommand shopCommand = new CommandAPICommand(SHOP.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(Shops.customShopDataArgument(SHOPDATA.get()))
+                .withArguments(CustomEnumArguments.customShopDataArgument(SHOPDATA.get()))
                 .executesPlayer((player, args) -> {
                     IShopData data = (IShopData) args.get(0);
                     UIShop.open(player, data);
@@ -179,7 +180,7 @@ public final class TCCommands {
         CommandAPICommand jobSetCommand = new CommandAPICommand(JOB_SETJOBLV.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument(PLAYER.get()))
-                .withArguments(JobType.customJobTypeArgument(JOBTYPE.get()))
+                .withArguments(CustomEnumArguments.customJobTypeArgument(JOBTYPE.get()))
                 .withArguments(new IntegerArgument(LEVEL.get()))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
@@ -214,7 +215,7 @@ public final class TCCommands {
                 });
         CommandAPICommand enterDungeonCommand = new CommandAPICommand(DUNGEON_ENTER.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(DungeonDatas.customDungeonDataArgument(DUNGEONDATA.get()))
+                .withArguments(CustomEnumArguments.customDungeonDataArgument(DUNGEONDATA.get()))
                 .withArguments(new IntegerArgument(INSTANCEID.get()))
                 .executesPlayer((player, args) -> {
                     IDungeonData<?> data = (IDungeonData<?>) args.get(0);

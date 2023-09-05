@@ -1,11 +1,13 @@
 package net.riblab.tradecore.advancement;
 
 import com.fren_gor.ultimateAdvancementAPI.AdvancementTab;
+import com.fren_gor.ultimateAdvancementAPI.UltimateAdvancementAPI;
 import com.fren_gor.ultimateAdvancementAPI.advancement.Advancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.BaseAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.RootAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.MultiTasksAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.TaskAdvancement;
+import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
@@ -22,9 +24,10 @@ import java.util.Objects;
  * 進捗管理クラス
  */
 public enum AdvancementInitializer {
-    INSTANCE;
-
-    public static final AdvancementTab primitiveAgeTab = TradeCore.getInstance().getAdvancementAPI().createAdvancementTab("primitive_age");
+    INSTANCE();
+    
+    @Getter
+    private static AdvancementTab primitiveAgeTab;
     
     /**
      * 実績が既に登録されたかどうか
@@ -33,9 +36,12 @@ public enum AdvancementInitializer {
 
     public void init() {
         if (isInit)
-            return;
+            throw new RuntimeException("Advancementが2回初期化されようとしました");
 
-        TradeCore.getInstance().getAdvancementAPI().disableVanillaAdvancements();
+        UltimateAdvancementAPI api = UltimateAdvancementAPI.getInstance(TradeCore.getInstance());
+        primitiveAgeTab = api.createAdvancementTab("primitive_age");
+
+        api.disableVanillaAdvancements();
 
         ((MultiTasksAdvancement)Advancements.WOODENCOMPONENT.get()).registerTasks((TaskAdvancement) Advancements.WOODENCOMPONENT_SUB1.get(),(TaskAdvancement) Advancements.WOODENCOMPONENT_SUB2.get(),
                 (TaskAdvancement) Advancements.WOODENCOMPONENT_SUB3.get());

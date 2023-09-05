@@ -26,7 +26,7 @@ public enum TCTasksInitializer {
 
     public void init() {
         if (isInit)
-            return;
+            throw new RuntimeException("BukkitRunnableが2回初期化されようとしました");
 
         //定期的にコンフィグを保存
         new BukkitRunnable() {

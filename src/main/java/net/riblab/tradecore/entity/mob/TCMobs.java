@@ -1,10 +1,6 @@
 package net.riblab.tradecore.entity.mob;
 
 import de.tr7zw.nbtapi.NBTEntity;
-import dev.jorel.commandapi.arguments.Argument;
-import dev.jorel.commandapi.arguments.ArgumentSuggestions;
-import dev.jorel.commandapi.arguments.CustomArgument;
-import dev.jorel.commandapi.arguments.StringArgument;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.base.TCItems;
@@ -63,24 +59,5 @@ public enum TCMobs {
     public static ITCMob commandToTCMob(String command) {
         TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(command)).findFirst().orElse(null);
         return Objects.isNull(itcMob) ? null : itcMob.get();
-    }
-
-    // Function that returns our custom argument
-    public static Argument<ITCMob> customITCMobArgument(String nodeName) {
-
-        // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<>(new StringArgument(nodeName), info -> {
-            // Parse the itcMob from our input
-            ITCMob itcMob = commandToTCMob(info.input());
-
-            if (Objects.isNull(itcMob)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown mob: ").appendArgInput());
-            } else {
-                return itcMob;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                // List of world names on the server
-                Arrays.stream(values()).map(tcMobs -> tcMobs.get().getInternalName()).toArray(String[]::new))
-        );
     }
 }

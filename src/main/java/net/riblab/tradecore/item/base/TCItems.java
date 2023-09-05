@@ -1,10 +1,6 @@
 package net.riblab.tradecore.item.base;
 
 
-import dev.jorel.commandapi.arguments.Argument;
-import dev.jorel.commandapi.arguments.ArgumentSuggestions;
-import dev.jorel.commandapi.arguments.CustomArgument;
-import dev.jorel.commandapi.arguments.StringArgument;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.dungeon.DungeonNames;
 import net.riblab.tradecore.entity.mob.TCMobs;
@@ -155,24 +151,5 @@ public enum TCItems {
     public static ITCItem commandToTCItem(String command) {
         TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(command)).findFirst().orElse(null);
         return Objects.isNull(itcItem) ? null : itcItem.get();
-    }
-
-    // Function that returns our custom argument
-    public static Argument<ITCItem> customITCItemArgument(String nodeName) {
-
-        // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<>(new StringArgument(nodeName), info -> {
-            // Parse the itcItem from our input
-            ITCItem itcItem = commandToTCItem(info.input());
-
-            if (Objects.isNull(itcItem)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput());
-            } else {
-                return itcItem;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                // List of world names on the server
-                Arrays.stream(values()).map(tcItems -> tcItems.get().getInternalName()).toArray(String[]::new))
-        );
     }
 }

@@ -31,7 +31,7 @@ enum PlayerStatsServiceImpl implements PlayerStatsService {
 
     public void init() {
         if (isInit)
-            return;
+            throw new RuntimeException("PlayerStatsが2回初期化されようとしました");
 
         JobSkillService.getImpl().getOnJobSkillChanged().add(this::update);
         PlayerItemModService.getImpl().getOnItemModUpdated().add(this::update);

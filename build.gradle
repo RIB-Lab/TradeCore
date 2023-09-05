@@ -32,11 +32,15 @@ repositories {
 }
 
 dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.3'
+    testImplementation 'com.github.seeseemelk:MockBukkit-v1.20:3.19.2'
+    
     compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
     compileOnly "com.github.MilkBowl:VaultAPI:1.7"
     compileOnly 'dev.jorel:commandapi-bukkit-core:9.1.0'
     compileOnly 'de.tr7zw:item-nbt-api-plugin:2.11.3'
     compileOnly "org.projectlombok:lombok:1.18.24"
+    annotationProcessor "org.projectlombok:lombok:1.18.24"
     compileOnly 'com.comphenix.protocol:ProtocolLib:5.1.0'
     implementation 'dev.triumphteam:triumph-gui:3.1.4'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.9'
@@ -111,6 +115,19 @@ shadowJar {
     relocate "io.papermc.lib", "net.riblab.tradecore.paperlib"
 
     archiveFileName = "TradeCore-all.jar"
+}
+
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        // テスト時の標準出力と標準エラー出力を表示する
+        showStandardStreams true
+        // イベントを出力する (TestLogEvent)
+        events 'started', 'skipped', 'passed', 'failed'
+        // 例外発生時の出力設定 (TestExceptionFormat)
+        exceptionFormat 'full'
+    }
 }
 
 //Disable jar and replace with shadowJar

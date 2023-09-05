@@ -2,6 +2,7 @@ package net.riblab.tradecore.config;
 
 import net.riblab.tradecore.item.base.ITCItem;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public sealed interface DataService permits DataServiceImpl {
@@ -25,10 +26,11 @@ public sealed interface DataService permits DataServiceImpl {
      */
     void loadItems();
 
-    @Nullable
+
+    @Nonnull
     CurrencyData getCurrencyData();
 
-    @Nullable
+    @Nonnull
     JobDatas getJobDatas();
 
     /**

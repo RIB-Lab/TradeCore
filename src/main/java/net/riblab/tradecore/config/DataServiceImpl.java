@@ -6,6 +6,7 @@ import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCDeserializedItemHolder;
+import net.riblab.tradecore.job.data.JobData;
 import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
@@ -24,9 +25,9 @@ enum DataServiceImpl implements DataService {
      * 保存するコンフィグの実体
      */
     @Getter
-    private CurrencyData currencyData;
+    private CurrencyData currencyData = new CurrencyData();
     @Getter
-    private JobDatas jobDatas;
+    private JobDatas jobDatas = new JobDatas();
     
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -89,16 +90,7 @@ enum DataServiceImpl implements DataService {
             str =  FileUtils.fileRead(dataFile);
         } catch (IOException ignored) {
         }
-        T dataInstance = gson.fromJson(str, dataType);
-        if(Objects.isNull(dataInstance)) {
-            try {
-                dataInstance = dataType.getDeclaredConstructor().newInstance();
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                     NoSuchMethodException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return dataInstance;
+        return gson.fromJson(str, dataType);
     }
 
     /**

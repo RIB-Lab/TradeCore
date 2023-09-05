@@ -7,13 +7,11 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.AbstractMultiTasksA
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.MultiTasksAdvancement;
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.TaskAdvancement;
 
-import static net.riblab.tradecore.advancement.AdvancementInitializer.primitiveAgeTab;
-
 /**
  * 実績の本体レジストリ
  */
 public enum Advancements {
-    GATHERPEBBLE(new RootAdvancement(primitiveAgeTab, "adv_gather_pebble", AdvancementDisplays.GATHERPEBBLES.get(), "textures/block/stone.png", 1)),
+    GATHERPEBBLE(new RootAdvancement(AdvancementInitializer.getPrimitiveAgeTab(), "adv_gather_pebble", AdvancementDisplays.GATHERPEBBLES.get(), "textures/block/stone.png", 1)),
     CRAFTHATCHET(new BaseAdvancement("adv_craft_hatchet", AdvancementDisplays.CRAFTHATCHETS.get(), GATHERPEBBLE.get(), 1)),
     CRAFTTABLE(new BaseAdvancement("adv_craft_table", AdvancementDisplays.CRAFTTABLE.get(), CRAFTHATCHET.get(), 1)),
     WOODENAXE(new BaseAdvancement("adv_wooden_axe", AdvancementDisplays.WOODENAXE.get(), CRAFTTABLE.get(), 1)),

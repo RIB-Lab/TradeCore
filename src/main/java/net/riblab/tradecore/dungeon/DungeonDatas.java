@@ -1,15 +1,10 @@
 package net.riblab.tradecore.dungeon;
 
-import dev.jorel.commandapi.arguments.Argument;
-import dev.jorel.commandapi.arguments.ArgumentSuggestions;
-import dev.jorel.commandapi.arguments.CustomArgument;
-import dev.jorel.commandapi.arguments.StringArgument;
 import lombok.Getter;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.util.Vector;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
@@ -40,20 +35,6 @@ public enum DungeonDatas {
     public static IDungeonData<?> commandToDungeonData(@Nullable String command) {
         DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
         return Objects.isNull(datas) ? null : datas.getData();
-    }
-
-    public static Argument<IDungeonData<?>> customDungeonDataArgument(@Nonnull String nodeName) {
-        return new CustomArgument<IDungeonData<?>, String>(new StringArgument(nodeName), info -> {
-            IDungeonData<?> data = commandToDungeonData(info.input());
-
-            if (Objects.isNull(data)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown dungeon: ").appendArgInput());
-            } else {
-                return data;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                Arrays.stream(values()).map(Enum::toString).toArray(String[]::new))
-        );
     }
 
     /**

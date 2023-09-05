@@ -51,23 +51,4 @@ public enum Shops {
         Shops data = Arrays.stream(Shops.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
         return Objects.isNull(data) ? null : data.getShop();
     }
-
-    // Function that returns our custom argument
-    public static Argument<IShopData> customShopDataArgument(String nodeName) {
-
-        // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<>(new StringArgument(nodeName), info -> {
-            // Parse the data from our input
-            IShopData data = commandToShop(info.input());
-
-            if (Objects.isNull(data)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown shop: ").appendArgInput());
-            } else {
-                return data;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                // List of shops on the server
-                Arrays.stream(values()).map(Enum::toString).toArray(String[]::new))
-        );
-    }
 }
