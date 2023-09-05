@@ -1,0 +1,54 @@
+wooden_sword:
+  mods:
+    ecology: '1'
+    defaultattackdamage: '{"baseDamage":3.0,"spread":"WOOD"}'
+    weaponattribute: '"SWORD"'
+    defaultmaxdurability: '"WOODENAGE"'
+  material: WOODEN_SWORD
+  name: 木の剣
+  model: 0
+  
+stone_sword:
+  mods:
+    defaultattackdamage: '{"baseDamage":5.0,"spread":"STONE"}'
+    weaponattribute: '"SWORD"'
+    defaultmaxdurability: '"STONEAGE"'
+  material: STONE_SWORD
+  name: 石の剣
+  model: 0
+  
+stone_battleaxe:
+  mods:
+    defaultattackdamage: '{"baseDamage":8.0,"spread":"STONE"}'
+    weaponattribute: '"BATTLEAXE"'
+    defaultmaxdurability: '"STONEAGE"'
+  material: STONE_SWORD
+  name: 石の大斧
+  model: 3
+  
+stone_dagger:
+  mods:
+    defaultattackdamage: '{"baseDamage":4.0,"spread":"STONE"}'
+    weaponattribute: '"DAGGER"'
+    defaultmaxdurability: '"STONEAGE"'
+  material: STONE_SWORD
+  name: 石の短剣
+  model: 2
+
+stone_spear:
+  mods:
+    defaultattackdamage: '{"baseDamage":3.5,"spread":"STONE"}'
+    weaponattribute: '"SPEAR"'
+    defaultmaxdurability: '"STONEAGE"'
+  material: STONE_SWORD
+  name: 石の槍
+  model: 1
+  
+basic_bow:
+  mods:
+    defaultattackdamage: '{"baseDamage":4.0,"spread":"IRON"}'
+    weaponattribute: '"BOW"'
+    defaultmaxdurability: '"IRONAGE"'
+  material: BOW
+  name: 普通の弓
+  model: 0

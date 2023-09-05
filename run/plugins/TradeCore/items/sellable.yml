@@ -1,0 +1,209 @@
+sand_dust:
+  mods:
+    sellprice: '0.1'
+  material: SAND
+  name: 粉状の砂
+  model: 1
+  
+granite_stone:
+  mods:
+    sellprice: '0.1'
+  material: COBBLESTONE
+  name: 花崗石
+  model: 4
+  
+widestone:
+  mods:
+    sellprice: '0.04'
+  material: COBBLESTONE
+  name: 横長の石
+  model: 1
+  
+gravel_dust:
+  mods:
+    sellprice: '0.1'
+  material: GRAVEL
+  name: 砂利の粉
+  model: 1
+  
+tallstone:
+  mods:
+    sellprice: '0.04'
+  material: COBBLESTONE
+  name: 縦長の石
+  model: 2
+  
+bark:
+  mods:
+    sellprice: '0.02'
+  material: OAK_LOG
+  name: 樹皮
+  model: 1
+  
+gold_ingot:
+  mods:
+    sellprice: '0.1'
+  material: GOLD_INGOT
+  name: 金インゴット
+  model: 0
+  
+reinforced_stick:
+  mods:
+    sellprice: '0.1'
+  material: STICK
+  name: 強化棒
+  model: 0
+  
+reinforced_walking_stick:
+  mods:
+    addwalkspeed: '6'
+  material: STICK
+  name: 強化歩行杖
+  model: 0
+  
+round_trunk:
+  mods:
+    sellprice: '0.04'
+  material: OAK_LOG
+  name: 丸太
+  model: 2
+  
+stick:
+  mods:
+    sellprice: '0.02'
+  material: STICK
+  name: 木の棒
+  model: 0
+  
+stone_component:
+  mods:
+    sellprice: '0.2'
+  material: COBBLESTONE
+  name: 石の強化資材
+  model: 7
+  
+meteoric_iron_ore:
+  mods:
+    sellprice: '0.1'
+  material: IRON_ORE
+  name: 隕鉄鉱石
+  model: 1
+  
+dust:
+  mods:
+    sellprice: '0.04'
+  material: DIRT
+  name: 塵
+  model: 1
+  
+diorite_stone:
+  mods:
+    sellprice: '0.1'
+  material: COBBLESTONE
+  name: 閃緑石
+  model: 5
+  
+sandgold:
+  mods:
+    sellprice: '0.1'
+  material: SAND
+  name: 砂金
+  model: 2
+  
+moss:
+  mods:
+    sellprice: '0.04'
+  material: DIRT
+  name: コケ
+  model: 3
+  
+flint:
+  mods:
+    sellprice: '0.1'
+  material: FLINT
+  name: 火打石
+  model: 0
+  
+round_stone:
+  mods:
+    sellprice: '0.1'
+  material: COBBLESTONE
+  name: 丸い石
+  model: 6
+  
+drygrass:
+  mods:
+    sellprice: '0.01'
+  material: PAPER
+  name: 干し草
+  model: 2
+  
+mud:
+  mods:
+    sellprice: '0.04'
+  material: DIRT
+  name: 泥
+  model: 2
+  
+iron_ingot:
+  mods:
+    sellprice: '0.1'
+  material: IRON_INGOT
+  name: 鉄インゴット
+  model: 0
+  
+andesite_stone:
+  mods:
+    sellprice: '0.1'
+  material: COBBLESTONE
+  name: 安山石
+  model: 3
+  
+twig:
+  mods:
+    sellprice: '0.02'
+  material: OAK_LOG
+  name: 小枝
+  model: 3
+  
+fuel_ball:
+  mods:
+    sellprice: '0.1'
+  material: HAY_BLOCK
+  name: 燃料玉
+  model: 1
+  
+wooden_component:
+  mods:
+    sellprice: '0.1'
+  material: OAK_PLANKS
+  name: 木の強化資材
+  model: 2
+  
+woodpulp:
+  mods:
+    sellprice: '0.04'
+  material: OAK_PLANKS
+  name: 木くず
+  model: 1
+  
+iron_shard:
+  mods:
+    sellprice: '0.1'
+  material: IRON_NUGGET
+  name: 鉄の欠片
+  model: 0
+  
+ash:
+  mods:
+    sellprice: '0.1'
+  material: SAND
+  name: 灰
+  model: 3
+  
+gold_shard:
+  mods:
+    sellprice: '0.1'
+  material: GOLD_NUGGET
+  name: 金の欠片
+  model: 0

@@ -1,0 +1,172 @@
+pebble:
+  mods:
+    defaultminingspeed: '"PEBBLE"'
+    sellprice: '0.01'
+    toolstats: '{"toolType":"AXE","harvestLevel":0}'
+  material: PAPER
+  name: 小石
+  model: 1
+
+hatchet:
+  mods:
+    defaultminingspeed: '"HATCHET"'
+    toolstats: '{"toolType":"AXE","harvestLevel":1}'
+    defaultmaxdurability: '"HATCHET"'
+  material: IRON_AXE
+  name: ハチェット
+  model: 1
+
+wooden_axe:
+  mods:
+    ecology: '1'
+    defaultminingspeed: '"WOODMADE"'
+    toolstats: '{"toolType":"AXE","harvestLevel":2}'
+    defaultmaxdurability: '"WOODENAGE"'
+  material: WOODEN_AXE
+  name: 木の斧
+  model: 0
+
+wooden_shovel:
+  mods:
+    ecology: '1'
+    defaultminingspeed: '"WOODMADE"'
+    toolstats: '{"toolType":"SHOVEL","harvestLevel":0}'
+    defaultmaxdurability: '"WOODENAGE"'
+  material: WOODEN_SHOVEL
+  name: 木のシャベル
+  model: 0
+  
+wooden_hoe:
+  mods:
+    ecology: '1'
+    defaultminingspeed: '"WOODMADE"'
+    toolstats: '{"toolType":"HOE","harvestLevel":0}'
+    defaultmaxdurability: '"WOODENAGE"'
+  material: WOODEN_HOE
+  name: 木のクワ
+  model: 0
+  
+wooden_pickaxe:
+  mods:
+    ecology: '1'
+    defaultminingspeed: '"WOODMADE"'
+    toolstats: '{"toolType":"PICKAXE","harvestLevel":0}'
+    defaultmaxdurability: '"WOODENAGE"'
+  material: WOODEN_PICKAXE
+  name: 木のツルハシ
+  model: 0
+
+  
+stone_shovel:
+  mods:
+    defaultminingspeed: '"STONEMADE"'
+    toolstats: '{"toolType":"SHOVEL","harvestLevel":1}'
+    defaultmaxdurability: '"STONEAGE"'
+  material: STONE_SHOVEL
+  name: 石のシャベル
+  model: 0
+  
+stone_axe:
+  mods:
+    defaultminingspeed: '"STONEMADE"'
+    toolstats: '{"toolType":"AXE","harvestLevel":3}'
+    monsterspawn: '{"basic_treant":0.05}'
+    defaultmaxdurability: '"STONEAGE"'
+  material: STONE_AXE
+  name: 石の斧
+  model: 0
+  
+stone_pickaxe:
+  mods:
+    defaultminingspeed: '"STONEMADE"'
+    toolstats: '{"toolType":"PICKAXE","harvestLevel":1}'
+    monsterspawn: '{"basic_silverfish":0.01}'
+    defaultmaxdurability: '"STONEAGE"'
+  material: STONE_PICKAXE
+  name: 石のツルハシ
+  model: 0
+  
+stone_hoe:
+  mods:
+    defaultminingspeed: '"STONEMADE"'
+    toolstats: '{"toolType":"HOE","harvestLevel":1}'
+    defaultmaxdurability: '"STONEAGE"'
+  material: STONE_HOE
+  name: 石のクワ
+  model: 0
+
+iron_axe:
+  mods:
+    defaultminingspeed: '"IRONMADE"'
+    toolstats: '{"toolType":"AXE","harvestLevel":4}'
+    monsterspawn: '{"basic_treant":0.05}'
+    defaultmaxdurability: '"IRONAGE"'
+  material: IRON_AXE
+  name: 鉄の斧
+  model: 0
+  
+iron_shovel:
+  mods:
+    defaultminingspeed: '"IRONMADE"'
+    toolstats: '{"toolType":"SHOVEL","harvestLevel":2}'
+    defaultmaxdurability: '"IRONAGE"'
+  material: IRON_SHOVEL
+  name: 鉄のシャベル
+  model: 0
+  
+iron_pickaxe:
+  mods:
+    defaultminingspeed: '"IRONMADE"'
+    toolstats: '{"toolType":"PICKAXE","harvestLevel":2}'
+    monsterspawn: '{"basic_silverfish":0.01}'
+    defaultmaxdurability: '"IRONAGE"'
+  material: IRON_PICKAXE
+  name: 鉄のツルハシ
+  model: 0
+  
+iron_hoe:
+  mods:
+    defaultminingspeed: '"IRONMADE"'
+    toolstats: '{"toolType":"HOE","harvestLevel":2}'
+    defaultmaxdurability: '"IRONAGE"'
+  material: IRON_HOE
+  name: 鉄のクワ
+  model: 0
+  
+golden_hoe:
+  mods:
+    defaultminingspeed: '"IRONMADE"'
+    toolstats: '{"toolType":"HOE","harvestLevel":2}'
+    defaultmaxdurability: '"IRONAGE"'
+  material: GOLDEN_HOE
+  name: 金のクワ
+  model: 0
+  
+golden_pickaxe:
+  mods:
+    defaultminingspeed: '"IRONMADE"'
+    toolstats: '{"toolType":"PICKAXE","harvestLevel":2}'
+    monsterspawn: '{"basic_silverfish":0.01}'
+    defaultmaxdurability: '"IRONAGE"'
+  material: GOLDEN_PICKAXE
+  name: 金のツルハシ
+  model: 0
+  
+golden_shovel:
+  mods:
+    defaultminingspeed: '"IRONMADE"'
+    toolstats: '{"toolType":"SHOVEL","harvestLevel":2}'
+    defaultmaxdurability: '"IRONAGE"'
+  material: GOLDEN_SHOVEL
+  name: 金のシャベル
+  model: 0
+  
+golden_axe:
+  mods:
+    defaultminingspeed: '"GOLDMADE"'
+    toolstats: '{"toolType":"AXE","harvestLevel":4}'
+    monsterspawn: '{"basic_treant":0.05}'
+    defaultmaxdurability: '"IRONAGE"'
+  material: GOLDEN_AXE
+  name: 金の斧
+  model: 0

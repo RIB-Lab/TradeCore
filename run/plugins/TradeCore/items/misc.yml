@@ -1,0 +1,43 @@
+meshi:
+  mods: {}
+  material: COOKED_BEEF
+  name: COMP
+  model: 0
+
+coin:
+  mods: {}
+  material: GOLD_INGOT
+  name: 工費：
+  model: 1
+
+walking_stick:
+  mods:
+    addwalkspeed: '4'
+  material: STICK
+  name: 転ばぬ先の杖
+  model: 0
+
+map_stoneroom:
+  mods:
+    dungeonmap: '"STONE_ROOM"'
+  material: STONE_BRICKS
+  name: 石の部屋のマップ
+  model: 0
+
+destructors_wand:
+  mods: {}
+  material: STICK
+  name: メインワールド高速破壊杖
+  model: 1
+
+nextpage:
+  mods: {}
+  material: ARROW
+  name: 次のページ
+  model: 1
+
+previouspage:
+  mods: {}
+  material: ARROW
+  name: 前のページ
+  model: 2

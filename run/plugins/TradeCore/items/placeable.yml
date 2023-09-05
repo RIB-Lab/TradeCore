@@ -1,0 +1,20 @@
+vanilla_plank:
+  mods:
+    placeable: 'true'
+  material: CHEST
+  name: チェスト
+  model: 0
+  
+vanilla_furnace:
+  mods:
+    placeable: 'true'
+  material: FURNACE
+  name: かまど
+  model: 0
+  
+vanilla_torch:
+  mods:
+    placeable: 'true'
+  material: TORCH
+  name: 松明
+  model: 0

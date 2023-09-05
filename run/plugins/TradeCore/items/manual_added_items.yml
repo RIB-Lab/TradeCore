@@ -1,18 +1,3 @@
-nextpage:
-  name: 次のページ
-  material: ARROW
-  model: 1
-  mods:
-    AddArmor: 1
-    DefaultAttackDamage: '{"baseDamage"=5.0,"spread"="STONE"}'
-
-cursedHead:
-  name: カースドヘッド
-  material: SKELETON_SKULL
-  model: 0
-  mods:
-    AddArmor: 1
-
 stone_debug_sword:
   model: 0
   mods:
