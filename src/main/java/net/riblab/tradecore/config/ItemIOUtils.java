@@ -29,11 +29,19 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 public final class ItemIOUtils {
-    private ItemIOUtils(){
-        
-    }
 
     private static final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
+    
+    private static final Yaml yaml;
+    
+    static{
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK); // フロースタイルを指定
+        yaml = new Yaml(options);
+    }
+
+    private ItemIOUtils(){
+    }
     
     /**
      * アイテムファイルをアイテムの実体に変換する
@@ -180,10 +188,6 @@ public final class ItemIOUtils {
             itemRoot.put(item.getInternalName(), itemInfo);
         }
 
-        // SnakeYAMLの設定をカスタマイズ（オプション）
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK); // フロースタイルを指定
-        Yaml yaml = new Yaml(options);
 
         // YAMLファイルにデータを書き込む
         if(!file.getParentFile().exists())

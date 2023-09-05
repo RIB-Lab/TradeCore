@@ -1,5 +1,6 @@
 package net.riblab.tradecore.config;
 
+import net.riblab.tradecore.craft.TCCraftingRecipe;
 import net.riblab.tradecore.item.base.ITCItem;
 
 import javax.annotation.Nonnull;
@@ -39,6 +40,19 @@ public sealed interface DataService permits DataServiceImpl {
      * @param item アイテム
      */
     void exportItem(ITCItem item);
-    
+
+    /**
+     * アイテム達をファイルにスクリプトとしてエクスポートする
+     */
     void exportItem(List<ITCItem> items);
+
+    /**
+     * クラフトレシピ達を既定のファイルにエクスポートする
+     */
+    void exportCraftingRecipes(List<TCCraftingRecipe> craftingRecipes);
+
+    /**
+     * クラフトレシピをデータフォルダから読み込む
+     */
+    void loadCraftingRecipes();
 }

@@ -1,0 +1,6 @@
+iron_hoe:
+  category: TOOL
+  fee: 5.0
+  ingredients: {stone_component: 1, reinforced_stick: 2, iron_ingot: 2}
+  result: iron_hoe
+  resultAmount: 1

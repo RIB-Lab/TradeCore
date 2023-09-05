@@ -1,23 +1,13 @@
 package net.riblab.tradecore.craft;
 
-import net.riblab.tradecore.craft.TCCraftingRecipes.RecipeType;
-import net.riblab.tradecore.item.base.ITCItem;
+public interface ITCCraftingRecipe {
+    java.util.Map<String, Integer> getIngredients();
 
-import javax.annotation.Nonnull;
-import java.util.Map;
+    String getResult();
 
-public sealed interface ITCCraftingRecipe permits TCCraftingRecipe {
+    int getResultAmount();
 
-    @Nonnull
-    Map<String, Integer> ingredients();
+    double getFee();
 
-    @Nonnull
-    String result();
-
-    int resultAmount();
-
-    double fee();
-
-    @Nonnull
-    RecipeType category();
+    TCCraftingRecipes.RecipeType getCategory();
 }
