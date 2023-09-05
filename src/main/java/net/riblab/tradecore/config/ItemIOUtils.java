@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItem;
 import net.riblab.tradecore.item.mod.IItemMod;
@@ -65,10 +66,20 @@ public final class ItemIOUtils {
                             ScalarNode itemPropertiesNode = (ScalarNode) nodeTuple3.getKeyNode();//プロパティ達のノード
 
                             if(itemPropertiesNode.getValue().equals(ItemIOTags.NAME.get())){
-                                tcItem.setName(Component.text(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
+                                TextComponent name = Component.text(((ScalarNode) nodeTuple3.getValueNode()).getValue());
+                                if(!name.content().isEmpty())
+                                    tcItem.setName(name);
+                                else{
+                                    throw new IllegalArgumentException("名前の解析に失敗しました：" + tcItem.getInternalName());
+                                }
                             }
                             else if(itemPropertiesNode.getValue().equals(ItemIOTags.MATERIAL.get())){
-                                tcItem.setMaterial(Material.getMaterial(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
+                                Material material = Material.getMaterial(((ScalarNode) nodeTuple3.getValueNode()).getValue());
+                                if(Objects.nonNull(material))
+                                    tcItem.setMaterial(material);
+                                else{
+                                    throw new IllegalArgumentException("マテリアルの解析に失敗しました：" + tcItem.getInternalName() + "の" + ((ScalarNode) nodeTuple3.getValueNode()).getValue());
+                                }
                             }
                             else if(itemPropertiesNode.getValue().equals(ItemIOTags.CUSTOMMODELDATA.get())){
                                 tcItem.setCustomModelData(Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
@@ -83,17 +94,22 @@ public final class ItemIOUtils {
                                         Node modsNameNode = nodeTuple4.getKeyNode(); //アイテムmodの名前ノード
                                         Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
                                         Class<? extends IItemMod> modsClass =  ShortHandModNames.getClassFromShortHandName(((ScalarNode)modsNameNode).getValue());
-                                        if(Objects.nonNull(modsClass)){
-                                            //Jsonを元の型に還元する
-                                            Constructor<?> constructor = modsClass.getConstructors()[0];
-                                            Type[] parameterTypes = constructor.getGenericParameterTypes();
-                                            String json = ((ScalarNode) modsContentNode).getValue();
+                                        if(Objects.isNull(modsClass)){
+                                            throw  new IllegalArgumentException("不正なmod名が検出されました" + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
+                                        }
+
+                                        //Jsonを元の型に還元する
+                                        Constructor<?> constructor = modsClass.getConstructors()[0];
+                                        Type[] parameterTypes = constructor.getGenericParameterTypes();
+                                        String json = ((ScalarNode) modsContentNode).getValue();
+                                        try{
                                             Object arg =  gson.fromJson(json, parameterTypes[0]);
                                             IItemMod<?> mod = (IItemMod<?>) constructor.newInstance(arg);
                                             defaultMods.add(mod);
                                         }
-                                        else{
-                                            Bukkit.getLogger().severe(((ScalarNode)modsNameNode).getValue() + "に対応するmodが見つかりません！");
+                                        catch (Exception e){
+                                            Bukkit.getLogger().severe("アイテムのmodの内容の解析に失敗しました:" + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
+                                            e.printStackTrace();
                                         }
                                     }
                                 }
@@ -104,7 +120,7 @@ public final class ItemIOUtils {
                     deserializedItems.add(tcItem);
                 }
             }
-        } catch (IOException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+        } catch (IOException e) {
             Bukkit.getLogger().severe("ファイルの解析に失敗しました: " + file);
             e.printStackTrace();
         }
