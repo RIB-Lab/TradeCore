@@ -5,7 +5,6 @@ import dev.triumphteam.gui.guis.BaseGui;
 import dev.triumphteam.gui.guis.Gui;
 import dev.triumphteam.gui.guis.GuiItem;
 import dev.triumphteam.gui.guis.PaginatedGui;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
@@ -14,7 +13,6 @@ import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.entity.mob.FakeVillagerService;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.Materials;
@@ -171,6 +169,17 @@ final class UICraftingTable implements IUI {
      * クラフト確認画面を実装
      */
     private static void addCraftingScreen(PaginatedGui gui, Player player, ITCCraftingRecipe recipe) {
+        addIngredientStack(recipe, gui, player);
+
+        addResultStack(recipe, gui, player);
+
+        addFeeStack(recipe, gui, player);
+    }
+
+    /**
+     * 作業台の画面にレシピの材料のItemStackを追加する
+     */
+    private static void addIngredientStack(ITCCraftingRecipe recipe, PaginatedGui gui, Player player){
         int slot = 0;
         for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
             ItemStack ingredientStack = entry.getKey().getTemplateItemStack();
@@ -183,12 +192,16 @@ final class UICraftingTable implements IUI {
             ingredientStack.setAmount(amountSkillApplied);
             GuiItem ingredientDisplay = new GuiItem(ingredientStack);
             gui.setItem(slot, ingredientDisplay);
-
             do {
                 slot++;
             } while (!allowedIngredientSlotSet.contains(slot));
         }
+    }
 
+    /**
+     * 作業台の画面にレシピの完成品のItemStackを追加する
+     */
+    private static void addResultStack(ITCCraftingRecipe recipe, PaginatedGui gui, Player player){
         ItemStack resultStack = recipe.result().getTemplateItemStack();
         Component craftTip = Component.text("<<クリックで製作>>").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false);
         resultStack = new ItemCreator(resultStack).addLore(craftTip).create();
@@ -196,7 +209,12 @@ final class UICraftingTable implements IUI {
         ItemStack finalResultStack = resultStack;
         GuiItem craftButton = new GuiItem(resultStack, event -> tryCraft(gui, player, recipe, finalResultStack));
         gui.setItem(14, craftButton);
+    }
 
+    /**
+     * 作業台の画面にレシピの必要料金を表示するItemStackを追加する
+     */
+    private static void addFeeStack(ITCCraftingRecipe recipe, PaginatedGui gui, Player player){
         ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
         packedCraftFee.setRecipe(recipe);
         packedCraftFee.setFee(recipe.fee());
@@ -215,28 +233,11 @@ final class UICraftingTable implements IUI {
      * クラフトの決済処理を行う
      */
     private static void tryCraft(PaginatedGui gui, Player player, ITCCraftingRecipe recipe, ItemStack resultStack) {
-        List<Component> missingLore = new ArrayList<>();
-        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
-            packedRecipeData.setRecipe(recipe);
-            packedRecipeData.setAmount(entry.getValue());
-            int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
+        List<Component> missingLore = getMissingItemsMessages(player, recipe);
 
-            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(),entry.getKey(), amountSkillApplied);
-            if (playerHasItem)
-                continue;
-
-            missingLore.add(Component.text(entry.getKey().getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
-        }
-
-        double balance = TCEconomy.getImpl().getBalance(player);
-        ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
-        packedCraftFee.setRecipe(recipe);
-        packedCraftFee.setFee(recipe.fee());
-        double skillAppliedFee = Utils.apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
-        if (skillAppliedFee > balance) {
-            missingLore.add(Component.text("所持金が足りません！ " + Math.floor(balance * 100) / 100 + "/" + recipe.fee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
-        }
+        Component missingBalanceText = getMissingBalanceMessage(player, recipe);
+        if(Objects.nonNull(missingBalanceText))
+            missingLore.add(missingBalanceText);
 
         if (missingLore.size() > 0) {
             ItemStack newResultStack = new ItemCreator(resultStack).setLores(missingLore).create();
@@ -245,16 +246,9 @@ final class UICraftingTable implements IUI {
             return;
         }
 
-        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-
-            IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
-            packedRecipeData.setRecipe(recipe);
-            packedRecipeData.setAmount(entry.getValue());
-            int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
-            
-            ItemUtils.tcRemoveItemAnySlot(player.getInventory(), entry.getKey(), amountSkillApplied);
-        }
-        TCEconomy.getImpl().withdrawPlayer(player, skillAppliedFee);
+        withdrawItems(player, recipe);
+        
+        withdrawBalance(player, recipe);
 
         JobDataService.getImpl().addJobExp(player, JobType.CRAFTER, (int) recipe.fee());
 
@@ -265,38 +259,67 @@ final class UICraftingTable implements IUI {
         remains.forEach((integer, itemStack) -> player.getWorld().dropItemNaturally(player.getLocation(), itemStack));
     }
 
+    /**
+     * あるレシピについて、プレイヤーがその材料を持っていなかった場合、その種類を表すメッセージを取得する
+     */
+    private static List<Component> getMissingItemsMessages(Player player, ITCCraftingRecipe recipe){
+        List<Component> missingMessages = new ArrayList<>();
+        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
+            IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
+            packedRecipeData.setRecipe(recipe);
+            packedRecipeData.setAmount(entry.getValue());
+            int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
+
+            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(),entry.getKey(), amountSkillApplied);
+            if (playerHasItem)
+                continue;
+
+            missingMessages.add(Component.text(entry.getKey().getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+        }
+        return missingMessages;
+    }
+
+    private static Component getMissingBalanceMessage(Player player, ITCCraftingRecipe recipe){
+        double balance = TCEconomy.getImpl().getBalance(player);
+        ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
+        packedCraftFee.setRecipe(recipe);
+        packedCraftFee.setFee(recipe.fee());
+        double skillAppliedFee = Utils.apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
+        if (skillAppliedFee > balance) {
+            return Component.text("所持金が足りません！ " + Math.floor(balance * 100) / 100 + "/" + recipe.fee()).color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false);
+        }
+        else 
+            return null;
+    }
+
+    /**
+     * プレイヤーインベントリからレシピで指定された材料を差し引く
+     */
+    private static void withdrawItems(Player player, ITCCraftingRecipe recipe){
+        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
+
+            IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
+            packedRecipeData.setRecipe(recipe);
+            packedRecipeData.setAmount(entry.getValue());
+            int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
+
+            ItemUtils.tcRemoveItemAnySlot(player.getInventory(), entry.getKey(), amountSkillApplied);
+        }
+    }
+
+    /**
+     * プレイヤーインベントリからレシピで指定された工費を差し引く
+     */
+    private static void withdrawBalance(Player player, ITCCraftingRecipe recipe){
+        ICraftFeeModifier.PackedCraftFee packedCraftFee = new ICraftFeeModifier.PackedCraftFee();
+        packedCraftFee.setRecipe(recipe);
+        packedCraftFee.setFee(recipe.fee());
+        double skillAppliedFee = Utils.apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
+        TCEconomy.getImpl().withdrawPlayer(player, skillAppliedFee);
+    }
+    
     private static void close(Player player) {
         player.closeInventory();
     }
 
-    public enum CraftingScreenType {
-        CATEGORY("作業台", TCResourcePackData.UIFont.CRAFTING_TABLE_CATEGORY, null),
-        ARMOR("装備品", TCResourcePackData.UIFont.CRAFTING_TABLE_ARMOR, TCCraftingRecipes.RecipeType.ARMOR),
-        TOOL("ツール", TCResourcePackData.UIFont.CRAFTING_TABLE_TOOL, TCCraftingRecipes.RecipeType.TOOL),
-        WEAPON("武器", TCResourcePackData.UIFont.CRAFTING_TABLE_WEAPON, TCCraftingRecipes.RecipeType.WEAPON),
-        MISC("その他", TCResourcePackData.UIFont.CRAFTING_TABLE_MISC, TCCraftingRecipes.RecipeType.MISC),
-        CRAFTING("加工", TCResourcePackData.UIFont.CRAFTING_TABLE_CRAFTING, null);
-
-        @Getter
-        private final Component title;
-
-        @Getter
-        private final TCCraftingRecipes.RecipeType recipeType;
-
-        CraftingScreenType(String rawTitle, TCResourcePackData.UIFont screenStr, TCCraftingRecipes.RecipeType recipeType) {
-            //タイトル作成
-            String neg = TCResourcePackData.UIFont.NEGATIVE_SPACE.get_char();
-            String neg2 = TCResourcePackData.UIFont.SUPER_NEGATIVE_SPACE.get_char();
-            String main = screenStr.get_char();
-            Component text = Component.text(neg + neg + main).font(TCResourcePackData.uiFontName).color(NamedTextColor.WHITE);
-            text = text.append(Component.text(neg2 + neg2 + neg2 + neg2 + neg + neg).font(TCResourcePackData.uiFontName));
-            text = text.append(Component.text(rawTitle).font(TCResourcePackData.defaultFontName).color(NamedTextColor.BLACK));
-            this.title = text;
-            this.recipeType = recipeType;
-        }
-
-        public static CraftingScreenType titleToType(Component title) {
-            return Arrays.stream(CraftingScreenType.values()).filter(type -> type.getTitle().equals(title)).findFirst().orElse(null);
-        }
-    }
 }

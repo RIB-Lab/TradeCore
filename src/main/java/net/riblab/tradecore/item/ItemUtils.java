@@ -59,7 +59,8 @@ public final class ItemUtils {
     }
 
     /**
-     * インベントリからTCItemを指定個数除去。これを使うことでItemの細かいNBTが異なっていても同じTCItemとして除去できる
+     * インベントリからTCItemを指定個数除去。<br>
+     * これを使うことでItemの細かいNBTが異なっていても同じTCItemとして除去できる
      */
     public static void tcRemoveItemAnySlot(Inventory inventory, ITCItem itcItem, int amount){
         for (ItemStack content : inventory.getContents()) {
@@ -74,7 +75,8 @@ public final class ItemUtils {
     }
 
     /**
-     * ツールのインスタンスの耐久値を減らす / 回復させる。ツールに耐久値modがついていない場合、耐久値無限とみなし何もしない
+     * ツールのインスタンスの耐久値を減らす / 回復させる。<br>
+     * ツールに耐久値modがついていない場合、耐久値無限とみなし何もしない
      */
     public static ItemStack reduceDurabilityIfPossible(ItemStack instance, int amount){
         ITCItem itcItem = TCItems.toTCItem(instance);

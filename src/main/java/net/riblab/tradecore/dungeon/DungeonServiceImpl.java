@@ -22,6 +22,10 @@ import java.util.*;
 enum DungeonServiceImpl implements DungeonService {
     INSTANCE;
 
+    DungeonServiceImpl(){
+        Utils.forceInit(DungeonProgressionTracker.class);
+    }
+    
     /**
      * ダンジョンのインスタンス達
      */
