@@ -59,62 +59,7 @@ public final class ItemIOUtils {
 
                     Node valueNode2 = nodeTuple2.getValueNode();
                     if(valueNode2 instanceof MappingNode valueNode2Map){
-                        Iterator<NodeTuple> iterator3 = valueNode2Map.getValue().iterator();
-                        while (iterator3.hasNext()){
-                            NodeTuple nodeTuple3 = iterator3.next();
-
-                            ScalarNode itemPropertiesNode = (ScalarNode) nodeTuple3.getKeyNode();//プロパティ達のノード
-
-                            if(itemPropertiesNode.getValue().equals(ItemIOTags.NAME.get())){
-                                TextComponent name = Component.text(((ScalarNode) nodeTuple3.getValueNode()).getValue());
-                                if(!name.content().isEmpty())
-                                    tcItem.setName(name);
-                                else{
-                                    throw new IllegalArgumentException("名前の解析に失敗しました：" + tcItem.getInternalName());
-                                }
-                            }
-                            else if(itemPropertiesNode.getValue().equals(ItemIOTags.MATERIAL.get())){
-                                Material material = Material.getMaterial(((ScalarNode) nodeTuple3.getValueNode()).getValue());
-                                if(Objects.nonNull(material))
-                                    tcItem.setMaterial(material);
-                                else{
-                                    throw new IllegalArgumentException("マテリアルの解析に失敗しました：" + tcItem.getInternalName() + "の" + ((ScalarNode) nodeTuple3.getValueNode()).getValue());
-                                }
-                            }
-                            else if(itemPropertiesNode.getValue().equals(ItemIOTags.CUSTOMMODELDATA.get())){
-                                tcItem.setCustomModelData(Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
-                            }
-                            else if(itemPropertiesNode.getValue().equals(ItemIOTags.DEFAULTMODS.get())){
-                                Node valueNode3 = nodeTuple3.getValueNode();
-                                if(valueNode3 instanceof MappingNode valueNode3Map){
-                                    Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
-                                    while (iterator4.hasNext()){
-                                        NodeTuple nodeTuple4 = iterator4.next();
-
-                                        Node modsNameNode = nodeTuple4.getKeyNode(); //アイテムmodの名前ノード
-                                        Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
-                                        Class<? extends IItemMod> modsClass =  ShortHandModNames.getClassFromShortHandName(((ScalarNode)modsNameNode).getValue());
-                                        if(Objects.isNull(modsClass)){
-                                            throw  new IllegalArgumentException("不正なmod名が検出されました" + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
-                                        }
-
-                                        //Jsonを元の型に還元する
-                                        Constructor<?> constructor = modsClass.getConstructors()[0];
-                                        Type[] parameterTypes = constructor.getGenericParameterTypes();
-                                        String json = ((ScalarNode) modsContentNode).getValue();
-                                        try{
-                                            Object arg =  gson.fromJson(json, parameterTypes[0]);
-                                            IItemMod<?> mod = (IItemMod<?>) constructor.newInstance(arg);
-                                            defaultMods.add(mod);
-                                        }
-                                        catch (Exception e){
-                                            Bukkit.getLogger().severe("アイテムのmodの内容の解析に失敗しました:" + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        parseItemParams(tcItem, defaultMods, valueNode2Map);
                     }
                     tcItem.setDefaultMods(defaultMods);
                     deserializedItems.add(tcItem);
@@ -128,24 +73,108 @@ public final class ItemIOUtils {
         return deserializedItems;
     }
 
+    /**
+     * マッピングノードからアイテムの全てのパラメータをパースする
+     */
+    private static void parseItemParams(TCItem tcItem, List<IItemMod<?>> defaultMods, MappingNode valueNode2Map) {
+        Iterator<NodeTuple> iterator3 = valueNode2Map.getValue().iterator();
+        while (iterator3.hasNext()){
+            NodeTuple nodeTuple3 = iterator3.next();
+
+            ScalarNode itemPropertiesNode = (ScalarNode) nodeTuple3.getKeyNode();//プロパティ達のノード
+
+            if(itemPropertiesNode.getValue().equals(ItemIOTags.NAME.get())){
+                parseDisplayName(tcItem, nodeTuple3);
+            }
+            else if(itemPropertiesNode.getValue().equals(ItemIOTags.MATERIAL.get())){
+                parseMaterial(tcItem, nodeTuple3);
+            }
+            else if(itemPropertiesNode.getValue().equals(ItemIOTags.CUSTOMMODELDATA.get())){
+                parseCustomModelData(tcItem, nodeTuple3);
+            }
+            else if(itemPropertiesNode.getValue().equals(ItemIOTags.DEFAULTMODS.get())){
+                parseDefaultMods(tcItem, defaultMods, nodeTuple3);
+            }
+        }
+    }
+
+    /**
+     * アイテムの表示名をノードからパースする
+     */
+    private static void parseDisplayName(TCItem tcItem, NodeTuple nodeTuple3){
+        TextComponent name = Component.text(((ScalarNode) nodeTuple3.getValueNode()).getValue());
+        if(!name.content().isEmpty())
+            tcItem.setName(name);
+        else{
+            throw new IllegalArgumentException("表示名の解析に失敗しました：" + tcItem.getInternalName());
+        }
+    }
+
+    /**
+     * アイテムのマテリアルをノードからパースする
+     */
+    private static void parseMaterial(TCItem tcItem, NodeTuple nodeTuple3){
+        Material material = Material.getMaterial(((ScalarNode) nodeTuple3.getValueNode()).getValue());
+        if(Objects.nonNull(material))
+            tcItem.setMaterial(material);
+        else{
+            throw new IllegalArgumentException("マテリアルの解析に失敗しました：" + tcItem.getInternalName() + "の" + ((ScalarNode) nodeTuple3.getValueNode()).getValue());
+        }
+    }
+
+    /**
+     * アイテムのカスタムモデルデータをノードからパースする
+     */
+    private static void parseCustomModelData(TCItem tcItem, NodeTuple nodeTuple3){
+        tcItem.setCustomModelData(Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
+    }
+
+    /**
+     * アイテムのdefaultmodsをノードからパースする
+     */
+    private static void parseDefaultMods(TCItem tcItem, List<IItemMod<?>> defaultMods, NodeTuple nodeTuple3) {
+        Node valueNode3 = nodeTuple3.getValueNode();
+        if(valueNode3 instanceof MappingNode valueNode3Map){
+            Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
+            while (iterator4.hasNext()){
+                NodeTuple nodeTuple4 = iterator4.next();
+
+                Node modsNameNode = nodeTuple4.getKeyNode(); //アイテムmodの名前ノード
+                Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
+                Class<? extends IItemMod> modsClass =  ShortHandModNames.getClassFromShortHandName(((ScalarNode)modsNameNode).getValue());
+                if(Objects.isNull(modsClass)){
+                    throw  new IllegalArgumentException("不正なmod名が検出されました" + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
+                }
+
+                //Jsonを元の型に還元する
+                Constructor<?> constructor = modsClass.getConstructors()[0];
+                Type[] parameterTypes = constructor.getGenericParameterTypes();
+                String json = ((ScalarNode) modsContentNode).getValue();
+                try{
+                    Object arg =  gson.fromJson(json, parameterTypes[0]);
+                    IItemMod<?> mod = (IItemMod<?>) constructor.newInstance(arg);
+                    defaultMods.add(mod);
+                }
+                catch (Exception e){
+                    Bukkit.getLogger().severe("アイテムのmodの内容の解析に失敗しました:" + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * アイテム達のデータを指定されたyamlファイルに書きこむ
+     */
     public static void saveItem(List<ITCItem> items, File file){
         Map<String, Object> itemRoot = new HashMap<>();
         
         for (ITCItem item : items) {
-            //modをセーブ
             Map<String, Object> defaultModsMap = new HashMap<>();
-            for (IItemMod<?> defaultMod : item.getDefaultMods()) {
-                String key = ShortHandModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) defaultMod.getClass());
-                String value = gson.toJson(defaultMod.getParam());
-                defaultModsMap.put(key, value);
-            }
-
-            //アイテムの情報をセーブ
+            saveItemMods(item, defaultModsMap);
+            
             Map<String, Object> itemInfo = new HashMap<>();
-            itemInfo.put(ItemIOTags.NAME.get(), item.getName().content());
-            itemInfo.put(ItemIOTags.MATERIAL.get(), item.getMaterial().toString());
-            itemInfo.put(ItemIOTags.CUSTOMMODELDATA.get(), item.getCustomModelData());
-            itemInfo.put(ItemIOTags.DEFAULTMODS.get(), defaultModsMap);
+            saveItemBasicParams(item, defaultModsMap, itemInfo);
 
             //アイテムのinternalnameをキーとしてセーブ
             itemRoot.put(item.getInternalName(), itemInfo);
@@ -164,6 +193,27 @@ public final class ItemIOUtils {
             yaml.dump(itemRoot, writer); // マップのデータをYAMLファイルに書き込む
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * アイテムの基本的な情報をセーブ
+     */
+    private static void saveItemBasicParams(ITCItem item, Map<String, Object> defaultModsMap, Map<String, Object> itemInfo) {
+        itemInfo.put(ItemIOTags.NAME.get(), item.getName().content());
+        itemInfo.put(ItemIOTags.MATERIAL.get(), item.getMaterial().toString());
+        itemInfo.put(ItemIOTags.CUSTOMMODELDATA.get(), item.getCustomModelData());
+        itemInfo.put(ItemIOTags.DEFAULTMODS.get(), defaultModsMap);
+    }
+
+    /**
+     * アイテムのmodをシリアライズしてマップに書きこむ
+     */
+    private static void saveItemMods(ITCItem item, Map<String, Object> defaultModsMap) {
+        for (IItemMod<?> defaultMod : item.getDefaultMods()) {
+            String key = ShortHandModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) defaultMod.getClass());
+            String value = gson.toJson(defaultMod.getParam());
+            defaultModsMap.put(key, value);
         }
     }
 }
