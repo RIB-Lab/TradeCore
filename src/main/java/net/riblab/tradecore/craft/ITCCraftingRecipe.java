@@ -9,10 +9,10 @@ import java.util.Map;
 public sealed interface ITCCraftingRecipe permits TCCraftingRecipe {
 
     @Nonnull
-    Map<ITCItem, Integer> ingredients();
+    Map<String, Integer> ingredients();
 
     @Nonnull
-    ITCItem result();
+    String result();
 
     int resultAmount();
 

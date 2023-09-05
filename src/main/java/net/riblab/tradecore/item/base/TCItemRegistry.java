@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,14 +41,14 @@ public enum TCItemRegistry {
     }
 
     /**
-     * 固有アイテムの召喚コマンドを固有アイテムに変換する
+     * 固有アイテムのinternalNameを固有アイテムに変換する
      *
-     * @param command 召喚コマンド
+     * @param internalName 内部名称
      * @return 変換された固有アイテム
      */
     @Nullable
-    public static ITCItem commandToTCItem(String command) {
-        ITCItem itcItem = deserializedItems.stream().filter(e -> e.isSimilar(command)).findFirst().orElse(null);
+    public static ITCItem commandToTCItem(String internalName) {
+        ITCItem itcItem = deserializedItems.stream().filter(e -> e.isSimilar(internalName)).findFirst().orElse(null);
         return Objects.isNull(itcItem) ? null : itcItem;
     }
 }
