@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2023. RIBLaB 
+ */
 package net.riblab.tradecore.general;
 
 import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;

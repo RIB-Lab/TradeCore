@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2023. RIBLaB 
+ */
 package net.riblab.tradecore.block;
 
 import com.comphenix.protocol.PacketType;
@@ -37,7 +40,7 @@ class BrokenBlock {
     @Setter
     private Consumer<Player> onDestruction;
 
-    public BrokenBlock(Block block) {
+    BrokenBlock(Block block) {
         this.block = block;
     }
 

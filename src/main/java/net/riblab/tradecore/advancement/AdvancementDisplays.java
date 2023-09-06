@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2023. RIBLaB 
+ */
 package net.riblab.tradecore.advancement;
 
 import com.fren_gor.ultimateAdvancementAPI.advancement.display.AdvancementDisplay;

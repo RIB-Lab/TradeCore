@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2023. RIBLaB 
+ */
 package net.riblab.tradecore.modifier;
 
 import net.riblab.tradecore.dungeon.DungeonNames;

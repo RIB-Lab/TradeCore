@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2023. RIBLaB 
+ */
 package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.entity.mob.ITCMob;

@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2023. RIBLaB 
+ */
 package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IPlaceableModifier;
@@ -6,7 +9,7 @@ import net.riblab.tradecore.modifier.IPlaceableModifier;
  * カスタムアイテムを設置可能にする
  */
 public class ModPlaceableI extends ItemMod<Boolean> implements IPlaceableModifier {
-    public ModPlaceableI(Boolean flag) {
+    public ModPlaceableI(Boolean isPlaceable) {
         super(true);
     }
 

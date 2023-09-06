@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2023. RIBLaB 
+ */
 package net.riblab.tradecore.entity.projectile;
 
 import de.tr7zw.nbtapi.NBTEntity;

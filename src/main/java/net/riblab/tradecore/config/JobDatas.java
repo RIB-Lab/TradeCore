@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2023. RIBLaB 
+ */
 package net.riblab.tradecore.config;
 
 import net.riblab.tradecore.job.data.IJobData;

@@ -1,3 +1,6 @@
+/*
+ * Copyright (c) 2023. RIBLaB 
+ */
 package net.riblab.tradecore.dungeon;
 
 import com.sk89q.worldedit.EditSession;
