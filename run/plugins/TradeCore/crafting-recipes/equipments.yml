@@ -1,0 +1,55 @@
+bark_helmet:
+  category: ARMOR
+  fee: 1.0
+  ingredients: {mud: 5, bark: 5}
+  result: bark_helmet
+  resultAmount: 1
+
+bark_chestplate:
+  category: ARMOR
+  fee: 1.0
+  ingredients: {mud: 8, bark: 8}
+  result: bark_chestplate
+  resultAmount: 1
+
+bark_leggings:
+  category: ARMOR
+  fee: 1.0
+  ingredients: {mud: 7, bark: 7}
+  result: bark_leggings
+  resultAmount: 1
+  
+bark_boots:
+  category: ARMOR
+  fee: 1.0
+  ingredients: {mud: 4, bark: 4}
+  result: bark_boots
+  resultAmount: 1
+  
+stone_helmet:
+  category: ARMOR
+  fee: 3.0
+  ingredients: {widestone: 15, tallstone: 10, wooden_component: 1}
+  result: stone_helmet
+  resultAmount: 1
+  
+stone_chestplate:
+  category: ARMOR
+  fee: 3.0
+  ingredients: {widestone: 30, tallstone: 10, wooden_component: 1}
+  result: stone_chestplate
+  resultAmount: 1
+  
+stone_leggings:
+  category: ARMOR
+  fee: 3.0
+  ingredients: {widestone: 5, tallstone: 30, wooden_component: 1}
+  result: stone_leggings
+  resultAmount: 1
+  
+stone_boots:
+  category: ARMOR
+  fee: 3.0
+  ingredients: {wooden_component: 1, tallstone: 40}
+  result: stone_boots
+  resultAmount: 1

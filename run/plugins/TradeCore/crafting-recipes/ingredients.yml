@@ -1,0 +1,62 @@
+iron_ingot:
+  category: MISC
+  fee: 1.0
+  ingredients: {iron_shard: 3}
+  result: iron_ingot
+  resultAmount: 1
+
+gold_ingot:
+  category: MISC
+  fee: 1.0
+  ingredients: {gold_shard: 3}
+  result: gold_ingot
+  resultAmount: 1
+  
+reinforced_stick:
+  category: MISC
+  fee: 3.0
+  ingredients: {stick: 1, sand_dust: 10, gravel_dust: 10}
+  result: reinforced_stick
+  resultAmount: 1
+  
+stick:
+  category: MISC
+  fee: 0.25
+  ingredients: {twig: 4}
+  result: stick
+  resultAmount: 1
+  
+stone_component:
+  category: MISC
+  fee: 10.0
+  ingredients: {andesite_stone: 2, diorite_stone: 2, granite_stone: 2, round_stone: 10}
+  result: stone_component
+  resultAmount: 1
+  
+fuel_ball:
+  category: MISC
+  fee: 1.0
+  ingredients: {drygrass: 32}
+  result: fuel_ball
+  resultAmount: 1
+  
+wooden_component:
+  category: MISC
+  fee: 5.0
+  ingredients: {round_trunk: 3, dust: 3, woodpulp: 5, moss: 10}
+  result: wooden_component
+  resultAmount: 1
+  
+vanilla_plank:
+  category: MISC
+  fee: 1.0
+  ingredients: {round_trunk: 1}
+  result: vanilla_plank
+  resultAmount: 1
+  
+vanilla_furnace:
+  category: MISC
+  fee: 10.0
+  ingredients: {flint: 3, round_stone: 6}
+  result: vanilla_furnace
+  resultAmount: 1

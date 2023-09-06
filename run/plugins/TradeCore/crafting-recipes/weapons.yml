@@ -1,0 +1,13 @@
+wooden_sword:
+  category: WEAPON
+  fee: 1.0
+  ingredients: {stick: 1, round_trunk: 2}
+  result: wooden_sword
+  resultAmount: 1
+
+stone_sword:
+  category: WEAPON
+  fee: 3.0
+  ingredients: {stick: 2, tallstone: 2, wooden_component: 1}
+  result: stone_sword
+  resultAmount: 1

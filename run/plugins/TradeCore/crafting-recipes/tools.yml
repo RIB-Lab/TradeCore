@@ -1,6 +1,125 @@
+wooden_shovel:
+  category: TOOL
+  fee: 1.0
+  ingredients: {stick: 2, round_trunk: 1}
+  result: wooden_shovel
+  resultAmount: 1
+  
+wooden_hoe:
+  category: TOOL
+  fee: 1.0
+  ingredients: {stick: 2, round_trunk: 2}
+  result: wooden_hoe
+  resultAmount: 1
+  
+wooden_axe:
+  category: TOOL
+  fee: 1.0
+  ingredients: {stick: 2, round_trunk: 3}
+  result: wooden_axe
+  resultAmount: 1
+  
+wooden_pickaxe:
+  category: TOOL
+  fee: 1.0
+  ingredients: {stick: 2, round_trunk: 3}
+  result: wooden_pickaxe
+  resultAmount: 1
+
+stone_pickaxe:
+  category: TOOL
+  fee: 3.0
+  ingredients: {widestone: 3, wooden_component: 1, stick: 2}
+  result: stone_pickaxe
+  resultAmount: 1
+
+stone_shovel:
+  category: TOOL
+  fee: 3.0
+  ingredients: {stick: 2, tallstone: 1, wooden_component: 1}
+  result: stone_shovel
+  resultAmount: 1
+
+stone_axe:
+  category: TOOL
+  fee: 3.0
+  ingredients: {widestone: 1, stick: 2, tallstone: 2, wooden_component: 1}
+  result: stone_axe
+  resultAmount: 1
+
+stone_hoe:
+  category: TOOL
+  fee: 3.0
+  ingredients: {widestone: 2, wooden_component: 1, stick: 2}
+  result: stone_hoe
+  resultAmount: 1
+
 iron_hoe:
   category: TOOL
   fee: 5.0
   ingredients: {stone_component: 1, reinforced_stick: 2, iron_ingot: 2}
   result: iron_hoe
+  resultAmount: 1
+  
+iron_axe:
+  category: TOOL
+  fee: 5.0
+  ingredients: {iron_ingot: 3, stone_component: 1, reinforced_stick: 2}
+  result: iron_axe
+  resultAmount: 1
+
+iron_pickaxe:
+  category: TOOL
+  fee: 5.0
+  ingredients: {iron_ingot: 3, stone_component: 1, reinforced_stick: 2}
+  result: iron_pickaxe
+  resultAmount: 1
+  
+iron_shovel:
+  category: TOOL
+  fee: 5.0
+  ingredients: {iron_ingot: 1, stone_component: 1, reinforced_stick: 2}
+  result: iron_shovel
+  resultAmount: 1
+  
+golden_pickaxe:
+  category: TOOL
+  fee: 5.0
+  ingredients: {reinforced_stick: 2, stone_component: 1, gold_ingot: 3}
+  result: golden_pickaxe
+  resultAmount: 1
+  
+golden_shovel:
+  category: TOOL
+  fee: 5.0
+  ingredients: {reinforced_stick: 2, stone_component: 1, gold_ingot: 1}
+  result: golden_shovel
+  resultAmount: 1
+  
+golden_axe:
+  category: TOOL
+  fee: 5.0
+  ingredients: {reinforced_stick: 2, stone_component: 1, gold_ingot: 3}
+  result: golden_axe
+  resultAmount: 1
+  
+golden_hoe:
+  category: TOOL
+  fee: 5.0
+  ingredients: {reinforced_stick: 2, stone_component: 1, gold_ingot: 2}
+  result: golden_hoe
+  resultAmount: 1
+  
+walking_stick:
+  category: TOOL
+  fee: 2.0
+  ingredients: {stick: 4}
+  result: walking_stick
+  resultAmount: 1
+  
+reinforced_walking_stick:
+  category: TOOL
+  fee: 10.0
+  ingredients: {reinforced_stick: 4}
+  result: reinforced_walking_stick
   resultAmount: 1
