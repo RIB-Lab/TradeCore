@@ -5,9 +5,6 @@ import net.riblab.tradecore.advancement.AdvancementInitializer;
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.command.TCCommands;
 import net.riblab.tradecore.config.DataService;
-import net.riblab.tradecore.craft.CraftingRecipesRegistry;
-import net.riblab.tradecore.craft.TCCraftingRecipe;
-import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.entity.mob.CustomMobService;
@@ -18,14 +15,10 @@ import net.riblab.tradecore.integration.ProtocolInitializer;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
 import net.riblab.tradecore.item.PlayerItemModService;
-import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Arrays;
 
 
 public class TradeCore extends JavaPlugin {

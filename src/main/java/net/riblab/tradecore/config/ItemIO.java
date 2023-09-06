@@ -2,7 +2,6 @@ package net.riblab.tradecore.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.riblab.tradecore.item.base.ITCItem;
@@ -24,11 +23,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.util.*;
 
-public final class ItemIOUtils {
+public final class ItemIO {
 
     private static final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
     
@@ -40,7 +38,7 @@ public final class ItemIOUtils {
         yaml = new Yaml(options);
     }
 
-    private ItemIOUtils(){
+    private ItemIO(){
     }
     
     /**
@@ -174,7 +172,7 @@ public final class ItemIOUtils {
     /**
      * アイテム達のデータを指定されたyamlファイルに書きこむ
      */
-    public static void saveItem(List<ITCItem> items, File file){
+    public static void serializeItem(List<ITCItem> items, File file){
         Map<String, Object> itemRoot = new HashMap<>();
         
         for (ITCItem item : items) {

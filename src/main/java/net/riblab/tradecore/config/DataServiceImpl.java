@@ -5,19 +5,11 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.CraftingRecipesRegistry;
-import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipe;
-import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import org.bukkit.Bukkit;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
-import org.yaml.snakeyaml.DumperOptions;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.introspector.BeanAccess;
-import org.yaml.snakeyaml.nodes.*;
-import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.*;
 import java.util.*;
@@ -35,21 +27,6 @@ enum DataServiceImpl implements DataService {
     private CurrencyData currencyData = new CurrencyData();
     @Getter
     private JobDatas jobDatas = new JobDatas();
-    
-    private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-    private static final Yaml yaml;
-
-    static{
-        DumperOptions options = new DumperOptions();
-        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK); // フロースタイルを指定
-        options.setAllowReadOnlyProperties(true);
-        Representer representer = new Representer(options);
-        representer.addClassTag(TCCraftingRecipe.class, Tag.MAP);
-        representer.getPropertyUtils().setBeanAccess(BeanAccess.FIELD);
-        
-        yaml = new Yaml(representer);
-    }
 
     /**
      * コンフィグの保存Path
@@ -98,42 +75,16 @@ enum DataServiceImpl implements DataService {
 
     @Override
     public void saveAll() {
-        saveWithJson(currencyData, currencyDataFile);
-        saveWithJson(jobDatas, jobsDataFile);
-    }
-    
-    private void saveWithJson(Object dataInstance, File file){
-        String str = gson.toJson(dataInstance);
-        try {
-            FileUtils.forceMkdir(new File(file.getParent()));
-            FileUtils.fileWrite(file, str);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        JsonIO.saveWithJson(currencyData, currencyDataFile);
+        JsonIO.saveWithJson(jobDatas, jobsDataFile);
     }
 
     @Override
     public void loadAll() {
-        currencyData =  load(currencyDataFile, CurrencyData.class);
-        jobDatas = load(jobsDataFile, JobDatas.class);
+        currencyData =  JsonIO.loadAsJson(currencyDataFile, CurrencyData.class);
+        jobDatas = JsonIO.loadAsJson(jobsDataFile, JobDatas.class);
         loadItems();
         loadCraftingRecipes();
-    }
-
-    /**
-     * あるデータファイル(.yml)からあるデータタイプを読み込んで返す
-     */
-    private <T> T load(File dataFile, Class<T> dataType){
-        String str = null;
-        try {
-            str =  FileUtils.fileRead(dataFile);
-        } catch (IOException ignored) {
-        }
-        
-        if(!StringUtils.isEmpty(str))
-            return gson.fromJson(str, dataType);
-        else 
-            return null;
     }
     
     public void loadItems(){
@@ -146,31 +97,17 @@ enum DataServiceImpl implements DataService {
             throw new RuntimeException(e);
         }
         for (File itemFile : itemFiles) {
-            List<ITCItem> deserializedItems = ItemIOUtils.deserialize(itemFile);
+            List<ITCItem> deserializedItems = ItemIO.deserialize(itemFile);
             TCItemRegistry.INSTANCE.getDeserializedItems().addAll(deserializedItems);
         }
     }
     
     public void exportItem(ITCItem item){
-        ItemIOUtils.saveItem(List.of(item), itemExportFile);
+        ItemIO.serializeItem(List.of(item), itemExportFile);
     }
 
     public void exportItem(List<ITCItem> items){
-        ItemIOUtils.saveItem(items, itemExportFile);
-    }
-    
-    //TODO:引数をObjectにしてexportAsYamlみたいな感じにする
-    public void exportCraftingRecipes(List<TCCraftingRecipe> craftingRecipes){
-        Map<String, TCCraftingRecipe> craftingRecipesMap = new HashMap<>();
-        craftingRecipes.forEach(tcCraftingRecipe -> craftingRecipesMap.put(tcCraftingRecipe.getResult(), tcCraftingRecipe));
-        if(!craftingRecipeExportFile.getParentFile().exists())
-            craftingRecipeExportFile.getParentFile().mkdirs();
-        FileUtils.getFile(craftingRecipeExportFile.toString());
-        try (FileWriter writer = new FileWriter(craftingRecipeExportFile)) {
-            yaml.dump(craftingRecipesMap, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        ItemIO.serializeItem(items, itemExportFile);
     }
     
     public void loadCraftingRecipes(){
@@ -183,73 +120,11 @@ enum DataServiceImpl implements DataService {
         }
         
         for (File craftingRecipeFile : craftingRecipeFiles) {
-            composeCraftingRecipes(craftingRecipeFile);
+            CraftingRecipeIO.deserialize(craftingRecipeFile);
         }
     }
-    
-    private void composeCraftingRecipes(File craftingRecipeFile){
-        
-        List<ITCCraftingRecipe> deserializedRecipes = new ArrayList<>();
-        try (FileReader reader = new FileReader(craftingRecipeFile)) {
-            // YAMLデータを読み込み、ルートノードを取得
-            Node rootNode = yaml.compose(reader);
 
-            if (rootNode instanceof MappingNode mappingNode) {
-                // マップ内のアイテムを1個ずつ取得
-                Iterator<NodeTuple> iterator2 = mappingNode.getValue().iterator();
-                while (iterator2.hasNext()) {
-                    NodeTuple nodeTuple2 = iterator2.next();
-                    ScalarNode internalNameNode = (ScalarNode) nodeTuple2.getKeyNode();
-
-                    TCCraftingRecipe tcCraftingRecipe = new TCCraftingRecipe();
-//                    tcCraftingRecipe.setInternalName(internalNameNode.getValue());
-
-                    Node valueNode2 = nodeTuple2.getValueNode();
-                    if(valueNode2 instanceof MappingNode valueNode2Map){
-                        Iterator<NodeTuple> iterator3 = valueNode2Map.getValue().iterator();
-                        while (iterator3.hasNext()) {
-                            NodeTuple nodeTuple3 = iterator3.next();
-
-                            ScalarNode itemPropertiesNode = (ScalarNode) nodeTuple3.getKeyNode();//category, fee...
-                            
-                            if(itemPropertiesNode.getValue().equals("category")){
-                                TCCraftingRecipes.RecipeType category = TCCraftingRecipes.RecipeType.valueOf(((ScalarNode) nodeTuple3.getValueNode()).getValue());
-                                tcCraftingRecipe.setCategory(category);
-                            }
-                            else if(itemPropertiesNode.getValue().equals("fee")){
-                                double fee = Double.parseDouble(((ScalarNode) nodeTuple3.getValueNode()).getValue());
-                                tcCraftingRecipe.setFee(fee);
-                            }
-                            else if(itemPropertiesNode.getValue().equals("ingredients")){
-                                Node valueNode3 = nodeTuple3.getValueNode();
-                                Map<String, Integer> ingredientsMap = new HashMap<>();
-                                if(valueNode3 instanceof MappingNode valueNode3Map){
-                                    Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
-                                    while (iterator4.hasNext()) {
-                                        NodeTuple nodeTuple4 = iterator4.next();
-                                        String ingredientName = ((ScalarNode) nodeTuple4.getKeyNode()).getValue();
-                                        int ingredientAmount = Integer.parseInt(((ScalarNode) nodeTuple4.getValueNode()).getValue());
-                                        ingredientsMap.put(ingredientName, ingredientAmount);
-                                    }
-                                }
-                                tcCraftingRecipe.setIngredients(ingredientsMap);
-                            }
-                            else if(itemPropertiesNode.getValue().equals("result")){
-                                tcCraftingRecipe.setResult(((ScalarNode) nodeTuple3.getValueNode()).getValue());
-                            }
-                            else if(itemPropertiesNode.getValue().equals("resultAmount")){
-                                int resultAmount = Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue());
-                                tcCraftingRecipe.setResultAmount(resultAmount);
-                            }
-                        }
-                    }
-                    deserializedRecipes.add(tcCraftingRecipe);
-                }
-            }
-        } catch (IOException e) {
-            Bukkit.getLogger().severe("ファイルの解析に失敗しました: " + craftingRecipeFile);
-            e.printStackTrace();
-        }
-        CraftingRecipesRegistry.INSTANCE.getDeserializedCraftingRecipes().addAll(deserializedRecipes);
+    public void exportCraftingRecipes(List<TCCraftingRecipe> craftingRecipes){
+        CraftingRecipeIO.serialize(craftingRecipes, craftingRecipeExportFile);
     }
 }

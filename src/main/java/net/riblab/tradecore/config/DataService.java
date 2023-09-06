@@ -14,7 +14,7 @@ public sealed interface DataService permits DataServiceImpl {
     }
 
     /**
-     * プラグインの保存できる全てのデータを保存する
+     * プラグインの保存できる全てのデータを保存する(クラフトレシピなどは自動)
      */
     void saveAll();
 
