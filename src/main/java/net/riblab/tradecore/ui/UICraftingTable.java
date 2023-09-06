@@ -161,7 +161,7 @@ final class UICraftingTable implements IUI {
         gui.setItem(24, nextPageButton);
 
         recipeList.forEach(tcCraftingRecipe -> {
-            ItemStack recipeStack = TCItemRegistry.commandToTCItem(tcCraftingRecipe.getResult()).getTemplateItemStack();
+            ItemStack recipeStack = TCItemRegistry.INSTANCE.commandToTCItem(tcCraftingRecipe.getResult()).getTemplateItemStack();
             GuiItem recipeButton = new GuiItem(recipeStack,
                     event -> open(player, tcCraftingRecipe));
             gui.addItem(recipeButton);
@@ -185,7 +185,7 @@ final class UICraftingTable implements IUI {
     private static void addIngredientStack(ITCCraftingRecipe recipe, PaginatedGui gui, Player player){
         int slot = 0;
         for (Map.Entry<String, Integer> entry : recipe.getIngredients().entrySet()) {
-            ItemStack ingredientStack = TCItemRegistry.commandToTCItem(entry.getKey()).getTemplateItemStack();
+            ItemStack ingredientStack = TCItemRegistry.INSTANCE.commandToTCItem(entry.getKey()).getTemplateItemStack();
 
             IIngredientAmountModifier.PackedRecipeData packedRecipeData = new IIngredientAmountModifier.PackedRecipeData();
             packedRecipeData.setRecipe(recipe);
@@ -205,7 +205,7 @@ final class UICraftingTable implements IUI {
      * 作業台の画面にレシピの完成品のItemStackを追加する
      */
     private static void addResultStack(ITCCraftingRecipe recipe, PaginatedGui gui, Player player){
-        ItemStack resultStack = TCItemRegistry.commandToTCItem(recipe.getResult()).getTemplateItemStack();
+        ItemStack resultStack = TCItemRegistry.INSTANCE.commandToTCItem(recipe.getResult()).getTemplateItemStack();
         Component craftTip = Component.text("<<クリックで製作>>").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false);
         resultStack = new ItemCreator(resultStack).addLore(craftTip).create();
         resultStack.setAmount(recipe.getResultAmount());
@@ -255,7 +255,7 @@ final class UICraftingTable implements IUI {
 
         JobDataService.getImpl().addJobExp(player, JobType.CRAFTER, (int) recipe.getFee());
 
-        final ItemStack stackToGive = TCItemRegistry.commandToTCItem(recipe.getResult()).getItemStack();
+        final ItemStack stackToGive = TCItemRegistry.INSTANCE.commandToTCItem(recipe.getResult()).getItemStack();
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(stackToGive);
         if (remains.size() == 0)
             return;
@@ -274,11 +274,11 @@ final class UICraftingTable implements IUI {
             packedRecipeData.setAmount(entry.getValue());
             int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
 
-            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(),TCItemRegistry.commandToTCItem(entry.getKey()), amountSkillApplied);
+            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(),TCItemRegistry.INSTANCE.commandToTCItem(entry.getKey()), amountSkillApplied);
             if (playerHasItem)
                 continue;
 
-            missingMessages.add(Component.text(TCItemRegistry.commandToTCItem(entry.getKey()).getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+            missingMessages.add(Component.text(TCItemRegistry.INSTANCE.commandToTCItem(entry.getKey()).getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
         return missingMessages;
     }
@@ -307,7 +307,7 @@ final class UICraftingTable implements IUI {
             packedRecipeData.setAmount(entry.getValue());
             int amountSkillApplied = Utils.apply(player, packedRecipeData, IIngredientAmountModifier.class).getAmount();
 
-            ItemUtils.tcRemoveItemAnySlot(player.getInventory(), TCItemRegistry.commandToTCItem(entry.getKey()), amountSkillApplied);
+            ItemUtils.tcRemoveItemAnySlot(player.getInventory(), TCItemRegistry.INSTANCE.commandToTCItem(entry.getKey()), amountSkillApplied);
         }
     }
 

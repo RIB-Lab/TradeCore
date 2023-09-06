@@ -86,7 +86,7 @@ public class CraftingRecipeIO {
             Bukkit.getLogger().severe("ファイルの解析に失敗しました: " + craftingRecipeFile);
             e.printStackTrace();
         }
-        CraftingRecipesRegistry.INSTANCE.getDeserializedCraftingRecipes().addAll(deserializedRecipes);
+        CraftingRecipesRegistry.INSTANCE.addAll(deserializedRecipes);
     }
 
     private static void parseResultAmount(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {

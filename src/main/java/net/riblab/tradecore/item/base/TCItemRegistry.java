@@ -11,6 +11,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,8 +24,7 @@ public enum TCItemRegistry {
     /**
      * デシリアライズしたアイテム
      */
-    @Getter
-    private static final List<ITCItem> deserializedItems = new ArrayList<>();//TODO:ゲッターを削除して読み書きをメソッド経由で行うように
+    private final List<ITCItem> deserializedItems = new ArrayList<>();//TODO:ゲッターを削除して読み書きをメソッド経由で行うように
 
     /**
      * アイテムが固有アイテムであった場合その実体を固有アイテムクラスに変換する<br>
@@ -34,7 +34,7 @@ public enum TCItemRegistry {
      * @return 変換された固有アイテム
      */
     @Nullable
-    public static ITCItem toTCItem(ItemStack itemStack) {
+    public ITCItem toTCItem(ItemStack itemStack) {
         if (Objects.isNull(itemStack) || itemStack.getType() == Material.AIR)
             return null;
 
@@ -50,8 +50,24 @@ public enum TCItemRegistry {
      * @return 変換された固有アイテム
      */
     @Nullable
-    public static ITCItem commandToTCItem(String internalName) {
+    public ITCItem commandToTCItem(String internalName) {
         ITCItem itcItem = deserializedItems.stream().filter(e -> e.isSimilar(internalName)).findFirst().orElse(null);
         return Objects.isNull(itcItem) ? null : itcItem;
+    }
+    
+    public void clear(){
+        deserializedItems.clear();
+    }
+    
+    public void addAll(List<ITCItem> items){
+        deserializedItems.addAll(items);
+    }
+
+    /**
+     * 変更負荷なアイテムレジストリのコピーを渡す
+     * @return
+     */
+    public Collection<ITCItem> getItems(){
+        return List.copyOf(deserializedItems);
     }
 }

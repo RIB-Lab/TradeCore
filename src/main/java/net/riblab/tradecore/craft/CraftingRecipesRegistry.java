@@ -3,10 +3,9 @@
  */
 package net.riblab.tradecore.craft;
 
-import lombok.Getter;
-
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,8 +15,7 @@ public enum CraftingRecipesRegistry {
     /**
      * デシリアライズしたアイテム
      */
-    @Getter
-    private final List<ITCCraftingRecipe> deserializedCraftingRecipes = new ArrayList<>();//TODO:ゲッターを削除して読み書きをメソッド経由で行うように
+    private final List<ITCCraftingRecipe> deserializedCraftingRecipes = new ArrayList<>();
 
     /**
      * ある種類のレシピを全て取得する
@@ -32,5 +30,20 @@ public enum CraftingRecipesRegistry {
      */
     public enum RecipeType {
         ARMOR, TOOL, WEAPON, MISC
+    }
+
+    /**
+     * 編集不可能なレシピのコピーを取得する
+     */
+    public Collection<ITCCraftingRecipe> getRecipes(){
+        return List.copyOf(deserializedCraftingRecipes);
+    }
+    
+    public void clear(){
+        deserializedCraftingRecipes.clear();
+    }
+    
+    public void addAll(List<ITCCraftingRecipe> recipes){
+        deserializedCraftingRecipes.addAll(recipes);
     }
 }

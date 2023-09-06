@@ -114,7 +114,7 @@ public class CustomEnumArguments {
         // Construct our CustomArgument that takes in a String input and returns a World object
         return new CustomArgument<>(new StringArgument(nodeName), info -> {
             // Parse the itcItem from our input
-            ITCItem itcItem = TCItemRegistry.commandToTCItem(info.input());
+            ITCItem itcItem = TCItemRegistry.INSTANCE.commandToTCItem(info.input());
 
             if (Objects.isNull(itcItem)) {
                 throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput());
@@ -122,7 +122,7 @@ public class CustomEnumArguments {
                 return itcItem;
             }
         }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                TCItemRegistry.getDeserializedItems().stream().map(ITCItem::getInternalName).toArray(String[]::new))
+                TCItemRegistry.INSTANCE.getItems().stream().map(ITCItem::getInternalName).toArray(String[]::new))
         );
     }
 }

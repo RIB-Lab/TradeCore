@@ -45,7 +45,7 @@ enum DataServiceImpl implements DataService {
     }
     
     public void loadItems(){
-        TCItemRegistry.getDeserializedItems().clear();
+        TCItemRegistry.INSTANCE.clear();
         
         List<File> itemFiles;
         try {
@@ -55,7 +55,7 @@ enum DataServiceImpl implements DataService {
         }
         for (File itemFile : itemFiles) {
             List<ITCItem> deserializedItems = ItemIO.deserialize(itemFile);
-            TCItemRegistry.getDeserializedItems().addAll(deserializedItems);
+            TCItemRegistry.INSTANCE.addAll(deserializedItems);
         }
     }
     
@@ -68,7 +68,7 @@ enum DataServiceImpl implements DataService {
     }
     
     public void loadCraftingRecipes(){
-        CraftingRecipesRegistry.INSTANCE.getDeserializedCraftingRecipes().clear();
+        CraftingRecipesRegistry.INSTANCE.clear();
         List<File> craftingRecipeFiles;
         try {
             craftingRecipeFiles = FileUtils.getFiles(DataPaths.CRAFT_RECIPE_DIR.get(), null,null);
