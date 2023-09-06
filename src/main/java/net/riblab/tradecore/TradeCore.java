@@ -29,9 +29,6 @@ public class TradeCore extends JavaPlugin {
 
     private static TradeCore instance;
     private VaultHook vaultHook;
-    
-    @Getter
-    private static boolean isUnitTest = false;
 
     public TradeCore() {
         instance = this;
@@ -50,7 +47,7 @@ public class TradeCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        if(!isUnitTest){
+        if(!isJUnitTest()){
             DataService.getImpl().loadAll();
         }
         
@@ -58,7 +55,7 @@ public class TradeCore extends JavaPlugin {
         PlayerStatsService.getImpl().init();
         VanillaCraftInitializer.INSTANCE.init(this);
 
-        if(!isUnitTest){
+        if(!isJUnitTest()){
             vaultHook = VaultHook.getImpl();
             vaultHook.hook();
             TCCommands.onEnable();
@@ -80,7 +77,7 @@ public class TradeCore extends JavaPlugin {
 
         TCTasksInitializer.INSTANCE.init();
 
-        if(!isUnitTest){
+        if(!isJUnitTest()){
             AdvancementInitializer.INSTANCE.init();
             ProtocolInitializer.INSTANCE.init();
         }
@@ -91,7 +88,7 @@ public class TradeCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if(!isUnitTest){
+        if(!isJUnitTest()){
             vaultHook.unhook();
             DataService.getImpl().saveAll();
         }
@@ -105,12 +102,14 @@ public class TradeCore extends JavaPlugin {
     }
 
     /**
-     * ユニットテストモードの有効/無効を切り替える
-     * @param flag フラグ
+     * テスト環境であるか確認する
      */
-    public static void setIsUnitTest(boolean flag){
-        isUnitTest = flag;
-        Bukkit.getLogger().info("TradeCoreのテストモードが有効になりました。");
-        Bukkit.getLogger().info("このモードではコンフィグのロードがされないのと、外部ライブラリに依存した機能が無効化されます");
+    public static boolean isJUnitTest() {
+        for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+            if (element.getClassName().startsWith("org.junit.")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

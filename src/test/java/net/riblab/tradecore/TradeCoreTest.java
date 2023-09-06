@@ -11,7 +11,6 @@ public class TradeCoreTest {
     @BeforeAll
     public static void load() {
         MockBukkit.mock();
-        TradeCore.setIsUnitTest(true);
         plugin = MockBukkit.load(TradeCore.class);
     }
 
