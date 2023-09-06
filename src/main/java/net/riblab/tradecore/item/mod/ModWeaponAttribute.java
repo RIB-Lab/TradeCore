@@ -9,6 +9,7 @@ import net.riblab.tradecore.item.impl.*;
 import net.riblab.tradecore.modifier.IWeaponAttackModifier;
 import org.bukkit.entity.Player;
 
+import java.util.Optional;
 import java.util.function.BiFunction;
 
 public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> implements IWeaponAttackModifier {
@@ -18,10 +19,10 @@ public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> i
     }
 
     @Override
-    public String getLore() {
+    public Optional<String> getLore() {
         double rawAttackSpeedForDisplay = getParam().attackSpeed > 0 ? getParam().attackSpeed : WeaponType.getMeleeAttackSpeedForDisplay(getParam().attackSpeed);
         double formattedAttackSpeedForDisplay = Math.floor(rawAttackSpeedForDisplay * 100) / 100;
-        return "攻撃速度:" + Math.floor(formattedAttackSpeedForDisplay * 100) / 100;
+        return Optional.of("攻撃速度:" + Math.floor(formattedAttackSpeedForDisplay * 100) / 100);
     }
     
     @Override

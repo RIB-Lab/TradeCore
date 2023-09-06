@@ -9,10 +9,7 @@ import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.util.Vector;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * ダンジョンのデータ管理クラス
@@ -34,18 +31,16 @@ public enum DungeonDatas {
     /**
      * コマンド文字列をダンジョンデータにする
      */
-    @Nullable
-    public static IDungeonData<?> commandToDungeonData(@Nullable String command) {
-        DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
-        return Objects.isNull(datas) ? null : datas.getData();
+    public static Optional<IDungeonData<?>> commandToDungeonData(@Nullable String command) {
+        Optional<DungeonDatas> datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.toString().equals(command)).findFirst();
+        return datas.map(DungeonDatas::getData);
     }
 
     /**
      * ダンジョンの内部名をダンジョンデータにする
      */
-    @Nullable
-    public static IDungeonData<?> nameToDungeonData(@Nullable String name) {
-        DungeonDatas datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.getData().getNames().getInternalName().equals(name)).findFirst().orElse(null);
-        return Objects.isNull(datas) ? null : datas.getData();
+    public static Optional<IDungeonData<?>> nameToDungeonData(@Nullable String name) {
+        Optional<DungeonDatas> datas = Arrays.stream(DungeonDatas.values()).filter(e -> e.getData().getNames().getInternalName().equals(name)).findFirst();
+        return datas.map(DungeonDatas::getData);
     }
 }

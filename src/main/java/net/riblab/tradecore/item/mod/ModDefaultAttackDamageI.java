@@ -9,6 +9,7 @@ import net.riblab.tradecore.item.base.AttackDamageSpread;
 import net.riblab.tradecore.modifier.IRandomItemModCreator;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * アイテムが生成されたときのランダム攻撃ダメージを決めるmod
@@ -20,8 +21,8 @@ public class ModDefaultAttackDamageI extends ItemMod<ModDefaultAttackDamageI.Dam
     }
 
     @Override
-    public String getLore() {
-        return null; //隠しパラメータ
+    public Optional<String> getLore() {
+        return Optional.empty(); //隠しパラメータ
     }
 
     @Override

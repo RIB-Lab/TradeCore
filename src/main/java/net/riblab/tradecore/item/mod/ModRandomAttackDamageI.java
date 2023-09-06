@@ -5,6 +5,8 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IAttackDamageModifier;
 
+import java.util.Optional;
+
 public class ModRandomAttackDamageI extends ItemMod<Integer> implements IAttackDamageModifier {
 
     /**
@@ -15,8 +17,8 @@ public class ModRandomAttackDamageI extends ItemMod<Integer> implements IAttackD
     }
 
     @Override
-    public String getLore() {
-        return "攻撃力: " + ((double) this.getParam()) / 100;
+    public Optional<String> getLore() {
+        return Optional.of("攻撃力: " + ((double) this.getParam()) / 100);
     }
 
     @Override

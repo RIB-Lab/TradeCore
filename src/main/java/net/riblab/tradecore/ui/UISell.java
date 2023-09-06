@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 売却画面
@@ -55,13 +56,13 @@ final class UISell implements IUI{
             if (Objects.isNull(content))
                 continue;
 
-            ITCItem itcItem = TCItems.toTCItem(content);
-            if (Objects.isNull(itcItem)) {
+            Optional<ITCItem> itcItem = TCItems.toTCItem(content);
+            if (itcItem.isEmpty()) {
                 event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
                 continue;
             }
             
-            ISellPriceModifier mod = (ISellPriceModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof ISellPriceModifier).findFirst().orElse(null);
+            ISellPriceModifier mod = (ISellPriceModifier) itcItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof ISellPriceModifier).findFirst().orElse(null);
             if(Objects.isNull(mod)){
                 event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
                 continue;

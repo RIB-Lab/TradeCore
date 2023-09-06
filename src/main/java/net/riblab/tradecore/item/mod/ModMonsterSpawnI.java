@@ -7,10 +7,7 @@ import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.modifier.IMonsterSpawnModifier;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 /**
  * 使用時に確率で敵が沸くツールのmod
@@ -25,7 +22,7 @@ public class ModMonsterSpawnI extends ItemMod<Map<String, Float>> implements IMo
     }
 
     @Override
-    public String getLore() {
+    public Optional<String> getLore() {
         return null;
     }
 
@@ -34,8 +31,7 @@ public class ModMonsterSpawnI extends ItemMod<Map<String, Float>> implements IMo
         float rand = new Random().nextFloat();
         getParam().forEach((string, aFloat) -> {
             if (rand < aFloat) {
-                ITCMob mob = TCMobs.commandToTCMob(string);
-                modifiedValue.add(mob);
+                TCMobs.commandToTCMob(string).ifPresent(modifiedValue::add);
             }
         });
         

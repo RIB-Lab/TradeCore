@@ -17,10 +17,7 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 /**
  * アイテム関係のユーティリティクラス
@@ -82,8 +79,8 @@ public final class ItemUtils {
      * ツールに耐久値modがついていない場合、耐久値無限とみなし何もしない
      */
     public static ItemStack reduceDurabilityIfPossible(ItemStack instance, int amount){
-        ITCItem itcItem = TCItems.toTCItem(instance);
-        if(Objects.isNull(itcItem))
+        Optional<ITCItem> itcItem = TCItems.toTCItem(instance);
+        if(itcItem.isEmpty())
             return instance;
         
         ModRandomDurabilityI.PackedDurabilityData durs = getDurability(instance);
@@ -101,7 +98,7 @@ public final class ItemUtils {
 
         int damageToSet = (int) (instance.getType().getMaxDurability() * ((float) durs.getCurrentDur() / (float) durs.getMaxDur()));
         int damageToDeal = (instance.getType().getMaxDurability() - instance.getDurability()) - damageToSet;
-        return new ItemCreator(instance).setLores(itcItem.getLore(new ItemCreator(instance).getItemRandomMods())).writeItemRandomMod(new ModRandomDurabilityI(durs)).damage(damageToDeal).create();
+        return new ItemCreator(instance).setLores(itcItem.get().getLore(new ItemCreator(instance).getItemRandomMods())).writeItemRandomMod(new ModRandomDurabilityI(durs)).damage(damageToDeal).create();
     }
 
 

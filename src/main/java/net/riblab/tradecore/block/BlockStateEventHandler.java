@@ -91,12 +91,13 @@ public final class BlockStateEventHandler implements Listener {
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
 
         ItemStack mainHandItem = event.getPlayer().getInventory().getItemInMainHand();
-        ITCItem itcItem = TCItems.toTCItem(mainHandItem);
-        if(Objects.isNull(itcItem)){
+        Optional<ITCItem> itcItem = TCItems.toTCItem(mainHandItem);
+        if(itcItem.isEmpty()){
             getService().incrementDamage(player, 0.1d); //カスタムアイテム以外を持っているなら実質素手
             return;
         }
-        List<IItemMod<?>> mods = itcItem.getDefaultMods();
+        
+        List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier mod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if(Objects.isNull(mod)){
             getService().incrementDamage(player, 0.1d); //ツールステータスが付与されているアイテム以外を持っているなら実質素手
@@ -153,13 +154,13 @@ public final class BlockStateEventHandler implements Listener {
             }
         }
 
-        ITCItem itcItem = TCItems.toTCItem(mainHand);
-        if(Objects.isNull(itcItem)){
+        Optional<ITCItem> itcItem = TCItems.toTCItem(mainHand);
+        if(itcItem.isEmpty()){
             event.setDropItems(false);//適正ツール以外での採掘は何も落とさない
             return;
         }
         
-        List<IItemMod<?>> mods = itcItem.getDefaultMods();
+        List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (Objects.isNull(toolMod)) { //ツール
             //適正ツール以外での採掘は何も落とさない
@@ -178,7 +179,7 @@ public final class BlockStateEventHandler implements Listener {
         ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(mainHand, 1);
         event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
-        IMonsterSpawnModifier spawnMod = (IMonsterSpawnModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IMonsterSpawnModifier).findFirst().orElse(null);
+        IMonsterSpawnModifier spawnMod = (IMonsterSpawnModifier) itcItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IMonsterSpawnModifier).findFirst().orElse(null);
         if (Objects.nonNull(spawnMod)) {
             List<ITCMob> mobsToSpawn = new ArrayList<>();
             mobsToSpawn = spawnMod.apply(mobsToSpawn, mobsToSpawn);
@@ -199,12 +200,12 @@ public final class BlockStateEventHandler implements Listener {
      */
     @ParametersAreNonnullByDefault
     public void tryProcessHoeDrop(BlockPlaceEvent event) {
-        ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
+        Optional<ITCItem> itcItem = TCItems.toTCItem(event.getItemInHand());
 
-        if (Objects.isNull(itcItem))
+        if (itcItem.isEmpty())
             return;
 
-        List<IItemMod<?>> mods = itcItem.getDefaultMods();
+        List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (event.getBlock().getType() == Material.FARMLAND && Objects.nonNull(toolMod)) { //耕地を耕したときのドロップ
             Multimap<Float, ITCItem> table = LootTables.get(Material.FARMLAND, toolMod);

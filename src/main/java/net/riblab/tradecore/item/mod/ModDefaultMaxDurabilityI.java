@@ -7,6 +7,7 @@ import net.riblab.tradecore.item.base.DurabilityTable;
 import net.riblab.tradecore.modifier.IRandomItemModCreator;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * このmodがあるアイテムはランダム化された最大耐久値をランダムmodとして持つことができる
@@ -17,7 +18,7 @@ public class ModDefaultMaxDurabilityI extends ItemMod<DurabilityTable> implement
     }
 
     @Override
-    public String getLore() {
+    public Optional<String> getLore() {
         return null; //隠しパラメータ
     }
     

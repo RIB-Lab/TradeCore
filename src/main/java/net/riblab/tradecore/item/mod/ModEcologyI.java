@@ -5,6 +5,8 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IEveryMinuteDurabilityModifier;
 
+import java.util.Optional;
+
 public class ModEcologyI extends ItemMod<Integer> implements IEveryMinuteDurabilityModifier {
 
     public ModEcologyI(Integer level) {
@@ -12,8 +14,8 @@ public class ModEcologyI extends ItemMod<Integer> implements IEveryMinuteDurabil
     }
 
     @Override
-    public String getLore() {
-        return "エコロジー:" + this.getParam();
+    public Optional<String> getLore() {
+        return Optional.of("エコロジー:" + this.getParam());
     }
 
     @Override

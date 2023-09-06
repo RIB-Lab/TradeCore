@@ -22,6 +22,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * ダンジョン進入UI
@@ -56,15 +57,15 @@ final class UIDungeonEnter implements IUI {
 
     public static void onClose(InventoryCloseEvent event) {
         ItemStack map = event.getInventory().getContents()[4];
-        ITCItem iTCItem = TCItems.toTCItem(map);
-        if(Objects.isNull(iTCItem))
+        Optional<ITCItem> iTCItem = TCItems.toTCItem(map);
+        if(iTCItem.isEmpty())
             return;
 
-        IEnterDungeonModifier mod = (IEnterDungeonModifier) iTCItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IEnterDungeonModifier).findFirst().orElse(null);
+        IEnterDungeonModifier mod = (IEnterDungeonModifier) iTCItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IEnterDungeonModifier).findFirst().orElse(null);
         if(Objects.nonNull(mod)){
-            IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).getInternalName());
             DungeonService IDungeonService = DungeonService.getImpl();
-            World instance = IDungeonService.create(data, -1);
+            IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).getInternalName()).orElseThrow(()-> new NullPointerException("ダンジョン名からダンジョンを取得できませんでした"));
+            World instance = IDungeonService.create(data, -1).orElseThrow(()-> new NullPointerException("ダンジョンデータからワールドの生成に失敗しました"));
             IDungeonService.enter((Player) event.getPlayer(), instance);
         }
     }

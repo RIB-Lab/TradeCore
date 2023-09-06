@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.riblab.tradecore.modifier.IDurabilityModifier;
 
+import java.util.Optional;
+
 public class ModRandomDurabilityI extends ItemMod<ModRandomDurabilityI.PackedDurabilityData> implements IDurabilityModifier {
 
     /**
@@ -18,8 +20,8 @@ public class ModRandomDurabilityI extends ItemMod<ModRandomDurabilityI.PackedDur
     }
 
     @Override
-    public String getLore() {
-        return "耐久値: " + getParam().getCurrentDur() + "/" + getParam().getMaxDur();
+    public Optional<String> getLore() {
+        return Optional.of("耐久値: " + getParam().getCurrentDur() + "/" + getParam().getMaxDur());
     }
 
     @Override

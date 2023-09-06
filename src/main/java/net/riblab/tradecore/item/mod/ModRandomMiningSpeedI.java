@@ -5,6 +5,8 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IMiningSpeedModifier;
 
+import java.util.Optional;
+
 public class ModRandomMiningSpeedI extends ItemMod<Double> implements IMiningSpeedModifier {
 
     /**
@@ -16,8 +18,8 @@ public class ModRandomMiningSpeedI extends ItemMod<Double> implements IMiningSpe
     }
 
     @Override
-    public String getLore() {
-        return "採掘速度:" + Math.floor(this.getParam() * 100)  / 100;
+    public Optional<String> getLore() {
+        return Optional.of("採掘速度:" + Math.floor(this.getParam() * 100)  / 100);
     }
 
     @Override

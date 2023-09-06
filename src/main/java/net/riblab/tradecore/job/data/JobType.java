@@ -8,6 +8,7 @@ import org.bukkit.Material;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
+import java.util.Optional;
 
 public enum JobType {
     MINER("鉱夫", Material.IRON_PICKAXE),
@@ -32,8 +33,7 @@ public enum JobType {
     /**
      * コマンド文字列をジョブに変換する
      */
-    @Nullable
-    public static JobType commandToJOBType(String command) {
-        return Arrays.stream(JobType.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
+    public static Optional<JobType> commandToJOBType(String command) {
+        return Arrays.stream(JobType.values()).filter(e -> e.toString().equals(command)).findFirst();
     }
 }

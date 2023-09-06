@@ -99,7 +99,8 @@ public class TradeCore extends JavaPlugin {
     }
 
     /**
-     * テスト環境であるか確認する
+     * テスト環境であるか確認する。<br>
+     * テスト環境では他のプラグインが使えない
      */
     public static boolean isJUnitTest() {
         for (StackTraceElement element : Thread.currentThread().getStackTrace()) {

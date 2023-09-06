@@ -47,13 +47,13 @@ enum DungeonServiceImpl implements DungeonService {
 
     @Override
     @ParametersAreNonnullByDefault
-    public World create(IDungeonData<?> data, int instanceID) {
+    public Optional<World> create(IDungeonData<?> data, int instanceID) {
         String name = data.getNames().getInternalName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
         if (instanceID >= 0) {
             if (isDungeonExist(name, instanceID))
-                return null;
+                return Optional.empty();
 
             affixedDungeonName = getAffixedDungeonName(name, instanceID);
         } else {
@@ -72,7 +72,7 @@ enum DungeonServiceImpl implements DungeonService {
         progressionTracker.onComplete = this::onDungeonComplete;
         progressionTracker.onGameOver = this::destroySpecific;
         dungeons.put(instance, progressionTracker);
-        return instance;
+        return Optional.of(instance);
     }
 
     @Override
@@ -234,8 +234,8 @@ enum DungeonServiceImpl implements DungeonService {
         nobodyDungeons.forEach(this::destroySpecific);
     }
 
-    public DungeonProgressionTracker<?> getTracker(World world) {
-        return dungeons.get(world);
+    public Optional<DungeonProgressionTracker<?>> getTracker(World world) {
+        return Optional.ofNullable(dungeons.get(world));
     }
 
     /**
@@ -245,9 +245,7 @@ enum DungeonServiceImpl implements DungeonService {
         instance.sendMessage(Component.text("ダンジョンクリア!"));
 
         String unfixedName = getUnfixedDungeonName(instance.getName());
-        IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName);
-        Objects.requireNonNull(data, "ワールド名からダンジョンデータが推測できません！");
-
+        IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName).orElseThrow(()-> new NullPointerException("ワールド名からダンジョンデータが推測できません！"));
         ItemStack reward = ItemUtils.getRandomItemFromPool(data.getRewardPool());
         if (Objects.nonNull(reward)) {
             for (Player player : instance.getPlayers()) {

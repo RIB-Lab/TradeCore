@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -39,30 +40,26 @@ public final class MobUtils {
      */
     @ParametersAreNonnullByDefault
     public static void trySpawnMobInRandomArea(Player player, Block block, List<ITCMob> mobs, int radius) {
-        Random random = new Random();
         for (ITCMob mob : mobs) {
-            Location safeLocation = findSafeLocationToSpawn(block, radius);
-            if (Objects.nonNull(safeLocation))
-                CustomMobService.getImpl().spawn(player, safeLocation, mob);
+            findSafeLocationToSpawn(block, radius).ifPresent(location -> CustomMobService.getImpl().spawn(player, location, mob));
         }
     }
 
     /**
      * モブがスポーンできる安全な場所を探す
      */
-    @Nullable
     @ParametersAreNonnullByDefault
-    private static Location findSafeLocationToSpawn(Block block, int radius) {
+    private static Optional<Location> findSafeLocationToSpawn(Block block, int radius) {
         Random random = new Random();
         for (int i = 0; i < 50; i++) {
             Block tryBlock = block.getRelative(random.nextInt(radius * 2) - radius + 1, random.nextInt(radius * 2) - radius, random.nextInt(radius * 2) - radius);
             if (tryBlock.getType() != Material.AIR || tryBlock.getRelative(BlockFace.UP).getType() != Material.AIR)
                 continue;
 
-            return tryBlock.getLocation().add(new Vector(0.5f, 0, 0.5f));
+            return Optional.of(tryBlock.getLocation().add(new Vector(0.5f, 0, 0.5f)));
         }
 
-        return null; //何回探しても安全な場所がなかったらモブのスポーンを諦める
+        return Optional.empty(); //何回探しても安全な場所がなかったらモブのスポーンを諦める
     }
 
     /**

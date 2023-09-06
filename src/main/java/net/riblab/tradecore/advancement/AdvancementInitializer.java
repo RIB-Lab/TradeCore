@@ -22,6 +22,7 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 進捗管理クラス
@@ -58,19 +59,20 @@ public enum AdvancementInitializer {
 
         //TODO:プレイヤー単位で実績を管理。ロード時にプレイヤーが未取得の実績を洗い出してそこにだけイベントが飛ぶようにする
         primitiveAgeTab.getEventManager().register(primitiveAgeTab, PlayerAttemptPickupItemEvent.class, playerPickItemEvent -> {
-            ITCItem itcItem = TCItems.toTCItem(playerPickItemEvent.getItem().getItemStack());
-            if (Objects.isNull(itcItem))
+            Optional<ITCItem> itcItem = TCItems.toTCItem(playerPickItemEvent.getItem().getItemStack());
+            if(itcItem.isEmpty()){
                 return;
+            }
 
             Player player = playerPickItemEvent.getPlayer();
-            check(itcItem, TCItems.PEBBLE, Advancements.GATHER_PEBBLE.get(), player);
-            check(itcItem, TCItems.WOODPULP, Advancements.WOODEN_COMPONENT_SUB1.get(), player);
-            check(itcItem, TCItems.DUST, Advancements.WOODEN_COMPONENT_SUB2.get(), player);
-            check(itcItem, TCItems.MOSS, Advancements.WOODEN_COMPONENT_SUB3.get(), player);
-            check(itcItem, TCItems.ANDESITE_STONE, Advancements.STONE_COMPONENT_SUB1.get(), player);
-            check(itcItem, TCItems.GRANITE_STONE, Advancements.STONE_COMPONENT_SUB2.get(), player);
-            check(itcItem, TCItems.DIORITE_STONE, Advancements.STONE_COMPONENT_SUB3.get(), player);
-            check(itcItem, TCItems.ROUND_STONE, Advancements.STONE_COMPONENT_SUB4.get(), player);
+            check(itcItem.get(), TCItems.PEBBLE, Advancements.GATHER_PEBBLE.get(), player);
+            check(itcItem.get(), TCItems.WOODPULP, Advancements.WOODEN_COMPONENT_SUB1.get(), player);
+            check(itcItem.get(), TCItems.DUST, Advancements.WOODEN_COMPONENT_SUB2.get(), player);
+            check(itcItem.get(), TCItems.MOSS, Advancements.WOODEN_COMPONENT_SUB3.get(), player);
+            check(itcItem.get(), TCItems.ANDESITE_STONE, Advancements.STONE_COMPONENT_SUB1.get(), player);
+            check(itcItem.get(), TCItems.GRANITE_STONE, Advancements.STONE_COMPONENT_SUB2.get(), player);
+            check(itcItem.get(), TCItems.DIORITE_STONE, Advancements.STONE_COMPONENT_SUB3.get(), player);
+            check(itcItem.get(), TCItems.ROUND_STONE, Advancements.STONE_COMPONENT_SUB4.get(), player);
 
         });
 
@@ -82,23 +84,23 @@ public enum AdvancementInitializer {
                 Advancements.CRAFT_TABLE.get().incrementProgression(player);
             }
 
-            ITCItem itcItem = TCItems.toTCItem(event.getRecipe().getResult());
-            if (Objects.isNull(itcItem))
+            Optional<ITCItem> itcItem = TCItems.toTCItem(event.getRecipe().getResult());
+            if (itcItem.isEmpty())
                 return;
 
-            check(itcItem, TCItems.HATCHET, Advancements.CRAFT_HATCHET.get(), player);
+            check(itcItem.get(), TCItems.HATCHET, Advancements.CRAFT_HATCHET.get(), player);
         });
 
         primitiveAgeTab.getEventManager().register(primitiveAgeTab, BlockBreakEvent.class, event -> {
-            ITCItem itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
-            if (Objects.isNull(itcItem))
+            Optional<ITCItem> itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
+            if (itcItem.isEmpty())
                 return;
 
             Player player = event.getPlayer();
-            check(itcItem, TCItems.WOODEN_AXE, Advancements.WOODEN_AXE.get(), player);
-            check(itcItem, TCItems.STONE_AXE, Advancements.STONE_AXE.get(), player);
-            check(itcItem, TCItems.IRON_AXE, Advancements.IRON_AXE.get(), player);
-            check(itcItem, TCItems.GOLDEN_AXE, Advancements.IRON_AXE.get(), player);
+            check(itcItem.get(), TCItems.WOODEN_AXE, Advancements.WOODEN_AXE.get(), player);
+            check(itcItem.get(), TCItems.STONE_AXE, Advancements.STONE_AXE.get(), player);
+            check(itcItem.get(), TCItems.IRON_AXE, Advancements.IRON_AXE.get(), player);
+            check(itcItem.get(), TCItems.GOLDEN_AXE, Advancements.IRON_AXE.get(), player);
         });
 
         Bukkit.getOnlinePlayers().forEach(primitiveAgeTab::showTab);

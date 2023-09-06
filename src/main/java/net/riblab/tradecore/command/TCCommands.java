@@ -38,6 +38,7 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static net.riblab.tradecore.command.CommandArgDescs.*;
 import static net.riblab.tradecore.command.CommandNames.*;
@@ -222,8 +223,7 @@ public final class TCCommands {
                     int id = (int) args.get(1);
                     DungeonService IDungeonService = DungeonService.getImpl();
                     if (!IDungeonService.isDungeonExist(data, id)) {
-                        World instance = IDungeonService.create(data, id);
-                        IDungeonService.enter(player, instance);
+                        IDungeonService.create(data, id).ifPresent(instance -> IDungeonService.enter(player, instance));
                     } else {
                         IDungeonService.enter(player, data, id);
                     }
@@ -288,11 +288,11 @@ public final class TCCommands {
         CommandAPICommand itemExportCommand = new CommandAPICommand("export")
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-                    if(Objects.isNull(item))
+                    Optional<ITCItem> item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
+                    if(item.isEmpty())
                         return;
                     
-                    DataService.getImpl().exportItem(item);
+                    DataService.getImpl().exportItem(item.get());
                     player.sendMessage("手持ちのアイテムをコンフィグのitemexportにエクスポートしました");
                 });
         CommandAPICommand loadedItemGiveCommand = new CommandAPICommand("give")

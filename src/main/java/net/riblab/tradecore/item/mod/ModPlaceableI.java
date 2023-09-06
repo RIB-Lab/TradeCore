@@ -5,6 +5,8 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IPlaceableModifier;
 
+import java.util.Optional;
+
 /**
  * カスタムアイテムを設置可能にする
  */
@@ -14,8 +16,8 @@ public class ModPlaceableI extends ItemMod<Boolean> implements IPlaceableModifie
     }
 
     @Override
-    public String getLore() {
-        return "設置可能";
+    public Optional<String> getLore() {
+        return Optional.of("設置可能");
     }
     
     @Override

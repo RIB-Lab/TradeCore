@@ -10,10 +10,7 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * yamlで書かれたアイテムをデシリアライズしたものを保持するクラス
@@ -33,14 +30,12 @@ public enum TCItemRegistry {
      * @param itemStack 変換したいアイテム
      * @return 変換された固有アイテム
      */
-    @Nullable
-    public ITCItem toTCItem(ItemStack itemStack) {
+    public Optional<ITCItem> toTCItem(ItemStack itemStack) {
         if (Objects.isNull(itemStack) || itemStack.getType() == Material.AIR)
-            return null;
+            return Optional.empty();
 
-        String id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
-        ITCItem itcItem = deserializedItems.stream().filter(e -> e.isSimilar(id)).findFirst().orElse(null);
-        return Objects.isNull(itcItem) ? null : itcItem;
+        Optional<String> id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
+        return id.flatMap(s -> deserializedItems.stream().filter(e -> e.isSimilar(s)).findFirst());
     }
 
     /**
@@ -49,10 +44,8 @@ public enum TCItemRegistry {
      * @param internalName 内部名称
      * @return 変換された固有アイテム
      */
-    @Nullable
-    public ITCItem commandToTCItem(String internalName) {
-        ITCItem itcItem = deserializedItems.stream().filter(e -> e.isSimilar(internalName)).findFirst().orElse(null);
-        return Objects.isNull(itcItem) ? null : itcItem;
+    public Optional<ITCItem> commandToTCItem(String internalName) {
+        return deserializedItems.stream().filter(e -> e.isSimilar(internalName)).findFirst();
     }
     
     public void clear(){

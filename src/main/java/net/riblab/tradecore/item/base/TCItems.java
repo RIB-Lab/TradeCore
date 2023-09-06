@@ -134,14 +134,13 @@ public enum TCItems {
      * @param itemStack 変換したいアイテム
      * @return 変換された固有アイテム
      */
-    @Nullable
-    public static ITCItem toTCItem(ItemStack itemStack) {
+    public static Optional<ITCItem> toTCItem(ItemStack itemStack) {
         if (Objects.isNull(itemStack) || itemStack.getType() == Material.AIR)
-            return null;
+            return Optional.empty();
 
-        String id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
-        TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(id)).findFirst().orElse(null);
-        return Objects.isNull(itcItem) ? null : itcItem.get();
+        Optional<String> id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
+        return id.flatMap(s -> Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(s)).findFirst().map(TCItems::get));
+
     }
 
     /**
@@ -150,9 +149,7 @@ public enum TCItems {
      * @param command 召喚コマンド
      * @return 変換された固有アイテム
      */
-    @Nullable
-    public static ITCItem commandToTCItem(String command) {
-        TCItems itcItem = Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(command)).findFirst().orElse(null);
-        return Objects.isNull(itcItem) ? null : itcItem.get();
+    public static Optional<ITCItem> commandToTCItem(String command) {
+        return Arrays.stream(TCItems.values()).filter(e -> e.get().isSimilar(command)).findFirst().map(TCItems::get);
     }
 }

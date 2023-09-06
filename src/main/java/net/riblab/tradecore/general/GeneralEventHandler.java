@@ -42,6 +42,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -166,11 +167,11 @@ public final class GeneralEventHandler {
         if (event.getPlayer().getAttackCooldown() != 1)
             return;
 
-        ITCItem itcItem = TCItems.toTCItem(event.getItem());
-        if(Objects.isNull(itcItem))
+        Optional<ITCItem> itcItem = TCItems.toTCItem(event.getItem());
+        if(itcItem.isEmpty())
             return;
 
-        IWeaponAttackModifier attackMod = (IWeaponAttackModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
+        IWeaponAttackModifier attackMod = (IWeaponAttackModifier) itcItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
         IItemMod<?> damageMod = new ItemCreator(event.getItem()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
         if (Objects.nonNull(damageMod) && Objects.nonNull(attackMod)) { //武器で攻撃
             event.setCancelled(true);
@@ -219,12 +220,12 @@ public final class GeneralEventHandler {
             return;
         }
 
-        ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-        if(Objects.isNull(item)){
+        Optional<ITCItem> item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
+        if(item.isEmpty()){
             return;
         }
 
-        List<IItemMod<?>> defaultMods = item.getDefaultMods();
+        List<IItemMod<?>> defaultMods = item.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) defaultMods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (Objects.nonNull(toolMod)) { //ツールで攻撃
             boolean canhitWithTool = Utils.apply(player, false, ICanHitWithToolModifier.class);
@@ -402,12 +403,12 @@ public final class GeneralEventHandler {
      * 通常のTCItemsの設置を妨げる
      */
     public void blockTCItemsPlacement(BlockPlaceEvent event){
-        ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
+        Optional<ITCItem> itcItem = TCItems.toTCItem(event.getItemInHand());
 
-        if (Objects.isNull(itcItem))
+        if (itcItem.isEmpty())
             return;
 
-        if(itcItem.getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))
+        if(itcItem.get().getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))
             return;
 
         event.setCancelled(true);

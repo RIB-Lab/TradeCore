@@ -22,6 +22,7 @@ import org.bukkit.event.world.WorldInitEvent;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -34,28 +35,29 @@ public final class DungeonEventHandler {
 
     @ParametersAreNonnullByDefault
     public void tryProcessDungeonSpawn(PlayerRespawnEvent event) {
-        DungeonProgressionTracker<?> tracker = getservice().getTracker(event.getPlayer().getWorld());
-        if (Objects.isNull(tracker))
+        Optional<DungeonProgressionTracker<?>> tracker = getservice().getTracker(event.getPlayer().getWorld());
+        if (tracker.isEmpty())
             return;
 
-        tracker.onPlayerRespawn(event);
+        tracker.get().onPlayerRespawn(event);
     }
 
     public void onDungeonSecondPassed() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!getservice().isPlayerInDungeon(player))
+            if (!getservice().isPlayerInDungeon(player)){
                 return;
+            }
 
             String unfixedName = getservice().getUnfixedDungeonName(player.getWorld().getName());
-            IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName);
-            Objects.requireNonNull(data, "ダンジョン名からダンジョンデータを推測できません！");
+            DungeonDatas.nameToDungeonData(unfixedName).ifPresentOrElse(
+                    iDungeonData -> trySpawnMob(player, iDungeonData),
+                    ()-> {throw new NullPointerException("ダンジョン名からダンジョンデータを推測できません！");}
+            );
 
-            trySpawnMob(player, data);
-
-            DungeonProgressionTracker<?> tracker = getservice().getTracker(player.getWorld());
-            Objects.requireNonNull(tracker, "ダンジョンにトラッカーが紐づいていません！");
-
-            tracker.onDungeonSecond(player);
+            getservice().getTracker(player.getWorld()).ifPresentOrElse(
+                    dungeonProgressionTracker -> dungeonProgressionTracker.onDungeonSecond(player),
+                    ()->{throw new NullPointerException("ダンジョンにトラッカーが紐づいていません！");}
+            );
         }
     }
 
@@ -89,11 +91,9 @@ public final class DungeonEventHandler {
             return;
         }
 
-        DungeonProgressionTracker<?> tracker = DungeonService.getImpl().getTracker(mob.getWorld());
-        if (Objects.isNull(tracker))
-            return;
+        Optional<DungeonProgressionTracker<?>> tracker = DungeonService.getImpl().getTracker(mob.getWorld());
 
-        if (tracker instanceof IPlayerKillHandler handler) {
+        if (tracker.isPresent() && tracker.get() instanceof IPlayerKillHandler handler) {
             handler.onPlayerKill(mob);
         }
     }

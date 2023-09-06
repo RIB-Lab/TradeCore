@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 
 public sealed interface FakeVillagerService permits FakeVillagerServiceImpl {
     static FakeVillagerService getImpl() {
@@ -29,6 +30,5 @@ public sealed interface FakeVillagerService permits FakeVillagerServiceImpl {
     /**
      * 現在プレイヤーが召喚した村人のID取得
      */
-    @Nullable
-    Integer getCurrentID(@Nullable Player player);
+    Optional<Integer> getCurrentID(@Nullable Player player);
 }

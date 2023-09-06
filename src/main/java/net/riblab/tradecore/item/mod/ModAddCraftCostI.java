@@ -5,6 +5,8 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
 
+import java.util.Optional;
+
 public class ModAddCraftCostI extends ItemMod<Integer> implements ICraftFeeModifier {
 
     public ModAddCraftCostI(Integer level) {
@@ -12,12 +14,12 @@ public class ModAddCraftCostI extends ItemMod<Integer> implements ICraftFeeModif
     }
 
     @Override
-    public String getLore() {
+    public Optional<String> getLore() {
         if(getParam() >= 0){
-            return "クラフトコスト: +" + this.getParam() + "%";
+            return Optional.of("クラフトコスト: +" + this.getParam() + "%");
         }
         else{
-            return "クラフトコスト: " + this.getParam() + "%";
+            return Optional.of("クラフトコスト: " + this.getParam() + "%");
         }
     }
 

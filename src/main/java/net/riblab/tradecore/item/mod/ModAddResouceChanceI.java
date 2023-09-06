@@ -5,6 +5,8 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
 
+import java.util.Optional;
+
 /**
  * アイテムのドロップ率を上げるmod
  */
@@ -15,8 +17,8 @@ public class ModAddResouceChanceI extends ItemMod<Integer> implements IResourceC
     }
 
     @Override
-    public String getLore() {
-        return "資源採取確率 + " + this.getParam() + "%";
+    public Optional<String> getLore() {
+        return Optional.of("資源採取確率 + " + this.getParam() + "%");
     }
 
     @Override

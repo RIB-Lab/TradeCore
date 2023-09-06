@@ -9,6 +9,8 @@ import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.modifier.IItemTemplateModifier;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Optional;
+
 /**
  * カスタムアーマーを定義する
  */
@@ -18,8 +20,8 @@ public class ModCustomArmor extends ItemMod<String> implements IItemTemplateModi
     }
 
     @Override
-    public String getLore() {
-        return null;
+    public Optional<String> getLore() {
+        return Optional.empty();
     }
 
     @Override

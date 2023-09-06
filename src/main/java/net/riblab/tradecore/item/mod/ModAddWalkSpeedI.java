@@ -5,6 +5,8 @@ package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IWalkSpeedModifier;
 
+import java.util.Optional;
+
 public class ModAddWalkSpeedI extends ItemMod<Integer> implements IWalkSpeedModifier {
 
     /**
@@ -15,11 +17,11 @@ public class ModAddWalkSpeedI extends ItemMod<Integer> implements IWalkSpeedModi
     }
 
     @Override
-    public String getLore() {
+    public Optional<String> getLore() {
         if (this.getParam() > 0) {
-            return "歩行速度 +" + this.getParam() + "%";
+            return Optional.of("歩行速度 +" + this.getParam() + "%");
         } else {
-            return "歩行速度 " + this.getParam() + "%";
+            return Optional.of("歩行速度 " + this.getParam() + "%");
         }
     }
 

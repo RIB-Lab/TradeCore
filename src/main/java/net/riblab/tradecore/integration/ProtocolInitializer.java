@@ -36,15 +36,18 @@ public enum ProtocolInitializer {
                         Player player = event.getPlayer();
                         PacketContainer packet = event.getPacket();
                         int id = packet.getIntegers().read(0);
-                        Integer integer = FakeVillagerService.getImpl().getCurrentID(player);
-                        if (Objects.equals(id, integer)) {
+                        FakeVillagerService.getImpl().getCurrentID(player).ifPresent(integer -> {
+                            if (!Objects.equals(id, integer)) {
+                                return;
+                            }
+
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     UIs.SELL.get().open(event.getPlayer());
                                 }
                             }.runTaskLater(TradeCore.getInstance(), 0);
-                        }
+                        });
                     }
                 }
         );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.integration;
 
@@ -20,109 +20,58 @@ import net.riblab.tradecore.shop.Shops;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class CustomEnumArguments {
 
-    // Function that returns our custom argument
     public static Argument<ITCItem> customITCItemArgument(String nodeName) {
 
-        // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<>(new StringArgument(nodeName), info -> {
-            // Parse the itcItem from our input
-            ITCItem itcItem = TCItems.commandToTCItem(info.input());
-
-            if (Objects.isNull(itcItem)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput());
-            } else {
-                return itcItem;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
+        return new CustomArgument<>(new StringArgument(nodeName),
+                info -> TCItems.commandToTCItem(info.input())
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(TCItems.values()).map(tcItems -> tcItems.get().getInternalName()).toArray(String[]::new))
         );
     }
 
-    // Function that returns our custom argument
     public static Argument<JobType> customJobTypeArgument(String nodeName) {
 
-        return new CustomArgument<>(new StringArgument(nodeName), info -> {
-            JobType type = JobType.commandToJOBType(info.input());
-
-            if (Objects.isNull(type)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown job: ").appendArgInput());
-            } else {
-                return type;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
+        return new CustomArgument<>(new StringArgument(nodeName),
+                info -> JobType.commandToJOBType(info.input())
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown job: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(JobType.values()).map(Enum::toString).toArray(String[]::new))
         );
     }
 
     public static Argument<IDungeonData<?>> customDungeonDataArgument(@Nonnull String nodeName) {
-        return new CustomArgument<IDungeonData<?>, String>(new StringArgument(nodeName), info -> {
-            IDungeonData<?> data = DungeonDatas.commandToDungeonData(info.input());
-
-            if (Objects.isNull(data)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown dungeon: ").appendArgInput());
-            } else {
-                return data;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
+        return new CustomArgument<IDungeonData<?>, String>(new StringArgument(nodeName),
+                info -> DungeonDatas.commandToDungeonData(info.input())
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown dungeon: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(DungeonDatas.values()).map(Enum::toString).toArray(String[]::new))
         );
     }
 
-    // Function that returns our custom argument
     public static Argument<ITCMob> customITCMobArgument(String nodeName) {
 
-        // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<>(new StringArgument(nodeName), info -> {
-            // Parse the itcMob from our input
-            ITCMob itcMob = TCMobs.commandToTCMob(info.input());
-
-            if (Objects.isNull(itcMob)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown mob: ").appendArgInput());
-            } else {
-                return itcMob;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                // List of world names on the server
+        return new CustomArgument<>(new StringArgument(nodeName),
+                info -> TCMobs.commandToTCMob(info.input())
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown mob: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(TCMobs.values()).map(tcMobs -> tcMobs.get().getInternalName()).toArray(String[]::new))
         );
     }
 
-    // Function that returns our custom argument
     public static Argument<IShopData> customShopDataArgument(String nodeName) {
 
-        // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<>(new StringArgument(nodeName), info -> {
-            // Parse the data from our input
-            IShopData data = Shops.commandToShop(info.input());
-
-            if (Objects.isNull(data)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown shop: ").appendArgInput());
-            } else {
-                return data;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                // List of shops on the server
+        return new CustomArgument<>(new StringArgument(nodeName), info ->
+                Shops.commandToShop(info.input()).orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown shop: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(Shops.values()).map(Enum::toString).toArray(String[]::new))
         );
     }
 
     public static Argument<ITCItem> customNewITCItemArgument(String nodeName) {
-        // Construct our CustomArgument that takes in a String input and returns a World object
-        return new CustomArgument<>(new StringArgument(nodeName), info -> {
-            // Parse the itcItem from our input
-            ITCItem itcItem = TCItemRegistry.INSTANCE.commandToTCItem(info.input());
-
-            if (Objects.isNull(itcItem)) {
-                throw CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput());
-            } else {
-                return itcItem;
-            }
-        }).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                TCItemRegistry.INSTANCE.getItems().stream().map(ITCItem::getInternalName).toArray(String[]::new))
-        );
+        return new CustomArgument<>(new StringArgument(nodeName),
+                info -> TCItemRegistry.INSTANCE.commandToTCItem(info.input())
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput())))
+                .replaceSuggestions(ArgumentSuggestions.strings(info ->
+                        TCItemRegistry.INSTANCE.getItems().stream().map(ITCItem::getInternalName).toArray(String[]::new))
+                );
     }
 }

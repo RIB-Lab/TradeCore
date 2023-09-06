@@ -30,10 +30,7 @@ import javax.annotation.ParametersAreNullableByDefault;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 /**
  * このクラスの新しいインスタンスを作ることでアイテムの実体を1から作成することができる<br>
@@ -258,9 +255,8 @@ public final class ItemCreator {
      *
      * @return アイテムの説明文
      */
-    @Nullable
-    public List<Component> getLores() {
-        return itemStack.getItemMeta().lore();
+    public Optional<List<Component>> getLores() {
+        return Optional.ofNullable(itemStack.getItemMeta().lore());
     }
 
     /**
@@ -371,10 +367,9 @@ public final class ItemCreator {
         itemStack = item.getItem();
         return this;
     }
-
-    @Nullable
-    public String getStrNBT(String key) {
-        return new NBTItem(itemStack).getString(key);
+    
+    public Optional<String> getStrNBT(String key) {
+        return Optional.ofNullable(new NBTItem(itemStack).getString(key));
     }
 
     /**
@@ -391,9 +386,8 @@ public final class ItemCreator {
     /**
      * アイテムからBoolean型のNBTを取得する
      */
-    @Nullable
-    public Boolean getBooleanNBT(String key) {
-        return new NBTItem(itemStack).getBoolean(key);
+    public Optional<Boolean> getBooleanNBT(String key) {
+        return Optional.ofNullable(new NBTItem(itemStack).getBoolean(key));
     }
 
     /**

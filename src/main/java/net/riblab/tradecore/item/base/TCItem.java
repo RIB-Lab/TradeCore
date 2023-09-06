@@ -25,6 +25,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * このクラスでアイテムを表現するためのクラス。yamlにエクスポートするため、オーバーライド禁止(オーバーライドしてもその部分の情報は保存されない)！<br>
@@ -144,12 +145,8 @@ public final class TCItem implements ITCItem {
         if (Objects.isNull(itemStack) || itemStack.getType().equals(Material.AIR))
             return false;
 
-        String id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
-
-        if (Objects.isNull(id))
-            return false;
-
-        return id.equals(internalName);
+        return new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get())
+                .map(id -> id.equals(internalName)).orElse(false);
     }
 
     @Override
@@ -176,10 +173,10 @@ public final class TCItem implements ITCItem {
         List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> defaultMod : getDefaultMods()) {
-            if(Objects.isNull(defaultMod.getLore()))
+            if(defaultMod.getLore().isEmpty())
                 continue;
             
-            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+            texts.add(Component.text(defaultMod.getLore().get()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
 
         return texts;
@@ -192,8 +189,7 @@ public final class TCItem implements ITCItem {
         List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> randomMod : randomMods) {
-            if(Objects.nonNull(randomMod.getLore()))
-                texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+            randomMod.getLore().ifPresent(s -> texts.add(Component.text(s).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)));
         }
 
         return texts;

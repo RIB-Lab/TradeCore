@@ -11,6 +11,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * このプラグイン独自のモブをスポーンさせたりデスポーンイベントを発行したりするシステム
@@ -45,11 +46,7 @@ enum CustomMobServiceImpl implements CustomMobService {
         if (!isLootable)
             return;
 
-        ITCMob iTCMob = TCMobs.toTCMob(mob);
-        if (Objects.isNull(iTCMob))
-            return;
-
-        iTCMob.onKilledByPlayer(mob);
+        TCMobs.toTCMob(mob).ifPresent(itcMob -> itcMob.onKilledByPlayer(mob));
     }
 
     @Override

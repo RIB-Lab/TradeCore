@@ -15,6 +15,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * カスタムモブの定義一覧
@@ -42,25 +43,21 @@ public enum TCMobs {
     /**
      * モブをカスタムモブに変換する
      */
-    @Nullable
-    public static ITCMob toTCMob(@Nullable Mob mob) {
+    public static Optional<ITCMob> toTCMob(@Nullable Mob mob) {
         if (Objects.isNull(mob))
-            return null;
+            return Optional.empty();
 
         NBTEntity nbtEntity = new NBTEntity(mob);
         String ID = nbtEntity.getPersistentDataContainer().getString(NBTTagNames.MOBID.get());
 
-        TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(ID)).findFirst().orElse(null);
-        return Objects.isNull(itcMob) ? null : itcMob.get();
+        return Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(ID)).findFirst().map(TCMobs::get);
     }
 
     /**
      * コマンド文字列をカスタムモブに変換する
      */
-    @Nullable
     @ParametersAreNonnullByDefault
-    public static ITCMob commandToTCMob(String command) {
-        TCMobs itcMob = Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(command)).findFirst().orElse(null);
-        return Objects.isNull(itcMob) ? null : itcMob.get();
+    public static Optional<ITCMob> commandToTCMob(String command) {
+        return Arrays.stream(TCMobs.values()).filter(e -> e.get().getInternalName().equals(command)).findFirst().map(TCMobs::get);
     }
 }

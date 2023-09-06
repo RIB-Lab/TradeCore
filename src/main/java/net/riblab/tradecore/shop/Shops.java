@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * ショップのリスト
@@ -45,9 +46,7 @@ public enum Shops {
     /**
      * コマンド文字列をカスタムショップに変換する
      */
-    @Nullable
-    public static IShopData commandToShop(String command) {
-        Shops data = Arrays.stream(Shops.values()).filter(e -> e.toString().equals(command)).findFirst().orElse(null);
-        return Objects.isNull(data) ? null : data.getShop();
+    public static Optional<IShopData> commandToShop(String command) {
+        return Arrays.stream(Shops.values()).filter(e -> e.toString().equals(command)).findFirst().map(Shops::getShop);
     }
 }
