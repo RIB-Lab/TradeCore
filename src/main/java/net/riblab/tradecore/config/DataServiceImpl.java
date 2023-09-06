@@ -28,94 +28,49 @@ enum DataServiceImpl implements DataService {
     private CurrencyData currencyData = new CurrencyData();
     @Getter
     private JobDatas jobDatas = new JobDatas();
-
-    /**
-     * コンフィグの保存Path
-     */
-    private final File currencyDataFile;
-
-    /**
-     * コンフィグの保存Path
-     */
-    private final File jobsDataFile;
-
-    /**
-     * セーブ全般の保存フォルダ
-     */
-    private final File saveDir;
-
-    /**
-     * アイテムデータの保存フォルダ
-     */
-    private final File itemDir;
-
-    /**
-     * アイテムデータのエクスポート先
-     */
-    private final File itemExportFile;
-
-    /**
-     * クラフトレシピのエクスポート先
-     */
-    private final File craftingRecipeExportFile;
-
-    /**
-     * クラフトレシピデータの保存フォルダ
-     */
-    private final File craftingRecipeDir;
-
-    DataServiceImpl() {
-        saveDir = new File(TradeCore.getInstance().getDataFolder(), "/saves");
-        currencyDataFile = new File(saveDir, "/currency.json");
-        jobsDataFile = new File(saveDir, "/jobs.json");
-        itemDir = new File(TradeCore.getInstance().getDataFolder(), "items");
-        itemExportFile = new File(TradeCore.getInstance().getDataFolder(), "/export/items.yml");
-        craftingRecipeExportFile = new File(TradeCore.getInstance().getDataFolder(), "/export/recipes.yml");
-        craftingRecipeDir = new File(TradeCore.getInstance().getDataFolder(), "crafting-recipes");
-    }
-
+    
     @Override
     public void saveAll() {
-        JsonIO.saveWithJson(currencyData, currencyDataFile);
-        JsonIO.saveWithJson(jobDatas, jobsDataFile);
+        JsonIO.saveWithJson(currencyData, DataPaths.CURRENCY_DATA_FILE.get());
+        JsonIO.saveWithJson(jobDatas, DataPaths.JOBS_DATA_FILE.get());
     }
 
     @Override
     public void loadAll() {
-        currencyData =  JsonIO.loadAsJson(currencyDataFile, CurrencyData.class);
-        jobDatas = JsonIO.loadAsJson(jobsDataFile, JobDatas.class);
+        currencyData =  JsonIO.loadAsJson(DataPaths.CURRENCY_DATA_FILE.get(), CurrencyData.class);
+        jobDatas = JsonIO.loadAsJson(DataPaths.JOBS_DATA_FILE.get(), JobDatas.class);
         loadItems();
         loadCraftingRecipes();
     }
     
     public void loadItems(){
-        TCItemRegistry.INSTANCE.getDeserializedItems().clear();
+        TCItemRegistry.getDeserializedItems().clear();
         
         List<File> itemFiles;
         try {
-            itemFiles = FileUtils.getFiles(itemDir,null,null);
+            itemFiles = FileUtils.getFiles(DataPaths.ITEM_DIR.get(), null,null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         for (File itemFile : itemFiles) {
             List<ITCItem> deserializedItems = ItemIO.deserialize(itemFile);
-            TCItemRegistry.INSTANCE.getDeserializedItems().addAll(deserializedItems);
+            TCItemRegistry.getDeserializedItems().addAll(deserializedItems);
         }
     }
     
     public void exportItem(ITCItem item){
-        ItemIO.serializeItem(List.of(item), itemExportFile);
+        ItemIO.serializeItem(List.of(item), DataPaths.ITEM_EXPORT_FILE.get());
     }
 
     public void exportItem(List<ITCItem> items){
-        ItemIO.serializeItem(items, itemExportFile);
+        ItemIO.serializeItem(items, DataPaths.ITEM_EXPORT_FILE.get());
     }
     
     public void loadCraftingRecipes(){
         CraftingRecipesRegistry.INSTANCE.getDeserializedCraftingRecipes().clear();
         List<File> craftingRecipeFiles;
         try {
-            craftingRecipeFiles = FileUtils.getFiles(craftingRecipeDir,null,null);
+            craftingRecipeFiles = FileUtils.getFiles(DataPaths.CRAFT_RECIPE_DIR.get(), null,null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -126,6 +81,6 @@ enum DataServiceImpl implements DataService {
     }
 
     public void exportCraftingRecipes(List<ITCCraftingRecipe> craftingRecipes){
-        CraftingRecipeIO.serialize(craftingRecipes, craftingRecipeExportFile);
+        CraftingRecipeIO.serialize(craftingRecipes, DataPaths.CRAFT_RECIPE_EXPORT_FILE.get());
     }
 }
