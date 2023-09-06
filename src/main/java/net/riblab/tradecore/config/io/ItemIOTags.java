@@ -1,4 +1,4 @@
-package net.riblab.tradecore.config;
+package net.riblab.tradecore.config.io;
 
 public enum ItemIOTags {
     NAME("name"),

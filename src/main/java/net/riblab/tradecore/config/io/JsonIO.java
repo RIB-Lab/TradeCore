@@ -1,4 +1,4 @@
-package net.riblab.tradecore.config;
+package net.riblab.tradecore.config.io;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

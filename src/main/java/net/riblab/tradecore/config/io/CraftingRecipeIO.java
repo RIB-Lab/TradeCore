@@ -1,4 +1,4 @@
-package net.riblab.tradecore.config;
+package net.riblab.tradecore.config.io;
 
 import net.riblab.tradecore.craft.CraftingRecipesRegistry;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
@@ -17,6 +17,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+
+import static net.riblab.tradecore.config.io.CraftingRecipeIOTags.*;
 
 public class CraftingRecipeIO {
 
@@ -58,19 +60,19 @@ public class CraftingRecipeIO {
 
                             ScalarNode itemPropertiesNode = (ScalarNode) nodeTuple3.getKeyNode();//category, fee...
 
-                            if(itemPropertiesNode.getValue().equals("category")){
+                            if(itemPropertiesNode.getValue().equals(CATEGORY.get())){
                                 parseCategory(tcCraftingRecipe, nodeTuple3);
                             }
-                            else if(itemPropertiesNode.getValue().equals("fee")){
+                            else if(itemPropertiesNode.getValue().equals(FEE.get())){
                                 parseFee(tcCraftingRecipe, nodeTuple3);
                             }
-                            else if(itemPropertiesNode.getValue().equals("ingredients")){
+                            else if(itemPropertiesNode.getValue().equals(INGREDIENTS.get())){
                                 parseIngredients(tcCraftingRecipe, nodeTuple3);
                             }
-                            else if(itemPropertiesNode.getValue().equals("result")){
+                            else if(itemPropertiesNode.getValue().equals(RESULT.get())){
                                 parseResult(tcCraftingRecipe, nodeTuple3);
                             }
-                            else if(itemPropertiesNode.getValue().equals("resultAmount")){
+                            else if(itemPropertiesNode.getValue().equals(RESULTAMOUNT.get())){
                                     parseResultAmount(tcCraftingRecipe, nodeTuple3);
                             }
                         }
@@ -124,11 +126,11 @@ public class CraftingRecipeIO {
         
         for (ITCCraftingRecipe craftingRecipe : craftingRecipes) {
             Map<String, Object> craftingRecipeParams = new HashMap<>();
-            craftingRecipeParams.put("ingredients", craftingRecipe.getIngredients());
-            craftingRecipeParams.put("result", craftingRecipe.getResult());
-            craftingRecipeParams.put("resultAmount", craftingRecipe.getResultAmount());
-            craftingRecipeParams.put("fee", craftingRecipe.getFee());
-            craftingRecipeParams.put("category", craftingRecipe.getCategory().name());
+            craftingRecipeParams.put(INGREDIENTS.get(), craftingRecipe.getIngredients());
+            craftingRecipeParams.put(RESULT.get(), craftingRecipe.getResult());
+            craftingRecipeParams.put(RESULTAMOUNT.get(), craftingRecipe.getResultAmount());
+            craftingRecipeParams.put(FEE.get(), craftingRecipe.getFee());
+            craftingRecipeParams.put(CATEGORY.get(), craftingRecipe.getCategory().name());
 
             craftingRecipesMap.put(craftingRecipe.getInternalName(), craftingRecipeParams);
         }
