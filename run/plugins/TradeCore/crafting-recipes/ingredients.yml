@@ -46,7 +46,14 @@ wooden_component:
   ingredients: {round_trunk: 3, dust: 3, woodpulp: 5, moss: 10}
   result: wooden_component
   resultAmount: 1
-  
+
+vanilla_chest:
+  category: MISC
+  fee: 3.0
+  ingredients: {round_trunk: 8}
+  result: vanilla_chest
+  resultAmount: 1
+
 vanilla_plank:
   category: MISC
   fee: 1.0

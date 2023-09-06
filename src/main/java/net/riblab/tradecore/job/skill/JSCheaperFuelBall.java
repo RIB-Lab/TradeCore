@@ -3,7 +3,6 @@ package net.riblab.tradecore.job.skill;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.IIngredientAmountModifier;
 
@@ -21,7 +20,7 @@ public class JSCheaperFuelBall extends JobSkill implements IIngredientAmountModi
 
     @Override
     public PackedRecipeData apply(PackedRecipeData originalValue, PackedRecipeData modifiedValue) {
-        if (!originalValue.getRecipe().equals(TCCraftingRecipes.FUEL_BALL.getRecipe()))
+        if (!originalValue.getRecipe().getResult().equals("fuel_ball"))
             return modifiedValue;
 
         int newAmount = modifiedValue.getAmount() - getLevel();

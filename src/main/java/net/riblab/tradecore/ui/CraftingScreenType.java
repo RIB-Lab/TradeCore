@@ -3,26 +3,26 @@ package net.riblab.tradecore.ui;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.riblab.tradecore.craft.TCCraftingRecipes;
+import net.riblab.tradecore.craft.CraftingRecipesRegistry;
 import net.riblab.tradecore.integration.TCResourcePackData;
 
 import java.util.Arrays;
 
 public enum CraftingScreenType {
     CATEGORY("作業台", TCResourcePackData.UIFont.CRAFTING_TABLE_CATEGORY, null),
-    ARMOR("装備品", TCResourcePackData.UIFont.CRAFTING_TABLE_ARMOR, TCCraftingRecipes.RecipeType.ARMOR),
-    TOOL("ツール", TCResourcePackData.UIFont.CRAFTING_TABLE_TOOL, TCCraftingRecipes.RecipeType.TOOL),
-    WEAPON("武器", TCResourcePackData.UIFont.CRAFTING_TABLE_WEAPON, TCCraftingRecipes.RecipeType.WEAPON),
-    MISC("その他", TCResourcePackData.UIFont.CRAFTING_TABLE_MISC, TCCraftingRecipes.RecipeType.MISC),
+    ARMOR("装備品", TCResourcePackData.UIFont.CRAFTING_TABLE_ARMOR, CraftingRecipesRegistry.RecipeType.ARMOR),
+    TOOL("ツール", TCResourcePackData.UIFont.CRAFTING_TABLE_TOOL, CraftingRecipesRegistry.RecipeType.TOOL),
+    WEAPON("武器", TCResourcePackData.UIFont.CRAFTING_TABLE_WEAPON, CraftingRecipesRegistry.RecipeType.WEAPON),
+    MISC("その他", TCResourcePackData.UIFont.CRAFTING_TABLE_MISC, CraftingRecipesRegistry.RecipeType.MISC),
     CRAFTING("加工", TCResourcePackData.UIFont.CRAFTING_TABLE_CRAFTING, null);
 
     @Getter
     private final Component title;
 
     @Getter
-    private final TCCraftingRecipes.RecipeType recipeType;
+    private final CraftingRecipesRegistry.RecipeType recipeType;
 
-    CraftingScreenType(String rawTitle, TCResourcePackData.UIFont screenStr, TCCraftingRecipes.RecipeType recipeType) {
+    CraftingScreenType(String rawTitle, TCResourcePackData.UIFont screenStr, CraftingRecipesRegistry.RecipeType recipeType) {
         //タイトル作成
         String neg = TCResourcePackData.UIFont.NEGATIVE_SPACE.get_char();
         String neg2 = TCResourcePackData.UIFont.SUPER_NEGATIVE_SPACE.get_char();

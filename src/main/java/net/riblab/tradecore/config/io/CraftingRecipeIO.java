@@ -3,7 +3,6 @@ package net.riblab.tradecore.config.io;
 import net.riblab.tradecore.craft.CraftingRecipesRegistry;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipe;
-import net.riblab.tradecore.craft.TCCraftingRecipes;
 import org.bukkit.Bukkit;
 import org.codehaus.plexus.util.FileUtils;
 import org.yaml.snakeyaml.DumperOptions;
@@ -117,7 +116,7 @@ public class CraftingRecipeIO {
     }
 
     private static void parseCategory(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
-        TCCraftingRecipes.RecipeType category = TCCraftingRecipes.RecipeType.valueOf(((ScalarNode) nodeTuple3.getValueNode()).getValue());
+        CraftingRecipesRegistry.RecipeType category = CraftingRecipesRegistry.RecipeType.valueOf(((ScalarNode) nodeTuple3.getValueNode()).getValue());
         tcCraftingRecipe.setCategory(category);
     }
 

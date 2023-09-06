@@ -1,8 +1,8 @@
 vanilla_plank:
   mods:
     placeable: 'true'
-  material: CHEST
-  name: チェスト
+  material: OAK_PLANKS
+  name: 木材
   model: 0
   
 vanilla_furnace:
@@ -17,4 +17,11 @@ vanilla_torch:
     placeable: 'true'
   material: TORCH
   name: 松明
+  model: 0
+
+vanilla_chest:
+  mods:
+    placeable: 'true'
+  material: CHEST
+  name: チェスト
   model: 0

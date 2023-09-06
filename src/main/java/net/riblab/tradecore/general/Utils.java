@@ -1,7 +1,6 @@
 package net.riblab.tradecore.general;
 
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.item.LootTables;
@@ -182,7 +181,6 @@ public final class Utils {
         TCItems.values();
         TCMobs.values();
         LootTables.values();
-        TCCraftingRecipes.values();
         TCFurnaceRecipes.values();
 
         JobType.values();

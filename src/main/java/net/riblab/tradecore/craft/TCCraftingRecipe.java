@@ -18,7 +18,7 @@ public final class TCCraftingRecipe implements ITCCraftingRecipe {
     @Getter @Setter
     private double fee;
     @Getter @Setter
-    private TCCraftingRecipes.RecipeType category;
+    private CraftingRecipesRegistry.RecipeType category;
     @Getter @Setter
     private String internalName;
     
@@ -34,7 +34,7 @@ public final class TCCraftingRecipe implements ITCCraftingRecipe {
      * @param category     レシピのカテゴリ
      */
     public TCCraftingRecipe(Map<String, Integer> ingredients, String result, int resultAmount, double fee,
-                            TCCraftingRecipes.RecipeType category) {
+                            CraftingRecipesRegistry.RecipeType category) {
         this.ingredients = ingredients;
         this.result = result;
         this.resultAmount = resultAmount;
