@@ -5,6 +5,8 @@ import net.riblab.tradecore.advancement.AdvancementInitializer;
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.command.TCCommands;
 import net.riblab.tradecore.config.DataService;
+import net.riblab.tradecore.craft.TCCraftingRecipe;
+import net.riblab.tradecore.craft.TCCraftingRecipes;
 import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.entity.mob.CustomMobService;
@@ -19,6 +21,8 @@ import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 
 public class TradeCore extends JavaPlugin {
@@ -80,6 +84,9 @@ public class TradeCore extends JavaPlugin {
             AdvancementInitializer.INSTANCE.init();
             ProtocolInitializer.INSTANCE.init();
         }
+
+        ((TCCraftingRecipe)TCCraftingRecipes.BARK_LEGGINGS.getRecipe()).setInternalName("test");
+        DataService.getImpl().exportCraftingRecipes(List.of(TCCraftingRecipes.BARK_LEGGINGS.getRecipe()));
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.CraftingRecipesRegistry;
+import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipe;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
@@ -124,7 +125,7 @@ enum DataServiceImpl implements DataService {
         }
     }
 
-    public void exportCraftingRecipes(List<TCCraftingRecipe> craftingRecipes){
+    public void exportCraftingRecipes(List<ITCCraftingRecipe> craftingRecipes){
         CraftingRecipeIO.serialize(craftingRecipes, craftingRecipeExportFile);
     }
 }

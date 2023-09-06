@@ -10,4 +10,6 @@ public interface ITCCraftingRecipe {
     double getFee();
 
     TCCraftingRecipes.RecipeType getCategory();
+    
+    String getInternalName();
 }

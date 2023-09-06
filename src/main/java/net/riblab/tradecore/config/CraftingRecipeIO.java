@@ -48,7 +48,7 @@ public class CraftingRecipeIO {
                     ScalarNode internalNameNode = (ScalarNode) nodeTuple2.getKeyNode();
 
                     TCCraftingRecipe tcCraftingRecipe = new TCCraftingRecipe();
-//                    tcCraftingRecipe.setInternalName(internalNameNode.getValue());
+                    tcCraftingRecipe.setInternalName(internalNameNode.getValue());
 
                     Node valueNode2 = nodeTuple2.getValueNode();
                     if(valueNode2 instanceof MappingNode valueNode2Map){
@@ -119,9 +119,20 @@ public class CraftingRecipeIO {
         tcCraftingRecipe.setCategory(category);
     }
 
-    public static void serialize(List<TCCraftingRecipe> craftingRecipes, File file){
-        Map<String, TCCraftingRecipe> craftingRecipesMap = new HashMap<>();
-        craftingRecipes.forEach(tcCraftingRecipe -> craftingRecipesMap.put(tcCraftingRecipe.getResult(), tcCraftingRecipe));
+    public static void serialize(List<ITCCraftingRecipe> craftingRecipes, File file){
+        Map<String, Object> craftingRecipesMap = new HashMap<>();
+        
+        for (ITCCraftingRecipe craftingRecipe : craftingRecipes) {
+            Map<String, Object> craftingRecipeParams = new HashMap<>();
+            craftingRecipeParams.put("ingredients", craftingRecipe.getIngredients());
+            craftingRecipeParams.put("result", craftingRecipe.getResult());
+            craftingRecipeParams.put("resultAmount", craftingRecipe.getResultAmount());
+            craftingRecipeParams.put("fee", craftingRecipe.getFee());
+            craftingRecipeParams.put("category", craftingRecipe.getCategory().name());
+
+            craftingRecipesMap.put(craftingRecipe.getInternalName(), craftingRecipeParams);
+        }
+        
         if(!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         FileUtils.getFile(file.toString());

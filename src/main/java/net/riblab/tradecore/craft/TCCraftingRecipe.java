@@ -19,6 +19,8 @@ public final class TCCraftingRecipe implements ITCCraftingRecipe {
     private double fee;
     @Getter @Setter
     private TCCraftingRecipes.RecipeType category;
+    @Getter @Setter
+    private String internalName;
     
     public TCCraftingRecipe(){
         
