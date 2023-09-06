@@ -160,12 +160,12 @@ final class UICraftingTable implements IUI {
                 event -> gui.next());
         gui.setItem(24, nextPageButton);
 
-        recipeList.forEach(tcCraftingRecipe -> {
+        for (ITCCraftingRecipe tcCraftingRecipe : recipeList) {
             ItemStack recipeStack = TCItemRegistry.INSTANCE.commandToTCItem(tcCraftingRecipe.getResult()).getTemplateItemStack();
             GuiItem recipeButton = new GuiItem(recipeStack,
                     event -> open(player, tcCraftingRecipe));
             gui.addItem(recipeButton);
-        });
+        }
     }
 
     /**

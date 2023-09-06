@@ -16,6 +16,7 @@ import java.util.List;
  */
 public sealed interface ITCItem permits TCItem {
 
+    
     /**
      * この固有アイテムの表示名を取得
      *

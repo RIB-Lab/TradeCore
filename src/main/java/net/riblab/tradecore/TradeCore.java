@@ -21,6 +21,7 @@ import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -65,14 +66,14 @@ public class TradeCore extends JavaPlugin {
         CustomProjectileService.getImpl();
         Utils.forceInit(BlockUtils.class);
 
-        Bukkit.getOnlinePlayers().forEach(player -> {
+        for (Player player : Bukkit.getOnlinePlayers()) {
             if (!TCEconomy.getImpl().hasAccount(player))
                 TCEconomy.getImpl().createPlayerAccount(player);
 
             BlockUtils.addSlowDig(player);
             PlayerItemModService.getImpl().updateEquipment(player);
             PlayerItemModService.getImpl().updateMainHand(player, player.getInventory().getHeldItemSlot());
-        });
+        }
 
         TCTasksInitializer.INSTANCE.init();
 

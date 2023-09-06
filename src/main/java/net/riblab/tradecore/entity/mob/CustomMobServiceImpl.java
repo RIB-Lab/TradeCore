@@ -55,10 +55,10 @@ enum CustomMobServiceImpl implements CustomMobService {
     @Override
     public int deSpawnAll() {
         int size  = spawnedMobs.size();
-        spawnedMobs.forEach(mob -> {
+        for (Mob mob : spawnedMobs) {
             MobUtils.setLootableTag(mob, false);
             mob.remove();
-        });
+        }
         spawnedMobs.clear();
         return size;
     }

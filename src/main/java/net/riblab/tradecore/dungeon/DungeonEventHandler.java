@@ -42,7 +42,7 @@ public final class DungeonEventHandler {
     }
 
     public void onDungeonSecondPassed() {
-        Bukkit.getOnlinePlayers().forEach(player -> {
+        for (Player player : Bukkit.getOnlinePlayers()) {
             if (!getservice().isPlayerInDungeon(player))
                 return;
 
@@ -56,7 +56,7 @@ public final class DungeonEventHandler {
             Objects.requireNonNull(tracker, "ダンジョンにトラッカーが紐づいていません！");
 
             tracker.onDungeonSecond(player);
-        });
+        }
     }
 
     /**

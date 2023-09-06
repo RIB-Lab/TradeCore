@@ -40,7 +40,9 @@ enum JobSkillServiceImpl implements JobSkillService {
         }
 
         if (offlinePlayer instanceof Player player)
-            onJobSkillChanged.forEach(playerConsumer -> playerConsumer.accept(player));
+            for (Consumer<Player> playerConsumer : onJobSkillChanged) {
+                playerConsumer.accept(player);
+            }
     }
 
     @Override
@@ -76,8 +78,11 @@ enum JobSkillServiceImpl implements JobSkillService {
         if (Objects.nonNull(learnedSkillInstance)) { //既にスキルを習得済みの場合、スキルのレベルを1上げる
             learnedSkillInstance.setLevel(learnedSkillInstance.getLevel() + 1);
 
-            if (offlinePlayer instanceof Player player)
-                onJobSkillChanged.forEach(playerConsumer -> playerConsumer.accept(player));
+            if (offlinePlayer instanceof Player player){
+                for (Consumer<Player> playerConsumer : onJobSkillChanged) {
+                    playerConsumer.accept(player);
+                }
+            }
             return;
         }
 
@@ -96,7 +101,9 @@ enum JobSkillServiceImpl implements JobSkillService {
         datas.add(newSkillInstance);
 
         if (offlinePlayer instanceof Player player)
-            onJobSkillChanged.forEach(playerConsumer -> playerConsumer.accept(player));
+            for (Consumer<Player> playerConsumer : onJobSkillChanged) {
+                playerConsumer.accept(player);
+            }
     }
 
     @Override

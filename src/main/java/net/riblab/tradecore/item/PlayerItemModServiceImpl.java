@@ -48,7 +48,9 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
         }
         playerEquipmentModMap.put(player, mods);
 
-        onItemModUpdated.forEach(playerConsumer -> playerConsumer.accept(player));
+        for (Consumer<Player> playerConsumer : onItemModUpdated) {
+            playerConsumer.accept(player);
+        }
     }
 
     @Override

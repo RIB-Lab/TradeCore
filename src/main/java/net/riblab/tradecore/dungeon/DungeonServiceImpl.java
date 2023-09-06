@@ -250,11 +250,11 @@ enum DungeonServiceImpl implements DungeonService {
 
         ItemStack reward = ItemUtils.getRandomItemFromPool(data.getRewardPool());
         if (Objects.nonNull(reward)) {
-            instance.getPlayers().forEach(player -> {
+            for (Player player : instance.getPlayers()) {
                 final HashMap<Integer, ItemStack> item = player.getInventory().addItem(reward);
                 item.forEach((integer, itemStack) -> instance.dropItemNaturally(player.getLocation(), itemStack));
                 player.sendMessage(reward.displayName().append(Component.text(" x" + reward.getAmount() + " を獲得!")));
-            });
+            }
         }
         
         instance.sendMessage(Component.text("/tcdungeon leaveでダンジョンを抜けられます..."));
