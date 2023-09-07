@@ -3,10 +3,13 @@
  */
 package net.riblab.tradecore.craft;
 
+import net.riblab.tradecore.item.base.TCItemRegistry;
+
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 public enum CraftingRecipesRegistry {
@@ -45,5 +48,22 @@ public enum CraftingRecipesRegistry {
 
     public void addAll(List<ITCCraftingRecipe> recipes) {
         deserializedCraftingRecipes.addAll(recipes);
+    }
+
+    /**
+     * クラフトレシピがちゃんと成立しているか確認する
+     */
+    public void validate(){
+        for (ITCCraftingRecipe recipe : deserializedCraftingRecipes) {
+            TCItemRegistry.INSTANCE.commandToTCItem(recipe.getResult()).orElseThrow(
+                    ()-> new NoSuchElementException("クラフトレシピ" + recipe.getInternalName() + "の成果物" + recipe.getResult() + "がアイテムレジストリに見つかりません。"));
+            recipe.getIngredients().forEach((String ingredient, Integer amount) -> {
+                TCItemRegistry.INSTANCE.commandToTCItem(ingredient).orElseThrow(
+                        ()-> new NoSuchElementException("クラフトレシピ" + recipe.getInternalName() + "の材料" + ingredient + "がアイテムレジストリに見つかりません。"));
+            });
+            if(recipe.getFee() < 0 || recipe.getResultAmount() < 0){
+                throw new IllegalStateException("クラフトレシピ" + recipe.getInternalName() + "の数値が不正です");
+            }
+        }
     }
 }

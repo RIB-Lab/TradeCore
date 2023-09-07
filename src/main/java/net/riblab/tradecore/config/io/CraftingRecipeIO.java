@@ -38,7 +38,7 @@ public class CraftingRecipeIO {
         yaml = new Yaml(representer);
     }
 
-    public static void deserialize(File craftingRecipeFile) {
+    public static List<ITCCraftingRecipe> deserialize(File craftingRecipeFile) {
 
         List<ITCCraftingRecipe> deserializedRecipes = new ArrayList<>();
         try (FileReader reader = new FileReader(craftingRecipeFile)) {
@@ -83,7 +83,8 @@ public class CraftingRecipeIO {
             Bukkit.getLogger().severe(ErrorMessages.FAILED_TO_PARSE_FILE.get() + craftingRecipeFile);
             e.printStackTrace();
         }
-        CraftingRecipesRegistry.INSTANCE.addAll(deserializedRecipes);
+        
+        return deserializedRecipes;
     }
 
     private static void parseResultAmount(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
@@ -92,7 +93,8 @@ public class CraftingRecipeIO {
     }
 
     private static void parseResult(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
-        tcCraftingRecipe.setResult(((ScalarNode) nodeTuple3.getValueNode()).getValue());
+        final String result = ((ScalarNode) nodeTuple3.getValueNode()).getValue();
+        tcCraftingRecipe.setResult(result);
     }
 
     private static void parseIngredients(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {

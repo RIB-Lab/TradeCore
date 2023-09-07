@@ -43,6 +43,15 @@ enum DataServiceImpl implements DataService {
         jobDatas = JsonIO.loadAsJson(DataPaths.JOBS_DATA_FILE.get(), JobDatas.class);
         loadItems();
         loadCraftingRecipes();
+        
+        postLoad();
+    }
+
+    /**
+     * 全てのロードが終わった後に挟む処理
+     */
+    private void postLoad(){
+        CraftingRecipesRegistry.INSTANCE.validate();
     }
 
     public void loadItems() {
@@ -78,7 +87,8 @@ enum DataServiceImpl implements DataService {
         }
 
         for (File craftingRecipeFile : craftingRecipeFiles) {
-            CraftingRecipeIO.deserialize(craftingRecipeFile);
+            final List<ITCCraftingRecipe> deserializedRecipes = CraftingRecipeIO.deserialize(craftingRecipeFile);
+            CraftingRecipesRegistry.INSTANCE.addAll(deserializedRecipes);
         }
     }
 
