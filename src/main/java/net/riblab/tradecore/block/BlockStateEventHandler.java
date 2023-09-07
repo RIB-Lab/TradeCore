@@ -14,6 +14,7 @@ import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.job.data.JobDataService;
@@ -150,7 +151,7 @@ public final class BlockStateEventHandler implements Listener {
 
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
         if (mainHand.getType() == Material.AIR) {//素手
-            Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), IToolStatsModifier.ToolType.HAND);
+            Multimap<Float, String> table = LootTables.get(event.getBlock().getType(), IToolStatsModifier.ToolType.HAND);
             if (!table.isEmpty()) {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
@@ -174,7 +175,7 @@ public final class BlockStateEventHandler implements Listener {
             return;
         }
 
-        Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), toolMod);
+        Multimap<Float, String> table = LootTables.get(event.getBlock().getType(), toolMod);
         if (table.isEmpty()) {
             event.setDropItems(false);
             return;
@@ -214,7 +215,7 @@ public final class BlockStateEventHandler implements Listener {
         List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (event.getBlock().getType() == Material.FARMLAND && Objects.nonNull(toolMod)) { //耕地を耕したときのドロップ
-            Multimap<Float, ITCItem> table = LootTables.get(Material.FARMLAND, toolMod);
+            Multimap<Float, String> table = LootTables.get(Material.FARMLAND, toolMod);
             ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
             ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(event.getItemInHand(), 1);
             if (event.getHand() == EquipmentSlot.HAND)

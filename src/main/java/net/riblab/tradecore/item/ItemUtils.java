@@ -6,6 +6,7 @@ package net.riblab.tradecore.item;
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.item.mod.ModRandomDurabilityI;
@@ -27,13 +28,13 @@ public final class ItemUtils {
      * ルートテーブルに基づいたアイテムをあるブロックのある場所から落とす
      */
     @ParametersAreNonnullByDefault
-    public static void dropItemByLootTable(Player player, Block block, Multimap<Float, ITCItem> table) {
+    public static void dropItemByLootTable(Player player, Block block, Multimap<Float, String> table) {
         Random random = new Random();
-        table.forEach((aFloat, itcItem) -> {
+        table.forEach((aFloat, s) -> {
             float skillAppliedChance = Utils.apply(player, aFloat, IResourceChanceModifier.class);
             float rand = random.nextFloat();
             if (rand < skillAppliedChance) {
-                block.getWorld().dropItemNaturally(block.getLocation(), itcItem.getItemStack());
+                block.getWorld().dropItemNaturally(block.getLocation(), TCItemRegistry.INSTANCE.commandToTCItem(s).orElseThrow().getItemStack());
             }
         });
     }
