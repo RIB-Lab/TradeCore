@@ -147,7 +147,7 @@ final class UICraftingTable implements IUI {
      */
     private static void addRecipeListScreen(CraftingScreenType type, PaginatedGui gui, Player player) {
         List<ITCCraftingRecipe> recipeList = CraftingRecipesRegistry.INSTANCE.getRecipes(type.getRecipeType());
-        if (recipeList.size() == 0)
+        if (recipeList.isEmpty())
             return;
 
         gui.setPageSize(9);
@@ -257,7 +257,7 @@ final class UICraftingTable implements IUI {
 
         final ItemStack stackToGive = TCItemRegistry.INSTANCE.commandToTCItem(recipe.getResult()).orElseThrow().getItemStack();
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(stackToGive);
-        if (remains.size() == 0)
+        if (remains.isEmpty())
             return;
 
         remains.forEach((integer, itemStack) -> player.getWorld().dropItemNaturally(player.getLocation(), itemStack));

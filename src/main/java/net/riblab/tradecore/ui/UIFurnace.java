@@ -80,7 +80,7 @@ final class UIFurnace implements IUI {
      */
     private static void addRecipeListScreen(PaginatedGui gui, Player player) {
         List<ITCFurnaceRecipe> recipeList = Arrays.stream(TCFurnaceRecipes.values()).map(TCFurnaceRecipes::getRecipe).toList();
-        if (recipeList.size() == 0)
+        if (recipeList.isEmpty())
             return;
 
         gui.setPageSize(9);
@@ -165,7 +165,7 @@ final class UIFurnace implements IUI {
         ItemUtils.tcRemoveItemAnySlot(player.getInventory(), TCItems.FUEL_BALL.get(), recipe.fuelAmount());
 
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result().getItemStack());
-        if (remains.size() == 0)
+        if (remains.isEmpty())
             return;
 
         remains.forEach((integer, itemStack) -> player.getWorld().dropItemNaturally(player.getLocation(), itemStack));

@@ -90,7 +90,7 @@ public enum LootTables {
                 .filter(table1 -> table1.material().contains(material))
                 .filter(table1 -> table1.toolType() == toolStats.getToolType())
                 .map(LootTable::harvestLevel).toList();
-        if (hardnessList.size() == 0)
+        if (hardnessList.isEmpty())
             return Integer.MAX_VALUE;
 
         return Collections.min(hardnessList);

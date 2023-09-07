@@ -234,7 +234,7 @@ public final class ItemCreator {
      */
     @ParametersAreNonnullByDefault
     public ItemCreator addLores(List<Component> newLore) {
-        if (newLore.size() == 0) {
+        if (newLore.isEmpty()) {
             return this;
         }
         ItemMeta meta = itemStack.getItemMeta();

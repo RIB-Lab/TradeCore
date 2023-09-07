@@ -231,7 +231,7 @@ enum DungeonServiceImpl implements DungeonService {
 
     @Override
     public void killEmptyDungeons() {
-        List<World> nobodyDungeons = dungeons.keySet().stream().filter(world -> world.getPlayers().size() == 0).toList();
+        List<World> nobodyDungeons = dungeons.keySet().stream().filter(world -> world.getPlayers().isEmpty()).toList();
         nobodyDungeons.forEach(this::destroySpecific);
     }
 
