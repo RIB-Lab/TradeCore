@@ -19,10 +19,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.world.WorldInitEvent;
+import org.bukkit.util.Vector;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
 
@@ -33,6 +33,9 @@ public final class DungeonEventHandler {
     public static DungeonService getservice() {
         return DungeonService.getImpl();
     }
+
+    private static final Vector BLOCK_OFFSET = new Vector(0.5d, 0d, 0.5d);
+    private static final int monsterSpawnRadius = 8;
 
     @ParametersAreNonnullByDefault
     public void tryProcessDungeonSpawn(PlayerRespawnEvent event) {
@@ -67,11 +70,11 @@ public final class DungeonEventHandler {
      */
     @ParametersAreNonnullByDefault
     private void trySpawnMob(Player player, IDungeonData<?> data) {
-        List<Block> activatedSpawner = BlockUtils.getBlocksInRadius(player, 8, Material.REDSTONE_BLOCK);
+        List<Block> activatedSpawner = BlockUtils.getBlocksInRadius(player, monsterSpawnRadius, Material.REDSTONE_BLOCK);
         for (Block block : activatedSpawner) {
             for (int i = 0; i < data.getBasePackSize(); i++) {
                 ITCMob mobToSpawn = data.getSpawnTable().get(new Random().nextInt(data.getSpawnTable().size()));
-                Location randomizedSpawnLocation = Utils.randomizeLocationXZ(block.getLocation().add(0.5d, 0, 0.5d), 1);
+                Location randomizedSpawnLocation = Utils.randomizeLocationXZ(block.getLocation().add(BLOCK_OFFSET), 1);
                 CustomMobService.getImpl().spawn(player, randomizedSpawnLocation, mobToSpawn);
             }
             block.setType(Material.AIR);

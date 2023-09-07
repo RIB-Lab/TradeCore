@@ -12,6 +12,7 @@ import net.riblab.tradecore.advancement.Advancements;
 import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.modifier.IEnterDungeonModifier;
@@ -64,8 +65,8 @@ final class UIDungeonEnter implements IUI {
         IEnterDungeonModifier mod = (IEnterDungeonModifier) iTCItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IEnterDungeonModifier).findFirst().orElse(null);
         if(Objects.nonNull(mod)){
             DungeonService IDungeonService = DungeonService.getImpl();
-            IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).getInternalName()).orElseThrow(()-> new NullPointerException("ダンジョン名からダンジョンを取得できませんでした"));
-            World instance = IDungeonService.create(data, -1).orElseThrow(()-> new NullPointerException("ダンジョンデータからワールドの生成に失敗しました"));
+            IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).getInternalName()).orElseThrow(()-> new NullPointerException(ErrorMessages.INVAILD_DUNGEON_NAME.get()));
+            World instance = IDungeonService.create(data, -1).orElseThrow(()-> new NullPointerException(ErrorMessages.FAILED_TO_GENERATE_DUNGEON_WORLD.get()));
             IDungeonService.enter((Player) event.getPlayer(), instance);
         }
     }

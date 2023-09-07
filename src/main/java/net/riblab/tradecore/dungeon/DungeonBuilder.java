@@ -30,6 +30,7 @@ public final class DungeonBuilder {
 
     private static final String TEMP_DIR_NAME = "dungeontemplate";
     private static final String COPY_SCHEM_DIR = "schematics";
+    private static final String UID_FILE_NAME = "uid.dat";
     private static final File PASTE_SCHEM_DIR = new File(TradeCore.getInstance().getDataFolder(), "tmp");
     private static final Vector DUNGEON_GENERATE_LOC = new Vector(0, 100, 0);
 
@@ -66,7 +67,7 @@ public final class DungeonBuilder {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File uidFile = new File(destDir, "uid.dat");
+        File uidFile = new File(destDir, UID_FILE_NAME);
         uidFile.delete();
         WorldCreator wc = new WorldCreator(affixedDungeonName, new NamespacedKey(TradeCore.getInstance(), affixedDungeonName));
         wc.generator(new EmptyChunkGenerator());

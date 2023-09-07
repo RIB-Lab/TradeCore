@@ -16,7 +16,11 @@ public enum ErrorMessages {
     CANNOT_FIND_TRACKER("ダンジョンにトラッカーが紐づいていません！"),
     TASK_INIT_TWO_TIMES("このプラグインの常駐タスクが2回初期化されようとしました"),
     PROTOCOLLIB_INIT_TWO_TIMES("ProtocolLibが2回初期化されようとしました"),
-    PLAYERSTATS_INIT_TWO_TIMES("PlayerStatsが2回初期化されようとしました");
+    PLAYERSTATS_INIT_TWO_TIMES("PlayerStatsが2回初期化されようとしました"),
+    FAILED_TO_PARSE_FILE("ファイルの解析に失敗しました: "),
+    INVAILD_DUNGEON_NAME("ダンジョン名からダンジョンを取得できませんでした"),
+    FAILED_TO_GENERATE_DUNGEON_WORLD("ダンジョンデータからワールドの生成に失敗しました"),
+    INVALID_ARGUMENT("不正な引数: ");
     
     private final String message;
 

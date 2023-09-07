@@ -26,13 +26,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 
 public class TradeCore extends JavaPlugin {
-
+    
+    private static final String WORLDGUARD_PLUGIN_NAME = "WorldGuard";
+    
     private static TradeCore instance;
-    private VaultHook vaultHook;
-
-    public TradeCore() {
-        instance = this;
-    }
 
     public static TradeCore getInstance() {
         return instance;
@@ -43,6 +40,12 @@ public class TradeCore extends JavaPlugin {
 
     static {
         Utils.initializeEnumSafely();
+    }
+
+    private VaultHook vaultHook;
+
+    public TradeCore() {
+        instance = this;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class TradeCore extends JavaPlugin {
             TCCommands.onEnable();
         }
         
-        isWGLoaded = getServer().getPluginManager().isPluginEnabled("WorldGuard");
+        isWGLoaded = getServer().getPluginManager().isPluginEnabled(WORLDGUARD_PLUGIN_NAME);
         CustomMobService.getImpl(); //ondisableでエラーが出ないように強制起動
         CustomProjectileService.getImpl();
         Utils.forceInit(BlockUtils.class);

@@ -20,7 +20,6 @@ import net.riblab.tradecore.integration.CustomEnumArguments;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
@@ -31,13 +30,10 @@ import net.riblab.tradecore.ui.UIShop;
 import net.riblab.tradecore.ui.UIs;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 import static net.riblab.tradecore.command.CommandArgDescs.*;
@@ -47,12 +43,13 @@ import static net.riblab.tradecore.command.CommandNames.*;
  * コマンド登録クラス。プラグインのonEnableの前に呼ぶ必要があるのでインスタンスを生成させない。
  */
 public final class TCCommands {
-
+    
     private TCCommands() {
         throw new AssertionError();
     }
 
-    public static final String merchantName = "買い取り商";
+    public static final String MERCHANT_NAME = "買い取り商";
+    private static final Vector BLOCK_OFFSET = new Vector(0.5d, 0d, 0.5d);
 
     private static TCEconomy getEconomy() {
         return TCEconomy.getImpl();
@@ -111,10 +108,10 @@ public final class TCCommands {
 
         CommandAPICommand sellCommand = new CommandAPICommand(SELL.get())
                 .executesPlayer((player, args) -> {
-                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(BLOCK_OFFSET);
                     spawnLocation.setY(player.getLocation().getY());
 
-                    FakeVillagerService.getImpl().spawnFakeVillager(player, merchantName, spawnLocation);
+                    FakeVillagerService.getImpl().spawnFakeVillager(player, MERCHANT_NAME, spawnLocation);
                     player.getWorld().spawnParticle(Particle.SMOKE_LARGE, spawnLocation, 10, 1, 1, 1);
                 });
         sellCommand.setPermission(CommandPermission.NONE);
@@ -130,7 +127,7 @@ public final class TCCommands {
                 .withArguments(CustomEnumArguments.customITCMobArgument(MOBNAME.get()))
                 .executesPlayer((player, args) -> {
                     ITCMob type = (ITCMob) args.get(0);
-                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(BLOCK_OFFSET);
                     spawnLocation.setY(player.getLocation().getY());
 
                     CustomMobService.getImpl().spawn(player, spawnLocation, type);
@@ -281,11 +278,11 @@ public final class TCCommands {
         projectileCommand.withSubcommand(projectileResetCommand);
         projectileCommand.register();
 
-        CommandAPICommand itemCommand = new CommandAPICommand("item")
+        CommandAPICommand itemCommand = new CommandAPICommand(ITEM.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                 });
-        CommandAPICommand itemExportCommand = new CommandAPICommand("export")
+        CommandAPICommand itemExportCommand = new CommandAPICommand(ITEM_EXPORT.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     Optional<ITCItem> item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
@@ -295,7 +292,7 @@ public final class TCCommands {
                     DataService.getImpl().exportItem(item.get());
                     player.sendMessage("手持ちのアイテムをコンフィグのitemexportにエクスポートしました");
                 });
-        CommandAPICommand loadedItemGiveCommand = new CommandAPICommand("give")
+        CommandAPICommand loadedItemGiveCommand = new CommandAPICommand(ITEM_GIVE.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(CustomEnumArguments.customNewITCItemArgument("name"))
                 .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
@@ -306,7 +303,7 @@ public final class TCCommands {
                     newStack.setAmount(amount);
                     player.getInventory().addItem(newStack);
                 });
-        CommandAPICommand itemReloadCommand = new CommandAPICommand("reload")
+        CommandAPICommand itemReloadCommand = new CommandAPICommand(ITEM_RELOAD.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DataService.getImpl().loadItems();

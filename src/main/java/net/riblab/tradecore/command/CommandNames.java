@@ -31,7 +31,11 @@ enum CommandNames {
     VERSION("tcver"),
     SHOP_DUNGEON("dungeon"),
     PROJECTILE("projectile"),
-    PROJECTILE_RESET("reset");
+    PROJECTILE_RESET("reset"),
+    ITEM("item"),
+    ITEM_EXPORT("export"),
+    ITEM_GIVE("give"),
+    ITEM_RELOAD("reload");
 
     private final String name;
 

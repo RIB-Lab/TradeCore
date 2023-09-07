@@ -76,7 +76,7 @@ public final class ItemIO {
                 }
             }
         } catch (IOException e) {
-            Bukkit.getLogger().severe("ファイルの解析に失敗しました: " + file);
+            Bukkit.getLogger().severe(ErrorMessages.FAILED_TO_PARSE_FILE.get() + file);
             e.printStackTrace();
         }
         

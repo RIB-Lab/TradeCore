@@ -11,6 +11,7 @@ import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.mob.TCMobs;
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
@@ -27,7 +28,7 @@ public class CustomEnumArguments {
 
         return new CustomArgument<>(new StringArgument(nodeName),
                 info -> TCItems.commandToTCItem(info.input())
-                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(TCItems.values()).map(tcItems -> tcItems.get().getInternalName()).toArray(String[]::new))
         );
     }
@@ -36,7 +37,7 @@ public class CustomEnumArguments {
 
         return new CustomArgument<>(new StringArgument(nodeName),
                 info -> JobType.commandToJOBType(info.input())
-                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown job: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(JobType.values()).map(Enum::toString).toArray(String[]::new))
         );
     }
@@ -44,7 +45,7 @@ public class CustomEnumArguments {
     public static Argument<IDungeonData<?>> customDungeonDataArgument(@Nonnull String nodeName) {
         return new CustomArgument<IDungeonData<?>, String>(new StringArgument(nodeName),
                 info -> DungeonDatas.commandToDungeonData(info.input())
-                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown dungeon: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(DungeonDatas.values()).map(Enum::toString).toArray(String[]::new))
         );
     }
@@ -53,7 +54,7 @@ public class CustomEnumArguments {
 
         return new CustomArgument<>(new StringArgument(nodeName),
                 info -> TCMobs.commandToTCMob(info.input())
-                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown mob: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(TCMobs.values()).map(tcMobs -> tcMobs.get().getInternalName()).toArray(String[]::new))
         );
     }
@@ -61,7 +62,7 @@ public class CustomEnumArguments {
     public static Argument<IShopData> customShopDataArgument(String nodeName) {
 
         return new CustomArgument<>(new StringArgument(nodeName), info ->
-                Shops.commandToShop(info.input()).orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown shop: ").appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
+                Shops.commandToShop(info.input()).orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(Shops.values()).map(Enum::toString).toArray(String[]::new))
         );
     }
@@ -69,7 +70,7 @@ public class CustomEnumArguments {
     public static Argument<ITCItem> customNewITCItemArgument(String nodeName) {
         return new CustomArgument<>(new StringArgument(nodeName),
                 info -> TCItemRegistry.INSTANCE.commandToTCItem(info.input())
-                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder("Unknown item: ").appendArgInput())))
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput())))
                 .replaceSuggestions(ArgumentSuggestions.strings(info ->
                         TCItemRegistry.INSTANCE.getItems().stream().map(ITCItem::getInternalName).toArray(String[]::new))
                 );

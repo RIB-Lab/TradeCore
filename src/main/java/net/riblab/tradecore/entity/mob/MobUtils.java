@@ -25,6 +25,8 @@ import java.util.Random;
  * モブ関連のユーティリティクラス
  */
 public final class MobUtils {
+    
+    private static final Vector BLOCK_OFFSET = new Vector(0.5f, 0, 0.5f);
 
     private MobUtils() {
 
@@ -56,7 +58,7 @@ public final class MobUtils {
             if (tryBlock.getType() != Material.AIR || tryBlock.getRelative(BlockFace.UP).getType() != Material.AIR)
                 continue;
 
-            return Optional.of(tryBlock.getLocation().add(new Vector(0.5f, 0, 0.5f)));
+            return Optional.of(tryBlock.getLocation().add(BLOCK_OFFSET));
         }
 
         return Optional.empty(); //何回探しても安全な場所がなかったらモブのスポーンを諦める

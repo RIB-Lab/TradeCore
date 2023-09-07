@@ -6,6 +6,7 @@ package net.riblab.tradecore.config.io;
 import net.riblab.tradecore.craft.CraftingRecipesRegistry;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.craft.TCCraftingRecipe;
+import net.riblab.tradecore.general.ErrorMessages;
 import org.bukkit.Bukkit;
 import org.codehaus.plexus.util.FileUtils;
 import org.yaml.snakeyaml.DumperOptions;
@@ -83,7 +84,7 @@ public class CraftingRecipeIO {
                 }
             }
         } catch (IOException e) {
-            Bukkit.getLogger().severe("ファイルの解析に失敗しました: " + craftingRecipeFile);
+            Bukkit.getLogger().severe(ErrorMessages.FAILED_TO_PARSE_FILE.get() + craftingRecipeFile);
             e.printStackTrace();
         }
         CraftingRecipesRegistry.INSTANCE.addAll(deserializedRecipes);

@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 /**
  * バニラレシピの削除・登録クラス
  */
-public enum VanillaCraftInitializer {
+public enum VanillaCraftInitializer { //TODO:BukkitRunnableをExtendする
     INSTANCE;
 
     public void init(JavaPlugin plugin) {
