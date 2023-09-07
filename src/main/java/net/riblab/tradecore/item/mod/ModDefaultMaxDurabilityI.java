@@ -19,7 +19,7 @@ public class ModDefaultMaxDurabilityI extends ItemMod<DurabilityTable> implement
 
     @Override
     public Optional<String> getLore() {
-        return null; //隠しパラメータ
+        return Optional.empty(); //隠しパラメータ
     }
 
     @Override

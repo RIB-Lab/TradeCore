@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public class ModPlaceableI extends ItemMod<Boolean> implements IPlaceableModifier {
     public ModPlaceableI(Boolean isPlaceable) {
-        super(true);
+        super(isPlaceable);
     }
 
     @Override
@@ -22,6 +22,6 @@ public class ModPlaceableI extends ItemMod<Boolean> implements IPlaceableModifie
 
     @Override
     public Boolean apply(Boolean originalValue, Boolean modifiedValue) {
-        return true;
+        return getParam();
     }
 }

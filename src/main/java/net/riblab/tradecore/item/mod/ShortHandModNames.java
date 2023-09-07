@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * modの種類と、その短縮形の名前を記録するenum
+ * modの種類と、その短縮形の名前を記録するenum。保存の際に重要
  */
 public enum ShortHandModNames {
     ADDARMOR(ModAddArmorI.class),

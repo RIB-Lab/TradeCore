@@ -26,7 +26,7 @@ public class ModMonsterSpawnI extends ItemMod<Map<String, Float>> implements IMo
 
     @Override
     public Optional<String> getLore() {
-        return null;
+        return Optional.empty();
     }
 
     @Override
