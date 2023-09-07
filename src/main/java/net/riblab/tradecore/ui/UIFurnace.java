@@ -18,6 +18,7 @@ import net.riblab.tradecore.integration.TCResourcePackData;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -94,7 +95,7 @@ final class UIFurnace implements IUI {
         gui.setItem(24, nextPageButton);
 
         recipeList.forEach(tcCraftingRecipe -> {
-            ItemStack recipeStack = tcCraftingRecipe.result().getTemplateItemStack();
+            ItemStack recipeStack = TCItemRegistry.INSTANCE.commandToTCItem(tcCraftingRecipe.result()).orElseThrow().getTemplateItemStack();
             GuiItem recipeButton = new GuiItem(recipeStack,
                     event -> open(player, tcCraftingRecipe));
             gui.addItem(recipeButton);
@@ -106,8 +107,8 @@ final class UIFurnace implements IUI {
      */
     private static void addSmeltingScreen(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe) {
         int slot = 0;
-        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            ItemStack ingredientStack = entry.getKey().getTemplateItemStack();
+        for (Map.Entry<String, Integer> entry : recipe.ingredients().entrySet()) {
+            ItemStack ingredientStack = TCItems.commandToTCItem(entry.getKey()).orElseThrow().getTemplateItemStack();
             ingredientStack.setAmount(entry.getValue());
             GuiItem ingredientDisplay = new GuiItem(ingredientStack);
             gui.setItem(slot, ingredientDisplay);
@@ -117,7 +118,7 @@ final class UIFurnace implements IUI {
             } while (!allowedIngredientSlotSet.contains(slot));
         }
 
-        ItemStack resultStack = recipe.result().getTemplateItemStack();
+        ItemStack resultStack = TCItemRegistry.INSTANCE.commandToTCItem(recipe.result()).orElseThrow().getTemplateItemStack();;
         Component craftTip = Component.text("<<クリックで精錬>>").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false);
         resultStack = new ItemCreator(resultStack).addLore(craftTip).create();
         resultStack.setAmount(recipe.resultAmount());
@@ -139,12 +140,13 @@ final class UIFurnace implements IUI {
      */
     private static void trySmelt(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
-        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(), entry.getKey(), entry.getValue());
+        for (Map.Entry<String, Integer> entry : recipe.ingredients().entrySet()) {
+            final ITCItem ingredientItem = TCItemRegistry.INSTANCE.commandToTCItem(entry.getKey()).orElseThrow();
+            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(), ingredientItem, entry.getValue());
             if (playerHasItem)
                 continue;
-
-            missingLore.add(Component.text(entry.getKey().getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
+            
+            missingLore.add(Component.text(ingredientItem.getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
 
         boolean playerHasFuel = ItemUtils.tcContainsAtLeast(player.getInventory(), TCItems.FUEL_BALL.get(), recipe.fuelAmount());
@@ -159,12 +161,14 @@ final class UIFurnace implements IUI {
             return;
         }
 
-        for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            ItemUtils.tcRemoveItemAnySlot(player.getInventory(), entry.getKey(), entry.getValue());
+        for (Map.Entry<String, Integer> entry : recipe.ingredients().entrySet()) {
+            final ITCItem ingredientItem = TCItemRegistry.INSTANCE.commandToTCItem(entry.getKey()).orElseThrow();
+            ItemUtils.tcRemoveItemAnySlot(player.getInventory(), ingredientItem, entry.getValue());
         }
         ItemUtils.tcRemoveItemAnySlot(player.getInventory(), TCItems.FUEL_BALL.get(), recipe.fuelAmount());
 
-        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(recipe.result().getItemStack());
+        final ITCItem resultItem = TCItemRegistry.INSTANCE.commandToTCItem(recipe.result()).orElseThrow();
+        HashMap<Integer, ItemStack> remains = player.getInventory().addItem(resultItem.getItemStack());
         if (remains.isEmpty())
             return;
 
