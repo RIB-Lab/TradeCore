@@ -22,8 +22,18 @@ import net.riblab.tradecore.shop.Shops;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 
-public class CustomEnumArguments {
+/**
+ * Enumの要素をコマンド引数にするためのユーティリティ
+ */
+public class CustomEnumArgumentsUtil {
 
+    private CustomEnumArgumentsUtil(){
+        throw new AssertionError();
+    }
+
+    /**
+     * アイテムをコマンド引数にする
+     */
     public static Argument<ITCItem> customITCItemArgument(String nodeName) {
 
         return new CustomArgument<>(new StringArgument(nodeName),
@@ -33,6 +43,9 @@ public class CustomEnumArguments {
         );
     }
 
+    /**
+     * ジョブの種類をコマンド引数にする
+     */
     public static Argument<JobType> customJobTypeArgument(String nodeName) {
 
         return new CustomArgument<>(new StringArgument(nodeName),
@@ -42,6 +55,9 @@ public class CustomEnumArguments {
         );
     }
 
+    /**
+     * ダンジョンデータをコマンド引数にする
+     */
     public static Argument<IDungeonData<?>> customDungeonDataArgument(@Nonnull String nodeName) {
         return new CustomArgument<IDungeonData<?>, String>(new StringArgument(nodeName),
                 info -> DungeonDatas.commandToDungeonData(info.input())
@@ -50,6 +66,9 @@ public class CustomEnumArguments {
         );
     }
 
+    /**
+     * モブデータを引数にする
+     */
     public static Argument<ITCMob> customITCMobArgument(String nodeName) {
 
         return new CustomArgument<>(new StringArgument(nodeName),
@@ -59,6 +78,9 @@ public class CustomEnumArguments {
         );
     }
 
+    /**
+     * ショップデータをコマンド引数にする
+     */
     public static Argument<IShopData> customShopDataArgument(String nodeName) {
 
         return new CustomArgument<>(new StringArgument(nodeName), info ->
@@ -67,6 +89,9 @@ public class CustomEnumArguments {
         );
     }
 
+    /**
+     * ItemRegistry内のアイテムをコマンド引数にする
+     */
     public static Argument<ITCItem> customNewITCItemArgument(String nodeName) {
         return new CustomArgument<>(new StringArgument(nodeName),
                 info -> TCItemRegistry.INSTANCE.commandToTCItem(info.input())

@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 
 /**
- * 旧ハードコードアイテムレジストリ TODO:REMOVE
+ * 旧ハードコードアイテムレジストリ TODO:MARKED FOR REMOVAL
  */
 public enum TCItems {
     //原始時代

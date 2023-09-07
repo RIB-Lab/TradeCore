@@ -16,7 +16,7 @@ import net.riblab.tradecore.entity.mob.FakeVillagerService;
 import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.Utils;
-import net.riblab.tradecore.integration.CustomEnumArguments;
+import net.riblab.tradecore.integration.CustomEnumArgumentsUtil;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
@@ -94,7 +94,7 @@ public final class TCCommands {
         currencyCommand.register();
 
         CommandAPICommand tcGiveCommand = new CommandAPICommand(GIVE.get())
-                .withArguments(CustomEnumArguments.customITCItemArgument(TCITEM.get()))
+                .withArguments(CustomEnumArgumentsUtil.customITCItemArgument(TCITEM.get()))
                 .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
                 .executesPlayer((player, args) -> {
                     ITCItem itcItem = (ITCItem) args.get(0);
@@ -124,7 +124,7 @@ public final class TCCommands {
 
         CommandAPICommand spawnCommand = new CommandAPICommand(MOBS_SPAWN.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArguments.customITCMobArgument(MOBNAME.get()))
+                .withArguments(CustomEnumArgumentsUtil.customITCMobArgument(MOBNAME.get()))
                 .executesPlayer((player, args) -> {
                     ITCMob type = (ITCMob) args.get(0);
                     Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(BLOCK_OFFSET);
@@ -145,7 +145,7 @@ public final class TCCommands {
 
         CommandAPICommand shopCommand = new CommandAPICommand(SHOP.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArguments.customShopDataArgument(SHOPDATA.get()))
+                .withArguments(CustomEnumArgumentsUtil.customShopDataArgument(SHOPDATA.get()))
                 .executesPlayer((player, args) -> {
                     IShopData data = (IShopData) args.get(0);
                     UIShop.open(player, data);
@@ -178,7 +178,7 @@ public final class TCCommands {
         CommandAPICommand jobSetCommand = new CommandAPICommand(JOB_SET_JOBLV.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument(PLAYER.get()))
-                .withArguments(CustomEnumArguments.customJobTypeArgument(JOBTYPE.get()))
+                .withArguments(CustomEnumArgumentsUtil.customJobTypeArgument(JOBTYPE.get()))
                 .withArguments(new IntegerArgument(LEVEL.get()))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
@@ -213,7 +213,7 @@ public final class TCCommands {
                 });
         CommandAPICommand enterDungeonCommand = new CommandAPICommand(DUNGEON_ENTER.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArguments.customDungeonDataArgument(DUNGEONDATA.get()))
+                .withArguments(CustomEnumArgumentsUtil.customDungeonDataArgument(DUNGEONDATA.get()))
                 .withArguments(new IntegerArgument(INSTANCEID.get()))
                 .executesPlayer((player, args) -> {
                     IDungeonData<?> data = (IDungeonData<?>) args.get(0);
@@ -294,7 +294,7 @@ public final class TCCommands {
                 });
         CommandAPICommand loadedItemGiveCommand = new CommandAPICommand(ITEM_GIVE.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArguments.customNewITCItemArgument("name"))
+                .withArguments(CustomEnumArgumentsUtil.customNewITCItemArgument("name"))
                 .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
                 .executesPlayer((player, args) -> {
                     ITCItem itcItem = (ITCItem) args.get(0);
