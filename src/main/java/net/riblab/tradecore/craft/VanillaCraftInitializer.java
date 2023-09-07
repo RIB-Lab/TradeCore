@@ -25,15 +25,15 @@ public enum VanillaCraftInitializer { //TODO:BukkitRunnableをExtendする
             @Override
             public void run() {
                 Bukkit.clearRecipes();
-                ItemStack hatchet = TCItems.HATCHET.get().getItemStack();
-                ShapelessRecipe hatchetRecipe = new ShapelessRecipe(new NamespacedKey(plugin, TCItems.HATCHET.get().getInternalName()), hatchet);
-                hatchetRecipe.addIngredient(TCItems.PEBBLE.get().getItemStack());
-                hatchetRecipe.addIngredient(TCItems.STICK.get().getItemStack());
+                ItemStack hatchet = TCItems.commandToTCItem("hatchet").orElseThrow().getItemStack();
+                ShapelessRecipe hatchetRecipe = new ShapelessRecipe(new NamespacedKey(plugin, "hatchet"), hatchet);
+                hatchetRecipe.addIngredient(TCItems.commandToTCItem("pebble").orElseThrow().getItemStack());
+                hatchetRecipe.addIngredient(TCItems.commandToTCItem("stick").orElseThrow().getItemStack());
                 Bukkit.getServer().addRecipe(hatchetRecipe);
 
                 ItemStack crafting_table = new ItemStack(Material.CRAFTING_TABLE);
                 ShapelessRecipe crafting_table_recipe = new ShapelessRecipe(new NamespacedKey(plugin, crafting_table.getType().toString().toLowerCase()), crafting_table);
-                ItemStack ingredient = TCItems.ROUND_TRUNK.get().getItemStack();
+                ItemStack ingredient = TCItems.commandToTCItem("round_trunk").orElseThrow().getItemStack();
                 ingredient.setAmount(4);
                 crafting_table_recipe.addIngredient(ingredient);
                 Bukkit.getServer().addRecipe(crafting_table_recipe);

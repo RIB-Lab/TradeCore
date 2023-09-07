@@ -22,7 +22,7 @@ import java.util.Map;
  */
 class Treant extends TCMob {
     public Treant() {
-        super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of(TCItems.BARK.get(), 1f));
+        super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of("bark", 1f));
     }
 
     @Override

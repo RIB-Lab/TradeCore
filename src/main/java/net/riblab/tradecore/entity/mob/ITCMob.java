@@ -37,5 +37,5 @@ public interface ITCMob {
 
     String getInternalName();
 
-    java.util.Map<ITCItem, Float> getDrops();
+    java.util.Map<String, Float> getDrops();
 }
