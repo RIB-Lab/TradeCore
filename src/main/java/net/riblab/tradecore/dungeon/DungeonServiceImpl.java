@@ -49,7 +49,7 @@ enum DungeonServiceImpl implements DungeonService {
     @Override
     @ParametersAreNonnullByDefault
     public Optional<World> create(IDungeonData<?> data, int instanceID) {
-        String name = data.getNames().getInternalName();
+        String name = data.getInternalName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
         if (instanceID >= 0) {
@@ -79,7 +79,7 @@ enum DungeonServiceImpl implements DungeonService {
     @Override
     @ParametersAreNonnullByDefault
     public boolean isDungeonExist(IDungeonData<?> data, int id) {
-        return isDungeonExist(data.getNames().getInternalName(), id);
+        return isDungeonExist(data.getInternalName(), id);
     }
 
     private boolean isDungeonExist(String name, int id) {
@@ -101,7 +101,7 @@ enum DungeonServiceImpl implements DungeonService {
     @Override
     @ParametersAreNonnullByDefault
     public void enter(Player player, IDungeonData<?> data, int id) {
-        enter(player, getDungeonWorld(data.getNames().getInternalName(), id));
+        enter(player, getDungeonWorld(data.getInternalName(), id));
     }
 
     @Override
@@ -246,7 +246,7 @@ enum DungeonServiceImpl implements DungeonService {
         instance.sendMessage(Component.text("ダンジョンクリア!"));
 
         String unfixedName = getUnfixedDungeonName(instance.getName());
-        IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName).orElseThrow(() -> new NullPointerException("ワールド名からダンジョンデータが推測できません！"));
+        IDungeonData<?> data = DungeonDatas.internalNameToDungeonData(unfixedName).orElseThrow(() -> new NullPointerException("ワールド名からダンジョンデータが推測できません！"));
         ItemStack reward = ItemUtils.getRandomItemFromPool(data.getRewardPool());
         if (Objects.nonNull(reward)) {
             for (Player player : instance.getPlayers()) {

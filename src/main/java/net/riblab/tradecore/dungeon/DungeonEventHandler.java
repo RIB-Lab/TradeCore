@@ -53,7 +53,7 @@ public final class DungeonEventHandler {
             }
 
             String unfixedName = getservice().getUnfixedDungeonName(player.getWorld().getName());
-            DungeonDatas.nameToDungeonData(unfixedName).ifPresentOrElse(
+            DungeonDatas.internalNameToDungeonData(unfixedName).ifPresentOrElse(
                     iDungeonData -> trySpawnMob(player, iDungeonData),
                     () -> {
                         throw new NullPointerException("ダンジョン名からダンジョンデータを推測できません！");

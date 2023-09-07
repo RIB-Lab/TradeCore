@@ -17,9 +17,14 @@ import java.util.Map;
 final class DungeonData<T> implements IDungeonData<T> {
 
     /**
-     * ダンジョン名
+     * ダンジョンの表示名
      */
-    private final DungeonNames names;
+    private final String name;
+
+    /**
+     * ダンジョンの内部名称
+     */
+    private final String internalName;
 
     /**
      * ダンジョンのスポーン地点

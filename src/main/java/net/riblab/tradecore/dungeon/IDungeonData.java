@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public sealed interface IDungeonData<T> permits DungeonData {
-    DungeonNames getNames();
+    String getName();
+    
+    String getInternalName();
 
     Vector getSpawnPoint();
 
