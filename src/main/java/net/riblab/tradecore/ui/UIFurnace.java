@@ -108,7 +108,7 @@ final class UIFurnace implements IUI {
     private static void addSmeltingScreen(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe) {
         int slot = 0;
         for (Map.Entry<String, Integer> entry : recipe.ingredients().entrySet()) {
-            ItemStack ingredientStack = TCItems.commandToTCItem(entry.getKey()).orElseThrow().getTemplateItemStack();
+            ItemStack ingredientStack = TCItemRegistry.INSTANCE.commandToTCItem(entry.getKey()).orElseThrow().getTemplateItemStack();
             ingredientStack.setAmount(entry.getValue());
             GuiItem ingredientDisplay = new GuiItem(ingredientStack);
             gui.setItem(slot, ingredientDisplay);

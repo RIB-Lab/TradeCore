@@ -62,7 +62,7 @@ public final class BlockStateEventHandler implements Listener {
         }
 
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
-        if (TCItems.DESTRUCTORS_WAND.get().isSimilar(mainHand) && event.getBlock().getWorld().getName().equals(WorldNames.OVERWORLD.get())) { //高速破壊杖
+        if (TCItemRegistry.INSTANCE.commandToTCItem("destructors_wand").orElseThrow().isSimilar(mainHand) && event.getBlock().getWorld().getName().equals(WorldNames.OVERWORLD.get())) { //高速破壊杖
             if (TradeCore.isWGLoaded() && !WorldGuardUtil.canBreakBlockWithWG(event.getPlayer(), event.getBlock())) {
                 event.setCancelled(true);
                 return;

@@ -13,6 +13,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.Materials;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -38,10 +39,12 @@ final class UIAdminShop implements IUI {
                 .disableAllInteractions()
                 .create();
 
-        GuiItem playTicketButton = new GuiItem(new ItemCreator(TCItems.COIN.get().getTemplateItemStack()).setName(Component.text("プレイチケット1枚を" + exchangeRate + "RIBに変換する").decoration(TextDecoration.ITALIC, false)).create(),
+        GuiItem playTicketButton = new GuiItem(new ItemCreator(TCItemRegistry.INSTANCE.commandToTCItem("coin").orElseThrow().getTemplateItemStack())
+                .setName(Component.text("プレイチケット1枚を" + exchangeRate + "RIBに変換する").decoration(TextDecoration.ITALIC, false)).create(),
                 UIAdminShop::exchange);
         gui.addItem(playTicketButton);
-        GuiItem foodButton = new GuiItem(new ItemCreator(TCItems.MESI.get().getTemplateItemStack()).setName(Component.text("臨時食料を買う").decoration(TextDecoration.ITALIC, false))
+        GuiItem foodButton = new GuiItem(new ItemCreator(TCItemRegistry.INSTANCE.commandToTCItem("mesi").orElseThrow().getTemplateItemStack())
+                .setName(Component.text("臨時食料を買う").decoration(TextDecoration.ITALIC, false))
                 .setLore(Component.text("料理システムが実装され次第削除されます！").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.RED)).create(),
                 UIAdminShop::buyFood);
         gui.addItem(foodButton);
@@ -98,7 +101,7 @@ final class UIAdminShop implements IUI {
         }
 
         TCEconomy.getImpl().withdrawPlayer((Player) event.getWhoClicked(), foodPrice);
-        event.getWhoClicked().getInventory().addItem(TCItems.MESI.get().getTemplateItemStack());
+        event.getWhoClicked().getInventory().addItem(TCItemRegistry.INSTANCE.commandToTCItem("mesi").get().getTemplateItemStack());
     }
 
     public static void buyBlock(InventoryClickEvent event, Material material) {

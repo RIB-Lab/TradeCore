@@ -37,7 +37,7 @@ public class CustomEnumArgumentsUtil {
     public static Argument<ITCItem> customITCItemArgument(String nodeName) {
 
         return new CustomArgument<>(new StringArgument(nodeName),
-                info -> TCItems.commandToTCItem(info.input())
+                info -> TCItemRegistry.INSTANCE.commandToTCItem(info.input())
                         .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
                 Arrays.stream(TCItems.values()).map(tcItems -> tcItems.get().getInternalName()).toArray(String[]::new))
         );

@@ -17,7 +17,7 @@ public interface IShopData {
     @Data
     @AllArgsConstructor
     class ShopItem {
-        ITCItem itemToSell;
+        String itemToSell;
         double price;
     }
 }

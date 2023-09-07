@@ -223,7 +223,7 @@ final class UICraftingTable implements IUI {
         packedCraftFee.setFee(recipe.getFee());
         double skillAppliedFee = Utils.apply(player, packedCraftFee, ICraftFeeModifier.class).getFee();
 
-        ItemStack feeStack = TCItems.COIN.get().getTemplateItemStack();
+        ItemStack feeStack = TCItemRegistry.INSTANCE.commandToTCItem("coin").orElseThrow().getTemplateItemStack();
         Component name = Component.text("工費: ").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false)
                 .append(Component.text(Math.floor(skillAppliedFee * 100) / 100).color(NamedTextColor.YELLOW));
         Component lore = Component.text("職人に報酬を支払います").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY);

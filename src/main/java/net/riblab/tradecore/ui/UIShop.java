@@ -12,6 +12,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.advancement.Advancements;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.shop.IShopData;
 import org.bukkit.entity.Player;
@@ -42,7 +43,7 @@ public final class UIShop {
         gui.setItem(50, nextPageButton);
 
         for (IShopData.ShopItem shopItem : data.shopItemList()) {
-            GuiItem blockButton = new GuiItem(new ItemCreator(shopItem.getItemToSell().getItemStack().clone()).addLore(Component.text(shopItem.getPrice() + "RIB").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)).create(),
+            GuiItem blockButton = new GuiItem(new ItemCreator(TCItemRegistry.INSTANCE.commandToTCItem(shopItem.getItemToSell()).orElseThrow().getItemStack().clone()).addLore(Component.text(shopItem.getPrice() + "RIB").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)).create(),
                     event -> buy(event, shopItem));
             gui.addItem(blockButton);
         }
@@ -60,6 +61,6 @@ public final class UIShop {
         }
 
         TCEconomy.getImpl().withdrawPlayer((Player) event.getWhoClicked(), shopItem.getPrice());
-        event.getWhoClicked().getInventory().addItem(shopItem.getItemToSell().getItemStack());
+        event.getWhoClicked().getInventory().addItem(TCItemRegistry.INSTANCE.commandToTCItem(shopItem.getItemToSell()).orElseThrow().getItemStack());
     }
 }

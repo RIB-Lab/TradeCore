@@ -13,6 +13,7 @@ import me.gamercoder215.mobchip.bukkit.BukkitBrain;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.NBTTagNames;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
@@ -100,7 +101,7 @@ class TCMob implements ITCMob {
         drops.forEach((string, aFloat) -> {
             float rand = random.nextFloat();
             if (rand < aFloat) {
-                instance.getWorld().dropItemNaturally(instance.getLocation(), TCItems.commandToTCItem(string).orElseThrow().getItemStack());
+                instance.getWorld().dropItemNaturally(instance.getLocation(), TCItemRegistry.INSTANCE.commandToTCItem(string).orElseThrow().getItemStack());
             }
         });
     }
