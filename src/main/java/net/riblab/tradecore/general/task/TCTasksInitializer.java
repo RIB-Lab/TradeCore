@@ -1,22 +1,10 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.general.task;
 
 import net.riblab.tradecore.TradeCore;
-import net.riblab.tradecore.config.DataService;
-import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.general.ErrorMessages;
-import net.riblab.tradecore.general.EventReciever;
-import net.riblab.tradecore.general.Utils;
-import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.ItemUtils;
-import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
-import net.riblab.tradecore.modifier.IEveryMinuteDurabilityModifier;
-import org.bukkit.Bukkit;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  * プラグイン起動時から走り続けるBukkitRunnableのタスクたち
@@ -30,15 +18,15 @@ public enum TCTasksInitializer {
     public void init() {
         if (isInit)
             throw new RuntimeException(ErrorMessages.TASK_INIT_TWO_TIMES.get());
-        
+
         new ConfigSaveRunnable().runTaskTimerAsynchronously(TradeCore.getInstance(), 0, 3600);
-        
+
         new PlayTicketsRunnable().runTaskTimer(TradeCore.getInstance(), 0, 12000);
-        
+
         new EveryMinutesEventRunnable().runTaskTimer(TradeCore.getInstance(), 0, 1200);
-        
+
         new DungeonKillerRunnable().runTaskTimer(TradeCore.getInstance(), 0, 6000);
-        
+
         new EverySecondEventRunnable().runTaskTimer(TradeCore.getInstance(), 0, 20);
 
         isInit = true;

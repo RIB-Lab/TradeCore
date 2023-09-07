@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.block;
 
@@ -40,12 +40,12 @@ import java.util.*;
  * ブロックの状態変更関連のイベントハンドラ
  */
 public final class BlockStateEventHandler implements Listener {
-    
+
     private static final int playerReach = 5;
     private static final double maxBlockDistance = 1024d;
     private static final double bareHandMiningSpeed = 0.1d;
     private static final int enemySpawnRadius = 5;
-    
+
     private BrokenBlocksService getService() {
         return BrokenBlocksService.getImpl();
     }
@@ -98,14 +98,14 @@ public final class BlockStateEventHandler implements Listener {
 
         ItemStack mainHandItem = event.getPlayer().getInventory().getItemInMainHand();
         Optional<ITCItem> itcItem = TCItems.toTCItem(mainHandItem);
-        if(itcItem.isEmpty()){
+        if (itcItem.isEmpty()) {
             getService().incrementDamage(player, bareHandMiningSpeed); //カスタムアイテム以外を持っているなら実質素手
             return;
         }
-        
+
         List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier mod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
-        if(Objects.isNull(mod)){
+        if (Objects.isNull(mod)) {
             getService().incrementDamage(player, bareHandMiningSpeed); //ツールステータスが付与されているアイテム以外を持っているなら実質素手
             return;
         }
@@ -124,11 +124,11 @@ public final class BlockStateEventHandler implements Listener {
     /**
      * ツールを一振りしたらどれくらい亀裂が入るかの実際の値を取得
      */
-    public double getActualMiningSpeed(ItemStack itemStack){
+    public double getActualMiningSpeed(ItemStack itemStack) {
         List<IItemMod<?>> mods = new ItemCreator(itemStack).getItemRandomMods();
         IMiningSpeedModifier miningSpeedMod = (IMiningSpeedModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
         double miningSpeed = bareHandMiningSpeed;
-        if(Objects.nonNull(miningSpeedMod))
+        if (Objects.nonNull(miningSpeedMod))
             miningSpeed = miningSpeedMod.apply(miningSpeed, miningSpeed);
         return miningSpeed;
     }
@@ -161,11 +161,11 @@ public final class BlockStateEventHandler implements Listener {
         }
 
         Optional<ITCItem> itcItem = TCItems.toTCItem(mainHand);
-        if(itcItem.isEmpty()){
+        if (itcItem.isEmpty()) {
             event.setDropItems(false);//適正ツール以外での採掘は何も落とさない
             return;
         }
-        
+
         List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (Objects.isNull(toolMod)) { //ツール
@@ -192,7 +192,7 @@ public final class BlockStateEventHandler implements Listener {
             MobUtils.trySpawnMobInRandomArea(event.getPlayer(), event.getBlock(), mobsToSpawn, enemySpawnRadius);
         }
 
-        JobType jobType = toolMod.apply(null,null).getToolType().getExpType();
+        JobType jobType = toolMod.apply(null, null).getToolType().getExpType();
         if (Objects.nonNull(jobType)) {
             //硬度によって経験値が決まるが、硬度0でも1は入るようにする
             JobDataService.getImpl().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), toolMod) + 1);

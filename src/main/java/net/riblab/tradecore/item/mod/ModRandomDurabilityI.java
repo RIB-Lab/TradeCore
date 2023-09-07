@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -13,7 +13,8 @@ public class ModRandomDurabilityI extends ItemMod<ModRandomDurabilityI.PackedDur
 
     /**
      * アイテムのランダムな最大耐久値と現在の耐久値を保存するmod。アイテム内に焼きこまれる
-     * @param data　耐久値
+     *
+     * @param data 　耐久値
      */
     public ModRandomDurabilityI(PackedDurabilityData data) {
         super(data);
@@ -31,7 +32,7 @@ public class ModRandomDurabilityI extends ItemMod<ModRandomDurabilityI.PackedDur
 
     @Data
     @AllArgsConstructor
-    public static class PackedDurabilityData{
+    public static class PackedDurabilityData {
         int currentDur;
         int maxDur;
     }

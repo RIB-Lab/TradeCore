@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -15,7 +15,7 @@ public class ModDungeonMapI extends ItemMod<DungeonNames> implements IEnterDunge
 
     @Override
     public Optional<String> getLore() {
-        return Optional.of("「" +this.getParam().getDisplayName() + "」に入場できる");
+        return Optional.of("「" + this.getParam().getDisplayName() + "」に入場できる");
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.ui;
 
@@ -23,11 +23,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 public final class UIShop {
 
     public static PaginatedGui open(Player player, IShopData data) {
-        if(!Advancements.STONE_AXE.get().isGranted(player)){
+        if (!Advancements.STONE_AXE.get().isGranted(player)) {
             player.sendMessage("もっと強くなってからくるんだな (先に石の斧の進捗を開放しましょう)");
             return null;
         }
-        
+
         PaginatedGui gui = Gui.paginated()
                 .title(Component.text(data.name()))
                 .rows(6)

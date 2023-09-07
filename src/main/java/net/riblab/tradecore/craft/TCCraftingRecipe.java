@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.craft;
 
@@ -12,21 +12,27 @@ import java.util.Map;
  * レシピクラス
  */
 public final class TCCraftingRecipe implements ITCCraftingRecipe {
-    @Getter @Setter
+    @Getter
+    @Setter
     private Map<String, Integer> ingredients;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String result;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int resultAmount;
-    @Getter @Setter
+    @Getter
+    @Setter
     private double fee;
-    @Getter @Setter
+    @Getter
+    @Setter
     private CraftingRecipesRegistry.RecipeType category;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String internalName;
-    
-    public TCCraftingRecipe(){
-        
+
+    public TCCraftingRecipe() {
+
     }
 
     /**

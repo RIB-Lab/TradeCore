@@ -1,12 +1,11 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.job.data;
 
 import lombok.Getter;
 import org.bukkit.Material;
 
-import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Optional;
 

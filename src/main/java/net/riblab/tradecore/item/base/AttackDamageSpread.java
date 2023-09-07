@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.base;
 
@@ -13,8 +13,7 @@ import java.util.Random;
 public enum AttackDamageSpread {
     WOOD(0.5),
     STONE(1.0),
-    IRON(1.5)
-    ;
+    IRON(1.5);
 
     @Getter
     private final double spreading;
@@ -25,9 +24,10 @@ public enum AttackDamageSpread {
 
     /**
      * テーブルの値からランダムなアタックダメージを取得する
+     *
      * @param damage ランダム化される前のダメージ
      */
-    public double getRandomDamage(double damage){
+    public double getRandomDamage(double damage) {
         return new Random().nextDouble(spreading * 2) - spreading + damage;
     }
 }

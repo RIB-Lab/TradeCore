@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item;
 
@@ -39,7 +39,7 @@ import java.util.*;
 public final class ItemCreator {
 
     private ItemStack itemStack;
-    
+
     private static final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
 
     /**
@@ -349,6 +349,7 @@ public final class ItemCreator {
 
     /**
      * アイテムからint型のNBTを取得する
+     *
      * @param key
      * @return
      */
@@ -367,7 +368,7 @@ public final class ItemCreator {
         itemStack = item.getItem();
         return this;
     }
-    
+
     public Optional<String> getStrNBT(String key) {
         return Optional.ofNullable(new NBTItem(itemStack).getString(key));
     }
@@ -432,7 +433,7 @@ public final class ItemCreator {
     /**
      * アイテムにレアリティなどのアイテムそれぞれで異なるべき値を書きこむ
      */
-    public ItemCreator writeItemRandomMod(IItemMod<?> mod){
+    public ItemCreator writeItemRandomMod(IItemMod<?> mod) {
         NBTItem item = new NBTItem(itemStack);
         //ItemModの数値をJsonとして焼きこむ
         String json = gson.toJson(mod.getParam());
@@ -445,7 +446,7 @@ public final class ItemCreator {
     /**
      * アイテムが持つこのプラグイン特有のmodをアイテムにNBTとして書きこむ
      */
-    public ItemCreator writeItemRandomMods(List<IItemMod<?>> mods){
+    public ItemCreator writeItemRandomMods(List<IItemMod<?>> mods) {
         mods.forEach(this::writeItemRandomMod);
         return this;
     }
@@ -453,7 +454,7 @@ public final class ItemCreator {
     /**
      * アイテムそれぞれに付与されたレアリティなどのランダム化されたパラメータを取得する
      */
-    public List<IItemMod<?>> getItemRandomMods(){
+    public List<IItemMod<?>> getItemRandomMods() {
         List<IItemMod<?>> modList = new ArrayList<>();
         NBTItem item = new NBTItem(itemStack);
         NBTCompound compound = item.getOrCreateCompound(NBTTagNames.ITEMMOD.get());
@@ -461,22 +462,22 @@ public final class ItemCreator {
             IItemMod<?> mod = null;
             try {
                 Class<? extends IItemMod<?>> clazz = ShortHandModNames.getClassFromShortHandName(key);
-                if(Objects.isNull(clazz))
+                if (Objects.isNull(clazz))
                     continue;
 
                 //Jsonを元の型に還元する
                 Constructor<?> constructor = clazz.getConstructors()[0];
                 Type[] parameterTypes = constructor.getGenericParameterTypes();
                 String json = compound.getString(key);
-                Object arg =  gson.fromJson(json, parameterTypes[0]);
+                Object arg = gson.fromJson(json, parameterTypes[0]);
                 mod = (IItemMod<?>) constructor.newInstance(arg);
 
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
                 e.printStackTrace();
                 //クラスの名前が変わっただけかもしれないし、modがなかった時のフォールバックも用意してあるので、握りつぶす
             }
-            
-            if(Objects.nonNull(mod) && Objects.nonNull(mod.getParam()))
+
+            if (Objects.nonNull(mod) && Objects.nonNull(mod.getParam()))
                 modList.add(mod);
         }
         return modList;
@@ -485,8 +486,8 @@ public final class ItemCreator {
     /**
      * アイテムの攻撃速度modからバニラの攻撃速度を抽出して、アイテムに書きこむ
      */
-    public ItemCreator setAttackSpeedAttr(@Nullable ModWeaponAttribute weaponMod){
-        if(Objects.nonNull(weaponMod))
+    public ItemCreator setAttackSpeedAttr(@Nullable ModWeaponAttribute weaponMod) {
+        if (Objects.nonNull(weaponMod))
             return setAttackSpeedAttr(weaponMod.getParam().getAttackSpeed());
         return this;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item;
 
@@ -18,7 +18,7 @@ public enum Materials {
             Material.BEDROCK, Material.COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK,
             Material.BARRIER, Material.END_PORTAL_FRAME, Material.END_PORTAL, Material.NETHER_PORTAL, Material.STRUCTURE_BLOCK,
             Material.LIGHT)),
-    
+
     /**
      * 葉っぱ
      */
@@ -72,8 +72,8 @@ public enum Materials {
     Materials(Set<Material> materials) {
         this.materials = materials;
     }
-    
-    public Set<Material> get(){
+
+    public Set<Material> get() {
         return materials;
     }
 }

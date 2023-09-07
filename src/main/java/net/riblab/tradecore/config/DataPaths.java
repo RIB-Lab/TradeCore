@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.config;
 
@@ -16,14 +16,14 @@ enum DataPaths {
     CRAFT_RECIPE_DIR(new File(TradeCore.getInstance().getDataFolder(), "crafting-recipes")),
     CRAFT_RECIPE_EXPORT_FILE(new File(TradeCore.getInstance().getDataFolder(), "/export/recipes.yml")),
     ;
-    
+
     private final File file;
 
     DataPaths(File file) {
         this.file = file;
     }
-    
-    public File get(){
+
+    public File get() {
         return file;
     }
 }

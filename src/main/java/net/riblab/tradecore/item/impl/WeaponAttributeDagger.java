@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.impl;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public class WeaponAttributeDagger {
 
     private static final double angle = 60;
-    
+
     public static boolean attack(Player player, double damage) {
         boolean isHit = false;
         List<Entity> nearbyEntities = player.getNearbyEntities(1.5d, 1.5d, 1.5d);

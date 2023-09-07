@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.dungeon;
 
@@ -11,10 +11,10 @@ import lombok.Getter;
 public enum DungeonNames {
     TEST("test", "テスト"),
     STONE_ROOM("stoneroom", "石の部屋");
-    
+
     @Getter
     private final String internalName;
-    
+
     @Getter
     private final String displayName;
 

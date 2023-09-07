@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -19,7 +19,7 @@ public class ModPlaceableI extends ItemMod<Boolean> implements IPlaceableModifie
     public Optional<String> getLore() {
         return Optional.of("設置可能");
     }
-    
+
     @Override
     public Boolean apply(Boolean originalValue, Boolean modifiedValue) {
         return true;

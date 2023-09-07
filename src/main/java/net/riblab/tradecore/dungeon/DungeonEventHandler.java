@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.dungeon;
 
@@ -48,19 +48,23 @@ public final class DungeonEventHandler {
 
     public void onDungeonSecondPassed() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (!getservice().isPlayerInDungeon(player)){
+            if (!getservice().isPlayerInDungeon(player)) {
                 return;
             }
 
             String unfixedName = getservice().getUnfixedDungeonName(player.getWorld().getName());
             DungeonDatas.nameToDungeonData(unfixedName).ifPresentOrElse(
                     iDungeonData -> trySpawnMob(player, iDungeonData),
-                    ()-> {throw new NullPointerException("ダンジョン名からダンジョンデータを推測できません！");}//TODO: トラッカーにDungeonDataを内蔵してこのエラーを消す
+                    () -> {
+                        throw new NullPointerException("ダンジョン名からダンジョンデータを推測できません！");
+                    }//TODO: トラッカーにDungeonDataを内蔵してこのエラーを消す
             );
 
             getservice().getTracker(player.getWorld()).ifPresentOrElse(
                     dungeonProgressionTracker -> dungeonProgressionTracker.onDungeonSecond(player),
-                    ()->{throw new NullPointerException(ErrorMessages.CANNOT_FIND_TRACKER.get());}
+                    () -> {
+                        throw new NullPointerException(ErrorMessages.CANNOT_FIND_TRACKER.get());
+                    }
             );
         }
     }
@@ -104,7 +108,7 @@ public final class DungeonEventHandler {
 
     @ParametersAreNonnullByDefault
     public void preventDungeonBlockPlacement(BlockPlaceEvent event) {
-        if(event.getPlayer().getGameMode() != GameMode.CREATIVE)
+        if (event.getPlayer().getGameMode() != GameMode.CREATIVE)
             event.setCancelled(true);
     }
 }

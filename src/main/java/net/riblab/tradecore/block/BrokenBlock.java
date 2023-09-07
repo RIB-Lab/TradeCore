@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.block;
 
@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 class BrokenBlock {
 
     private static final int blockMaxDamage = 10;
-    
+
     /**
      * 現在のひび割れの度合(-1~10)
      */

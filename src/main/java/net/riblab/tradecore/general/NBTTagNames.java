@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.general;
 
@@ -19,14 +19,14 @@ public enum NBTTagNames {
     PROJECTILEDAMAGE("ProjectileDamage"),
     DURABILITY("durability"),
     ITEMMOD("ItemMod");
-    
+
     private final String name;
 
     NBTTagNames(String name) {
         this.name = name;
     }
-    
-    public String get(){
+
+    public String get() {
         return name;
     }
 }

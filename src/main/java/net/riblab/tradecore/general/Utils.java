@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.general;
 
@@ -64,7 +64,7 @@ public final class Utils {
      *
      * @param srcDirName コピー前の.jar内のディレクトリの名前
      * @param destDir    .jarの外のディレクトリのパス
-     * @throws IOException　コピーに失敗
+     * @throws IOException 　コピーに失敗
      */
     @ParametersAreNonnullByDefault
     public static void copyFolder(String srcDirName, File destDir) throws IOException {
@@ -145,7 +145,7 @@ public final class Utils {
     /**
      * フォルダーを完全に削除する
      *
-     * @param file　削除したいフォルダーのパス
+     * @param file 　削除したいフォルダーのパス
      * @return 削除に成功したかどうか
      */
     @ParametersAreNonnullByDefault
@@ -192,9 +192,10 @@ public final class Utils {
 
     /**
      * プラグインのバージョンを取得する
+     *
      * @return プラグインのバージョン
      */
-    public static String getVersion(){
+    public static String getVersion() {
         return TradeCore.getInstance().getDescription().getVersion();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.command;
 
@@ -43,7 +43,7 @@ import static net.riblab.tradecore.command.CommandNames.*;
  * コマンド登録クラス。プラグインのonEnableの前に呼ぶ必要があるのでインスタンスを生成させない。
  */
 public final class TCCommands {
-    
+
     private TCCommands() {
         throw new AssertionError();
     }
@@ -54,11 +54,11 @@ public final class TCCommands {
     private static TCEconomy getEconomy() {
         return TCEconomy.getImpl();
     }
-    
+
     public static void onEnable() {
         registerCommands();
     }
-    
+
     /**
      * このプラグインで使う全てのコマンドを登録する
      */
@@ -135,7 +135,7 @@ public final class TCCommands {
         CommandAPICommand mobResetCommand = new CommandAPICommand(MOBS_RESET.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    int size =  CustomMobService.getImpl().deSpawnAll();
+                    int size = CustomMobService.getImpl().deSpawnAll();
                     player.sendMessage("モブシステムをリセットしました");
                     player.sendMessage(size + "体のモブを消去");
                 });
@@ -286,9 +286,9 @@ public final class TCCommands {
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     Optional<ITCItem> item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-                    if(item.isEmpty())
+                    if (item.isEmpty())
                         return;
-                    
+
                     DataService.getImpl().exportItem(item.get());
                     player.sendMessage("手持ちのアイテムをコンフィグのitemexportにエクスポートしました");
                 });

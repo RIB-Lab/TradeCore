@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.craft;
 
@@ -19,9 +19,9 @@ public enum VanillaCraftInitializer { //TODO:BukkitRunnableをExtendする
     INSTANCE;
 
     public void init(JavaPlugin plugin) {
-        
+
         //他のプラグインがレシピの削除を妨害してくるのでロード後に上書きする
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 Bukkit.clearRecipes();

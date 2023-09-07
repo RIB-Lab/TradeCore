@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.advancement;
 
@@ -22,7 +22,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -30,10 +29,10 @@ import java.util.Optional;
  */
 public enum AdvancementInitializer {
     INSTANCE();
-    
+
     @Getter
     private static AdvancementTab primitiveAgeTab;
-    
+
     /**
      * 実績が既に登録されたかどうか
      */
@@ -48,20 +47,20 @@ public enum AdvancementInitializer {
 
         api.disableVanillaAdvancements();
 
-        ((MultiTasksAdvancement)Advancements.WOODEN_COMPONENT.get()).registerTasks((TaskAdvancement) Advancements.WOODEN_COMPONENT_SUB1.get(),(TaskAdvancement) Advancements.WOODEN_COMPONENT_SUB2.get(),
+        ((MultiTasksAdvancement) Advancements.WOODEN_COMPONENT.get()).registerTasks((TaskAdvancement) Advancements.WOODEN_COMPONENT_SUB1.get(), (TaskAdvancement) Advancements.WOODEN_COMPONENT_SUB2.get(),
                 (TaskAdvancement) Advancements.WOODEN_COMPONENT_SUB3.get());
 
-        ((MultiTasksAdvancement)Advancements.STONE_COMPONENT.get()).registerTasks((TaskAdvancement) Advancements.STONE_COMPONENT_SUB1.get(), (TaskAdvancement) Advancements.STONE_COMPONENT_SUB2.get(), 
+        ((MultiTasksAdvancement) Advancements.STONE_COMPONENT.get()).registerTasks((TaskAdvancement) Advancements.STONE_COMPONENT_SUB1.get(), (TaskAdvancement) Advancements.STONE_COMPONENT_SUB2.get(),
                 (TaskAdvancement) Advancements.STONE_COMPONENT_SUB3.get(), (TaskAdvancement) Advancements.STONE_COMPONENT_SUB4.get());
 
-        primitiveAgeTab.registerAdvancements((RootAdvancement) Advancements.GATHER_PEBBLE.get(), (BaseAdvancement) Advancements.CRAFT_HATCHET.get(),(BaseAdvancement) Advancements.CRAFT_TABLE.get(),
+        primitiveAgeTab.registerAdvancements((RootAdvancement) Advancements.GATHER_PEBBLE.get(), (BaseAdvancement) Advancements.CRAFT_HATCHET.get(), (BaseAdvancement) Advancements.CRAFT_TABLE.get(),
                 (BaseAdvancement) Advancements.WOODEN_AXE.get(), (BaseAdvancement) Advancements.WOODEN_COMPONENT.get(), (BaseAdvancement) Advancements.STONE_AXE.get(), (BaseAdvancement) Advancements.STONE_COMPONENT.get(), (BaseAdvancement) Advancements.IRON_AXE.get());
         primitiveAgeTab.automaticallyShowToPlayers();
 
         //TODO:プレイヤー単位で実績を管理。ロード時にプレイヤーが未取得の実績を洗い出してそこにだけイベントが飛ぶようにする
         primitiveAgeTab.getEventManager().register(primitiveAgeTab, PlayerAttemptPickupItemEvent.class, playerPickItemEvent -> {
             Optional<ITCItem> itcItem = TCItems.toTCItem(playerPickItemEvent.getItem().getItemStack());
-            if(itcItem.isEmpty()){
+            if (itcItem.isEmpty()) {
                 return;
             }
 

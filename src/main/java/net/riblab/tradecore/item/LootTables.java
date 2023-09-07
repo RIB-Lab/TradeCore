@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item;
 
@@ -107,5 +107,6 @@ public enum LootTables {
     public record LootTable(Set<Material> material,
                             IToolStatsModifier.ToolType toolType,
                             int harvestLevel,
-                            Map<Float, ITCItem> dropChanceMap) { }
+                            Map<Float, ITCItem> dropChanceMap) {
+    }
 }

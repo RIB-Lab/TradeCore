@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -11,7 +11,8 @@ public class ModRandomMiningSpeedI extends ItemMod<Double> implements IMiningSpe
 
     /**
      * 採掘スピード1.2などを代入
-     * @param level　レベル
+     *
+     * @param level 　レベル
      */
     public ModRandomMiningSpeedI(Double level) {
         super(level);
@@ -19,7 +20,7 @@ public class ModRandomMiningSpeedI extends ItemMod<Double> implements IMiningSpe
 
     @Override
     public Optional<String> getLore() {
-        return Optional.of("採掘速度:" + Math.floor(this.getParam() * 100)  / 100);
+        return Optional.of("採掘速度:" + Math.floor(this.getParam() * 100) / 100);
     }
 
     @Override

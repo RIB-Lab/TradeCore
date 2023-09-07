@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.ui;
 
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * ジョブスキルの習得、確認UI
  */
-final class UIJobs implements IUI{
+final class UIJobs implements IUI {
 
     private static final JobDataService JOB_SERVICE = JobDataService.getImpl();
     private static final JobSkillService skillHandler = JobSkillService.getImpl();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.config.io;
 
@@ -8,14 +8,14 @@ public enum ItemIOTags {
     MATERIAL("material"),
     CUSTOMMODELDATA("model"),
     DEFAULTMODS("mods");
-    
+
     private final String name;
 
     ItemIOTags(String name) {
         this.name = name;
     }
-    
-    public final String get(){
+
+    public final String get() {
         return name;
     }
 }

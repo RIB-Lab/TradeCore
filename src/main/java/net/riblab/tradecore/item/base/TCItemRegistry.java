@@ -1,15 +1,13 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.base;
 
-import lombok.Getter;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -47,20 +45,21 @@ public enum TCItemRegistry {
     public Optional<ITCItem> commandToTCItem(String internalName) {
         return deserializedItems.stream().filter(e -> e.isSimilar(internalName)).findFirst();
     }
-    
-    public void clear(){
+
+    public void clear() {
         deserializedItems.clear();
     }
-    
-    public void addAll(List<ITCItem> items){
+
+    public void addAll(List<ITCItem> items) {
         deserializedItems.addAll(items);
     }
 
     /**
      * 変更負荷なアイテムレジストリのコピーを渡す
+     *
      * @return
      */
-    public Collection<ITCItem> getItems(){
+    public Collection<ITCItem> getItems() {
         return List.copyOf(deserializedItems);
     }
 }

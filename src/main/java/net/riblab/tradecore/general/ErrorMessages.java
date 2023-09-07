@@ -21,14 +21,14 @@ public enum ErrorMessages {
     INVAILD_DUNGEON_NAME("ダンジョン名からダンジョンを取得できませんでした"),
     FAILED_TO_GENERATE_DUNGEON_WORLD("ダンジョンデータからワールドの生成に失敗しました"),
     INVALID_ARGUMENT("不正な引数: ");
-    
+
     private final String message;
 
     ErrorMessages(String message) {
         this.message = message;
     }
-    
-    public String get(){
+
+    public String get() {
         return message;
     }
 }

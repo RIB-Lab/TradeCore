@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.ui;
 
@@ -22,7 +22,7 @@ import java.util.Optional;
 /**
  * 売却画面
  */
-final class UISell implements IUI{
+final class UISell implements IUI {
 
     /**
      * 売却画面を開く
@@ -61,9 +61,9 @@ final class UISell implements IUI{
                 event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
                 continue;
             }
-            
+
             ISellPriceModifier mod = (ISellPriceModifier) itcItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof ISellPriceModifier).findFirst().orElse(null);
-            if(Objects.isNull(mod)){
+            if (Objects.isNull(mod)) {
                 event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
                 continue;
             }

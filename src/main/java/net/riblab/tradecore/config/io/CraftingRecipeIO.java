@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.config.io;
 
@@ -27,7 +27,7 @@ public class CraftingRecipeIO {
 
     private static final Yaml yaml;
 
-    static{
+    static {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK); // フロースタイルを指定
         options.setAllowReadOnlyProperties(true);
@@ -38,7 +38,7 @@ public class CraftingRecipeIO {
         yaml = new Yaml(representer);
     }
 
-    public static void deserialize(File craftingRecipeFile){
+    public static void deserialize(File craftingRecipeFile) {
 
         List<ITCCraftingRecipe> deserializedRecipes = new ArrayList<>();
         try (FileReader reader = new FileReader(craftingRecipeFile)) {
@@ -56,27 +56,23 @@ public class CraftingRecipeIO {
                     tcCraftingRecipe.setInternalName(internalNameNode.getValue());
 
                     Node valueNode2 = nodeTuple2.getValueNode();
-                    if(valueNode2 instanceof MappingNode valueNode2Map){
+                    if (valueNode2 instanceof MappingNode valueNode2Map) {
                         Iterator<NodeTuple> iterator3 = valueNode2Map.getValue().iterator();
                         while (iterator3.hasNext()) {
                             NodeTuple nodeTuple3 = iterator3.next();
 
                             ScalarNode itemPropertiesNode = (ScalarNode) nodeTuple3.getKeyNode();//category, fee...
 
-                            if(itemPropertiesNode.getValue().equals(CATEGORY.get())){
+                            if (itemPropertiesNode.getValue().equals(CATEGORY.get())) {
                                 parseCategory(tcCraftingRecipe, nodeTuple3);
-                            }
-                            else if(itemPropertiesNode.getValue().equals(FEE.get())){
+                            } else if (itemPropertiesNode.getValue().equals(FEE.get())) {
                                 parseFee(tcCraftingRecipe, nodeTuple3);
-                            }
-                            else if(itemPropertiesNode.getValue().equals(INGREDIENTS.get())){
+                            } else if (itemPropertiesNode.getValue().equals(INGREDIENTS.get())) {
                                 parseIngredients(tcCraftingRecipe, nodeTuple3);
-                            }
-                            else if(itemPropertiesNode.getValue().equals(RESULT.get())){
+                            } else if (itemPropertiesNode.getValue().equals(RESULT.get())) {
                                 parseResult(tcCraftingRecipe, nodeTuple3);
-                            }
-                            else if(itemPropertiesNode.getValue().equals(RESULTAMOUNT.get())){
-                                    parseResultAmount(tcCraftingRecipe, nodeTuple3);
+                            } else if (itemPropertiesNode.getValue().equals(RESULTAMOUNT.get())) {
+                                parseResultAmount(tcCraftingRecipe, nodeTuple3);
                             }
                         }
                     }
@@ -102,7 +98,7 @@ public class CraftingRecipeIO {
     private static void parseIngredients(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
         Node valueNode3 = nodeTuple3.getValueNode();
         Map<String, Integer> ingredientsMap = new HashMap<>();
-        if(valueNode3 instanceof MappingNode valueNode3Map){
+        if (valueNode3 instanceof MappingNode valueNode3Map) {
             Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
             while (iterator4.hasNext()) {
                 NodeTuple nodeTuple4 = iterator4.next();
@@ -124,9 +120,9 @@ public class CraftingRecipeIO {
         tcCraftingRecipe.setCategory(category);
     }
 
-    public static void serialize(List<ITCCraftingRecipe> craftingRecipes, File file){
+    public static void serialize(List<ITCCraftingRecipe> craftingRecipes, File file) {
         Map<String, Object> craftingRecipesMap = new HashMap<>();
-        
+
         for (ITCCraftingRecipe craftingRecipe : craftingRecipes) {
             Map<String, Object> craftingRecipeParams = new HashMap<>();
             craftingRecipeParams.put(INGREDIENTS.get(), craftingRecipe.getIngredients());
@@ -137,8 +133,8 @@ public class CraftingRecipeIO {
 
             craftingRecipesMap.put(craftingRecipe.getInternalName(), craftingRecipeParams);
         }
-        
-        if(!file.getParentFile().exists())
+
+        if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         FileUtils.getFile(file.toString());
         try (FileWriter writer = new FileWriter(file)) {

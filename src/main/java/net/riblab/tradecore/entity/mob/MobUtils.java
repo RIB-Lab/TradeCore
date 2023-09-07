@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.entity.mob;
 
@@ -25,7 +25,7 @@ import java.util.Random;
  * モブ関連のユーティリティクラス
  */
 public final class MobUtils {
-    
+
     private static final Vector BLOCK_OFFSET = new Vector(0.5f, 0, 0.5f);
 
     private MobUtils() {
@@ -37,7 +37,7 @@ public final class MobUtils {
      *
      * @param player モブがターゲットとするプレイヤー
      * @param block  モブがスポーンする起点のブロック
-     * @param mobs 沸かせたいモブのリスト
+     * @param mobs   沸かせたいモブのリスト
      * @param radius スポーンする半径
      */
     @ParametersAreNonnullByDefault

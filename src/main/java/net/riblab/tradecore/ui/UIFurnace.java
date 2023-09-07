@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.ui;
 
@@ -140,7 +140,7 @@ final class UIFurnace implements IUI {
     private static void trySmelt(PaginatedGui gui, Player player, ITCFurnaceRecipe recipe, ItemStack resultStack) {
         List<Component> missingLore = new ArrayList<>();
         for (Map.Entry<ITCItem, Integer> entry : recipe.ingredients().entrySet()) {
-            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(),entry.getKey(), entry.getValue());
+            boolean playerHasItem = ItemUtils.tcContainsAtLeast(player.getInventory(), entry.getKey(), entry.getValue());
             if (playerHasItem)
                 continue;
 

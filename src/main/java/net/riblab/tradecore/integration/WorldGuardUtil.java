@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.integration;
 
@@ -25,9 +25,9 @@ public final class WorldGuardUtil {
     public static boolean canBreakBlockWithWG(Player p, Block b) {
         BlockVector3 vector = BlockVector3.at(b.getX(), b.getY(), b.getZ());
         RegionManager rm = WorldGuard.getInstance().getPlatform().getRegionContainer().get(new BukkitWorld(b.getWorld()));
-        if(rm == null)
+        if (rm == null)
             return false; //安全策
-        
+
         ApplicableRegionSet rs = rm.getApplicableRegions(vector);
         return rs.testState(TradeCore.getPlugin(WorldGuardPlugin.class).wrapPlayer(p), Flags.BUILD);
     }

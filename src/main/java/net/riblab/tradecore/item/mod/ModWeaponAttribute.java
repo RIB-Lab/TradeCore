@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -24,17 +24,17 @@ public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> i
         double formattedAttackSpeedForDisplay = Math.floor(rawAttackSpeedForDisplay * 100) / 100;
         return Optional.of("攻撃速度:" + Math.floor(formattedAttackSpeedForDisplay * 100) / 100);
     }
-    
+
     @Override
     public PackedAttackData apply(PackedAttackData originalValue, PackedAttackData modifiedValue) {
         modifiedValue.setResult(getParam().attackFunction.apply(modifiedValue.getPlayer(), modifiedValue.getDamage()));
-        if(getParam().attackSpeed > 0)
+        if (getParam().attackSpeed > 0)
             AttackCooldownService.getImpl().add(modifiedValue.getPlayer(), getParam().attackSpeed);
-        
+
         return modifiedValue;
     }
 
-    public enum WeaponType{
+    public enum WeaponType {
         SWORD(WeaponAttributeSword::attack, -2.7d),
         SPEAR(WeaponAttributeSpear::attack, -3.2d),
         DAGGER(WeaponAttributeDagger::attack, -1.5d),
@@ -58,15 +58,15 @@ public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> i
             this.attackFunction = attackFunction;
             this.attackSpeed = attackSpeed;
         }
-        
-        public BiFunction<Player, Double, Boolean> get(){
+
+        public BiFunction<Player, Double, Boolean> get() {
             return attackFunction;
         }
 
         /**
          * 近接武器の攻撃速度はマイナスでないといけないため、表示する際バニラの攻撃速度を足す必要がある
          */
-        public static double getMeleeAttackSpeedForDisplay(Double actualAttackSpeed){
+        public static double getMeleeAttackSpeedForDisplay(Double actualAttackSpeed) {
             return actualAttackSpeed + vanillaAttackSpeed;
         }
     }

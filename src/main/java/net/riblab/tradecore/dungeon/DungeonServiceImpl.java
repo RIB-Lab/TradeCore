@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.dungeon;
 
@@ -26,10 +26,10 @@ import java.util.*;
 enum DungeonServiceImpl implements DungeonService {
     INSTANCE;
 
-    DungeonServiceImpl(){
+    DungeonServiceImpl() {
         Utils.forceInit(DungeonProgressionTracker.class);
     }
-    
+
     /**
      * ダンジョンのインスタンス達
      */
@@ -246,7 +246,7 @@ enum DungeonServiceImpl implements DungeonService {
         instance.sendMessage(Component.text("ダンジョンクリア!"));
 
         String unfixedName = getUnfixedDungeonName(instance.getName());
-        IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName).orElseThrow(()-> new NullPointerException("ワールド名からダンジョンデータが推測できません！"));
+        IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName).orElseThrow(() -> new NullPointerException("ワールド名からダンジョンデータが推測できません！"));
         ItemStack reward = ItemUtils.getRandomItemFromPool(data.getRewardPool());
         if (Objects.nonNull(reward)) {
             for (Player player : instance.getPlayers()) {
@@ -255,7 +255,7 @@ enum DungeonServiceImpl implements DungeonService {
                 player.sendMessage(reward.displayName().append(Component.text(" x" + reward.getAmount() + " を獲得!")));
             }
         }
-        
+
         instance.sendMessage(Component.text("/tcdungeon leaveでダンジョンを抜けられます..."));
     }
 }

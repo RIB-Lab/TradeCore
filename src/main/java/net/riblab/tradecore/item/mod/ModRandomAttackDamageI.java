@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -10,7 +10,7 @@ import java.util.Optional;
 public class ModRandomAttackDamageI extends ItemMod<Integer> implements IAttackDamageModifier {
 
     /**
-     * @param level　追加したいダメージの100倍
+     * @param level 　追加したいダメージの100倍
      */
     public ModRandomAttackDamageI(Integer level) {
         super(level);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.integration;
 
@@ -24,11 +24,11 @@ public enum ProtocolInitializer {
     INSTANCE;
 
     boolean isInit = false;
-    
-    public void init(){
-        if(isInit)
+
+    public void init() {
+        if (isInit)
             throw new RuntimeException(ErrorMessages.PROTOCOLLIB_INIT_TWO_TIMES.get());
-        
+
         //買い取り商人
         ProtocolLibrary.getProtocolManager().addPacketListener(
                 new PacketAdapter(TradeCore.getInstance(), PacketType.Play.Client.USE_ENTITY) {

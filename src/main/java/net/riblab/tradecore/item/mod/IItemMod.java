@@ -1,13 +1,13 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
-import javax.annotation.Nullable;
 import java.util.Optional;
 
 /**
  * アイテムに取り付けることのできるパーツ。modifierと併用することでアイテムに様々な性質を付与できる
+ *
  * @param <T>
  */
 public interface IItemMod<T> {

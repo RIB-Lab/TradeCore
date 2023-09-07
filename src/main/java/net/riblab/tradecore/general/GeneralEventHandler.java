@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.general;
 
@@ -78,7 +78,7 @@ public final class GeneralEventHandler {
             return;
 
         stopBowAim(event);
-        
+
         swingWeapon(event);
         if (event.isCancelled())
             return;
@@ -148,8 +148,8 @@ public final class GeneralEventHandler {
     public void stopBowAim(PlayerInteractEvent event) {
         if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK)
             return;
-        
-        if(Objects.nonNull(event.getItem()) && event.getItem().getType() == Material.BOW){
+
+        if (Objects.nonNull(event.getItem()) && event.getItem().getType() == Material.BOW) {
             event.setCancelled(true);
         }
     }
@@ -168,15 +168,15 @@ public final class GeneralEventHandler {
             return;
 
         Optional<ITCItem> itcItem = TCItems.toTCItem(event.getItem());
-        if(itcItem.isEmpty())
+        if (itcItem.isEmpty())
             return;
 
         IWeaponAttackModifier attackMod = (IWeaponAttackModifier) itcItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
         IItemMod<?> damageMod = new ItemCreator(event.getItem()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
         if (Objects.nonNull(damageMod) && Objects.nonNull(attackMod)) { //武器で攻撃
             event.setCancelled(true);
-            
-            double damage = ((Integer)damageMod.getParam()).doubleValue() / 100;
+
+            double damage = ((Integer) damageMod.getParam()).doubleValue() / 100;
 
             IWeaponAttackModifier.PackedAttackData data = new IWeaponAttackModifier.PackedAttackData(event.getPlayer(), damage, false);
             if (attackMod.apply(data, data).isResult()) {
@@ -187,7 +187,7 @@ public final class GeneralEventHandler {
     }
 
     public void processEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player)){
+        if (!(event.getDamager() instanceof Player)) {
             tryProcessProjectileAttack(event);
             return;
         }
@@ -221,7 +221,7 @@ public final class GeneralEventHandler {
         }
 
         Optional<ITCItem> item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-        if(item.isEmpty()){
+        if (item.isEmpty()) {
             return;
         }
 
@@ -240,14 +240,14 @@ public final class GeneralEventHandler {
         }
 
         event.setCancelled(true);
-        
+
         IItemMod<?> damageMod = new ItemCreator(player.getInventory().getItemInMainHand()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
         IWeaponAttackModifier attackMod = (IWeaponAttackModifier) defaultMods.stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
         if (Objects.nonNull(damageMod) && Objects.nonNull(attackMod)) { //武器で攻撃
             if (player.getAttackCooldown() != 1)
                 return;
-            
-            double damage = ((Integer)damageMod.getParam()).doubleValue() / 100;
+
+            double damage = ((Integer) damageMod.getParam()).doubleValue() / 100;
 
             IWeaponAttackModifier.PackedAttackData data = new IWeaponAttackModifier.PackedAttackData(player, damage, false);
             if (attackMod.apply(data, data).isResult()) {
@@ -258,9 +258,9 @@ public final class GeneralEventHandler {
     }
 
     public void tryProcessProjectileAttack(EntityDamageByEntityEvent event) {
-        if(!(event.getDamager() instanceof Projectile projectile))
+        if (!(event.getDamager() instanceof Projectile projectile))
             return;
-        
+
         event.setDamage(CustomProjectileService.getImpl().getCustomProjectileDamage(projectile));
     }
 
@@ -395,20 +395,20 @@ public final class GeneralEventHandler {
     /**
      * 射出物の削除処理
      */
-    public void processProjectileHit(ProjectileHitEvent event){
+    public void processProjectileHit(ProjectileHitEvent event) {
         CustomProjectileService.getImpl().onCustomProjectileHit(event.getEntity());
     }
 
     /**
      * 通常のTCItemsの設置を妨げる
      */
-    public void blockTCItemsPlacement(BlockPlaceEvent event){
+    public void blockTCItemsPlacement(BlockPlaceEvent event) {
         Optional<ITCItem> itcItem = TCItems.toTCItem(event.getItemInHand());
 
         if (itcItem.isEmpty())
             return;
 
-        if(itcItem.get().getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))
+        if (itcItem.get().getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))
             return;
 
         event.setCancelled(true);

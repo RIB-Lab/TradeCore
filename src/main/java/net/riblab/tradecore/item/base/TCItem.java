@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.base;
 
@@ -25,7 +25,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * このクラスでアイテムを表現するためのクラス。yamlにエクスポートするため、オーバーライド禁止(オーバーライドしてもその部分の情報は保存されない)！<br>
@@ -33,7 +32,7 @@ import java.util.Optional;
  */
 @Data
 public final class TCItem implements ITCItem {
-    
+
     /**
      * アイテムの表示名。金床で変更できる
      */
@@ -88,7 +87,8 @@ public final class TCItem implements ITCItem {
     /**
      * データ読み取り用
      */
-    public TCItem(){}
+    public TCItem() {
+    }
 
     /**
      * 固有アイテムの型の実体を作製する内部的な関数
@@ -169,13 +169,13 @@ public final class TCItem implements ITCItem {
     /**
      * ツールに元からあるmodの説明文を取得する
      */
-    public List<Component> getDefaultModsLore(){
+    public List<Component> getDefaultModsLore() {
         List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> defaultMod : getDefaultMods()) {
-            if(defaultMod.getLore().isEmpty())
+            if (defaultMod.getLore().isEmpty())
                 continue;
-            
+
             texts.add(Component.text(defaultMod.getLore().get()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
 
@@ -185,7 +185,7 @@ public final class TCItem implements ITCItem {
     /**
      * ツールに付与されているランダムmodの説明文を取得する
      */
-    public List<Component> getRandomModsLore(List<IItemMod<?>> randomMods){
+    public List<Component> getRandomModsLore(List<IItemMod<?>> randomMods) {
         List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> randomMod : randomMods) {

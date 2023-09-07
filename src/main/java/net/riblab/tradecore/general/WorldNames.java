@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.general;
 
@@ -17,8 +17,8 @@ public enum WorldNames {
     WorldNames(String name) {
         this.name = name;
     }
-    
-    public String get(){
+
+    public String get() {
         return name;
     }
 }

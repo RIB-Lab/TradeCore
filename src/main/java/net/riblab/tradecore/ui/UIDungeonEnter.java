@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.ui;
 
@@ -32,11 +32,11 @@ final class UIDungeonEnter implements IUI {
 
     @Override
     public BaseGui open(Player player) {
-        if(!Advancements.STONE_AXE.get().isGranted(player)){
+        if (!Advancements.STONE_AXE.get().isGranted(player)) {
             player.sendMessage("もっと強くなってからくるんだな (先に石の斧の進捗を開放しましょう)");
             return null;
         }
-        
+
         Gui gui = Gui.gui(GuiType.CHEST)
                 .title(Component.text("マップを置いてください"))
                 .rows(1)
@@ -45,7 +45,7 @@ final class UIDungeonEnter implements IUI {
 
         GuiItem disableInteractionButton = new GuiItem(new ItemStack(Material.RED_STAINED_GLASS_PANE), event -> event.setCancelled(true));
         gui.getFiller().fill(disableInteractionButton);
-        
+
         GuiItem mapSlot = new GuiItem(new ItemStack(Material.AIR));
         gui.setItem(4, mapSlot);
 
@@ -59,14 +59,14 @@ final class UIDungeonEnter implements IUI {
     public static void onClose(InventoryCloseEvent event) {
         ItemStack map = event.getInventory().getContents()[4];
         Optional<ITCItem> iTCItem = TCItems.toTCItem(map);
-        if(iTCItem.isEmpty())
+        if (iTCItem.isEmpty())
             return;
 
         IEnterDungeonModifier mod = (IEnterDungeonModifier) iTCItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IEnterDungeonModifier).findFirst().orElse(null);
-        if(Objects.nonNull(mod)){
+        if (Objects.nonNull(mod)) {
             DungeonService IDungeonService = DungeonService.getImpl();
-            IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).getInternalName()).orElseThrow(()-> new NullPointerException(ErrorMessages.INVAILD_DUNGEON_NAME.get()));
-            World instance = IDungeonService.create(data, -1).orElseThrow(()-> new NullPointerException(ErrorMessages.FAILED_TO_GENERATE_DUNGEON_WORLD.get()));
+            IDungeonData<?> data = DungeonDatas.nameToDungeonData(mod.apply(null, null).getInternalName()).orElseThrow(() -> new NullPointerException(ErrorMessages.INVAILD_DUNGEON_NAME.get()));
+            World instance = IDungeonService.create(data, -1).orElseThrow(() -> new NullPointerException(ErrorMessages.FAILED_TO_GENERATE_DUNGEON_WORLD.get()));
             IDungeonService.enter((Player) event.getPlayer(), instance);
         }
     }

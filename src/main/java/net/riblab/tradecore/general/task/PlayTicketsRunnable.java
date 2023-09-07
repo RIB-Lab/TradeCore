@@ -16,7 +16,7 @@ class PlayTicketsRunnable extends BukkitRunnable {
     private TCEconomy getEconomy() {
         return TCEconomy.getImpl();
     }
-    
+
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {

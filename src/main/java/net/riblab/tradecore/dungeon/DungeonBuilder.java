@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.dungeon;
 
@@ -44,23 +44,23 @@ public final class DungeonBuilder {
      */
     public static World build(IDungeonData<?> data, String affixedDungeonName, String schemName) {
         World world = copyWorldFolder(affixedDungeonName);
-                
+
         File instantiatedSchemFile = copySchem(schemName);
-        if(Objects.isNull(instantiatedSchemFile)){
+        if (Objects.isNull(instantiatedSchemFile)) {
             return world;
         }
-        
+
         generateTerrainAsync(world, instantiatedSchemFile);
 
         setupWorld(world, data);
-        
+
         return world;
     }
 
     /**
      * 空のワールドをResourceフォルダからコピーして、新しいワールドのデータを作る
      */
-    private static World copyWorldFolder(String affixedDungeonName){
+    private static World copyWorldFolder(String affixedDungeonName) {
         File destDir = new File(affixedDungeonName);
         try {
             Utils.copyFolder(TEMP_DIR_NAME, destDir);
@@ -74,14 +74,14 @@ public final class DungeonBuilder {
         World world = Bukkit.getServer().createWorld(wc);
 
         Objects.requireNonNull(world, "ワールドの生成に失敗しました");
-        
+
         return world;
     }
 
     /**
      * ダンジョン名に対応したschemをresourceからコピーする
      */
-    private static File copySchem(String schemName){
+    private static File copySchem(String schemName) {
         File instantiatedSchemFile = new File(PASTE_SCHEM_DIR, schemName + ".schem");
         boolean fileHasCopied = false;
         try {
@@ -94,14 +94,14 @@ public final class DungeonBuilder {
             Bukkit.getLogger().severe("schemファイルが見つかりません：" + COPY_SCHEM_DIR + "/" + schemName + ".schem");
             return null;
         }
-        
+
         return instantiatedSchemFile;
     }
 
     /**
      * schemから地形生成
      */
-    private static void generateTerrainAsync(World world, File instantiatedSchemFile){
+    private static void generateTerrainAsync(World world, File instantiatedSchemFile) {
         Clipboard clipboard;
         ClipboardFormat format = ClipboardFormats.findByFile(instantiatedSchemFile);
         try {
@@ -113,7 +113,7 @@ public final class DungeonBuilder {
             throw new RuntimeException(e);
         }
         com.sk89q.worldedit.world.World weWorld = BukkitAdapter.adapt(world);
-        new BukkitRunnable(){
+        new BukkitRunnable() {
             @Override
             public void run() {
                 try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
@@ -131,7 +131,7 @@ public final class DungeonBuilder {
     /**
      * 生成したワールドの初期設定を行う
      */
-    private static void setupWorld(World world, IDungeonData<?> data){
+    private static void setupWorld(World world, IDungeonData<?> data) {
         world.setAutoSave(false);
         world.setGameRule(GameRule.KEEP_INVENTORY, true);
         world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);

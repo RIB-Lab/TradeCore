@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -21,7 +21,7 @@ public class ModDefaultMaxDurabilityI extends ItemMod<DurabilityTable> implement
     public Optional<String> getLore() {
         return null; //隠しパラメータ
     }
-    
+
     @Override
     public List<IItemMod<?>> apply(List<IItemMod<?>> originalValue, List<IItemMod<?>> modifiedValue) {
         int dur = getParam().getRandomMaxDurability();

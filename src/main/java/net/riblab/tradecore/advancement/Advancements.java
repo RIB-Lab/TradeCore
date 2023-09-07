@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.advancement;
 
@@ -28,16 +28,15 @@ public enum Advancements {
     STONE_COMPONENT_SUB2(new TaskAdvancement("task_granitestone", (AbstractMultiTasksAdvancement) STONE_COMPONENT.get())),
     STONE_COMPONENT_SUB3(new TaskAdvancement("task_dioritestone", (AbstractMultiTasksAdvancement) STONE_COMPONENT.get())),
     STONE_COMPONENT_SUB4(new TaskAdvancement("task_roundstone", (AbstractMultiTasksAdvancement) STONE_COMPONENT.get())),
-    IRON_AXE(new BaseAdvancement("adv_iron_axe", AdvancementDisplays.IRON_AXE.get(), STONE_COMPONENT.get(), 1))
-    ;
+    IRON_AXE(new BaseAdvancement("adv_iron_axe", AdvancementDisplays.IRON_AXE.get(), STONE_COMPONENT.get(), 1));
 
     private final Advancement adv;
 
     Advancements(Advancement adv) {
         this.adv = adv;
     }
-    
-    public Advancement get(){
+
+    public Advancement get() {
         return adv;
     }
 }

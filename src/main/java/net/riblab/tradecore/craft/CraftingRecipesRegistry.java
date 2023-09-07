@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.craft;
 
@@ -35,15 +35,15 @@ public enum CraftingRecipesRegistry {
     /**
      * 編集不可能なレシピのコピーを取得する
      */
-    public Collection<ITCCraftingRecipe> getRecipes(){
+    public Collection<ITCCraftingRecipe> getRecipes() {
         return List.copyOf(deserializedCraftingRecipes);
     }
-    
-    public void clear(){
+
+    public void clear() {
         deserializedCraftingRecipes.clear();
     }
-    
-    public void addAll(List<ITCCraftingRecipe> recipes){
+
+    public void addAll(List<ITCCraftingRecipe> recipes) {
         deserializedCraftingRecipes.addAll(recipes);
     }
 }

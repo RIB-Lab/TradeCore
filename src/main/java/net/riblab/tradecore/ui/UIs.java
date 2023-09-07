@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.ui;
 
@@ -14,14 +14,14 @@ public enum UIs {
     JOBS(new UIJobs()),
     SELL(new UISell()),
     SKILLRESPEC(new UISkillRespec());
-    
+
     private final IUI ui;
 
     UIs(IUI ui) {
         this.ui = ui;
     }
-    
-    public IUI get(){
+
+    public IUI get() {
         return ui;
     }
 }

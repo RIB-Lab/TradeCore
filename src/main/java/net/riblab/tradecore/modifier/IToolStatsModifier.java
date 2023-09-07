@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.modifier;
 
@@ -11,11 +11,11 @@ import net.riblab.tradecore.job.data.JobType;
 /**
  * アイテムのツールとしての側面を定義するmod
  */
-public interface IToolStatsModifier extends IModifier<IToolStatsModifier.ToolStats>{
+public interface IToolStatsModifier extends IModifier<IToolStatsModifier.ToolStats> {
 
     @Data
     @AllArgsConstructor
-    class ToolStats{
+    class ToolStats {
         ToolType toolType;
         int harvestLevel;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore;
 
@@ -12,8 +12,8 @@ import net.riblab.tradecore.craft.VanillaCraftInitializer;
 import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.entity.mob.CustomMobService;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
-import net.riblab.tradecore.general.task.TCTasksInitializer;
 import net.riblab.tradecore.general.Utils;
+import net.riblab.tradecore.general.task.TCTasksInitializer;
 import net.riblab.tradecore.integration.ProtocolInitializer;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
@@ -26,9 +26,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 
 public class TradeCore extends JavaPlugin {
-    
+
     private static final String WORLDGUARD_PLUGIN_NAME = "WorldGuard";
-    
+
     private static TradeCore instance;
 
     public static TradeCore getInstance() {
@@ -50,20 +50,20 @@ public class TradeCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        if(!isJUnitTest()){
+        if (!isJUnitTest()) {
             DataService.getImpl().loadAll();
         }
-        
+
         JobSkillService.getImpl().onDeserialize();
         PlayerStatsService.getImpl().init();
         VanillaCraftInitializer.INSTANCE.init(this);
 
-        if(!isJUnitTest()){
+        if (!isJUnitTest()) {
             vaultHook = VaultHook.getImpl();
             vaultHook.hook();
             TCCommands.onEnable();
         }
-        
+
         isWGLoaded = getServer().getPluginManager().isPluginEnabled(WORLDGUARD_PLUGIN_NAME);
         CustomMobService.getImpl(); //ondisableでエラーが出ないように強制起動
         CustomProjectileService.getImpl();
@@ -80,7 +80,7 @@ public class TradeCore extends JavaPlugin {
 
         TCTasksInitializer.INSTANCE.init();
 
-        if(!isJUnitTest()){
+        if (!isJUnitTest()) {
             AdvancementInitializer.INSTANCE.init();
             ProtocolInitializer.INSTANCE.init();
         }
@@ -88,7 +88,7 @@ public class TradeCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if(!isJUnitTest()){
+        if (!isJUnitTest()) {
             vaultHook.unhook();
             DataService.getImpl().saveAll();
         }

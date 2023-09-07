@@ -1,14 +1,12 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.config;
 
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
-import net.riblab.tradecore.craft.TCCraftingRecipe;
 import net.riblab.tradecore.item.base.ITCItem;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 
 public sealed interface DataService permits DataServiceImpl {
@@ -41,6 +39,7 @@ public sealed interface DataService permits DataServiceImpl {
 
     /**
      * アイテムをファイルにスクリプトとしてエクスポートする
+     *
      * @param item アイテム
      */
     void exportItem(ITCItem item);
