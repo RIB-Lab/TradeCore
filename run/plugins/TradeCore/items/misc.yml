@@ -19,7 +19,7 @@ walking_stick:
 
 map_stoneroom:
   mods:
-    dungeonmap: '"STONE_ROOM"'
+    dungeonmap: '"stoneroom"'
   material: STONE_BRICKS
   name: 石の部屋のマップ
   model: 0

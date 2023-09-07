@@ -14,6 +14,7 @@ import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -65,14 +66,14 @@ public enum AdvancementInitializer {
             }
 
             Player player = playerPickItemEvent.getPlayer();
-            check(itcItem.get(), TCItems.PEBBLE, Advancements.GATHER_PEBBLE.get(), player);
-            check(itcItem.get(), TCItems.WOODPULP, Advancements.WOODEN_COMPONENT_SUB1.get(), player);
-            check(itcItem.get(), TCItems.DUST, Advancements.WOODEN_COMPONENT_SUB2.get(), player);
-            check(itcItem.get(), TCItems.MOSS, Advancements.WOODEN_COMPONENT_SUB3.get(), player);
-            check(itcItem.get(), TCItems.ANDESITE_STONE, Advancements.STONE_COMPONENT_SUB1.get(), player);
-            check(itcItem.get(), TCItems.GRANITE_STONE, Advancements.STONE_COMPONENT_SUB2.get(), player);
-            check(itcItem.get(), TCItems.DIORITE_STONE, Advancements.STONE_COMPONENT_SUB3.get(), player);
-            check(itcItem.get(), TCItems.ROUND_STONE, Advancements.STONE_COMPONENT_SUB4.get(), player);
+            check(itcItem.get(), "pebble", Advancements.GATHER_PEBBLE.get(), player);
+            check(itcItem.get(), "woodpulp", Advancements.WOODEN_COMPONENT_SUB1.get(), player);
+            check(itcItem.get(), "dust", Advancements.WOODEN_COMPONENT_SUB2.get(), player);
+            check(itcItem.get(), "moss", Advancements.WOODEN_COMPONENT_SUB3.get(), player);
+            check(itcItem.get(), "andesite_stone", Advancements.STONE_COMPONENT_SUB1.get(), player);
+            check(itcItem.get(), "granite_stone", Advancements.STONE_COMPONENT_SUB2.get(), player);
+            check(itcItem.get(), "diorite_stone", Advancements.STONE_COMPONENT_SUB3.get(), player);
+            check(itcItem.get(), "andestite_stone", Advancements.STONE_COMPONENT_SUB4.get(), player);
 
         });
 
@@ -88,7 +89,7 @@ public enum AdvancementInitializer {
             if (itcItem.isEmpty())
                 return;
 
-            check(itcItem.get(), TCItems.HATCHET, Advancements.CRAFT_HATCHET.get(), player);
+            check(itcItem.get(), "hatchet", Advancements.CRAFT_HATCHET.get(), player);
         });
 
         primitiveAgeTab.getEventManager().register(primitiveAgeTab, BlockBreakEvent.class, event -> {
@@ -97,18 +98,18 @@ public enum AdvancementInitializer {
                 return;
 
             Player player = event.getPlayer();
-            check(itcItem.get(), TCItems.WOODEN_AXE, Advancements.WOODEN_AXE.get(), player);
-            check(itcItem.get(), TCItems.STONE_AXE, Advancements.STONE_AXE.get(), player);
-            check(itcItem.get(), TCItems.IRON_AXE, Advancements.IRON_AXE.get(), player);
-            check(itcItem.get(), TCItems.GOLDEN_AXE, Advancements.IRON_AXE.get(), player);
+            check(itcItem.get(), "wooden_axe", Advancements.WOODEN_AXE.get(), player);
+            check(itcItem.get(), "stone_axe", Advancements.STONE_AXE.get(), player);
+            check(itcItem.get(), "iron_axe", Advancements.IRON_AXE.get(), player);
+            check(itcItem.get(), "golden_axe", Advancements.IRON_AXE.get(), player);
         });
 
         Bukkit.getOnlinePlayers().forEach(primitiveAgeTab::showTab);
         isInit = true;
     }
 
-    private static void check(ITCItem item, TCItems type, Advancement adv, Player player) {
-        if (item.equals(type.get())) {
+    private static void check(ITCItem item, String type, Advancement adv, Player player) {
+        if (TCItemRegistry.INSTANCE.commandToTCItem(type).orElseThrow().equals(item)) {
             adv.incrementProgression(player);
         }
     }
