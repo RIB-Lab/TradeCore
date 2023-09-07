@@ -6,6 +6,7 @@ package net.riblab.tradecore.general.task;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.config.DataService;
 import net.riblab.tradecore.dungeon.DungeonService;
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.general.EventReciever;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
@@ -28,7 +29,7 @@ public enum TCTasksInitializer {
     //TODO:Runnableではなくリアル時間の経過でタスクを実行する(DateServiceを作って、毎tickSystemTimeが保存してあるDateより大きくないか確認する)
     public void init() {
         if (isInit)
-            throw new RuntimeException("このプラグインの常駐タスクが2回初期化されようとしました");
+            throw new RuntimeException(ErrorMessages.TASK_INIT_TWO_TIMES.get());
         
         new ConfigSaveRunnable().runTaskTimerAsynchronously(TradeCore.getInstance(), 0, 3600);
         

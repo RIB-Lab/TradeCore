@@ -12,6 +12,7 @@ import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.MultiTasksAdvanceme
 import com.fren_gor.ultimateAdvancementAPI.advancement.tasks.TaskAdvancement;
 import lombok.Getter;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
@@ -40,7 +41,7 @@ public enum AdvancementInitializer {
 
     public void init() {
         if (isInit)
-            throw new RuntimeException("Advancementが2回初期化されようとしました");
+            throw new RuntimeException(ErrorMessages.ADVANCEMENT_INIT_TWO_TIMES.get());
 
         UltimateAdvancementAPI api = UltimateAdvancementAPI.getInstance(TradeCore.getInstance());
         primitiveAgeTab = api.createAdvancementTab("primitive_age");

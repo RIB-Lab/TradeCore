@@ -3,6 +3,7 @@
  */
 package net.riblab.tradecore.playerstats;
 
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.job.skill.JobSkillService;
@@ -34,7 +35,7 @@ enum PlayerStatsServiceImpl implements PlayerStatsService {
 
     public void init() {
         if (isInit)
-            throw new RuntimeException("PlayerStatsが2回初期化されようとしました");
+            throw new RuntimeException(ErrorMessages.PLAYERSTATS_INIT_TWO_TIMES.get());
 
         JobSkillService.getImpl().getOnJobSkillChanged().add(this::update);
         PlayerItemModService.getImpl().getOnItemModUpdated().add(this::update);

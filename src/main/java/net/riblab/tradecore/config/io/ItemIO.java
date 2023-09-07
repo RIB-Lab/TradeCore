@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItem;
 import net.riblab.tradecore.item.mod.IItemMod;
@@ -115,7 +116,7 @@ public final class ItemIO {
         if(!name.content().isEmpty())
             tcItem.setName(name);
         else{
-            throw new IllegalArgumentException("表示名の解析に失敗しました：" + tcItem.getInternalName());
+            throw new IllegalArgumentException(ErrorMessages.FAILED_TO_PARSE_ITEM_NAME.get() + tcItem.getInternalName());
         }
     }
 
@@ -127,7 +128,7 @@ public final class ItemIO {
         if(Objects.nonNull(material))
             tcItem.setMaterial(material);
         else{
-            throw new IllegalArgumentException("マテリアルの解析に失敗しました：" + tcItem.getInternalName() + "の" + ((ScalarNode) nodeTuple3.getValueNode()).getValue());
+            throw new IllegalArgumentException(ErrorMessages.FAILED_TO_PARSE_ITEM_MATERIAL.get() + tcItem.getInternalName() + "の" + ((ScalarNode) nodeTuple3.getValueNode()).getValue());
         }
     }
 
@@ -152,7 +153,7 @@ public final class ItemIO {
                 Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
                 Class<? extends IItemMod> modsClass =  ShortHandModNames.getClassFromShortHandName(((ScalarNode)modsNameNode).getValue());
                 if(Objects.isNull(modsClass)){
-                    throw  new IllegalArgumentException("不正なmod名が検出されました" + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
+                    throw  new IllegalArgumentException(ErrorMessages.ILLEGAL_ITEM_MOD_NAME.get() + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
                 }
 
                 //Jsonを元の型に還元する
@@ -165,7 +166,7 @@ public final class ItemIO {
                     defaultMods.add(mod);
                 }
                 catch (Exception e){
-                    Bukkit.getLogger().severe("アイテムのmodの内容の解析に失敗しました:" + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
+                    Bukkit.getLogger().severe(ErrorMessages.FAILED_TO_PARSE_ITEM_MOD + tcItem.getInternalName() + "の" + ((ScalarNode)modsNameNode).getValue());
                     e.printStackTrace();
                 }
             }
@@ -188,17 +189,8 @@ public final class ItemIO {
             //アイテムのinternalnameをキーとしてセーブ
             itemRoot.put(item.getInternalName(), itemInfo);
         }
-
-
-        // YAMLファイルにデータを書き込む
-        if(!file.getParentFile().exists())
-            file.getParentFile().mkdirs();
-        FileUtils.getFile(file.toString());
-        try (FileWriter writer = new FileWriter(file)) {
-            yaml.dump(itemRoot, writer); // マップのデータをYAMLファイルに書き込む
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
+        serializeToYaml(file, itemRoot);
     }
 
     /**
@@ -219,6 +211,20 @@ public final class ItemIO {
             String key = ShortHandModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) defaultMod.getClass());
             String value = gson.toJson(defaultMod.getParam());
             defaultModsMap.put(key, value);
+        }
+    }
+
+    /**
+     * Yamlとしてファイルにデータを書きこむ
+     */
+    private static void serializeToYaml(File file, Map<String, Object> itemRoot) {
+        if(!file.getParentFile().exists())
+            file.getParentFile().mkdirs();
+        FileUtils.getFile(file.toString());
+        try (FileWriter writer = new FileWriter(file)) {
+            yaml.dump(itemRoot, writer); // マップのデータをYAMLファイルに書き込む
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

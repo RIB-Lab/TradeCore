@@ -6,6 +6,7 @@ package net.riblab.tradecore.dungeon;
 import net.riblab.tradecore.block.BlockUtils;
 import net.riblab.tradecore.entity.mob.CustomMobService;
 import net.riblab.tradecore.entity.mob.ITCMob;
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.general.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -51,12 +52,12 @@ public final class DungeonEventHandler {
             String unfixedName = getservice().getUnfixedDungeonName(player.getWorld().getName());
             DungeonDatas.nameToDungeonData(unfixedName).ifPresentOrElse(
                     iDungeonData -> trySpawnMob(player, iDungeonData),
-                    ()-> {throw new NullPointerException("ダンジョン名からダンジョンデータを推測できません！");}
+                    ()-> {throw new NullPointerException("ダンジョン名からダンジョンデータを推測できません！");}//TODO: トラッカーにDungeonDataを内蔵してこのエラーを消す
             );
 
             getservice().getTracker(player.getWorld()).ifPresentOrElse(
                     dungeonProgressionTracker -> dungeonProgressionTracker.onDungeonSecond(player),
-                    ()->{throw new NullPointerException("ダンジョンにトラッカーが紐づいていません！");}
+                    ()->{throw new NullPointerException(ErrorMessages.CANNOT_FIND_TRACKER.get());}
             );
         }
     }

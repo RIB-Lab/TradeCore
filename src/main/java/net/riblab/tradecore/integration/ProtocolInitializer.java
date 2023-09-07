@@ -10,6 +10,7 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.events.PacketEvent;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.entity.mob.FakeVillagerService;
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.ui.UIs;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -26,7 +27,7 @@ public enum ProtocolInitializer {
     
     public void init(){
         if(isInit)
-            throw new RuntimeException("ProtocolLibが2回初期化されようとしました");
+            throw new RuntimeException(ErrorMessages.PROTOCOLLIB_INIT_TWO_TIMES.get());
         
         //買い取り商人
         ProtocolLibrary.getProtocolManager().addPacketListener(

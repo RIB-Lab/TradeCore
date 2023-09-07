@@ -5,6 +5,7 @@ package net.riblab.tradecore.dungeon;
 
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.general.WorldNames;
 import net.riblab.tradecore.item.ItemUtils;
@@ -215,7 +216,7 @@ enum DungeonServiceImpl implements DungeonService {
                 return predicate;
             }
         }
-        throw new RuntimeException("ダンジョンのインスタンス数が1000を超えました。嘘だろ");
+        throw new RuntimeException(ErrorMessages.TOO_MANY_DUNGEON_INSTANCES.get());
     }
 
     @Override
