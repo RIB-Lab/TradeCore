@@ -45,9 +45,9 @@ public class CraftingRecipeIO {
         yaml = new Yaml(representer);
     }
 
-    public static List<ITCCraftingRecipe> deserialize(File craftingRecipeFile) {
+    public static Map<String, ITCCraftingRecipe> deserialize(File craftingRecipeFile) {
 
-        List<ITCCraftingRecipe> deserializedRecipes = new ArrayList<>();
+        Map<String, ITCCraftingRecipe> deserializedRecipes = new HashMap<>();
         try (FileReader reader = new FileReader(craftingRecipeFile)) {
             // YAMLデータを読み込み、ルートノードを取得
             Node rootNode = yaml.compose(reader);
@@ -83,7 +83,7 @@ public class CraftingRecipeIO {
                             }
                         }
                     }
-                    deserializedRecipes.add(tcCraftingRecipe);
+                    deserializedRecipes.put(internalNameNode.getValue(), tcCraftingRecipe);
                 }
             }
         } catch (IOException e) {

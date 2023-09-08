@@ -145,8 +145,8 @@ final class UICraftingTable implements IUI {
      * レシピリスト画面を実装
      */
     private static void addRecipeListScreen(CraftingScreenType type, PaginatedGui gui, Player player) {
-        List<ITCCraftingRecipe> recipeList = CraftingRecipesRegistry.INSTANCE.getRecipes(type.getRecipeType());
-        if (recipeList.isEmpty())
+        Map<String, ITCCraftingRecipe> recipeMap = CraftingRecipesRegistry.INSTANCE.getRecipes(type.getRecipeType());
+        if (recipeMap.isEmpty())
             return;
 
         gui.setPageSize(9);
@@ -159,10 +159,10 @@ final class UICraftingTable implements IUI {
                 event -> gui.next());
         gui.setItem(24, nextPageButton);
 
-        for (ITCCraftingRecipe tcCraftingRecipe : recipeList) {
-            ItemStack recipeStack = TCItemRegistry.INSTANCE.commandToTCItem(tcCraftingRecipe.getResult()).orElseThrow().getTemplateItemStack();
+        for (Map.Entry<String, ITCCraftingRecipe> tcCraftingRecipe : recipeMap.entrySet()) {
+            ItemStack recipeStack = TCItemRegistry.INSTANCE.commandToTCItem(tcCraftingRecipe.getValue().getResult()).orElseThrow().getTemplateItemStack();
             GuiItem recipeButton = new GuiItem(recipeStack,
-                    event -> open(player, tcCraftingRecipe));
+                    event -> open(player, tcCraftingRecipe.getValue()));
             gui.addItem(recipeButton);
         }
     }

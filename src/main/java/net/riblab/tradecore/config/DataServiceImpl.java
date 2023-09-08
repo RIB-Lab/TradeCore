@@ -93,7 +93,7 @@ enum DataServiceImpl implements DataService {
         }
 
         for (File craftingRecipeFile : craftingRecipeFiles) {
-            final List<ITCCraftingRecipe> deserializedRecipes = CraftingRecipeIO.deserialize(craftingRecipeFile);
+            final Map<String, ITCCraftingRecipe> deserializedRecipes = CraftingRecipeIO.deserialize(craftingRecipeFile);
             CraftingRecipesRegistry.INSTANCE.addAll(deserializedRecipes);
         }
     }

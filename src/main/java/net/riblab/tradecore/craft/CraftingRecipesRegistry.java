@@ -7,22 +7,27 @@ import net.riblab.tradecore.item.base.TCItemRegistry;
 
 import javax.annotation.Nonnull;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public enum CraftingRecipesRegistry {
     INSTANCE;
 
     /**
-     * デシリアライズしたアイテム
+     * デシリアライズしたクラフトレシピ
      */
-    private final List<ITCCraftingRecipe> deserializedCraftingRecipes = new ArrayList<>();
+    private final Map<String, ITCCraftingRecipe> deserializedCraftingRecipes = new HashMap<>();
 
     /**
      * ある種類のレシピを全て取得する
      */
     @Nonnull
-    public List<ITCCraftingRecipe> getRecipes(RecipeType type) {
-        return deserializedCraftingRecipes.stream().filter(tcCraftingRecipe -> tcCraftingRecipe.getCategory() == type).collect(Collectors.toList());
+    public Map<String, ITCCraftingRecipe> getRecipes(RecipeType type) {
+        Map<String, ITCCraftingRecipe> result = new HashMap<>();
+        deserializedCraftingRecipes.forEach((s, recipe) -> {
+            if (recipe.getCategory() == type) {
+                result.put(s, recipe);
+            }
+        });
+        return result;
     }
 
     /**
@@ -35,31 +40,31 @@ public enum CraftingRecipesRegistry {
     /**
      * 編集不可能なレシピのコピーを取得する
      */
-    public Collection<ITCCraftingRecipe> getRecipes() {
-        return Collections.unmodifiableList(deserializedCraftingRecipes);
+    public Map<String, ITCCraftingRecipe> getRecipes() {
+        return Collections.unmodifiableMap(deserializedCraftingRecipes);
     }
 
     public void clear() {
         deserializedCraftingRecipes.clear();
     }
 
-    public void addAll(List<ITCCraftingRecipe> recipes) {
-        deserializedCraftingRecipes.addAll(recipes);
+    public void addAll(Map<String, ITCCraftingRecipe> recipes) {
+        deserializedCraftingRecipes.putAll(recipes);
     }
 
     /**
      * クラフトレシピがちゃんと成立しているか確認する
      */
-    public void validate(){
-        for (ITCCraftingRecipe recipe : deserializedCraftingRecipes) {
-            TCItemRegistry.INSTANCE.commandToTCItem(recipe.getResult()).orElseThrow(
-                    ()-> new NoSuchElementException("クラフトレシピ" + recipe.getInternalName() + "の成果物" + recipe.getResult() + "がアイテムレジストリに見つかりません。"));
-            recipe.getIngredients().forEach((String ingredient, Integer amount) -> {
+    public void validate() {
+        for (Map.Entry<String, ITCCraftingRecipe> recipeEntry : deserializedCraftingRecipes.entrySet()) {
+            TCItemRegistry.INSTANCE.commandToTCItem(recipeEntry.getValue().getResult()).orElseThrow(
+                    () -> new NoSuchElementException("クラフトレシピ" + recipeEntry.getKey() + "の成果物" + recipeEntry.getValue().getResult() + "がアイテムレジストリに見つかりません。"));
+            recipeEntry.getValue().getIngredients().forEach((String ingredient, Integer amount) -> {
                 TCItemRegistry.INSTANCE.commandToTCItem(ingredient).orElseThrow(
-                        ()-> new NoSuchElementException("クラフトレシピ" + recipe.getInternalName() + "の材料" + ingredient + "がアイテムレジストリに見つかりません。"));
+                        () -> new NoSuchElementException("クラフトレシピ" + recipeEntry.getKey() + "の材料" + ingredient + "がアイテムレジストリに見つかりません。"));
             });
-            if(recipe.getFee() < 0 || recipe.getResultAmount() < 0){
-                throw new IllegalStateException("クラフトレシピ" + recipe.getInternalName() + "の数値が不正です");
+            if (recipeEntry.getValue().getFee() < 0 || recipeEntry.getValue().getResultAmount() < 0) {
+                throw new IllegalStateException("クラフトレシピ" + recipeEntry.getKey() + "の数値が不正です");
             }
         }
     }
