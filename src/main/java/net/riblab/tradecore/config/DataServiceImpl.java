@@ -70,7 +70,7 @@ enum DataServiceImpl implements DataService {
             throw new RuntimeException(e);
         }
         for (File itemFile : itemFiles) {
-            List<ITCItem> deserializedItems = ItemIO.deserialize(itemFile);
+            Map<String, ITCItem> deserializedItems = ItemIO.deserialize(itemFile);
             TCItemRegistry.INSTANCE.addAll(deserializedItems);
         }
     }

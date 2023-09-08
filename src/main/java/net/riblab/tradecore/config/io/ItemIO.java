@@ -52,8 +52,8 @@ public final class ItemIO {
     /**
      * アイテムファイルをアイテムの実体に変換する
      */
-    public static List<ITCItem> deserialize(File file) {
-        List<ITCItem> deserializedItems = new ArrayList<>();
+    public static Map<String, ITCItem> deserialize(File file) {
+        Map<String, ITCItem> deserializedItems = new HashMap<>();
         try (FileReader reader = new FileReader(file)) {
             Yaml yaml = new Yaml();
 
@@ -76,7 +76,7 @@ public final class ItemIO {
                         parseItemParams(tcItem, defaultMods, valueNode2Map);
                     }
                     tcItem.setDefaultMods(defaultMods);
-                    deserializedItems.add(tcItem);
+                    deserializedItems.put(internalNameNode.getValue(), tcItem);
                 }
             }
         } catch (IOException e) {

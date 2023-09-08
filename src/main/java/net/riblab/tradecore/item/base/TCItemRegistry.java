@@ -19,7 +19,7 @@ public enum TCItemRegistry {
     /**
      * デシリアライズしたアイテム
      */
-    private final List<ITCItem> deserializedItems = new ArrayList<>();//TODO:ゲッターを削除して読み書きをメソッド経由で行うように
+    private final Map<String, ITCItem> deserializedItems = new HashMap<>();
 
     /**
      * アイテムが固有アイテムであった場合その実体を固有アイテムクラスに変換する<br>
@@ -33,7 +33,7 @@ public enum TCItemRegistry {
             return Optional.empty();
 
         Optional<String> id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
-        return id.flatMap(s -> deserializedItems.stream().filter(e -> e.isSimilar(s)).findFirst());
+        return id.map(deserializedItems::get);
     }
 
     /**
@@ -43,15 +43,15 @@ public enum TCItemRegistry {
      * @return 変換された固有アイテム
      */
     public Optional<ITCItem> commandToTCItem(String internalName) {
-        return deserializedItems.stream().filter(e -> e.isSimilar(internalName)).findFirst();
+        return Optional.ofNullable(deserializedItems.get(internalName));
     }
 
     public void clear() {
         deserializedItems.clear();
     }
 
-    public void addAll(List<ITCItem> items) {
-        deserializedItems.addAll(items);
+    public void addAll(Map<String, ITCItem> items) {
+        deserializedItems.putAll(items);
     }
 
     /**
@@ -59,7 +59,7 @@ public enum TCItemRegistry {
      *
      * @return
      */
-    public Collection<ITCItem> getItems() {
-        return Collections.unmodifiableList(deserializedItems);
+    public Map<String, ITCItem> getItems() {
+        return Collections.unmodifiableMap(deserializedItems);
     }
 }
