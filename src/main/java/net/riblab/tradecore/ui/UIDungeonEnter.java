@@ -14,7 +14,7 @@ import net.riblab.tradecore.dungeon.DungeonService;
 import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.modifier.IEnterDungeonModifier;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -58,7 +58,7 @@ final class UIDungeonEnter implements IUI {
 
     public static void onClose(InventoryCloseEvent event) {
         ItemStack map = event.getInventory().getContents()[4];
-        Optional<ITCItem> iTCItem = TCItems.toTCItem(map);
+        Optional<ITCItem> iTCItem = TCItemRegistry.INSTANCE.toTCItem(map);
         if (iTCItem.isEmpty())
             return;
 

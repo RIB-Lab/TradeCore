@@ -14,7 +14,6 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.scheduler.BukkitRunnable;

@@ -15,7 +15,6 @@ import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
@@ -98,7 +97,7 @@ public final class BlockStateEventHandler implements Listener {
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= maxBlockDistance) return;
 
         ItemStack mainHandItem = event.getPlayer().getInventory().getItemInMainHand();
-        Optional<ITCItem> itcItem = TCItems.toTCItem(mainHandItem);
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(mainHandItem);
         if (itcItem.isEmpty()) {
             getService().incrementDamage(player, bareHandMiningSpeed); //カスタムアイテム以外を持っているなら実質素手
             return;
@@ -161,7 +160,7 @@ public final class BlockStateEventHandler implements Listener {
             }
         }
 
-        Optional<ITCItem> itcItem = TCItems.toTCItem(mainHand);
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(mainHand);
         if (itcItem.isEmpty()) {
             event.setDropItems(false);//適正ツール以外での採掘は何も落とさない
             return;
@@ -207,7 +206,7 @@ public final class BlockStateEventHandler implements Listener {
      */
     @ParametersAreNonnullByDefault
     public void tryProcessHoeDrop(BlockPlaceEvent event) {
-        Optional<ITCItem> itcItem = TCItems.toTCItem(event.getItemInHand());
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(event.getItemInHand());
 
         if (itcItem.isEmpty())
             return;

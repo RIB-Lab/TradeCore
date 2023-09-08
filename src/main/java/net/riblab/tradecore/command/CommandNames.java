@@ -10,7 +10,6 @@ enum CommandNames {
     CURRENCY("currency"),
     CURRENCY_SETMONEY("setmoney"),
     CURRENCY_SETTICKET("setticket"),
-    GIVE("tcgive"),
     SELL("sell"),
     MOBS("mobs"),
     MOBS_SPAWN("spawn"),

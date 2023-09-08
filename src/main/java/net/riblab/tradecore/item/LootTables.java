@@ -5,8 +5,6 @@ package net.riblab.tradecore.item;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
 import org.bukkit.Material;
 

@@ -14,7 +14,6 @@ import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -49,10 +48,10 @@ final class UIAdminShop implements IUI {
                 UIAdminShop::buyFood);
         gui.addItem(foodButton);
 
-        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getTemplateItemStack(),
+        GuiItem previousPageButton = new GuiItem(TCItemRegistry.INSTANCE.commandToTCItem("previouspage").orElseThrow().getTemplateItemStack(),
                 event -> gui.previous());
         gui.setItem(48, previousPageButton);
-        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getTemplateItemStack(),
+        GuiItem nextPageButton = new GuiItem(TCItemRegistry.INSTANCE.commandToTCItem("nextpage").get().getTemplateItemStack(),
                 event -> gui.next());
         gui.setItem(50, nextPageButton);
 

@@ -6,7 +6,6 @@ package net.riblab.tradecore.entity.mob;
 import de.tr7zw.nbtapi.NBTEntity;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.general.NBTTagNames;
-import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 

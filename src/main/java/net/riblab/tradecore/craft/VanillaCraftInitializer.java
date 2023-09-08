@@ -4,7 +4,6 @@
 package net.riblab.tradecore.craft;
 
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;

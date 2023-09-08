@@ -7,7 +7,6 @@ import com.google.common.collect.Multimap;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.item.mod.ModRandomDurabilityI;
 import net.riblab.tradecore.modifier.IResourceChanceModifier;
@@ -81,7 +80,7 @@ public final class ItemUtils {
      * ツールに耐久値modがついていない場合、耐久値無限とみなし何もしない
      */
     public static ItemStack reduceDurabilityIfPossible(ItemStack instance, int amount) {
-        Optional<ITCItem> itcItem = TCItems.toTCItem(instance);
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(instance);
         if (itcItem.isEmpty())
             return instance;
 
@@ -126,14 +125,14 @@ public final class ItemUtils {
      */
 
     @ParametersAreNonnullByDefault
-    public static @Nullable ItemStack getRandomItemFromPool(Map<ITCItem, Float> pool) {
+    public static @Nullable ItemStack getRandomItemFromPool(Map<String, Float> pool) {
         double randomNumber = new Random().nextFloat();
         double cumulativeProbability = 0.0;
 
-        for (Map.Entry<ITCItem, Float> entry : pool.entrySet()) {
+        for (Map.Entry<String, Float> entry : pool.entrySet()) {
             cumulativeProbability += entry.getValue();
             if (randomNumber < cumulativeProbability) {
-                return entry.getKey().getItemStack();
+                return TCItemRegistry.INSTANCE.commandToTCItem(entry.getKey()).orElseThrow().getItemStack();
             }
         }
 

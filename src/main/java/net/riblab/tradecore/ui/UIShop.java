@@ -13,7 +13,6 @@ import net.riblab.tradecore.advancement.Advancements;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.shop.IShopData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -35,10 +34,10 @@ public final class UIShop {
                 .disableAllInteractions()
                 .create();
 
-        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getTemplateItemStack(),
+        GuiItem previousPageButton = new GuiItem(TCItemRegistry.INSTANCE.commandToTCItem("previouspage").orElseThrow().getTemplateItemStack(),
                 event -> gui.previous());
         gui.setItem(48, previousPageButton);
-        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getTemplateItemStack(),
+        GuiItem nextPageButton = new GuiItem(TCItemRegistry.INSTANCE.commandToTCItem("nextpage").orElseThrow().getTemplateItemStack(),
                 event -> gui.next());
         gui.setItem(50, nextPageButton);
 

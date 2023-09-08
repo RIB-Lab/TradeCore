@@ -54,5 +54,5 @@ final class DungeonData<T> implements IDungeonData<T> {
     /**
      * 報酬プール
      */
-    private final Map<ITCItem, Float> rewardPool;
+    private final Map<String, Float> rewardPool;
 }

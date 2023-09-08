@@ -20,7 +20,6 @@ import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.modifier.ICraftFeeModifier;
@@ -153,10 +152,10 @@ final class UICraftingTable implements IUI {
         gui.setPageSize(9);
         gui.getFiller().fillBetweenPoints(1, 4, 3, 9, ItemBuilder.from(Material.AIR).asGuiItem());
 
-        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getTemplateItemStack(),
+        GuiItem previousPageButton = new GuiItem(TCItemRegistry.INSTANCE.commandToTCItem("previouspage").orElseThrow().getTemplateItemStack(),
                 event -> gui.previous());
         gui.setItem(22, previousPageButton);
-        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getTemplateItemStack(),
+        GuiItem nextPageButton = new GuiItem(TCItemRegistry.INSTANCE.commandToTCItem("nextpage").orElseThrow().getTemplateItemStack(),
                 event -> gui.next());
         gui.setItem(24, nextPageButton);
 

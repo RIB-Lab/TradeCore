@@ -14,7 +14,6 @@ import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.shop.IShopData;
 import net.riblab.tradecore.shop.Shops;
@@ -29,18 +28,6 @@ public class CustomEnumArgumentsUtil {
 
     private CustomEnumArgumentsUtil(){
         throw new AssertionError();
-    }
-
-    /**
-     * アイテムをコマンド引数にする
-     */
-    public static Argument<ITCItem> customITCItemArgument(String nodeName) {
-
-        return new CustomArgument<>(new StringArgument(nodeName),
-                info -> TCItemRegistry.INSTANCE.commandToTCItem(info.input())
-                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput()))).replaceSuggestions(ArgumentSuggestions.strings(info ->
-                Arrays.stream(TCItems.values()).map(tcItems -> tcItems.get().getInternalName()).toArray(String[]::new))
-        );
     }
 
     /**
@@ -92,7 +79,7 @@ public class CustomEnumArgumentsUtil {
     /**
      * ItemRegistry内のアイテムをコマンド引数にする
      */
-    public static Argument<ITCItem> customNewITCItemArgument(String nodeName) {
+    public static Argument<ITCItem> customTCItemArgument(String nodeName) {
         return new CustomArgument<>(new StringArgument(nodeName),
                 info -> TCItemRegistry.INSTANCE.commandToTCItem(info.input())
                         .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput())))

@@ -25,5 +25,5 @@ public sealed interface IDungeonData<T> permits DungeonData {
 
     T getProgressionVariable();
 
-    Map<ITCItem, Float> getRewardPool();
+    Map<String, Float> getRewardPool();
 }

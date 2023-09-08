@@ -15,7 +15,6 @@ import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -60,7 +59,7 @@ public enum AdvancementInitializer {
 
         //TODO:プレイヤー単位で実績を管理。ロード時にプレイヤーが未取得の実績を洗い出してそこにだけイベントが飛ぶようにする
         primitiveAgeTab.getEventManager().register(primitiveAgeTab, PlayerAttemptPickupItemEvent.class, playerPickItemEvent -> {
-            Optional<ITCItem> itcItem = TCItems.toTCItem(playerPickItemEvent.getItem().getItemStack());
+            Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(playerPickItemEvent.getItem().getItemStack());
             if (itcItem.isEmpty()) {
                 return;
             }
@@ -85,7 +84,7 @@ public enum AdvancementInitializer {
                 Advancements.CRAFT_TABLE.get().incrementProgression(player);
             }
 
-            Optional<ITCItem> itcItem = TCItems.toTCItem(event.getRecipe().getResult());
+            Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(event.getRecipe().getResult());
             if (itcItem.isEmpty())
                 return;
 
@@ -93,7 +92,7 @@ public enum AdvancementInitializer {
         });
 
         primitiveAgeTab.getEventManager().register(primitiveAgeTab, BlockBreakEvent.class, event -> {
-            Optional<ITCItem> itcItem = TCItems.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
+            Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(event.getPlayer().getInventory().getItemInMainHand());
             if (itcItem.isEmpty())
                 return;
 

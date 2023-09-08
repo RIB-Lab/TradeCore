@@ -10,7 +10,7 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.entity.mob.FakeVillagerService;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.modifier.ISellPriceModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -56,7 +56,7 @@ final class UISell implements IUI {
             if (Objects.isNull(content))
                 continue;
 
-            Optional<ITCItem> itcItem = TCItems.toTCItem(content);
+            Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(content);
             if (itcItem.isEmpty()) {
                 event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
                 continue;

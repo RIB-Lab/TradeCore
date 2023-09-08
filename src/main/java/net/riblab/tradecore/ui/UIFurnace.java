@@ -19,7 +19,6 @@ import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -87,10 +86,10 @@ final class UIFurnace implements IUI {
         gui.setPageSize(9);
         gui.getFiller().fillBetweenPoints(1, 4, 3, 9, ItemBuilder.from(Material.AIR).asGuiItem());
 
-        GuiItem previousPageButton = new GuiItem(TCItems.PREVIOUS_PAGE.get().getTemplateItemStack(),
+        GuiItem previousPageButton = new GuiItem(TCItemRegistry.INSTANCE.commandToTCItem("previouspage").orElseThrow().getTemplateItemStack(),
                 event -> gui.previous());
         gui.setItem(22, previousPageButton);
-        GuiItem nextPageButton = new GuiItem(TCItems.NEXT_PAGE.get().getTemplateItemStack(),
+        GuiItem nextPageButton = new GuiItem(TCItemRegistry.INSTANCE.commandToTCItem("nextpage").orElseThrow().getTemplateItemStack(),
                 event -> gui.next());
         gui.setItem(24, nextPageButton);
 
@@ -126,7 +125,7 @@ final class UIFurnace implements IUI {
         GuiItem craftButton = new GuiItem(resultStack, event -> trySmelt(gui, player, recipe, finalResultStack));
         gui.setItem(14, craftButton);
 
-        ItemStack feeStack = TCItems.FUEL_BALL.get().getTemplateItemStack();
+        ItemStack feeStack = TCItemRegistry.INSTANCE.commandToTCItem("fuel_ball").orElseThrow().getTemplateItemStack();
         Component name = Component.text("燃料: ").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false)
                 .append(Component.text(recipe.fuelAmount()).color(NamedTextColor.YELLOW));
         Component lore = Component.text("タイプ：燃料玉").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY);
@@ -149,7 +148,7 @@ final class UIFurnace implements IUI {
             missingLore.add(Component.text(ingredientItem.getName().content() + "が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
 
-        boolean playerHasFuel = ItemUtils.tcContainsAtLeast(player.getInventory(), TCItems.FUEL_BALL.get(), recipe.fuelAmount());
+        boolean playerHasFuel = ItemUtils.tcContainsAtLeast(player.getInventory(), TCItemRegistry.INSTANCE.commandToTCItem("fuel_ball").orElseThrow(), recipe.fuelAmount());
         if (!playerHasFuel) {
             missingLore.add(Component.text("燃料が足りません！").color(NamedTextColor.RED).decoration(TextDecoration.ITALIC, false));
         }
@@ -165,7 +164,7 @@ final class UIFurnace implements IUI {
             final ITCItem ingredientItem = TCItemRegistry.INSTANCE.commandToTCItem(entry.getKey()).orElseThrow();
             ItemUtils.tcRemoveItemAnySlot(player.getInventory(), ingredientItem, entry.getValue());
         }
-        ItemUtils.tcRemoveItemAnySlot(player.getInventory(), TCItems.FUEL_BALL.get(), recipe.fuelAmount());
+        ItemUtils.tcRemoveItemAnySlot(player.getInventory(), TCItemRegistry.INSTANCE.commandToTCItem("fuel_ball").orElseThrow(), recipe.fuelAmount());
 
         final ITCItem resultItem = TCItemRegistry.INSTANCE.commandToTCItem(recipe.result()).orElseThrow();
         HashMap<Integer, ItemStack> remains = player.getInventory().addItem(resultItem.getItemStack());

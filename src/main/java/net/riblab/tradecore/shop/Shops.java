@@ -4,7 +4,6 @@
 package net.riblab.tradecore.shop;
 
 import lombok.Getter;
-import net.riblab.tradecore.item.base.TCItems;
 
 import java.util.Arrays;
 import java.util.List;

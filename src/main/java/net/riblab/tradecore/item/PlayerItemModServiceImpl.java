@@ -5,7 +5,7 @@ package net.riblab.tradecore.item;
 
 import lombok.Getter;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.entity.Player;
@@ -40,7 +40,7 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
     public void updateEquipment(Player player) {
         List<IItemMod<?>> mods = new ArrayList<>();
         for (ItemStack armorContent : player.getInventory().getArmorContents()) {
-            TCItems.toTCItem(armorContent).ifPresent(itcItem -> mods.addAll(itcItem.getDefaultMods()));
+            TCItemRegistry.INSTANCE.toTCItem(armorContent).ifPresent(itcItem -> mods.addAll(itcItem.getDefaultMods()));
         }
         playerEquipmentModMap.put(player, mods);
 
@@ -51,7 +51,7 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
 
     @Override
     public void updateMainHand(Player player, int newSlot) {
-        Optional<ITCItem> tcItem = TCItems.toTCItem(player.getInventory().getItem(newSlot));
+        Optional<ITCItem> tcItem = TCItemRegistry.INSTANCE.toTCItem(player.getInventory().getItem(newSlot));
         playerMainHandModMap.put(player, tcItem.map(ITCItem::getDefaultMods).orElse(null));
 
         onItemModUpdated.forEach(playerConsumer -> playerConsumer.accept(player));

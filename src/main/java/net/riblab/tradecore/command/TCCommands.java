@@ -20,7 +20,7 @@ import net.riblab.tradecore.integration.CustomEnumArgumentsUtil;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
@@ -92,19 +92,6 @@ public final class TCCommands {
         currencyCommand.withSubcommand(setMoneyCommand);
         currencyCommand.withSubcommand(setPlayTicketCommand);
         currencyCommand.register();
-
-        CommandAPICommand tcGiveCommand = new CommandAPICommand(GIVE.get())
-                .withArguments(CustomEnumArgumentsUtil.customITCItemArgument(TCITEM.get()))
-                .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
-                .executesPlayer((player, args) -> {
-                    ITCItem itcItem = (ITCItem) args.get(0);
-                    int amount = (int) args.get(1);
-                    ItemStack newStack = itcItem.getItemStack();
-                    newStack.setAmount(amount);
-                    player.getInventory().addItem(newStack);
-                });
-        tcGiveCommand.setPermission(CommandPermission.OP);
-        tcGiveCommand.register();
 
         CommandAPICommand sellCommand = new CommandAPICommand(SELL.get())
                 .executesPlayer((player, args) -> {
@@ -285,7 +272,7 @@ public final class TCCommands {
         CommandAPICommand itemExportCommand = new CommandAPICommand(ITEM_EXPORT.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    Optional<ITCItem> item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
+                    Optional<ITCItem> item = TCItemRegistry.INSTANCE.toTCItem(player.getInventory().getItemInMainHand());
                     if (item.isEmpty())
                         return;
 
@@ -294,7 +281,7 @@ public final class TCCommands {
                 });
         CommandAPICommand loadedItemGiveCommand = new CommandAPICommand(ITEM_GIVE.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArgumentsUtil.customNewITCItemArgument("name"))
+                .withArguments(CustomEnumArgumentsUtil.customTCItemArgument("name"))
                 .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
                 .executesPlayer((player, args) -> {
                     ITCItem itcItem = (ITCItem) args.get(0);

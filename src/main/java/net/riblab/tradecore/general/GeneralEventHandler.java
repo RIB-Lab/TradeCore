@@ -16,7 +16,7 @@ import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.modifier.*;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
@@ -167,7 +167,7 @@ public final class GeneralEventHandler {
         if (event.getPlayer().getAttackCooldown() != 1)
             return;
 
-        Optional<ITCItem> itcItem = TCItems.toTCItem(event.getItem());
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(event.getItem());
         if (itcItem.isEmpty())
             return;
 
@@ -220,7 +220,7 @@ public final class GeneralEventHandler {
             return;
         }
 
-        Optional<ITCItem> item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
+        Optional<ITCItem> item = TCItemRegistry.INSTANCE.toTCItem(player.getInventory().getItemInMainHand());
         if (item.isEmpty()) {
             return;
         }
@@ -403,7 +403,7 @@ public final class GeneralEventHandler {
      * 通常のTCItemsの設置を妨げる
      */
     public void blockTCItemsPlacement(BlockPlaceEvent event) {
-        Optional<ITCItem> itcItem = TCItems.toTCItem(event.getItemInHand());
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(event.getItemInHand());
 
         if (itcItem.isEmpty())
             return;

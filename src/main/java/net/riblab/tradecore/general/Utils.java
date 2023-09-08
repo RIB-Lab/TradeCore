@@ -8,7 +8,6 @@ import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.PlayerItemModService;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.modifier.IModifier;
@@ -181,7 +180,6 @@ public final class Utils {
      * ロード順によって競合の可能性のあるenumを安全に初期化する
      */
     public static void initializeEnumSafely() {
-        TCItems.values();
         TCMobs.values();
         LootTables.values();
         TCFurnaceRecipes.values();
