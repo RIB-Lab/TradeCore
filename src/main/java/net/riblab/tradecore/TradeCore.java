@@ -89,12 +89,6 @@ public class TradeCore extends JavaPlugin {
             AdvancementInitializer.INSTANCE.init();
             ProtocolInitializer.INSTANCE.init();
         }
-        
-        //TEST
-        DataService.getImpl().exportMaterialSets(Map.of("unbreakable" , Set.of(
-                Material.BEDROCK, Material.COMMAND_BLOCK, Material.REPEATING_COMMAND_BLOCK, Material.CHAIN_COMMAND_BLOCK,
-                Material.BARRIER, Material.END_PORTAL_FRAME, Material.END_PORTAL, Material.NETHER_PORTAL, Material.STRUCTURE_BLOCK,
-                Material.LIGHT)));
     }
 
     @Override

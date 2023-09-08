@@ -20,13 +20,5 @@ public enum MaterialSetRegistry {
     
     public void putAll(Map<String, Set<Material>> materialSets) {
         deserializedMaterialSets.putAll(materialSets);
-        
-        //TEST
-        materialSets.forEach((s, materials) -> {
-            Bukkit.getLogger().info(s);
-            for (Material material : materials) {
-                Bukkit.getLogger().info(material.toString());
-            }
-        });
     }
 }
