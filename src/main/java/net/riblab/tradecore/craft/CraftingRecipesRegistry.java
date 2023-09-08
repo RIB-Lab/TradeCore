@@ -6,10 +6,7 @@ package net.riblab.tradecore.craft;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public enum CraftingRecipesRegistry {
@@ -39,7 +36,7 @@ public enum CraftingRecipesRegistry {
      * 編集不可能なレシピのコピーを取得する
      */
     public Collection<ITCCraftingRecipe> getRecipes() {
-        return List.copyOf(deserializedCraftingRecipes);
+        return Collections.unmodifiableList(deserializedCraftingRecipes);
     }
 
     public void clear() {

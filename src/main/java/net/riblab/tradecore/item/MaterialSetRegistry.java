@@ -4,6 +4,7 @@
 package net.riblab.tradecore.item;
 
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
+import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 
@@ -20,5 +21,18 @@ public enum MaterialSetRegistry {
     
     public void putAll(Map<String, Set<Material>> materialSets) {
         deserializedMaterialSets.putAll(materialSets);
+    }
+
+    /**
+     * 変更不可なマテリアルレジストリのコピーを渡す
+     *
+     * @return
+     */
+    public Map<String, Set<Material>> getItems() {
+        return Collections.unmodifiableMap(deserializedMaterialSets);
+    }
+
+    public Optional<Set<Material>> commandToMaterialSet(String setKey) {
+        return Optional.ofNullable(deserializedMaterialSets.get(setKey));
     }
 }

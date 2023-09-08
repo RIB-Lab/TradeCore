@@ -55,11 +55,11 @@ public enum TCItemRegistry {
     }
 
     /**
-     * 変更負荷なアイテムレジストリのコピーを渡す
+     * 変更不可なアイテムレジストリのコピーを渡す
      *
      * @return
      */
     public Collection<ITCItem> getItems() {
-        return List.copyOf(deserializedItems);
+        return Collections.unmodifiableList(deserializedItems);
     }
 }

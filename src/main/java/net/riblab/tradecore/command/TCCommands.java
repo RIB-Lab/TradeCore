@@ -29,12 +29,15 @@ import net.riblab.tradecore.shop.IShopData;
 import net.riblab.tradecore.ui.UIShop;
 import net.riblab.tradecore.ui.UIs;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static net.riblab.tradecore.command.CommandArgDescs.*;
 import static net.riblab.tradecore.command.CommandNames.*;
@@ -299,6 +302,18 @@ public final class TCCommands {
         itemCommand.withSubcommand(itemExportCommand);
         itemCommand.withSubcommand(loadedItemGiveCommand);
         itemCommand.withSubcommand(itemReloadCommand);
+
+        CommandAPICommand materialSetCommand = new CommandAPICommand("materialSet")
+                .withPermission(CommandPermission.OP)
+                .withArguments(CustomEnumArgumentsUtil.customMaterialSetArgument("name"))
+                .executesPlayer((player, args) -> {
+                    Set<Material> materialsSet = (Set<Material>) args.get(0);
+                    for (Material material : materialsSet) {
+                        player.sendMessage(material.toString());
+                    }
+                });
+        itemCommand.withSubcommand(materialSetCommand);
+        
         itemCommand.register();
     }
 }

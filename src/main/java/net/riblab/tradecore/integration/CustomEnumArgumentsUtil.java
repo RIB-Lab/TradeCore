@@ -12,14 +12,17 @@ import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.general.ErrorMessages;
+import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.shop.IShopData;
 import net.riblab.tradecore.shop.Shops;
+import org.bukkit.Material;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.Set;
 
 /**
  * Enumの要素をコマンド引数にするためのユーティリティ
@@ -85,6 +88,18 @@ public class CustomEnumArgumentsUtil {
                         .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput())))
                 .replaceSuggestions(ArgumentSuggestions.strings(info ->
                         TCItemRegistry.INSTANCE.getItems().stream().map(ITCItem::getInternalName).toArray(String[]::new))
+                );
+    }
+
+    /**
+     * MaterialSetRegistry内のmaterials名をコマンド引数にする
+     */
+    public static Argument<Set<Material>> customMaterialSetArgument(String nodeName) {
+        return new CustomArgument<>(new StringArgument(nodeName),
+                info -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(info.input())
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput())))
+                .replaceSuggestions(ArgumentSuggestions.strings(info ->
+                        MaterialSetRegistry.INSTANCE.getItems().keySet().toArray(String[]::new))
                 );
     }
 }
