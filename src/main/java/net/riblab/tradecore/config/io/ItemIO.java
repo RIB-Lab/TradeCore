@@ -30,6 +30,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Type;
 import java.util.*;
 
+/**
+ * カスタムアイテムを読み書きするためのクラス
+ */
 public final class ItemIO {
 
     private static final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();

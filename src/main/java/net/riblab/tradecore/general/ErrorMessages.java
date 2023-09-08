@@ -20,7 +20,8 @@ public enum ErrorMessages {
     FAILED_TO_PARSE_FILE("ファイルの解析に失敗しました: "),
     INVAILD_DUNGEON_NAME("ダンジョン名からダンジョンを取得できませんでした"),
     FAILED_TO_GENERATE_DUNGEON_WORLD("ダンジョンデータからワールドの生成に失敗しました"),
-    INVALID_ARGUMENT("不正な引数: ");
+    INVALID_ARGUMENT("不正な引数: ")
+    ;
 
     private final String message;
 
