@@ -17,17 +17,12 @@ import net.riblab.tradecore.general.task.TCTasksInitializer;
 import net.riblab.tradecore.integration.ProtocolInitializer;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.integration.VaultHook;
-import net.riblab.tradecore.item.Materials;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.Map;
-import java.util.Set;
 
 
 public class TradeCore extends JavaPlugin {

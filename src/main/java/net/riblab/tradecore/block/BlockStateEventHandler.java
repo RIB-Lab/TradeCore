@@ -9,10 +9,7 @@ import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.mob.MobUtils;
 import net.riblab.tradecore.general.WorldNames;
 import net.riblab.tradecore.integration.WorldGuardUtil;
-import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.ItemUtils;
-import net.riblab.tradecore.item.LootTables;
-import net.riblab.tradecore.item.Materials;
+import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.mod.IItemMod;
@@ -55,7 +52,7 @@ public final class BlockStateEventHandler implements Listener {
      */
     @ParametersAreNonnullByDefault
     public void tryCreateBrokenBlock(BlockDamageEvent event) {
-        if (Materials.UNBREAKABLE.get().contains(event.getBlock().getType())) {
+        if (MaterialSetRegistry.INSTANCE.commandToMaterialSet("unbreakable").orElseThrow().contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
         }
@@ -138,7 +135,8 @@ public final class BlockStateEventHandler implements Listener {
      */
     @ParametersAreNonnullByDefault
     public void tryHarvestBlockWithCustomTool(BlockBreakEvent event) {
-        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && Materials.UNBREAKABLE.get().contains(event.getBlock().getType())) {
+        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && 
+                MaterialSetRegistry.INSTANCE.commandToMaterialSet("unbreakable").orElseThrow().contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
         }

@@ -18,7 +18,7 @@ import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.ItemUtils;
-import net.riblab.tradecore.item.Materials;
+import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
@@ -79,7 +79,7 @@ final class UICraftingTable implements IUI {
 
         gui.open(player);
 
-        Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+        Location spawnLocation = player.getTargetBlock(MaterialSetRegistry.INSTANCE.commandToMaterialSet("transparent").orElseThrow(), 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
         FakeVillagerService.getImpl().spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }
@@ -107,7 +107,7 @@ final class UICraftingTable implements IUI {
 
         gui.open(player);
 
-        Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+        Location spawnLocation = player.getTargetBlock(MaterialSetRegistry.INSTANCE.commandToMaterialSet("transparent").orElseThrow(), 5).getRelative(0, 1, 0).getLocation().add(new Vector(0.5d, 0d, 0.5d));
         FakeVillagerService.getImpl().spawnFakeVillager(player, "職人", spawnLocation);
         return gui;
     }

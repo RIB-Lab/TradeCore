@@ -6,7 +6,7 @@ dirts:
   - COARSE_DIRT
   - GRASS_BLOCK
 
-primitive_stone:
+primitive_stones:
   - COBBLESTONE_SLAB
   - COBBLESTONE
   - STONE

@@ -181,7 +181,6 @@ public final class Utils {
      */
     public static void initializeEnumSafely() {
         TCMobs.values();
-        LootTables.values();
         TCFurnaceRecipes.values();
 
         JobType.values();

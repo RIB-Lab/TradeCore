@@ -12,7 +12,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.Materials;
+import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -59,10 +59,10 @@ final class UIAdminShop implements IUI {
             if (!value.isBlock())
                 continue;
 
-            if (Materials.UNBREAKABLE.get().contains(value))
+            if (MaterialSetRegistry.INSTANCE.commandToMaterialSet("unbreakable").orElseThrow().contains(value))
                 continue;
 
-            if (Materials.BANNED_FROM_SHOP.get().contains(value))
+            if (MaterialSetRegistry.INSTANCE.commandToMaterialSet("banned_from_shop").orElseThrow().contains(value))
                 continue;
 
             GuiItem blockButton = new GuiItem(new ItemCreator(value).setLore(Component.text("1RIB").decoration(TextDecoration.ITALIC, false)).create(),

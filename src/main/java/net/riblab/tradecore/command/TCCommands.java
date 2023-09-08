@@ -18,7 +18,7 @@ import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.CustomEnumArgumentsUtil;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.Materials;
+import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.job.data.JobData;
@@ -35,7 +35,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -98,7 +97,7 @@ public final class TCCommands {
 
         CommandAPICommand sellCommand = new CommandAPICommand(SELL.get())
                 .executesPlayer((player, args) -> {
-                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(BLOCK_OFFSET);
+                    Location spawnLocation = player.getTargetBlock(MaterialSetRegistry.INSTANCE.commandToMaterialSet("transparent").orElseThrow(), 2).getLocation().add(BLOCK_OFFSET);
                     spawnLocation.setY(player.getLocation().getY());
 
                     FakeVillagerService.getImpl().spawnFakeVillager(player, MERCHANT_NAME, spawnLocation);
@@ -117,7 +116,7 @@ public final class TCCommands {
                 .withArguments(CustomEnumArgumentsUtil.customITCMobArgument(MOBNAME.get()))
                 .executesPlayer((player, args) -> {
                     ITCMob type = (ITCMob) args.get(0);
-                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(BLOCK_OFFSET);
+                    Location spawnLocation = player.getTargetBlock(MaterialSetRegistry.INSTANCE.commandToMaterialSet("transparent").orElseThrow(), 2).getLocation().add(BLOCK_OFFSET);
                     spawnLocation.setY(player.getLocation().getY());
 
                     CustomMobService.getImpl().spawn(player, spawnLocation, type);

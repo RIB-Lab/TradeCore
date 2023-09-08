@@ -72,7 +72,7 @@ public enum AdvancementInitializer {
             check(itcItem.get(), "andesite_stone", Advancements.STONE_COMPONENT_SUB1.get(), player);
             check(itcItem.get(), "granite_stone", Advancements.STONE_COMPONENT_SUB2.get(), player);
             check(itcItem.get(), "diorite_stone", Advancements.STONE_COMPONENT_SUB3.get(), player);
-            check(itcItem.get(), "andestite_stone", Advancements.STONE_COMPONENT_SUB4.get(), player);
+            check(itcItem.get(), "andesite_stone", Advancements.STONE_COMPONENT_SUB4.get(), player);
 
         });
 
