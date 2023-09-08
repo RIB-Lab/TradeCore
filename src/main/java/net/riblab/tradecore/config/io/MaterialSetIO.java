@@ -16,6 +16,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * マテリアルセットを読み書きするためのクラス
@@ -30,7 +31,7 @@ public class MaterialSetIO {
         yaml = new Yaml(options);
     }
     
-    public Map<String, Set<Material>> deserialize(File materialSetFile) {
+    public static Map<String, Set<Material>> deserialize(File materialSetFile) {
 
         Map<String, Set<Material>> deserializedMaterials = new HashMap<>();
         try (FileReader reader = new FileReader(materialSetFile)) {
@@ -69,12 +70,17 @@ public class MaterialSetIO {
         return deserializedMaterials;
     }
     
-    public void serialize(Map<String, Set<Material>> materialSetToSave, File fileToSave){
+    public static void serialize(Map<String, Set<Material>> materialSetToSave, File fileToSave){
+        Map<String, List<String>> materialReady = new HashMap<>();
+        materialSetToSave.forEach((s, materials) -> 
+                materialReady.put(s, materials.stream().map(Material::toString).toList())
+        );
+        
         if (!fileToSave.getParentFile().exists())
             fileToSave.getParentFile().mkdirs();
         FileUtils.getFile(fileToSave.toString());
         try (FileWriter writer = new FileWriter(fileToSave)) {
-            yaml.dump(materialSetToSave, writer);
+            yaml.dump(materialReady, writer);
         } catch (IOException e) {
             e.printStackTrace();
         }

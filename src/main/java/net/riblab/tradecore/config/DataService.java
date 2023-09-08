@@ -5,9 +5,12 @@ package net.riblab.tradecore.config;
 
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.item.base.ITCItem;
+import org.bukkit.Material;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public sealed interface DataService permits DataServiceImpl {
 
@@ -58,4 +61,6 @@ public sealed interface DataService permits DataServiceImpl {
      * クラフトレシピをデータフォルダから読み込む
      */
     void loadCraftingRecipes();
+
+    void exportMaterialSets(Map<String, Set<Material>> materialSets);
 }

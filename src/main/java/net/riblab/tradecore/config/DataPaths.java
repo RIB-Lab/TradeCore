@@ -15,6 +15,8 @@ enum DataPaths {
     ITEM_EXPORT_FILE(new File(TradeCore.getInstance().getDataFolder(), "/export/items.yml")),
     CRAFT_RECIPE_DIR(new File(TradeCore.getInstance().getDataFolder(), "crafting-recipes")),
     CRAFT_RECIPE_EXPORT_FILE(new File(TradeCore.getInstance().getDataFolder(), "/export/recipes.yml")),
+    MATERIAL_SET_DIR(new File(TradeCore.getInstance().getDataFolder(), "materialsets")),
+    MATERIAL_SET_EXPORT_FILE(new File(TradeCore.getInstance().getDataFolder(), "/export/materialsets.yml")),
     ;
 
     private final File file;

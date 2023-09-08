@@ -46,6 +46,7 @@ public final class ItemIO {
     }
 
     private ItemIO() {
+        throw new AssertionError();
     }
 
     /**

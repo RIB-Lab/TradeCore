@@ -27,6 +27,10 @@ import static net.riblab.tradecore.config.io.CraftingRecipeIOTags.*;
  * レシピを読み書きするためのクラス
  */
 public class CraftingRecipeIO {
+    
+    private CraftingRecipeIO(){
+        throw new AssertionError();
+    }
 
     private static final Yaml yaml;
 
