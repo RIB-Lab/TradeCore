@@ -3,12 +3,16 @@
  */
 package net.riblab.tradecore.craft;
 
+import net.riblab.tradecore.general.IRegistry;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public enum CraftingRecipesRegistry {
+/**
+ * クラフトレシピの実体を保持するクラス
+ */
+public enum CraftingRecipesRegistry implements IRegistry<Map<String, ITCCraftingRecipe>> {
     INSTANCE;
 
     /**
@@ -20,7 +24,7 @@ public enum CraftingRecipesRegistry {
      * ある種類のレシピを全て取得する
      */
     @Nonnull
-    public Map<String, ITCCraftingRecipe> getRecipes(RecipeType type) {
+    public Map<String, ITCCraftingRecipe> getUnmodifiableElements(RecipeType type) {
         Map<String, ITCCraftingRecipe> result = new HashMap<>();
         deserializedCraftingRecipes.forEach((s, recipe) -> {
             if (recipe.getCategory() == type) {
@@ -40,14 +44,17 @@ public enum CraftingRecipesRegistry {
     /**
      * 編集不可能なレシピのコピーを取得する
      */
-    public Map<String, ITCCraftingRecipe> getRecipes() {
+    @Override
+    public Map<String, ITCCraftingRecipe> getUnmodifiableElements() {
         return Collections.unmodifiableMap(deserializedCraftingRecipes);
     }
 
+    @Override
     public void clear() {
         deserializedCraftingRecipes.clear();
     }
 
+    @Override
     public void addAll(Map<String, ITCCraftingRecipe> recipes) {
         deserializedCraftingRecipes.putAll(recipes);
     }

@@ -3,6 +3,7 @@
  */
 package net.riblab.tradecore.item.base;
 
+import net.riblab.tradecore.general.IRegistry;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.ItemCreator;
 import org.bukkit.Material;
@@ -13,7 +14,7 @@ import java.util.*;
 /**
  * yamlで書かれたアイテムをデシリアライズしたものを保持するクラス
  */
-public enum TCItemRegistry {
+public enum TCItemRegistry implements IRegistry<Map<String, ITCItem>> {
     INSTANCE;
 
     /**
@@ -46,20 +47,21 @@ public enum TCItemRegistry {
         return Optional.ofNullable(deserializedItems.get(internalName));
     }
 
+    @Override
     public void clear() {
         deserializedItems.clear();
     }
 
+    @Override
     public void addAll(Map<String, ITCItem> items) {
         deserializedItems.putAll(items);
     }
 
     /**
-     * 変更不可なアイテムレジストリのコピーを渡す
-     *
-     * @return
+     * 変更不可なアイテムレジストリのコピーを返す
      */
-    public Map<String, ITCItem> getItems() {
+    @Override
+    public Map<String, ITCItem> getUnmodifiableElements() {
         return Collections.unmodifiableMap(deserializedItems);
     }
 }

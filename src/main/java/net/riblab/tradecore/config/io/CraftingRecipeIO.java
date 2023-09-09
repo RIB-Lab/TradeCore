@@ -26,15 +26,11 @@ import static net.riblab.tradecore.config.io.CraftingRecipeIOTags.*;
 /**
  * レシピを読み書きするためのクラス
  */
-public class CraftingRecipeIO {
-    
-    private CraftingRecipeIO(){
-        throw new AssertionError();
-    }
+public class CraftingRecipeIO implements InterfaceIO<Map<String, ITCCraftingRecipe>> {
 
-    private static final Yaml yaml;
+    private final Yaml yaml;
 
-    static {
+    public CraftingRecipeIO() {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK); // フロースタイルを指定
         options.setAllowReadOnlyProperties(true);
@@ -45,7 +41,8 @@ public class CraftingRecipeIO {
         yaml = new Yaml(representer);
     }
 
-    public static Map<String, ITCCraftingRecipe> deserialize(File craftingRecipeFile) {
+    @Override
+    public Map<String, ITCCraftingRecipe> deserialize(File craftingRecipeFile) {
 
         Map<String, ITCCraftingRecipe> deserializedRecipes = new HashMap<>();
         try (FileReader reader = new FileReader(craftingRecipeFile)) {
@@ -94,17 +91,17 @@ public class CraftingRecipeIO {
         return deserializedRecipes;
     }
 
-    private static void parseResultAmount(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
+    private void parseResultAmount(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
         int resultAmount = Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue());
         tcCraftingRecipe.setResultAmount(resultAmount);
     }
 
-    private static void parseResult(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
+    private void parseResult(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
         final String result = ((ScalarNode) nodeTuple3.getValueNode()).getValue();
         tcCraftingRecipe.setResult(result);
     }
 
-    private static void parseIngredients(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
+    private void parseIngredients(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
         Node valueNode3 = nodeTuple3.getValueNode();
         Map<String, Integer> ingredientsMap = new HashMap<>();
         if (valueNode3 instanceof MappingNode valueNode3Map) {
@@ -119,20 +116,21 @@ public class CraftingRecipeIO {
         tcCraftingRecipe.setIngredients(ingredientsMap);
     }
 
-    private static void parseFee(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
+    private void parseFee(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
         double fee = Double.parseDouble(((ScalarNode) nodeTuple3.getValueNode()).getValue());
         tcCraftingRecipe.setFee(fee);
     }
 
-    private static void parseCategory(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
+    private void parseCategory(TCCraftingRecipe tcCraftingRecipe, NodeTuple nodeTuple3) {
         CraftingRecipesRegistry.RecipeType category = CraftingRecipesRegistry.RecipeType.valueOf(((ScalarNode) nodeTuple3.getValueNode()).getValue());
         tcCraftingRecipe.setCategory(category);
     }
 
-    public static void serialize(List<ITCCraftingRecipe> craftingRecipes, File file) {
+    @Override
+    public void serialize(Map<String, ITCCraftingRecipe> craftingRecipes, File file) {
         Map<String, Object> craftingRecipesMap = new HashMap<>();
 
-        for (ITCCraftingRecipe craftingRecipe : craftingRecipes) {
+        for (ITCCraftingRecipe craftingRecipe : craftingRecipes.values()) {
             Map<String, Object> craftingRecipeParams = new HashMap<>();
             craftingRecipeParams.put(INGREDIENTS.get(), craftingRecipe.getIngredients());
             craftingRecipeParams.put(RESULT.get(), craftingRecipe.getResult());

@@ -3,11 +3,14 @@
  */
 package net.riblab.tradecore.config;
 
+import net.riblab.tradecore.config.io.InterfaceIO;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
+import net.riblab.tradecore.general.IRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.Material;
 
 import javax.annotation.Nonnull;
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,11 +30,6 @@ public sealed interface DataService permits DataServiceImpl {
      * プラグインの全てのデータをロードする
      */
     void loadAll();
-
-    /**
-     * プラグインのアイテムレジストリだけをロードする
-     */
-    void loadItems();
 
 
     @Nonnull
@@ -57,10 +55,12 @@ public sealed interface DataService permits DataServiceImpl {
      */
     void exportCraftingRecipes(List<ITCCraftingRecipe> craftingRecipes);
 
-    /**
-     * クラフトレシピをデータフォルダから読み込む
-     */
-    void loadCraftingRecipes();
-
     void exportMaterialSets(Map<String, Set<Material>> materialSets);
+
+    <T> void load(IRegistry<T> registry, File pathToLoad, InterfaceIO<T> interfaceIO);
+
+    /**
+     * アイテムレジストリのloadのショートカット
+     */
+    void loadItems();
 }

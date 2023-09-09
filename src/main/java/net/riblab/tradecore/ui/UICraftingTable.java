@@ -145,7 +145,7 @@ final class UICraftingTable implements IUI {
      * レシピリスト画面を実装
      */
     private static void addRecipeListScreen(CraftingScreenType type, PaginatedGui gui, Player player) {
-        Map<String, ITCCraftingRecipe> recipeMap = CraftingRecipesRegistry.INSTANCE.getRecipes(type.getRecipeType());
+        Map<String, ITCCraftingRecipe> recipeMap = CraftingRecipesRegistry.INSTANCE.getUnmodifiableElements(type.getRecipeType());
         if (recipeMap.isEmpty())
             return;
 

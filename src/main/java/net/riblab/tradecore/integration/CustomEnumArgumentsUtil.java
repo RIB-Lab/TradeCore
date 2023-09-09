@@ -87,7 +87,7 @@ public class CustomEnumArgumentsUtil {
                 info -> TCItemRegistry.INSTANCE.commandToTCItem(info.input())
                         .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput())))
                 .replaceSuggestions(ArgumentSuggestions.strings(info ->
-                        TCItemRegistry.INSTANCE.getItems().keySet().toArray(new String[0]))
+                        TCItemRegistry.INSTANCE.getUnmodifiableElements().keySet().toArray(new String[0]))
                 );
     }
 

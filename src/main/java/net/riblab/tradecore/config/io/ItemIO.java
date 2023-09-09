@@ -33,26 +33,23 @@ import java.util.*;
 /**
  * カスタムアイテムを読み書きするためのクラス
  */
-public final class ItemIO {
+public final class ItemIO implements InterfaceIO<Map<String, ITCItem>> {
 
-    private static final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
+    private final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
 
-    private static final Yaml yaml;
+    private final Yaml yaml;
 
-    static {
+    public ItemIO() {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK); // フロースタイルを指定
         yaml = new Yaml(options);
     }
 
-    private ItemIO() {
-        throw new AssertionError();
-    }
-
     /**
      * アイテムファイルをアイテムの実体に変換する
      */
-    public static Map<String, ITCItem> deserialize(File file) {
+    @Override
+    public Map<String, ITCItem> deserialize(File file) {
         Map<String, ITCItem> deserializedItems = new HashMap<>();
         try (FileReader reader = new FileReader(file)) {
             Yaml yaml = new Yaml();
@@ -90,7 +87,7 @@ public final class ItemIO {
     /**
      * マッピングノードからアイテムの全てのパラメータをパースする
      */
-    private static void parseItemParams(TCItem tcItem, List<IItemMod<?>> defaultMods, MappingNode valueNode2Map) {
+    private void parseItemParams(TCItem tcItem, List<IItemMod<?>> defaultMods, MappingNode valueNode2Map) {
         Iterator<NodeTuple> iterator3 = valueNode2Map.getValue().iterator();
         while (iterator3.hasNext()) {
             NodeTuple nodeTuple3 = iterator3.next();
@@ -112,7 +109,7 @@ public final class ItemIO {
     /**
      * アイテムの表示名をノードからパースする
      */
-    private static void parseDisplayName(TCItem tcItem, NodeTuple nodeTuple3) {
+    private void parseDisplayName(TCItem tcItem, NodeTuple nodeTuple3) {
         TextComponent name = Component.text(((ScalarNode) nodeTuple3.getValueNode()).getValue());
         if (!name.content().isEmpty())
             tcItem.setName(name);
@@ -124,7 +121,7 @@ public final class ItemIO {
     /**
      * アイテムのマテリアルをノードからパースする
      */
-    private static void parseMaterial(TCItem tcItem, NodeTuple nodeTuple3) {
+    private void parseMaterial(TCItem tcItem, NodeTuple nodeTuple3) {
         Material material = Material.getMaterial(((ScalarNode) nodeTuple3.getValueNode()).getValue());
         if (Objects.nonNull(material))
             tcItem.setMaterial(material);
@@ -136,14 +133,14 @@ public final class ItemIO {
     /**
      * アイテムのカスタムモデルデータをノードからパースする
      */
-    private static void parseCustomModelData(TCItem tcItem, NodeTuple nodeTuple3) {
+    private void parseCustomModelData(TCItem tcItem, NodeTuple nodeTuple3) {
         tcItem.setCustomModelData(Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
     }
 
     /**
      * アイテムのdefaultmodsをノードからパースする
      */
-    private static void parseDefaultMods(TCItem tcItem, List<IItemMod<?>> defaultMods, NodeTuple nodeTuple3) {
+    private void parseDefaultMods(TCItem tcItem, List<IItemMod<?>> defaultMods, NodeTuple nodeTuple3) {
         Node valueNode3 = nodeTuple3.getValueNode();
         if (valueNode3 instanceof MappingNode valueNode3Map) {
             Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
@@ -176,10 +173,11 @@ public final class ItemIO {
     /**
      * アイテム達のデータを指定されたyamlファイルに書きこむ
      */
-    public static void serializeItem(List<ITCItem> items, File file) {
+    @Override
+    public void serialize(Map<String, ITCItem> items, File file) {
         Map<String, Object> itemRoot = new HashMap<>();
 
-        for (ITCItem item : items) {
+        for (ITCItem item : items.values()) {
             Map<String, Object> defaultModsMap = new HashMap<>();
             saveItemMods(item, defaultModsMap);
 
@@ -196,7 +194,7 @@ public final class ItemIO {
     /**
      * アイテムの基本的な情報をセーブ
      */
-    private static void saveItemBasicParams(ITCItem item, Map<String, Object> defaultModsMap, Map<String, Object> itemInfo) {
+    private void saveItemBasicParams(ITCItem item, Map<String, Object> defaultModsMap, Map<String, Object> itemInfo) {
         itemInfo.put(ItemIOTags.NAME.get(), item.getName().content());
         itemInfo.put(ItemIOTags.MATERIAL.get(), item.getMaterial().toString());
         itemInfo.put(ItemIOTags.CUSTOMMODELDATA.get(), item.getCustomModelData());
@@ -206,7 +204,7 @@ public final class ItemIO {
     /**
      * アイテムのmodをシリアライズしてマップに書きこむ
      */
-    private static void saveItemMods(ITCItem item, Map<String, Object> defaultModsMap) {
+    private void saveItemMods(ITCItem item, Map<String, Object> defaultModsMap) {
         for (IItemMod<?> defaultMod : item.getDefaultMods()) {
             String key = ShortHandModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) defaultMod.getClass());
             String value = gson.toJson(defaultMod.getParam());
@@ -217,7 +215,7 @@ public final class ItemIO {
     /**
      * Yamlとしてファイルにデータを書きこむ
      */
-    private static void serializeToYaml(File file, Map<String, Object> itemRoot) {
+    private void serializeToYaml(File file, Map<String, Object> itemRoot) {
         if (!file.getParentFile().exists())
             file.getParentFile().mkdirs();
         FileUtils.getFile(file.toString());

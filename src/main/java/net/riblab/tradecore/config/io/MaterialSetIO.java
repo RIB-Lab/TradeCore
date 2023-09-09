@@ -16,22 +16,22 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * マテリアルセットを読み書きするためのクラス
  */
-public class MaterialSetIO {
+public class MaterialSetIO implements InterfaceIO<Map<String, Set<Material>>> {
 
-    private static final Yaml yaml;
+    private final Yaml yaml;
 
-    static {
+    public MaterialSetIO() {
         DumperOptions options = new DumperOptions();
         options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK); // フロースタイルを指定
         yaml = new Yaml(options);
     }
     
-    public static Map<String, Set<Material>> deserialize(File materialSetFile) {
+    @Override
+    public Map<String, Set<Material>> deserialize(File materialSetFile) {
 
         Map<String, Set<Material>> deserializedMaterials = new HashMap<>();
         try (FileReader reader = new FileReader(materialSetFile)) {
@@ -70,7 +70,8 @@ public class MaterialSetIO {
         return deserializedMaterials;
     }
     
-    public static void serialize(Map<String, Set<Material>> materialSetToSave, File fileToSave){
+    @Override
+    public void serialize(Map<String, Set<Material>> materialSetToSave, File fileToSave){
         Map<String, List<String>> materialReady = new HashMap<>();
         materialSetToSave.forEach((s, materials) -> 
                 materialReady.put(s, materials.stream().map(Material::toString).toList())

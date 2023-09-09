@@ -4,12 +4,10 @@
 package net.riblab.tradecore.config;
 
 import lombok.Getter;
-import net.riblab.tradecore.config.io.CraftingRecipeIO;
-import net.riblab.tradecore.config.io.ItemIO;
-import net.riblab.tradecore.config.io.JsonIO;
-import net.riblab.tradecore.config.io.MaterialSetIO;
+import net.riblab.tradecore.config.io.*;
 import net.riblab.tradecore.craft.CraftingRecipesRegistry;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
+import net.riblab.tradecore.general.IRegistry;
 import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
@@ -18,6 +16,7 @@ import org.codehaus.plexus.util.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -35,6 +34,10 @@ enum DataServiceImpl implements DataService {
     private CurrencyData currencyData = new CurrencyData();
     @Getter
     private JobDatas jobDatas = new JobDatas();
+    
+    private final InterfaceIO<Map<String, ITCItem>> itemIO = new ItemIO();
+    private final InterfaceIO<Map<String, Set<Material>>> materialSetIO = new MaterialSetIO();
+    private final InterfaceIO<Map<String, ITCCraftingRecipe>> craftingRecipeIO = new CraftingRecipeIO();
 
     @Override
     public void saveAll() {
@@ -47,8 +50,8 @@ enum DataServiceImpl implements DataService {
         currencyData = JsonIO.loadAsJson(DataPaths.CURRENCY_DATA_FILE.get(), CurrencyData.class);
         jobDatas = JsonIO.loadAsJson(DataPaths.JOBS_DATA_FILE.get(), JobDatas.class);
         loadItems();
-        loadCraftingRecipes();
-        loadMaterialSets();
+        load(CraftingRecipesRegistry.INSTANCE, DataPaths.CRAFT_RECIPE_DIR.get() ,craftingRecipeIO);
+        load(MaterialSetRegistry.INSTANCE, DataPaths.MATERIAL_SET_DIR.get(), materialSetIO);
         
         postLoad();
     }
@@ -60,65 +63,46 @@ enum DataServiceImpl implements DataService {
         CraftingRecipesRegistry.INSTANCE.validate();
     }
 
-    public void loadItems() {
-        TCItemRegistry.INSTANCE.clear();
-
-        List<File> itemFiles;
-        try {
-            itemFiles = FileUtils.getFiles(DataPaths.ITEM_DIR.get(), null, null);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        for (File itemFile : itemFiles) {
-            Map<String, ITCItem> deserializedItems = ItemIO.deserialize(itemFile);
-            TCItemRegistry.INSTANCE.addAll(deserializedItems);
-        }
-    }
-
     public void exportItem(ITCItem item) {
-        ItemIO.serializeItem(List.of(item), DataPaths.ITEM_EXPORT_FILE.get());
+        itemIO.serialize(Map.of(item.getInternalName(), item), DataPaths.ITEM_EXPORT_FILE.get());
     }
 
     public void exportItem(List<ITCItem> items) {
-        ItemIO.serializeItem(items, DataPaths.ITEM_EXPORT_FILE.get());
-    }
-
-    public void loadCraftingRecipes() {
-        CraftingRecipesRegistry.INSTANCE.clear();
-        List<File> craftingRecipeFiles;
-        try {
-            craftingRecipeFiles = FileUtils.getFiles(DataPaths.CRAFT_RECIPE_DIR.get(), null, null);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        Map<String, ITCItem> itemsMap = new HashMap<>();
+        for (ITCItem item : items) {
+            itemsMap.put(item.getInternalName(), item);
         }
-
-        for (File craftingRecipeFile : craftingRecipeFiles) {
-            final Map<String, ITCCraftingRecipe> deserializedRecipes = CraftingRecipeIO.deserialize(craftingRecipeFile);
-            CraftingRecipesRegistry.INSTANCE.addAll(deserializedRecipes);
-        }
+        itemIO.serialize(itemsMap, DataPaths.ITEM_EXPORT_FILE.get());
     }
 
     public void exportCraftingRecipes(List<ITCCraftingRecipe> craftingRecipes) {
-        CraftingRecipeIO.serialize(craftingRecipes, DataPaths.CRAFT_RECIPE_EXPORT_FILE.get());
+        Map<String, ITCCraftingRecipe> craftingRecipesMap = new HashMap<>();
+        for (ITCCraftingRecipe craftingRecipe : craftingRecipes) {
+            craftingRecipesMap.put(craftingRecipe.getInternalName(), craftingRecipe);
+        }
+        craftingRecipeIO.serialize(craftingRecipesMap, DataPaths.CRAFT_RECIPE_EXPORT_FILE.get());
     }
     
-    //TODO: 3クラス分溜まったので共通化
-    public void loadMaterialSets(){
-        MaterialSetRegistry.INSTANCE.clear();
-        List<File> materialSetFiles;
+    public void loadItems(){
+        load(TCItemRegistry.INSTANCE, DataPaths.ITEM_DIR.get(), itemIO);
+    }
+
+    public void exportMaterialSets(Map<String, Set<Material>> materialSets) {
+        materialSetIO.serialize(materialSets, DataPaths.MATERIAL_SET_EXPORT_FILE.get());
+    }
+    
+    public <T> void load(IRegistry<T> registry, File pathToLoad, InterfaceIO<T> interfaceIO){
+        registry.clear();
+        List<File> files;
         try {
-            materialSetFiles = FileUtils.getFiles(DataPaths.MATERIAL_SET_DIR.get(), null, null);
+            files = FileUtils.getFiles(pathToLoad, null, null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        for (File materialSetFile : materialSetFiles) {
-            final Map<String, Set<Material>> deserializedmaterials = MaterialSetIO.deserialize(materialSetFile);
-            MaterialSetRegistry.INSTANCE.putAll(deserializedmaterials);
+        for (File file : files) {
+            final T deserializedObjects = interfaceIO.deserialize(file);
+            registry.addAll(deserializedObjects);
         }
-    }
-
-    public void exportMaterialSets(Map<String, Set<Material>> materialSets) {
-        MaterialSetIO.serialize(materialSets, DataPaths.MATERIAL_SET_EXPORT_FILE.get());
     }
 }

@@ -3,14 +3,12 @@
  */
 package net.riblab.tradecore.item;
 
-import net.riblab.tradecore.craft.ITCCraftingRecipe;
-import net.riblab.tradecore.item.base.ITCItem;
-import org.bukkit.Bukkit;
+import net.riblab.tradecore.general.IRegistry;
 import org.bukkit.Material;
 
 import java.util.*;
 
-public enum MaterialSetRegistry {
+public enum MaterialSetRegistry implements IRegistry<Map<String, Set<Material>>> {
     INSTANCE;
 
     private final Map<String, Set<Material>> deserializedMaterialSets = new HashMap<>();
@@ -19,8 +17,13 @@ public enum MaterialSetRegistry {
         deserializedMaterialSets.clear();
     }
     
-    public void putAll(Map<String, Set<Material>> materialSets) {
+    public void addAll(Map<String, Set<Material>> materialSets) {
         deserializedMaterialSets.putAll(materialSets);
+    }
+
+    @Override
+    public Map<String, Set<Material>> getUnmodifiableElements() {
+        return Collections.unmodifiableMap(deserializedMaterialSets);
     }
 
     /**
