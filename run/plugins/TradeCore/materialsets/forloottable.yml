@@ -45,3 +45,25 @@ leaves:
   - OAK_LEAVES
   - JUNGLE_LEAVES
   - BIRCH_LEAVES
+
+grasses:
+  - GRASS
+  - TALL_GRASS
+
+farmland:
+  - FARMLAND
+
+andesite:
+  - ANDESITE
+
+granite:
+  - GRANITE
+
+diorite:
+  - DIORITE
+
+gravel:
+  - GRAVEL
+
+sand:
+  - SAND
