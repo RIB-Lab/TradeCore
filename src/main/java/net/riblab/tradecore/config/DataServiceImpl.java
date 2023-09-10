@@ -99,6 +99,7 @@ enum DataServiceImpl implements DataService {
         registry.clear();
         List<File> files;
         try {
+            FileUtils.forceMkdir(pathToLoad);
             files = FileUtils.getFiles(pathToLoad, null, null);
         } catch (IOException e) {
             throw new RuntimeException(e);
