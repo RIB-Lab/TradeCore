@@ -6,7 +6,6 @@ package net.riblab.tradecore.general;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.entity.mob.TCMobs;
-import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;

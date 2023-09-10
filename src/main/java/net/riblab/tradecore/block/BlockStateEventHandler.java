@@ -107,7 +107,7 @@ public final class BlockStateEventHandler implements Listener {
             return;
         }
 
-        int minHardness = LootTables.getMinHardness(block.getType(), mod);
+        int minHardness = LootTableRegistry.INSTANCE.getMinHardness(block.getType(), mod);
         if (minHardness > mod.apply(null, null).getHarvestLevel()) {
             getService().incrementDamage(player, bareHandMiningSpeed); //ツールで採掘できないなら実質素手
             return;
@@ -148,7 +148,7 @@ public final class BlockStateEventHandler implements Listener {
 
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
         if (mainHand.getType() == Material.AIR) {//素手
-            Multimap<Float, String> table = LootTables.get(event.getBlock().getType(), IToolStatsModifier.ToolType.HAND);
+            Multimap<Float, String> table = LootTableRegistry.INSTANCE.get(event.getBlock().getType(), IToolStatsModifier.ToolType.HAND);
             if (!table.isEmpty()) {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
@@ -172,7 +172,7 @@ public final class BlockStateEventHandler implements Listener {
             return;
         }
 
-        Multimap<Float, String> table = LootTables.get(event.getBlock().getType(), toolMod);
+        Multimap<Float, String> table = LootTableRegistry.INSTANCE.get(event.getBlock().getType(), toolMod);
         if (table.isEmpty()) {
             event.setDropItems(false);
             return;
@@ -193,7 +193,7 @@ public final class BlockStateEventHandler implements Listener {
         JobType jobType = toolMod.apply(null, null).getToolType().getExpType();
         if (Objects.nonNull(jobType)) {
             //硬度によって経験値が決まるが、硬度0でも1は入るようにする
-            JobDataService.getImpl().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), toolMod) + 1);
+            JobDataService.getImpl().addJobExp(event.getPlayer(), jobType, LootTableRegistry.INSTANCE.getMinHardness(event.getBlock().getType(), toolMod) + 1);
         }
 
         event.getBlock().setType(Material.AIR);
@@ -212,7 +212,7 @@ public final class BlockStateEventHandler implements Listener {
         List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (event.getBlock().getType() == Material.FARMLAND && Objects.nonNull(toolMod)) { //耕地を耕したときのドロップ
-            Multimap<Float, String> table = LootTables.get(Material.FARMLAND, toolMod);
+            Multimap<Float, String> table = LootTableRegistry.INSTANCE.get(Material.FARMLAND, toolMod);
             ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
             ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(event.getItemInHand(), 1);
             if (event.getHand() == EquipmentSlot.HAND)
