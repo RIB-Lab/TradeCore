@@ -8,6 +8,9 @@ import org.bukkit.Material;
 
 import java.util.*;
 
+/**
+ * 複数のマテリアルで構成されるパターンを管理する
+ */
 public enum MaterialSetRegistry implements IRegistry<Map<String, Set<Material>>> {
     INSTANCE;
 
