@@ -26,7 +26,7 @@ import static net.riblab.tradecore.config.io.CraftingRecipeIOTags.*;
 /**
  * レシピを読み書きするためのクラス
  */
-public class CraftingRecipeIO implements InterfaceIO<Map<String, ITCCraftingRecipe>> {
+public final class CraftingRecipeIO implements InterfaceIO<Map<String, ITCCraftingRecipe>> {
 
     private final Yaml yaml;
 

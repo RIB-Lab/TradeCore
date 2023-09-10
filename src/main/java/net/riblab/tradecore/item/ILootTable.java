@@ -8,6 +8,8 @@ import net.riblab.tradecore.modifier.IToolStatsModifier.ToolType;
 import java.util.Map;
 
 public interface ILootTable {
+    String getInternalName();
+    
     String getMaterialSetKey();
 
     ToolType getToolType();

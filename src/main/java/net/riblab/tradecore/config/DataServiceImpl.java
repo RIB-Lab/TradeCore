@@ -8,6 +8,7 @@ import net.riblab.tradecore.config.io.*;
 import net.riblab.tradecore.craft.CraftingRecipesRegistry;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.general.IRegistry;
+import net.riblab.tradecore.item.ILootTable;
 import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
@@ -38,6 +39,7 @@ enum DataServiceImpl implements DataService {
     private final InterfaceIO<Map<String, ITCItem>> itemIO = new ItemIO();
     private final InterfaceIO<Map<String, Set<Material>>> materialSetIO = new MaterialSetIO();
     private final InterfaceIO<Map<String, ITCCraftingRecipe>> craftingRecipeIO = new CraftingRecipeIO();
+    private final InterfaceIO<Map<String, ILootTable>> lootTableIO = new LootTableIO();
 
     @Override
     public void saveAll() {
@@ -104,5 +106,13 @@ enum DataServiceImpl implements DataService {
             final T deserializedObjects = interfaceIO.deserialize(file);
             registry.addAll(deserializedObjects);
         }
+    }
+
+    public void exportLootTables(Map<String, ILootTable> lootTables) {
+        lootTableIO.serialize(lootTables, DataPaths.LOOT_TABLE_EXPORT_FILE.get());
+    }
+    
+    public void loadLootTables(){
+        
     }
 }

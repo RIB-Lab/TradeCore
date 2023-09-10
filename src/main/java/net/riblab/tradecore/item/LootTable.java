@@ -13,6 +13,10 @@ import java.util.Map;
  * バニラのルートテーブルとは別の概念
  */
 public final class LootTable implements ILootTable {
+    
+    @Getter @Setter
+    private String internalName;
+    
     /**
      * ドロップテーブルの対象となるバニラのブロックの種類(マテリアルセット)
      */

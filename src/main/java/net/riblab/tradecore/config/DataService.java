@@ -6,6 +6,7 @@ package net.riblab.tradecore.config;
 import net.riblab.tradecore.config.io.InterfaceIO;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.general.IRegistry;
+import net.riblab.tradecore.item.ILootTable;
 import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.Material;
 
@@ -56,6 +57,8 @@ public sealed interface DataService permits DataServiceImpl {
     void exportCraftingRecipes(List<ITCCraftingRecipe> craftingRecipes);
 
     void exportMaterialSets(Map<String, Set<Material>> materialSets);
+
+    void exportLootTables(Map<String, ILootTable> lootTables);
 
     <T> void load(IRegistry<T> registry, File pathToLoad, InterfaceIO<T> interfaceIO);
 

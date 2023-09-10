@@ -20,7 +20,7 @@ import java.util.*;
 /**
  * マテリアルセットを読み書きするためのクラス
  */
-public class MaterialSetIO implements InterfaceIO<Map<String, Set<Material>>> {
+public final class MaterialSetIO implements InterfaceIO<Map<String, Set<Material>>> {
 
     private final Yaml yaml;
 
