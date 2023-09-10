@@ -53,26 +53,16 @@ public final class LootTableIO implements InterfaceIO<Map<String, ILootTable>> {
                             NodeTuple nodeTuple3 = iterator3.next();
                             String lootProperties = ((ScalarNode) nodeTuple3.getKeyNode()).getValue();//materialset, harvestlevel...
                             if(lootProperties.equals(MATERIAL_SET.get())){
-                                deserializedTable.setMaterialSetKey(((ScalarNode) nodeTuple3.getValueNode()).getValue());
+                                parseMaterialSet(deserializedTable, nodeTuple3);
                             }
                             else if(lootProperties.equals(TOOL_TYPE.get())){
-                                deserializedTable.setToolType(IToolStatsModifier.ToolType.valueOf(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
+                                parseToolType(deserializedTable, nodeTuple3);
                             }
                             else if(lootProperties.equals(HARVEST_LEVEL.get())){
-                                deserializedTable.setHarvestLevel(Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue()));
+                                parseHarvestLevel(deserializedTable, nodeTuple3);
                             }
                             else if(lootProperties.equals(DROPCHANCE_LEVEL.get())){
-                                if(nodeTuple3.getValueNode() instanceof MappingNode valueNode3Map){
-                                    Map<String, Float> chanceMap = new HashMap<>();
-                                    Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
-                                    while (iterator4.hasNext()) {
-                                        NodeTuple nodeTuple4 = iterator4.next(); //sand_dust: 0.2c
-                                        String itemName = ((ScalarNode)nodeTuple4.getKeyNode()).getValue();
-                                        Float chance =  Float.parseFloat(((ScalarNode)nodeTuple4.getValueNode()).getValue());
-                                        chanceMap.put(itemName, chance);
-                                    }
-                                    deserializedTable.setDropChanceMap(chanceMap);
-                                }
+                                parseDropChance(deserializedTable, nodeTuple3);
                             }
                         }
                     }
@@ -85,6 +75,34 @@ public final class LootTableIO implements InterfaceIO<Map<String, ILootTable>> {
         }
 
         return deserializedLootTable;
+    }
+
+    private static void parseDropChance(LootTable deserializedTable, NodeTuple nodeTuple3) {
+        if(nodeTuple3.getValueNode() instanceof MappingNode valueNode3Map){
+            Map<String, Float> chanceMap = new HashMap<>();
+            Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
+            while (iterator4.hasNext()) {
+                NodeTuple nodeTuple4 = iterator4.next(); //sand_dust: 0.2c
+                String itemName = ((ScalarNode)nodeTuple4.getKeyNode()).getValue();
+                Float chance =  Float.parseFloat(((ScalarNode)nodeTuple4.getValueNode()).getValue());
+                chanceMap.put(itemName, chance);
+            }
+            deserializedTable.setDropChanceMap(chanceMap);
+        }
+    }
+
+    private static void parseHarvestLevel(LootTable deserializedTable, NodeTuple nodeTuple3) {
+        final int harvestLevel = Integer.parseInt(((ScalarNode) nodeTuple3.getValueNode()).getValue());
+        deserializedTable.setHarvestLevel(harvestLevel);
+    }
+
+    private static void parseToolType(LootTable deserializedTable, NodeTuple nodeTuple3) {
+        final IToolStatsModifier.ToolType toolType = IToolStatsModifier.ToolType.valueOf(((ScalarNode) nodeTuple3.getValueNode()).getValue());
+        deserializedTable.setToolType(toolType);
+    }
+
+    private static void parseMaterialSet(LootTable deserializedTable, NodeTuple nodeTuple3) {
+        deserializedTable.setMaterialSetKey(((ScalarNode) nodeTuple3.getValueNode()).getValue());
     }
 
     @Override
