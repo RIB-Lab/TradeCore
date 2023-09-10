@@ -9,6 +9,7 @@ import net.riblab.tradecore.craft.CraftingRecipesRegistry;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
 import net.riblab.tradecore.general.IRegistry;
 import net.riblab.tradecore.item.ILootTable;
+import net.riblab.tradecore.item.LootTableRegistry;
 import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
@@ -54,6 +55,7 @@ enum DataServiceImpl implements DataService {
         loadItems();
         load(CraftingRecipesRegistry.INSTANCE, DataPaths.CRAFT_RECIPE_DIR.get() ,craftingRecipeIO);
         load(MaterialSetRegistry.INSTANCE, DataPaths.MATERIAL_SET_DIR.get(), materialSetIO);
+        load(LootTableRegistry.INSTANCE, DataPaths.LOOT_TABLE_DIR.get(), lootTableIO);
         
         postLoad();
     }
@@ -110,9 +112,5 @@ enum DataServiceImpl implements DataService {
 
     public void exportLootTables(Map<String, ILootTable> lootTables) {
         lootTableIO.serialize(lootTables, DataPaths.LOOT_TABLE_EXPORT_FILE.get());
-    }
-    
-    public void loadLootTables(){
-        
     }
 }

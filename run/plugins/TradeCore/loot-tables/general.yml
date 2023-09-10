@@ -1,0 +1,13 @@
+LEAVES:
+  materialset: leaves
+  harvestlevel: 0
+  dropchancelevel:
+    stick: 0.2
+  tooltype: AXE
+  
+LEAVES2:
+  materialset: leaves
+  harvestlevel: 1
+  dropchancelevel:
+    stick: 0.1
+  tooltype: AXE
