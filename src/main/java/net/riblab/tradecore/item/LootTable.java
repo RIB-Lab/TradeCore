@@ -3,20 +3,51 @@
  */
 package net.riblab.tradecore.item;
 
+import lombok.Getter;
+import lombok.Setter;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
 
 import java.util.Map;
 
 /**
  * バニラのルートテーブルとは別の概念
- *
- * @param materialSetKey      ドロップテーブルの対象となるバニラのブロックの種類(マテリアルセット)
- * @param toolType      ドロップテーブルを発動させるのに必要なツールの種類
- * @param harvestLevel  ドロップテーブルを発動させるために必要な最小のツールレベル
- * @param dropChanceMap ドロップ率(0~1)とその確率でドロップするアイテムのマップ
  */
-public record LootTable(String materialSetKey,
-                        IToolStatsModifier.ToolType toolType,
-                        int harvestLevel,
-                        Map<Float, String> dropChanceMap) {
+public final class LootTable implements ILootTable {
+    /**
+     * ドロップテーブルの対象となるバニラのブロックの種類(マテリアルセット)
+     */
+    @Getter @Setter
+    private String materialSetKey;
+    
+    /**
+     * ドロップテーブルを発動させるのに必要なツールの種類
+     */
+    @Getter @Setter
+    private IToolStatsModifier.ToolType toolType;
+    
+    /**
+     * ドロップテーブルを発動させるために必要な最小のツールレベル
+     */
+    @Getter @Setter
+    private int harvestLevel;
+    
+    /**
+     * ドロップ率(0~1)とその確率でドロップするアイテムのマップ
+     */
+    @Getter @Setter
+    private Map<Float, String> dropChanceMap;
+    
+    public LootTable() {
+    }
+
+    public LootTable(String materialSetKey,
+                     IToolStatsModifier.ToolType toolType,
+                     int harvestLevel,
+                     Map<Float, String> dropChanceMap) {
+        this.materialSetKey = materialSetKey;
+        this.toolType = toolType;
+        this.harvestLevel = harvestLevel;
+        this.dropChanceMap = dropChanceMap;
+    }
+
 }

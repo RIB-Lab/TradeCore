@@ -34,13 +34,13 @@ public enum LootTables {
     GRAVEL(new LootTable("gravel", IToolStatsModifier.ToolType.SHOVEL, 1, Map.of(0.2f, "gravel_dust", 0.02f, "flint", 0.021f, "meteoric_iron_ore"))),
     SAND(new LootTable("sand", IToolStatsModifier.ToolType.SHOVEL, 1, Map.of(0.2f, "sand_dust", 0.02f, "sandgold")));
 
-    private final LootTable table;
+    private final ILootTable table;
 
-    LootTables(LootTable table) {
+    LootTables(ILootTable table) {
         this.table = table;
     }
 
-    public LootTable get() {
+    public ILootTable get() {
         return table;
     }
 
@@ -54,9 +54,9 @@ public enum LootTables {
         Multimap<Float, String> itemMap = ArrayListMultimap.create();
         List<Map<Float, String>> itemMaps = Arrays.stream(LootTables.values())
                 .map(LootTables::get)
-                .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.materialSetKey()).orElseThrow().contains(material))
-                .filter(table1 -> table1.toolType() == toolType)
-                .map(LootTable::dropChanceMap).toList();
+                .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
+                .filter(table1 -> table1.getToolType() == toolType)
+                .map(ILootTable::getDropChanceMap).toList();
         itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach(itemMap::put));
         return itemMap;
     }
@@ -72,10 +72,10 @@ public enum LootTables {
         Multimap<Float, String> itemMultiMap = ArrayListMultimap.create();
         List<Map<Float, String>> itemMaps = Arrays.stream(LootTables.values())
                 .map(LootTables::get)
-                .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.materialSetKey()).orElseThrow().contains(material))
-                .filter(table1 -> table1.toolType() == toolStats.getToolType())
-                .filter(lootTable -> lootTable.harvestLevel() <= toolStats.getHarvestLevel())
-                .map(LootTable::dropChanceMap).toList();
+                .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
+                .filter(table1 -> table1.getToolType() == toolStats.getToolType())
+                .filter(ILootTable -> ILootTable.getHarvestLevel() <= toolStats.getHarvestLevel())
+                .map(ILootTable::getDropChanceMap).toList();
         itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach(itemMultiMap::put));
         return itemMultiMap;
     }
@@ -88,9 +88,9 @@ public enum LootTables {
         IToolStatsModifier.ToolStats toolStats = toolStatsMod.apply(null, null);
         List<Integer> hardnessList = Arrays.stream(LootTables.values())
                 .map(LootTables::get)
-                .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.materialSetKey()).orElseThrow().contains(material))
-                .filter(table1 -> table1.toolType() == toolStats.getToolType())
-                .map(LootTable::harvestLevel).toList();
+                .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
+                .filter(table1 -> table1.getToolType() == toolStats.getToolType())
+                .map(ILootTable::getHarvestLevel).toList();
         if (hardnessList.isEmpty())
             return Integer.MAX_VALUE;
 
