@@ -1,3 +1,11 @@
+GRASS:
+  materialset: grasses
+  harvestlevel: 0
+  dropchancelevel:
+    pebble: 0.2
+    drygrass: 1.0
+  tooltype: HAND
+
 LEAVES:
   materialset: leaves
   harvestlevel: 0
@@ -11,3 +19,118 @@ LEAVES2:
   dropchancelevel:
     stick: 0.1
   tooltype: AXE
+  
+LOGS:
+  materialset: logs
+  harvestlevel: 1
+  dropchancelevel:
+    bark: 0.4
+    round_trunk: 0.2
+    twig: 0.8
+  tooltype: AXE
+  
+LOGS2:
+  materialset: logs
+  harvestlevel: 2
+  dropchancelevel:
+    round_trunk: 0.2
+  tooltype: AXE
+  
+LOGS3:
+  materialset: logs
+  harvestlevel: 3
+  dropchancelevel:
+    round_trunk: 0.1
+  tooltype: AXE
+  
+DIRTS:
+  materialset: dirts
+  harvestlevel: 0
+  dropchancelevel:
+    dust: 0.2
+    mud: 0.1
+  tooltype: SHOVEL
+  
+DIRTS2:
+  materialset: dirts
+  harvestlevel: 1
+  dropchancelevel:
+    dust: 0.1
+    mud: 0.05
+  tooltype: SHOVEL
+  
+PRIMITIVE_STONES:
+  materialset: primitive_stones
+  harvestlevel: 0
+  dropchancelevel:
+    widestone: 0.2
+    tallstone: 0.2
+  tooltype: PICKAXE
+  
+PRIMITIVE_STONES2:
+  materialset: primitive_stones
+  harvestlevel: 1
+  dropchancelevel:
+    round_stone: 0.1
+  tooltype: PICKAXE
+  
+PRIMITIVE_PLANKS:
+  materialset: primitive_stones
+  harvestlevel: 2
+  dropchancelevel:
+    woodpulp: 1.0
+  tooltype: AXE
+  
+MOSS:
+  materialset: farmland
+  harvestlevel: 0
+  dropchancelevel:
+    moss: 0.2
+    drygrass: 1.0
+  tooltype: HOE
+  
+MOSS2:
+  materialset: farmland
+  harvestlevel: 0
+  dropchancelevel:
+    moss: 0.1
+    drygrass: 0.5
+  tooltype: HOE
+  
+ANDESITE:
+  materialset: andesite
+  harvestlevel: 1
+  dropchancelevel:
+    andesite_stone: 0.2
+  tooltype: PICKAXE
+  
+GRANITE:
+  materialset: granite
+  harvestlevel: 1
+  dropchancelevel:
+    granite_stone: 0.2
+  tooltype: PICKAXE
+  
+DIORITE:
+  materialset: diorite
+  harvestlevel: 1
+  dropchancelevel:
+    diorite_stone: 0.2
+  tooltype: PICKAXE
+  
+GRAVEL:
+  materialset: gravel
+  harvestlevel: 1
+  dropchancelevel:
+    gravel_dust: 0.2
+    meteoric_iron_ore: 0.02
+    flint: 0.02
+  tooltype: SHOVEL
+  
+SAND:
+  materialset: sand
+  harvestlevel: 1
+  dropchancelevel:
+    sandgold: 0.02
+    sand_dust: 0.2
+  tooltype: SHOVEL
