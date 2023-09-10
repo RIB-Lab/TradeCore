@@ -42,7 +42,7 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
      * @return ルートテーブル
      */
     @ParametersAreNonnullByDefault
-    public static Multimap<Float, String> get(Material material, IToolStatsModifier.ToolType toolType) {
+    public Multimap<Float, String> get(Material material, IToolStatsModifier.ToolType toolType) {
         Multimap<Float, String> itemMultiMap = ArrayListMultimap.create();
         List<Map<String, Float>> itemMaps = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
                 .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
@@ -58,7 +58,7 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
      * @return ルートテーブル
      */
     @ParametersAreNonnullByDefault
-    public static Multimap<Float, String> get(Material material, IToolStatsModifier toolStatsMod) {
+    public Multimap<Float, String> get(Material material, IToolStatsModifier toolStatsMod) {
         IToolStatsModifier.ToolStats toolStats = toolStatsMod.apply(null, null);
         Multimap<Float, String> itemMultiMap = ArrayListMultimap.create();
         List<Map<String, Float>> itemMaps = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
@@ -74,7 +74,7 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
      * あるマテリアルをあるツールで掘るために必要な最小硬度を取得
      */
     @ParametersAreNonnullByDefault
-    public static int getMinHardness(Material material, IToolStatsModifier toolStatsMod) {
+    public int getMinHardness(Material material, IToolStatsModifier toolStatsMod) {
         IToolStatsModifier.ToolStats toolStats = toolStatsMod.apply(null, null);
         List<Integer> hardnessList = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
                 .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
@@ -84,5 +84,9 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
             return Integer.MAX_VALUE;
 
         return Collections.min(hardnessList);
+    }
+
+    public Optional<ILootTable> commandToLootTable(String internalName) {
+        return Optional.ofNullable(LootTableRegistry.INSTANCE.getUnmodifiableElements().get(internalName));
     }
 }

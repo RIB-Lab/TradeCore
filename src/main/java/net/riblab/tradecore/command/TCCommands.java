@@ -18,6 +18,7 @@ import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.CustomEnumArgumentsUtil;
 import net.riblab.tradecore.integration.TCEconomy;
+import net.riblab.tradecore.item.ILootTable;
 import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
@@ -302,7 +303,7 @@ public final class TCCommands {
         itemCommand.withSubcommand(loadedItemGiveCommand);
         itemCommand.withSubcommand(itemReloadCommand);
 
-        CommandAPICommand materialSetCommand = new CommandAPICommand("materialSet")
+        CommandAPICommand materialSetCommand = new CommandAPICommand("materialset")
                 .withPermission(CommandPermission.OP)
                 .withArguments(CustomEnumArgumentsUtil.customMaterialSetArgument("name"))
                 .executesPlayer((player, args) -> {
@@ -312,6 +313,18 @@ public final class TCCommands {
                     }
                 });
         itemCommand.withSubcommand(materialSetCommand);
+
+        CommandAPICommand lootTableCommand = new CommandAPICommand("loottable")
+                .withPermission(CommandPermission.OP)
+                .withArguments(CustomEnumArgumentsUtil.customLootTableArgument("name"))
+                .executesPlayer((player, args) -> {
+                    ILootTable lootTable = (ILootTable) args.get(0);
+                    player.sendMessage("MaterialSet: " + lootTable.getMaterialSetKey());
+                    player.sendMessage("ToolType: " + lootTable.getToolType().toString());
+                    player.sendMessage("HarvestLevel: " + lootTable.getHarvestLevel());
+                    lootTable.getDropChanceMap().forEach((s, aFloat) -> player.sendMessage(s + ":" + aFloat + "%"));
+                });
+        itemCommand.withSubcommand(lootTableCommand);
         
         itemCommand.register();
     }

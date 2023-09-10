@@ -12,6 +12,8 @@ import net.riblab.tradecore.dungeon.IDungeonData;
 import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.mob.TCMobs;
 import net.riblab.tradecore.general.ErrorMessages;
+import net.riblab.tradecore.item.ILootTable;
+import net.riblab.tradecore.item.LootTableRegistry;
 import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
@@ -100,6 +102,18 @@ public class CustomEnumArgumentsUtil {
                         .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput())))
                 .replaceSuggestions(ArgumentSuggestions.strings(info ->
                         MaterialSetRegistry.INSTANCE.getItems().keySet().toArray(String[]::new))
+                );
+    }
+
+    /**
+     * LootTableRegistry内のLootTableのキーをコマンド引数名とする
+     */
+    public static Argument<ILootTable> customLootTableArgument(String nodeName) {
+        return new CustomArgument<>(new StringArgument(nodeName),
+                info -> LootTableRegistry.INSTANCE.commandToLootTable(info.input())
+                        .orElseThrow(() -> CustomArgument.CustomArgumentException.fromMessageBuilder(new CustomArgument.MessageBuilder(ErrorMessages.INVALID_ARGUMENT.get()).appendArgInput())))
+                .replaceSuggestions(ArgumentSuggestions.strings(info ->
+                        LootTableRegistry.INSTANCE.getUnmodifiableElements().keySet().toArray(String[]::new))
                 );
     }
 }
