@@ -16,5 +16,5 @@ public interface ILootTable {
 
     int getHarvestLevel();
 
-    Map<Float, String> getDropChanceMap();
+    Map<String, Float> getDropChanceMap();
 }

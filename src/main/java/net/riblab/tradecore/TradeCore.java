@@ -89,13 +89,6 @@ public class TradeCore extends JavaPlugin {
             AdvancementInitializer.INSTANCE.init();
             ProtocolInitializer.INSTANCE.init();
         }
-        
-        //TEST
-//        Map<String, ILootTable> lootTables = new HashMap<>();
-//        for (LootTables value : LootTables.values()) {
-//            lootTables.put(value.toString(), value.get());
-//        }
-//        DataService.getImpl().exportLootTables(lootTables);
     }
 
     @Override

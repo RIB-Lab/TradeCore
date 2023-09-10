@@ -39,7 +39,7 @@ public final class LootTable implements ILootTable {
      * ドロップ率(0~1)とその確率でドロップするアイテムのマップ
      */
     @Getter @Setter
-    private Map<Float, String> dropChanceMap;
+    private Map<String, Float> dropChanceMap;
     
     public LootTable() {
     }
@@ -47,7 +47,7 @@ public final class LootTable implements ILootTable {
     public LootTable(String materialSetKey,
                      IToolStatsModifier.ToolType toolType,
                      int harvestLevel,
-                     Map<Float, String> dropChanceMap) {
+                     Map<String, Float> dropChanceMap) {
         this.materialSetKey = materialSetKey;
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;
