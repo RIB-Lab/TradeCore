@@ -53,9 +53,9 @@ enum DataServiceImpl implements DataService {
         currencyData = JsonIO.loadAsJson(DataPaths.CURRENCY_DATA_FILE.get(), CurrencyData.class);
         jobDatas = JsonIO.loadAsJson(DataPaths.JOBS_DATA_FILE.get(), JobDatas.class);
         loadItems();
-        load(CraftingRecipesRegistry.INSTANCE, DataPaths.CRAFT_RECIPE_DIR.get() ,craftingRecipeIO);
-        load(MaterialSetRegistry.INSTANCE, DataPaths.MATERIAL_SET_DIR.get(), materialSetIO);
-        load(LootTableRegistry.INSTANCE, DataPaths.LOOT_TABLE_DIR.get(), lootTableIO);
+        loadFromYaml(CraftingRecipesRegistry.INSTANCE, DataPaths.CRAFT_RECIPE_DIR.get() ,craftingRecipeIO);
+        loadFromYaml(MaterialSetRegistry.INSTANCE, DataPaths.MATERIAL_SET_DIR.get(), materialSetIO);
+        loadFromYaml(LootTableRegistry.INSTANCE, DataPaths.LOOT_TABLE_DIR.get(), lootTableIO);
         
         postLoad();
     }
@@ -65,6 +65,7 @@ enum DataServiceImpl implements DataService {
      */
     private void postLoad(){
         CraftingRecipesRegistry.INSTANCE.validate();
+        LootTableRegistry.INSTANCE.validate();
     }
 
     public void exportItem(ITCItem item) {
@@ -88,14 +89,14 @@ enum DataServiceImpl implements DataService {
     }
     
     public void loadItems(){
-        load(TCItemRegistry.INSTANCE, DataPaths.ITEM_DIR.get(), itemIO);
+        loadFromYaml(TCItemRegistry.INSTANCE, DataPaths.ITEM_DIR.get(), itemIO);
     }
 
     public void exportMaterialSets(Map<String, Set<Material>> materialSets) {
         materialSetIO.serialize(materialSets, DataPaths.MATERIAL_SET_EXPORT_FILE.get());
     }
     
-    public <T> void load(IRegistry<T> registry, File pathToLoad, InterfaceIO<T> interfaceIO){
+    public <T> void loadFromYaml(IRegistry<T> registry, File pathToLoad, InterfaceIO<T> interfaceIO){
         registry.clear();
         List<File> files;
         try {

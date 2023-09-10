@@ -60,8 +60,6 @@ public sealed interface DataService permits DataServiceImpl {
 
     void exportLootTables(Map<String, ILootTable> lootTables);
 
-    <T> void load(IRegistry<T> registry, File pathToLoad, InterfaceIO<T> interfaceIO);
-
     /**
      * アイテムレジストリのloadのショートカット
      */

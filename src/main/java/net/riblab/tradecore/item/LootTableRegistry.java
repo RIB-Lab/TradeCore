@@ -6,6 +6,7 @@ package net.riblab.tradecore.item;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.general.IRegistry;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
 import org.bukkit.Material;
 
@@ -88,5 +89,22 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
 
     public Optional<ILootTable> commandToLootTable(String internalName) {
         return Optional.ofNullable(LootTableRegistry.INSTANCE.getUnmodifiableElements().get(internalName));
+    }
+
+    /**
+     * ルートテーブルがちゃんと成立しているか確認する
+     */
+    public void validate() {
+        for (Map.Entry<String, ILootTable> lootTableEntry : lootTables.entrySet()) {
+            MaterialSetRegistry.INSTANCE.commandToMaterialSet(lootTableEntry.getValue().getMaterialSetKey()).orElseThrow(
+                    () -> new NoSuchElementException("ルートテーブル" + lootTableEntry.getKey() + "のマテリアルセット" + lootTableEntry.getValue().getMaterialSetKey() + "がレジストリに見つかりません。"));
+            lootTableEntry.getValue().getDropChanceMap().forEach((itemStr, aFloat) -> {
+                TCItemRegistry.INSTANCE.commandToTCItem(itemStr).orElseThrow(
+                        () -> new NoSuchElementException("ルートテーブル" + lootTableEntry.getKey() + "のアイテム" + itemStr + "がアイテムレジストリに見つかりません。"));
+                if(aFloat < 0 || aFloat > 1){
+                    throw new IllegalArgumentException("ルートテーブル" + lootTableEntry.getKey() + "の確率" + aFloat + "が不正です。0から1までの値にしてください");
+                }
+            });
+        }
     }
 }
