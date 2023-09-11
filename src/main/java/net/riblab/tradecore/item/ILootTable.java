@@ -3,6 +3,7 @@
  */
 package net.riblab.tradecore.item;
 
+import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.modifier.IToolStatsModifier.ToolType;
 
 import java.util.Map;
@@ -16,5 +17,5 @@ public interface ILootTable {
 
     int getHarvestLevel();
 
-    Map<String, Float> getDropChanceMap();
+    Map<String, ChanceFloat> getDropChanceMap();
 }

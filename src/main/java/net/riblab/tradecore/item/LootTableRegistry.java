@@ -5,6 +5,7 @@ package net.riblab.tradecore.item;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.general.IRegistry;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
@@ -45,11 +46,11 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
     @ParametersAreNonnullByDefault
     public Multimap<Float, String> get(Material material, IToolStatsModifier.ToolType toolType) {
         Multimap<Float, String> itemMultiMap = ArrayListMultimap.create();
-        List<Map<String, Float>> itemMaps = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
+        List<Map<String, ChanceFloat>> itemMaps = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
                 .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
                 .filter(table1 -> table1.getToolType() == toolType)
                 .map(ILootTable::getDropChanceMap).toList();
-        itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach((s, aFloat) -> itemMultiMap.put(aFloat, s)));
+        itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach((s, aFloat) -> itemMultiMap.put(aFloat.get(), s)));
         return itemMultiMap;
     }
 
@@ -62,12 +63,12 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
     public Multimap<Float, String> get(Material material, IToolStatsModifier toolStatsMod) {
         IToolStatsModifier.ToolStats toolStats = toolStatsMod.apply(null, null);
         Multimap<Float, String> itemMultiMap = ArrayListMultimap.create();
-        List<Map<String, Float>> itemMaps = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
+        List<Map<String, ChanceFloat>> itemMaps = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
                 .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
                 .filter(table1 -> table1.getToolType() == toolStats.getToolType())
                 .filter(ILootTable -> ILootTable.getHarvestLevel() <= toolStats.getHarvestLevel())
                 .map(ILootTable::getDropChanceMap).toList();
-        itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach((s, aFloat) -> itemMultiMap.put(aFloat, s)));
+        itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach((s, aFloat) -> itemMultiMap.put(aFloat.get(), s)));
         return itemMultiMap;
     }
 
@@ -101,9 +102,6 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
             lootTableEntry.getValue().getDropChanceMap().forEach((itemStr, aFloat) -> {
                 TCItemRegistry.INSTANCE.commandToTCItem(itemStr).orElseThrow(
                         () -> new NoSuchElementException("ルートテーブル" + lootTableEntry.getKey() + "のアイテム" + itemStr + "がアイテムレジストリに見つかりません。"));
-                if(aFloat < 0 || aFloat > 1){
-                    throw new IllegalArgumentException("ルートテーブル" + lootTableEntry.getKey() + "の確率" + aFloat + "が不正です。0から1までの値にしてください");
-                }
             });
         }
     }

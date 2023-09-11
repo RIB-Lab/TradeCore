@@ -5,6 +5,7 @@ package net.riblab.tradecore.item;
 
 import lombok.Getter;
 import lombok.Setter;
+import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
 
 import java.util.Map;
@@ -39,7 +40,7 @@ public final class LootTable implements ILootTable {
      * ドロップ率(0~1)とその確率でドロップするアイテムのマップ
      */
     @Getter @Setter
-    private Map<String, Float> dropChanceMap;
+    private Map<String, ChanceFloat> dropChanceMap;
     
     public LootTable() {
     }
@@ -47,7 +48,7 @@ public final class LootTable implements ILootTable {
     public LootTable(String materialSetKey,
                      IToolStatsModifier.ToolType toolType,
                      int harvestLevel,
-                     Map<String, Float> dropChanceMap) {
+                     Map<String, ChanceFloat> dropChanceMap) {
         this.materialSetKey = materialSetKey;
         this.toolType = toolType;
         this.harvestLevel = harvestLevel;

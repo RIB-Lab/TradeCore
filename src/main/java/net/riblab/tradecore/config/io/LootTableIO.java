@@ -1,6 +1,7 @@
 package net.riblab.tradecore.config.io;
 
 
+import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.ILootTable;
 import net.riblab.tradecore.item.LootTable;
@@ -79,12 +80,12 @@ public final class LootTableIO implements InterfaceIO<Map<String, ILootTable>> {
 
     private static void parseDropChance(LootTable deserializedTable, NodeTuple nodeTuple3) {
         if(nodeTuple3.getValueNode() instanceof MappingNode valueNode3Map){
-            Map<String, Float> chanceMap = new HashMap<>();
+            Map<String, ChanceFloat> chanceMap = new HashMap<>();
             Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
             while (iterator4.hasNext()) {
                 NodeTuple nodeTuple4 = iterator4.next(); //sand_dust: 0.2c
                 String itemName = ((ScalarNode)nodeTuple4.getKeyNode()).getValue();
-                Float chance =  Float.parseFloat(((ScalarNode)nodeTuple4.getValueNode()).getValue());
+                ChanceFloat chance = new ChanceFloat(Float.parseFloat(((ScalarNode)nodeTuple4.getValueNode()).getValue()));
                 chanceMap.put(itemName, chance);
             }
             deserializedTable.setDropChanceMap(chanceMap);
@@ -114,7 +115,10 @@ public final class LootTableIO implements InterfaceIO<Map<String, ILootTable>> {
             lootTableParams.put(MATERIAL_SET.get(), entry.getValue().getMaterialSetKey());
             lootTableParams.put(TOOL_TYPE.get(), entry.getValue().getToolType().toString());
             lootTableParams.put(HARVEST_LEVEL.get(), entry.getValue().getHarvestLevel());
-            lootTableParams.put(DROPCHANCE_LEVEL.get(), entry.getValue().getDropChanceMap());
+            
+            Map<String, Float> dropChanceMapFloat = new HashMap<>();
+            entry.getValue().getDropChanceMap().forEach((s, chanceFloat) -> dropChanceMapFloat.put(s, chanceFloat.get()));
+            lootTableParams.put(DROPCHANCE_LEVEL.get(), dropChanceMapFloat);
 
             lootTableReady.put(entry.getKey(), lootTableParams);
         }
