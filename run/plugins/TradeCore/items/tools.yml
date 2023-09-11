@@ -135,28 +135,28 @@ iron_hoe:
   
 golden_hoe:
   mods:
-    defaultminingspeed: '"IRONMADE"'
+    defaultminingspeed: '"GOLDMADE"'
     toolstats: '{"toolType":"HOE","harvestLevel":2}'
-    defaultmaxdurability: '"IRONAGE"'
+    defaultmaxdurability: '"GOLDAGE"'
   material: GOLDEN_HOE
   name: 金のクワ
   model: 0
   
 golden_pickaxe:
   mods:
-    defaultminingspeed: '"IRONMADE"'
+    defaultminingspeed: '"GOLDMADE"'
     toolstats: '{"toolType":"PICKAXE","harvestLevel":2}'
     monsterspawn: '{"basic_silverfish":0.01}'
-    defaultmaxdurability: '"IRONAGE"'
+    defaultmaxdurability: '"GOLDAGE"'
   material: GOLDEN_PICKAXE
   name: 金のツルハシ
   model: 0
   
 golden_shovel:
   mods:
-    defaultminingspeed: '"IRONMADE"'
+    defaultminingspeed: '"GOLDMADE"'
     toolstats: '{"toolType":"SHOVEL","harvestLevel":2}'
-    defaultmaxdurability: '"IRONAGE"'
+    defaultmaxdurability: '"GOLDAGE"'
   material: GOLDEN_SHOVEL
   name: 金のシャベル
   model: 0
@@ -166,7 +166,7 @@ golden_axe:
     defaultminingspeed: '"GOLDMADE"'
     toolstats: '{"toolType":"AXE","harvestLevel":4}'
     monsterspawn: '{"basic_treant":0.05}'
-    defaultmaxdurability: '"IRONAGE"'
+    defaultmaxdurability: '"GOLDAGE"'
   material: GOLDEN_AXE
   name: 金の斧
   model: 0

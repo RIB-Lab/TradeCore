@@ -29,7 +29,7 @@ public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> i
     public PackedAttackData apply(PackedAttackData originalValue, PackedAttackData modifiedValue) {
         modifiedValue.setResult(getParam().attackFunction.apply(modifiedValue.getPlayer(), modifiedValue.getDamage()));
         if (getParam().attackSpeed > 0)
-            AttackCooldownService.getImpl().add(modifiedValue.getPlayer(), getParam().attackSpeed);
+            AttackCooldownService.getImpl().add(modifiedValue.getPlayer(), 1 / getParam().attackSpeed);
 
         return modifiedValue;
     }
@@ -40,6 +40,8 @@ public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> i
         DAGGER(WeaponAttributeDagger::attack, -1.5d),
         BATTLEAXE(WeaponAttributeBattleAxe::attack, -3.6d),
         BOW(WeaponAttributeBow::attack, 1),
+        SHORT_BOW(WeaponAttributeBow::attack, 1.4),
+        LONG_BOW(WeaponAttributeBow::attack, 0.7),
         WAND(WeaponAttributeWand::attack,1);
 
         /**

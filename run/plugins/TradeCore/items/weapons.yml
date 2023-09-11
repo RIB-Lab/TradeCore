@@ -46,16 +46,34 @@ stone_spear:
   
 basic_bow:
   mods:
-    defaultattackdamage: '{"baseDamage":4.0,"spread":"IRON"}'
+    defaultattackdamage: '{"baseDamage":4.0,"spread":"STONE"}'
     weaponattribute: '"BOW"'
     defaultmaxdurability: '"IRONAGE"'
   material: BOW
   name: 普通の弓
   model: 0
   
-basic_wand:
+basic_short_bow:
   mods:
     defaultattackdamage: '{"baseDamage":2.0,"spread":"WOOD"}'
+    weaponattribute: '"SHORT_BOW"'
+    defaultmaxdurability: '"IRONAGE"'
+  material: BOW
+  name: 普通のショートボウ
+  model: 0
+  
+basic_long_bow:
+  mods:
+    defaultattackdamage: '{"baseDamage":6.0,"spread":"IRON"}'
+    weaponattribute: '"LONG_BOW"'
+    defaultmaxdurability: '"GOLDAGE"' # 攻撃速度が遅いので耐久値を控えめにする
+  material: BOW
+  name: 普通のロングボウ
+  model: 0
+  
+basic_wand:
+  mods:
+    defaultattackdamage: '{"baseDamage":2.5,"spread":"WOOD"}'
     weaponattribute: '"WAND"'
     defaultmaxdurability: '"IRONAGE"'
   material: STICK

@@ -11,9 +11,9 @@ import java.util.Random;
  * 武器のtierごとに武器に付与されるランダムアタックダメージがどれだけ拡散するか
  */
 public enum AttackDamageSpread {
-    WOOD(0.5),
-    STONE(1.0),
-    IRON(1.5);
+    WOOD(0.25),
+    STONE(0.5),
+    IRON(0.75);
 
     @Getter
     private final double spreading;

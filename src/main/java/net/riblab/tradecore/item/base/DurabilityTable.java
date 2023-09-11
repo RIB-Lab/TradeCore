@@ -15,7 +15,8 @@ public enum DurabilityTable {
     HATCHET(10, 10, 10), //バニラのクラフトシステムを利用するためプロパティを固定する必要がある
     WOODENAGE(25, 32, 39),
     STONEAGE(108, 128, 148),
-    IRONAGE(452, 512, 572);
+    IRONAGE(452, 512, 572),
+    GOLDAGE(220,256,292);
 
     /**
      * このテーブルに属するアイテムが取る最小の最大耐久値

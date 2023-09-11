@@ -16,7 +16,7 @@ public enum MiningSpeedTable {
     WOODMADE(1.15, 1.2, 1.25),
     STONEMADE(1.20, 1.25, 1.30),
     IRONMADE(1.3, 1.4, 1.5),
-    GOLDMADE(1.4, 1.5, 1.6);
+    GOLDMADE(1.6, 1.7, 1.8);
 
     /**
      * 最小採掘速度
