@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.block;
 
@@ -7,13 +7,11 @@ import com.google.common.collect.Multimap;
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.mob.MobUtils;
+import net.riblab.tradecore.general.WorldNames;
 import net.riblab.tradecore.integration.WorldGuardUtil;
-import net.riblab.tradecore.item.ItemCreator;
-import net.riblab.tradecore.item.ItemUtils;
-import net.riblab.tradecore.item.LootTables;
-import net.riblab.tradecore.item.Materials;
+import net.riblab.tradecore.item.*;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
@@ -40,6 +38,11 @@ import java.util.*;
  */
 public final class BlockStateEventHandler implements Listener {
 
+    private static final int playerReach = 5;
+    private static final double maxBlockDistance = 1024d;
+    private static final double bareHandMiningSpeed = 0.1d;
+    private static final int enemySpawnRadius = 5;
+
     private BrokenBlocksService getService() {
         return BrokenBlocksService.getImpl();
     }
@@ -49,13 +52,13 @@ public final class BlockStateEventHandler implements Listener {
      */
     @ParametersAreNonnullByDefault
     public void tryCreateBrokenBlock(BlockDamageEvent event) {
-        if (Materials.UNBREAKABLE.get().contains(event.getBlock().getType())) {
+        if (MaterialSetRegistry.INSTANCE.commandToMaterialSet("unbreakable").orElseThrow().contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
         }
 
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
-        if (TCItems.DESTRUCTORS_WAND.get().isSimilar(mainHand) && event.getBlock().getWorld().getName().equals("world")) { //高速破壊杖
+        if (TCItemRegistry.INSTANCE.commandToTCItem("destructors_wand").orElseThrow().isSimilar(mainHand) && event.getBlock().getWorld().getName().equals(WorldNames.OVERWORLD.get())) { //高速破壊杖
             if (TradeCore.isWGLoaded() && !WorldGuardUtil.canBreakBlockWithWG(event.getPlayer(), event.getBlock())) {
                 event.setCancelled(true);
                 return;
@@ -78,7 +81,7 @@ public final class BlockStateEventHandler implements Listener {
         transparentBlocks.add(Material.WATER);
         transparentBlocks.add(Material.LAVA);
         transparentBlocks.add(Material.AIR);
-        Block block = player.getTargetBlock(transparentBlocks, 5);
+        Block block = player.getTargetBlock(transparentBlocks, playerReach);
         Location blockPosition = block.getLocation();
 
         if (!getService().isPlayerAlreadyBreaking(player)) return;
@@ -88,24 +91,25 @@ public final class BlockStateEventHandler implements Listener {
         double distanceY = blockPosition.getY() - player.getLocation().y();
         double distanceZ = blockPosition.getZ() - player.getLocation().z();
 
-        if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
+        if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= maxBlockDistance) return;
 
         ItemStack mainHandItem = event.getPlayer().getInventory().getItemInMainHand();
-        ITCItem itcItem = TCItems.toTCItem(mainHandItem);
-        if(Objects.isNull(itcItem)){
-            getService().incrementDamage(player, 0.1d); //カスタムアイテム以外を持っているなら実質素手
-            return;
-        }
-        List<IItemMod<?>> mods = itcItem.getDefaultMods();
-        IToolStatsModifier mod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
-        if(Objects.isNull(mod)){
-            getService().incrementDamage(player, 0.1d); //ツールステータスが付与されているアイテム以外を持っているなら実質素手
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(mainHandItem);
+        if (itcItem.isEmpty()) {
+            getService().incrementDamage(player, bareHandMiningSpeed); //カスタムアイテム以外を持っているなら実質素手
             return;
         }
 
-        int minHardness = LootTables.getMinHardness(block.getType(), mod);
+        List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
+        IToolStatsModifier mod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
+        if (Objects.isNull(mod)) {
+            getService().incrementDamage(player, bareHandMiningSpeed); //ツールステータスが付与されているアイテム以外を持っているなら実質素手
+            return;
+        }
+
+        int minHardness = LootTableRegistry.INSTANCE.getMinHardness(block.getType(), mod);
         if (minHardness > mod.apply(null, null).getHarvestLevel()) {
-            getService().incrementDamage(player, 0.1d); //ツールで採掘できないなら実質素手
+            getService().incrementDamage(player, bareHandMiningSpeed); //ツールで採掘できないなら実質素手
             return;
         }
 
@@ -117,11 +121,11 @@ public final class BlockStateEventHandler implements Listener {
     /**
      * ツールを一振りしたらどれくらい亀裂が入るかの実際の値を取得
      */
-    public double getActualMiningSpeed(ItemStack itemStack){
+    public double getActualMiningSpeed(ItemStack itemStack) {
         List<IItemMod<?>> mods = new ItemCreator(itemStack).getItemRandomMods();
         IMiningSpeedModifier miningSpeedMod = (IMiningSpeedModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IMiningSpeedModifier).findFirst().orElse(null);
-        double miningSpeed = 0.1d;
-        if(Objects.nonNull(miningSpeedMod))
+        double miningSpeed = bareHandMiningSpeed;
+        if (Objects.nonNull(miningSpeedMod))
             miningSpeed = miningSpeedMod.apply(miningSpeed, miningSpeed);
         return miningSpeed;
     }
@@ -131,7 +135,8 @@ public final class BlockStateEventHandler implements Listener {
      */
     @ParametersAreNonnullByDefault
     public void tryHarvestBlockWithCustomTool(BlockBreakEvent event) {
-        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && Materials.UNBREAKABLE.get().contains(event.getBlock().getType())) {
+        if (event.getPlayer().getGameMode() != GameMode.CREATIVE && 
+                MaterialSetRegistry.INSTANCE.commandToMaterialSet("unbreakable").orElseThrow().contains(event.getBlock().getType())) {
             event.setCancelled(true);
             return;
         }
@@ -143,8 +148,8 @@ public final class BlockStateEventHandler implements Listener {
 
         ItemStack mainHand = event.getPlayer().getInventory().getItemInMainHand();
         if (mainHand.getType() == Material.AIR) {//素手
-            Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), IToolStatsModifier.ToolType.HAND);
-            if (table.size() != 0) {
+            Multimap<Float, String> table = LootTableRegistry.INSTANCE.get(event.getBlock().getType(), IToolStatsModifier.ToolType.HAND);
+            if (!table.isEmpty()) {
                 event.setCancelled(true);
                 event.getBlock().setType(Material.AIR);
                 ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
@@ -153,13 +158,13 @@ public final class BlockStateEventHandler implements Listener {
             }
         }
 
-        ITCItem itcItem = TCItems.toTCItem(mainHand);
-        if(Objects.isNull(itcItem)){
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(mainHand);
+        if (itcItem.isEmpty()) {
             event.setDropItems(false);//適正ツール以外での採掘は何も落とさない
             return;
         }
-        
-        List<IItemMod<?>> mods = itcItem.getDefaultMods();
+
+        List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (Objects.isNull(toolMod)) { //ツール
             //適正ツール以外での採掘は何も落とさない
@@ -167,7 +172,7 @@ public final class BlockStateEventHandler implements Listener {
             return;
         }
 
-        Multimap<Float, ITCItem> table = LootTables.get(event.getBlock().getType(), toolMod);
+        Multimap<Float, String> table = LootTableRegistry.INSTANCE.get(event.getBlock().getType(), toolMod);
         if (table.isEmpty()) {
             event.setDropItems(false);
             return;
@@ -178,17 +183,17 @@ public final class BlockStateEventHandler implements Listener {
         ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(mainHand, 1);
         event.getPlayer().getInventory().setItemInMainHand(newItemStack);
 
-        IMonsterSpawnModifier spawnMod = (IMonsterSpawnModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IMonsterSpawnModifier).findFirst().orElse(null);
+        IMonsterSpawnModifier spawnMod = (IMonsterSpawnModifier) itcItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IMonsterSpawnModifier).findFirst().orElse(null);
         if (Objects.nonNull(spawnMod)) {
             List<ITCMob> mobsToSpawn = new ArrayList<>();
             mobsToSpawn = spawnMod.apply(mobsToSpawn, mobsToSpawn);
-            MobUtils.trySpawnMobInRandomArea(event.getPlayer(), event.getBlock(), mobsToSpawn, 5);
+            MobUtils.trySpawnMobInRandomArea(event.getPlayer(), event.getBlock(), mobsToSpawn, enemySpawnRadius);
         }
 
-        JobType jobType = toolMod.apply(null,null).getToolType().getExpType();
+        JobType jobType = toolMod.apply(null, null).getToolType().getExpType();
         if (Objects.nonNull(jobType)) {
             //硬度によって経験値が決まるが、硬度0でも1は入るようにする
-            JobDataService.getImpl().addJobExp(event.getPlayer(), jobType, LootTables.getMinHardness(event.getBlock().getType(), toolMod) + 1);
+            JobDataService.getImpl().addJobExp(event.getPlayer(), jobType, LootTableRegistry.INSTANCE.getMinHardness(event.getBlock().getType(), toolMod) + 1);
         }
 
         event.getBlock().setType(Material.AIR);
@@ -199,15 +204,15 @@ public final class BlockStateEventHandler implements Listener {
      */
     @ParametersAreNonnullByDefault
     public void tryProcessHoeDrop(BlockPlaceEvent event) {
-        ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(event.getItemInHand());
 
-        if (Objects.isNull(itcItem))
+        if (itcItem.isEmpty())
             return;
 
-        List<IItemMod<?>> mods = itcItem.getDefaultMods();
+        List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (event.getBlock().getType() == Material.FARMLAND && Objects.nonNull(toolMod)) { //耕地を耕したときのドロップ
-            Multimap<Float, ITCItem> table = LootTables.get(Material.FARMLAND, toolMod);
+            Multimap<Float, String> table = LootTableRegistry.INSTANCE.get(Material.FARMLAND, toolMod);
             ItemUtils.dropItemByLootTable(event.getPlayer(), event.getBlock(), table);
             ItemStack newItemStack = ItemUtils.reduceDurabilityIfPossible(event.getItemInHand(), 1);
             if (event.getHand() == EquipmentSlot.HAND)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.config;
 
@@ -14,9 +14,9 @@ import java.util.Map;
 import java.util.UUID;
 
 public class JobDatas {
-    
+
     private Map<UUID, List<JobData>> playerJobs = new HashMap<>();
-    
+
     private Map<UUID, List<JobSkill>> playerJobSkills = new HashMap<>();
 
     /**

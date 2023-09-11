@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -7,19 +7,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import net.riblab.tradecore.modifier.IDurabilityModifier;
 
+import java.util.Optional;
+
 public class ModRandomDurabilityI extends ItemMod<ModRandomDurabilityI.PackedDurabilityData> implements IDurabilityModifier {
 
     /**
      * アイテムのランダムな最大耐久値と現在の耐久値を保存するmod。アイテム内に焼きこまれる
-     * @param data　耐久値
+     *
+     * @param data 　耐久値
      */
     public ModRandomDurabilityI(PackedDurabilityData data) {
         super(data);
     }
 
     @Override
-    public String getLore() {
-        return "耐久値: " + getParam().getCurrentDur() + "/" + getParam().getMaxDur();
+    public Optional<String> getLore() {
+        return Optional.of("耐久値: " + getParam().getCurrentDur() + "/" + getParam().getMaxDur());
     }
 
     @Override
@@ -29,7 +32,7 @@ public class ModRandomDurabilityI extends ItemMod<ModRandomDurabilityI.PackedDur
 
     @Data
     @AllArgsConstructor
-    public static class PackedDurabilityData{
+    public static class PackedDurabilityData {
         int currentDur;
         int maxDur;
     }

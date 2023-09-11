@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item;
 
@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.function.Consumer;
 
-public sealed interface PlayerItemModService permits PlayerItemModServiceImpl{
+public sealed interface PlayerItemModService permits PlayerItemModServiceImpl {
 
     static PlayerItemModService getImpl() {
         return PlayerItemModServiceImpl.INSTANCE;

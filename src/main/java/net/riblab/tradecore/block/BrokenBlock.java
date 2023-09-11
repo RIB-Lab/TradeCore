@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.block;
 
@@ -21,6 +21,8 @@ import java.util.function.Consumer;
  * クライアントが破壊中のブロックをサーバーサイドで保存するためのクラス
  */
 class BrokenBlock {
+
+    private static final int blockMaxDamage = 10;
 
     /**
      * 現在のひび割れの度合(-1~10)
@@ -55,7 +57,7 @@ class BrokenBlock {
 
         damage += amount;
 
-        if (damage < 10) {
+        if (damage < blockMaxDamage) {
             sendBreakPacket(from);
         } else {
             breakBlock(from);
@@ -66,7 +68,7 @@ class BrokenBlock {
      * ブロックが完全に破壊されたどうか
      */
     public boolean isBroken() {
-        return getDamage() >= 10;
+        return getDamage() >= blockMaxDamage;
     }
 
     /**

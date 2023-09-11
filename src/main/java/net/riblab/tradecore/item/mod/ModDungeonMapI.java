@@ -1,23 +1,25 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
-import net.riblab.tradecore.dungeon.DungeonNames;
+import net.riblab.tradecore.dungeon.DungeonDatas;
 import net.riblab.tradecore.modifier.IEnterDungeonModifier;
 
-public class ModDungeonMapI extends ItemMod<DungeonNames> implements IEnterDungeonModifier {
-    public ModDungeonMapI(DungeonNames name) {
+import java.util.Optional;
+
+public class ModDungeonMapI extends ItemMod<String> implements IEnterDungeonModifier {
+    public ModDungeonMapI(String name) {
         super(name);
     }
 
     @Override
-    public String getLore() {
-        return "「" +this.getParam().getDisplayName() + "」に入場できる";
+    public Optional<String> getLore() {
+        return Optional.of("「" + DungeonDatas.internalNameToDungeonData(this.getParam()).orElseThrow().getName() + "」に入場できる");
     }
 
     @Override
-    public DungeonNames apply(DungeonNames originalValue, DungeonNames modifiedValue) {
+    public String apply(String originalValue, String modifiedValue) {
         return getParam();
     }
 }

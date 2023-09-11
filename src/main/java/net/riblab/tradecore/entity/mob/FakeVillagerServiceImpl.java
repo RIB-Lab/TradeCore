@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.entity.mob;
 
@@ -92,7 +92,7 @@ enum FakeVillagerServiceImpl implements FakeVillagerService {
     }
 
     @Override
-    public Integer getCurrentID(Player player) {
-        return idMap.get(player);
+    public Optional<Integer> getCurrentID(Player player) {
+        return Optional.ofNullable(idMap.get(player));
     }
 }

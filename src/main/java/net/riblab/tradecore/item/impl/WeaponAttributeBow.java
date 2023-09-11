@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.impl;
 
@@ -14,14 +14,14 @@ public class WeaponAttributeBow {
      * 矢のスピード
      */
     private static final double force = 3;
-    
+
     public static boolean attack(Player player, double damage) {
-        if(AttackCooldownService.getImpl().getCooldown(player) != 0)
+        if (AttackCooldownService.getImpl().getCooldown(player) != 0)
             return false;
-        
+
         Vector direction = player.getLocation().getDirection().multiply(force);
         CustomProjectileService.getImpl().spawn(player, CustomProjectileService.ARROW, direction, damage);
-        
+
         return true;
     }
 }

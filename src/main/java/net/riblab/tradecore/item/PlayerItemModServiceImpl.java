@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item;
 
 import lombok.Getter;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.modifier.IModifier;
 import org.bukkit.entity.Player;
@@ -40,25 +40,19 @@ enum PlayerItemModServiceImpl implements PlayerItemModService {
     public void updateEquipment(Player player) {
         List<IItemMod<?>> mods = new ArrayList<>();
         for (ItemStack armorContent : player.getInventory().getArmorContents()) {
-            ITCItem tcItem = TCItems.toTCItem(armorContent);
-            if (Objects.isNull(tcItem))
-                continue;
-
-            mods.addAll(tcItem.getDefaultMods());
+            TCItemRegistry.INSTANCE.toTCItem(armorContent).ifPresent(itcItem -> mods.addAll(itcItem.getDefaultMods()));
         }
         playerEquipmentModMap.put(player, mods);
 
-        onItemModUpdated.forEach(playerConsumer -> playerConsumer.accept(player));
+        for (Consumer<Player> playerConsumer : onItemModUpdated) {
+            playerConsumer.accept(player);
+        }
     }
 
     @Override
     public void updateMainHand(Player player, int newSlot) {
-        ITCItem tcItem = TCItems.toTCItem(player.getInventory().getItem(newSlot));
-        if (Objects.nonNull(tcItem)) {
-            playerMainHandModMap.put(player, tcItem.getDefaultMods());
-        } else {
-            playerMainHandModMap.remove(player);
-        }
+        Optional<ITCItem> tcItem = TCItemRegistry.INSTANCE.toTCItem(player.getInventory().getItem(newSlot));
+        playerMainHandModMap.put(player, tcItem.map(ITCItem::getDefaultMods).orElse(null));
 
         onItemModUpdated.forEach(playerConsumer -> playerConsumer.accept(player));
     }

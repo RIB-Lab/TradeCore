@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.impl;
 
@@ -16,7 +16,7 @@ public class WeaponAttributeSpear {
     private static final double reach = 5;
 
     private static final double angle = 30;
-    
+
     public static boolean attack(Player player, double damage) {
         boolean isHit = false;
         List<Entity> nearbyEntities = player.getNearbyEntities(5, 5, 5);

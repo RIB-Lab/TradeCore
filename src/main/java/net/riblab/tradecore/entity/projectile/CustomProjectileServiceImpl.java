@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.entity.projectile;
 
@@ -26,12 +26,12 @@ enum CustomProjectileServiceImpl implements CustomProjectileService {
 
     @Override
     public void onCustomProjectileHit(Projectile projectile) {
-        if(!spawnedProjectiles.contains(projectile)){
+        if (!spawnedProjectiles.contains(projectile)) {
             return;
         }
-        
+
         spawnedProjectiles.remove(projectile);
-        
+
         projectile.remove();
     }
 

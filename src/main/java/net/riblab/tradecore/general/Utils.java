@@ -1,14 +1,12 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.general;
 
 import net.riblab.tradecore.TradeCore;
 import net.riblab.tradecore.craft.TCFurnaceRecipes;
 import net.riblab.tradecore.entity.mob.TCMobs;
-import net.riblab.tradecore.item.LootTables;
 import net.riblab.tradecore.item.PlayerItemModService;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.modifier.IModifier;
@@ -64,7 +62,7 @@ public final class Utils {
      *
      * @param srcDirName コピー前の.jar内のディレクトリの名前
      * @param destDir    .jarの外のディレクトリのパス
-     * @throws IOException　コピーに失敗
+     * @throws IOException 　コピーに失敗
      */
     @ParametersAreNonnullByDefault
     public static void copyFolder(String srcDirName, File destDir) throws IOException {
@@ -145,7 +143,7 @@ public final class Utils {
     /**
      * フォルダーを完全に削除する
      *
-     * @param file　削除したいフォルダーのパス
+     * @param file 　削除したいフォルダーのパス
      * @return 削除に成功したかどうか
      */
     @ParametersAreNonnullByDefault
@@ -181,9 +179,7 @@ public final class Utils {
      * ロード順によって競合の可能性のあるenumを安全に初期化する
      */
     public static void initializeEnumSafely() {
-        TCItems.values();
         TCMobs.values();
-        LootTables.values();
         TCFurnaceRecipes.values();
 
         JobType.values();
@@ -192,9 +188,10 @@ public final class Utils {
 
     /**
      * プラグインのバージョンを取得する
+     *
      * @return プラグインのバージョン
      */
-    public static String getVersion(){
+    public static String getVersion() {
         return TradeCore.getInstance().getDescription().getVersion();
     }
 }

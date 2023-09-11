@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -9,7 +9,7 @@ import net.riblab.tradecore.modifier.IMonsterSpawnModifier;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -25,8 +25,8 @@ public class ModMonsterSpawnI extends ItemMod<Map<String, Float>> implements IMo
     }
 
     @Override
-    public String getLore() {
-        return null;
+    public Optional<String> getLore() {
+        return Optional.empty();
     }
 
     @Override
@@ -34,11 +34,10 @@ public class ModMonsterSpawnI extends ItemMod<Map<String, Float>> implements IMo
         float rand = new Random().nextFloat();
         getParam().forEach((string, aFloat) -> {
             if (rand < aFloat) {
-                ITCMob mob = TCMobs.commandToTCMob(string);
-                modifiedValue.add(mob);
+                TCMobs.commandToTCMob(string).ifPresent(modifiedValue::add);
             }
         });
-        
+
         return modifiedValue;
     }
 }

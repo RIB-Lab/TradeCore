@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.config.io;
 
@@ -10,14 +10,14 @@ enum CraftingRecipeIOTags {
     RESULT("result"),
     RESULTAMOUNT("resultAmount"),
     ;
-    
+
     private final String name;
 
     CraftingRecipeIOTags(String name) {
         this.name = name;
     }
-    
-    public String get(){
+
+    public String get() {
         return name;
     }
 }

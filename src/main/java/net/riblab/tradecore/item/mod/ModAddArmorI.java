@@ -1,9 +1,11 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IArmorModifier;
+
+import java.util.Optional;
 
 public class ModAddArmorI extends ItemMod<Integer> implements IArmorModifier {
 
@@ -12,8 +14,8 @@ public class ModAddArmorI extends ItemMod<Integer> implements IArmorModifier {
     }
 
     @Override
-    public String getLore() {
-        return "アーマー: " + this.getParam();
+    public Optional<String> getLore() {
+        return Optional.of("アーマー: " + this.getParam());
     }
 
     @Override

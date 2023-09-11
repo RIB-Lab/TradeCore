@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.general;
 
@@ -16,7 +16,7 @@ import net.riblab.tradecore.item.ItemCreator;
 import net.riblab.tradecore.item.ItemUtils;
 import net.riblab.tradecore.item.PlayerItemModService;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.modifier.*;
 import net.riblab.tradecore.playerstats.PlayerStatsService;
@@ -42,6 +42,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -77,7 +78,7 @@ public final class GeneralEventHandler {
             return;
 
         stopBowAim(event);
-        
+
         swingWeapon(event);
         if (event.isCancelled())
             return;
@@ -147,8 +148,8 @@ public final class GeneralEventHandler {
     public void stopBowAim(PlayerInteractEvent event) {
         if (event.getAction() == Action.LEFT_CLICK_BLOCK || event.getAction() == Action.LEFT_CLICK_BLOCK)
             return;
-        
-        if(Objects.nonNull(event.getItem()) && event.getItem().getType() == Material.BOW){
+
+        if (Objects.nonNull(event.getItem()) && event.getItem().getType() == Material.BOW) {
             event.setCancelled(true);
         }
     }
@@ -166,16 +167,16 @@ public final class GeneralEventHandler {
         if (event.getPlayer().getAttackCooldown() != 1)
             return;
 
-        ITCItem itcItem = TCItems.toTCItem(event.getItem());
-        if(Objects.isNull(itcItem))
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(event.getItem());
+        if (itcItem.isEmpty())
             return;
 
-        IWeaponAttackModifier attackMod = (IWeaponAttackModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
+        IWeaponAttackModifier attackMod = (IWeaponAttackModifier) itcItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
         IItemMod<?> damageMod = new ItemCreator(event.getItem()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
         if (Objects.nonNull(damageMod) && Objects.nonNull(attackMod)) { //武器で攻撃
             event.setCancelled(true);
-            
-            double damage = ((Integer)damageMod.getParam()).doubleValue() / 100;
+
+            double damage = ((Integer) damageMod.getParam()).doubleValue() / 100;
 
             IWeaponAttackModifier.PackedAttackData data = new IWeaponAttackModifier.PackedAttackData(event.getPlayer(), damage, false);
             if (attackMod.apply(data, data).isResult()) {
@@ -186,7 +187,7 @@ public final class GeneralEventHandler {
     }
 
     public void processEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        if (!(event.getDamager() instanceof Player)){
+        if (!(event.getDamager() instanceof Player)) {
             tryProcessProjectileAttack(event);
             return;
         }
@@ -219,12 +220,12 @@ public final class GeneralEventHandler {
             return;
         }
 
-        ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-        if(Objects.isNull(item)){
+        Optional<ITCItem> item = TCItemRegistry.INSTANCE.toTCItem(player.getInventory().getItemInMainHand());
+        if (item.isEmpty()) {
             return;
         }
 
-        List<IItemMod<?>> defaultMods = item.getDefaultMods();
+        List<IItemMod<?>> defaultMods = item.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) defaultMods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
         if (Objects.nonNull(toolMod)) { //ツールで攻撃
             boolean canhitWithTool = Utils.apply(player, false, ICanHitWithToolModifier.class);
@@ -239,14 +240,14 @@ public final class GeneralEventHandler {
         }
 
         event.setCancelled(true);
-        
+
         IItemMod<?> damageMod = new ItemCreator(player.getInventory().getItemInMainHand()).getItemRandomMods().stream().filter(iItemMod -> iItemMod instanceof IAttackDamageModifier).findFirst().orElse(null);
         IWeaponAttackModifier attackMod = (IWeaponAttackModifier) defaultMods.stream().filter(iItemMod -> iItemMod instanceof IWeaponAttackModifier).findFirst().orElse(null);
         if (Objects.nonNull(damageMod) && Objects.nonNull(attackMod)) { //武器で攻撃
             if (player.getAttackCooldown() != 1)
                 return;
-            
-            double damage = ((Integer)damageMod.getParam()).doubleValue() / 100;
+
+            double damage = ((Integer) damageMod.getParam()).doubleValue() / 100;
 
             IWeaponAttackModifier.PackedAttackData data = new IWeaponAttackModifier.PackedAttackData(player, damage, false);
             if (attackMod.apply(data, data).isResult()) {
@@ -257,9 +258,9 @@ public final class GeneralEventHandler {
     }
 
     public void tryProcessProjectileAttack(EntityDamageByEntityEvent event) {
-        if(!(event.getDamager() instanceof Projectile projectile))
+        if (!(event.getDamager() instanceof Projectile projectile))
             return;
-        
+
         event.setDamage(CustomProjectileService.getImpl().getCustomProjectileDamage(projectile));
     }
 
@@ -394,20 +395,20 @@ public final class GeneralEventHandler {
     /**
      * 射出物の削除処理
      */
-    public void processProjectileHit(ProjectileHitEvent event){
+    public void processProjectileHit(ProjectileHitEvent event) {
         CustomProjectileService.getImpl().onCustomProjectileHit(event.getEntity());
     }
 
     /**
      * 通常のTCItemsの設置を妨げる
      */
-    public void blockTCItemsPlacement(BlockPlaceEvent event){
-        ITCItem itcItem = TCItems.toTCItem(event.getItemInHand());
+    public void blockTCItemsPlacement(BlockPlaceEvent event) {
+        Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(event.getItemInHand());
 
-        if (Objects.isNull(itcItem))
+        if (itcItem.isEmpty())
             return;
 
-        if(itcItem.getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))
+        if (itcItem.get().getDefaultMods().stream().anyMatch(iItemMod -> iItemMod instanceof IPlaceableModifier))
             return;
 
         event.setCancelled(true);

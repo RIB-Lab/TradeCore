@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.dungeon;
 
@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public sealed interface IDungeonData<T> permits DungeonData {
-    DungeonNames getNames();
+    String getName();
+    
+    String getInternalName();
 
     Vector getSpawnPoint();
 
@@ -23,5 +25,5 @@ public sealed interface IDungeonData<T> permits DungeonData {
 
     T getProgressionVariable();
 
-    Map<ITCItem, Float> getRewardPool();
+    Map<String, Float> getRewardPool();
 }

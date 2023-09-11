@@ -1,10 +1,11 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.dungeon;
 
 import io.papermc.lib.PaperLib;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.general.WorldNames;
 import net.riblab.tradecore.item.ItemUtils;
@@ -25,10 +26,10 @@ import java.util.*;
 enum DungeonServiceImpl implements DungeonService {
     INSTANCE;
 
-    DungeonServiceImpl(){
+    DungeonServiceImpl() {
         Utils.forceInit(DungeonProgressionTracker.class);
     }
-    
+
     /**
      * ダンジョンのインスタンス達
      */
@@ -47,13 +48,13 @@ enum DungeonServiceImpl implements DungeonService {
 
     @Override
     @ParametersAreNonnullByDefault
-    public World create(IDungeonData<?> data, int instanceID) {
-        String name = data.getNames().getInternalName();
+    public Optional<World> create(IDungeonData<?> data, int instanceID) {
+        String name = data.getInternalName();
         //ダンジョンのインスタンスの競合を確認
         String affixedDungeonName;
         if (instanceID >= 0) {
             if (isDungeonExist(name, instanceID))
-                return null;
+                return Optional.empty();
 
             affixedDungeonName = getAffixedDungeonName(name, instanceID);
         } else {
@@ -72,13 +73,13 @@ enum DungeonServiceImpl implements DungeonService {
         progressionTracker.onComplete = this::onDungeonComplete;
         progressionTracker.onGameOver = this::destroySpecific;
         dungeons.put(instance, progressionTracker);
-        return instance;
+        return Optional.of(instance);
     }
 
     @Override
     @ParametersAreNonnullByDefault
     public boolean isDungeonExist(IDungeonData<?> data, int id) {
-        return isDungeonExist(data.getNames().getInternalName(), id);
+        return isDungeonExist(data.getInternalName(), id);
     }
 
     private boolean isDungeonExist(String name, int id) {
@@ -100,7 +101,7 @@ enum DungeonServiceImpl implements DungeonService {
     @Override
     @ParametersAreNonnullByDefault
     public void enter(Player player, IDungeonData<?> data, int id) {
-        enter(player, getDungeonWorld(data.getNames().getInternalName(), id));
+        enter(player, getDungeonWorld(data.getInternalName(), id));
     }
 
     @Override
@@ -215,7 +216,7 @@ enum DungeonServiceImpl implements DungeonService {
                 return predicate;
             }
         }
-        throw new RuntimeException("ダンジョンのインスタンス数が1000を超えました。嘘だろ");
+        throw new RuntimeException(ErrorMessages.TOO_MANY_DUNGEON_INSTANCES.get());
     }
 
     @Override
@@ -230,12 +231,12 @@ enum DungeonServiceImpl implements DungeonService {
 
     @Override
     public void killEmptyDungeons() {
-        List<World> nobodyDungeons = dungeons.keySet().stream().filter(world -> world.getPlayers().size() == 0).toList();
+        List<World> nobodyDungeons = dungeons.keySet().stream().filter(world -> world.getPlayers().isEmpty()).toList();
         nobodyDungeons.forEach(this::destroySpecific);
     }
 
-    public DungeonProgressionTracker<?> getTracker(World world) {
-        return dungeons.get(world);
+    public Optional<DungeonProgressionTracker<?>> getTracker(World world) {
+        return Optional.ofNullable(dungeons.get(world));
     }
 
     /**
@@ -245,18 +246,16 @@ enum DungeonServiceImpl implements DungeonService {
         instance.sendMessage(Component.text("ダンジョンクリア!"));
 
         String unfixedName = getUnfixedDungeonName(instance.getName());
-        IDungeonData<?> data = DungeonDatas.nameToDungeonData(unfixedName);
-        Objects.requireNonNull(data, "ワールド名からダンジョンデータが推測できません！");
-
+        IDungeonData<?> data = DungeonDatas.internalNameToDungeonData(unfixedName).orElseThrow(() -> new NullPointerException("ワールド名からダンジョンデータが推測できません！"));
         ItemStack reward = ItemUtils.getRandomItemFromPool(data.getRewardPool());
         if (Objects.nonNull(reward)) {
-            instance.getPlayers().forEach(player -> {
+            for (Player player : instance.getPlayers()) {
                 final HashMap<Integer, ItemStack> item = player.getInventory().addItem(reward);
                 item.forEach((integer, itemStack) -> instance.dropItemNaturally(player.getLocation(), itemStack));
                 player.sendMessage(reward.displayName().append(Component.text(" x" + reward.getAmount() + " を獲得!")));
-            });
+            }
         }
-        
+
         instance.sendMessage(Component.text("/tcdungeon leaveでダンジョンを抜けられます..."));
     }
 }

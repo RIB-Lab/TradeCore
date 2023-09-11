@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * modの種類と、その短縮形の名前を記録するenum
+ * modの種類と、その短縮形の名前を記録するenum。保存の際に重要
  */
 public enum ShortHandModNames {
     ADDARMOR(ModAddArmorI.class),
@@ -32,9 +32,8 @@ public enum ShortHandModNames {
     ADDWALKSPEED(ModAddWalkSpeedI.class),
     ADDWATERBREATH(ModAddWaterBreathI.class),
     WEAPONATTRIBUTE(ModWeaponAttribute.class),
-    ZEROHANDATTACKDAMAGE(ModZeroHandAttackDamageI.class)
-    ;
-    
+    ZEROHANDATTACKDAMAGE(ModZeroHandAttackDamageI.class);
+
     @Getter
     private final Class<? extends IItemMod<?>> modClass;
 
@@ -45,7 +44,7 @@ public enum ShortHandModNames {
     /**
      * クラスからそ短縮形の名前(小文字)を取得する
      */
-    public static String getShortHandNameFromClass(Class<? extends IItemMod<?>> clazz){
+    public static String getShortHandNameFromClass(Class<? extends IItemMod<?>> clazz) {
         ShortHandModNames names = Arrays.stream(ShortHandModNames.values()).filter(shortHandModNames -> shortHandModNames.getModClass().equals(clazz)).findFirst().orElse(null);
         return Objects.nonNull(names) ? names.name().toLowerCase(Locale.ROOT) : null;
     }
@@ -53,7 +52,7 @@ public enum ShortHandModNames {
     /**
      * クラスの短縮形の名前(小文字)からクラスを取得する
      */
-    public static Class<? extends IItemMod<?>> getClassFromShortHandName(String shortHandName){
+    public static Class<? extends IItemMod<?>> getClassFromShortHandName(String shortHandName) {
         String capitalName = shortHandName.toUpperCase(Locale.ROOT);
         ShortHandModNames names = Arrays.stream(ShortHandModNames.values()).filter(shortHandModNames -> shortHandModNames.name().equals(capitalName)).findFirst().orElse(null);
         return Objects.nonNull(names) ? names.getModClass() : null;

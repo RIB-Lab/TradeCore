@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.base;
 
@@ -11,7 +11,7 @@ import java.util.Random;
  * アイテムの耐久値テーブル
  */
 public enum DurabilityTable {
-    INFINITE(-1,-1,-1),
+    INFINITE(-1, -1, -1),
     HATCHET(10, 10, 10), //バニラのクラフトシステムを利用するためプロパティを固定する必要がある
     WOODENAGE(25, 32, 39),
     STONEAGE(108, 128, 148),
@@ -44,7 +44,7 @@ public enum DurabilityTable {
     /**
      * テーブルの値からランダムな最大耐久値を取得する
      */
-    public int getRandomMaxDurability(){
+    public int getRandomMaxDurability() {
         return new Random().nextInt(getMinMaxDurability(), getMaxMaxDurability() + 1);
     }
 }

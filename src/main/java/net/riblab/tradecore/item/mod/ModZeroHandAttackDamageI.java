@@ -1,9 +1,11 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IHandAttackDamageModifier;
+
+import java.util.Optional;
 
 public class ModZeroHandAttackDamageI extends ItemMod<Integer> implements IHandAttackDamageModifier {
 
@@ -12,8 +14,8 @@ public class ModZeroHandAttackDamageI extends ItemMod<Integer> implements IHandA
     }
 
     @Override
-    public String getLore() {
-        return "素手の殴りダメージ0";
+    public Optional<String> getLore() {
+        return Optional.of("素手の殴りダメージ0");
     }
 
     @Override

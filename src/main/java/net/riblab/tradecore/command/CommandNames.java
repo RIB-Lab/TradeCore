@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.command;
 
@@ -10,7 +10,6 @@ enum CommandNames {
     CURRENCY("currency"),
     CURRENCY_SETMONEY("setmoney"),
     CURRENCY_SETTICKET("setticket"),
-    GIVE("tcgive"),
     SELL("sell"),
     MOBS("mobs"),
     MOBS_SPAWN("spawn"),
@@ -31,7 +30,11 @@ enum CommandNames {
     VERSION("tcver"),
     SHOP_DUNGEON("dungeon"),
     PROJECTILE("projectile"),
-    PROJECTILE_RESET("reset");
+    PROJECTILE_RESET("reset"),
+    ITEM("item"),
+    ITEM_EXPORT("export"),
+    ITEM_GIVE("give"),
+    ITEM_RELOAD("reload");
 
     private final String name;
 

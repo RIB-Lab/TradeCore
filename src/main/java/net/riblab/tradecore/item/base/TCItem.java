@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.base;
 
@@ -32,7 +32,7 @@ import java.util.Objects;
  */
 @Data
 public final class TCItem implements ITCItem {
-    
+
     /**
      * アイテムの表示名。金床で変更できる
      */
@@ -87,7 +87,8 @@ public final class TCItem implements ITCItem {
     /**
      * データ読み取り用
      */
-    public TCItem(){}
+    public TCItem() {
+    }
 
     /**
      * 固有アイテムの型の実体を作製する内部的な関数
@@ -144,12 +145,8 @@ public final class TCItem implements ITCItem {
         if (Objects.isNull(itemStack) || itemStack.getType().equals(Material.AIR))
             return false;
 
-        String id = new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get());
-
-        if (Objects.isNull(id))
-            return false;
-
-        return id.equals(internalName);
+        return new ItemCreator(itemStack).getStrNBT(NBTTagNames.ITEMID.get())
+                .map(id -> id.equals(internalName)).orElse(false);
     }
 
     @Override
@@ -172,14 +169,14 @@ public final class TCItem implements ITCItem {
     /**
      * ツールに元からあるmodの説明文を取得する
      */
-    public List<Component> getDefaultModsLore(){
+    public List<Component> getDefaultModsLore() {
         List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> defaultMod : getDefaultMods()) {
-            if(Objects.isNull(defaultMod.getLore()))
+            if (defaultMod.getLore().isEmpty())
                 continue;
-            
-            texts.add(Component.text(defaultMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+
+            texts.add(Component.text(defaultMod.getLore().get()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
         }
 
         return texts;
@@ -188,12 +185,11 @@ public final class TCItem implements ITCItem {
     /**
      * ツールに付与されているランダムmodの説明文を取得する
      */
-    public List<Component> getRandomModsLore(List<IItemMod<?>> randomMods){
+    public List<Component> getRandomModsLore(List<IItemMod<?>> randomMods) {
         List<Component> texts = new ArrayList<>();
 
         for (IItemMod<?> randomMod : randomMods) {
-            if(Objects.nonNull(randomMod.getLore()))
-                texts.add(Component.text(randomMod.getLore()).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE));
+            randomMod.getLore().ifPresent(s -> texts.add(Component.text(s).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.WHITE)));
         }
 
         return texts;

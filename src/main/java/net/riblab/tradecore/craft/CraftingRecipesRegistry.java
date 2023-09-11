@@ -1,30 +1,37 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.craft;
 
-import lombok.Getter;
+import net.riblab.tradecore.general.IRegistry;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
-public enum CraftingRecipesRegistry {
+/**
+ * クラフトレシピの実体を保持するクラス
+ */
+public enum CraftingRecipesRegistry implements IRegistry<Map<String, ITCCraftingRecipe>> {
     INSTANCE;
 
     /**
-     * デシリアライズしたアイテム
+     * デシリアライズしたクラフトレシピ
      */
-    @Getter
-    private final List<ITCCraftingRecipe> deserializedCraftingRecipes = new ArrayList<>();//TODO:ゲッターを削除して読み書きをメソッド経由で行うように
+    private final Map<String, ITCCraftingRecipe> deserializedCraftingRecipes = new HashMap<>();
 
     /**
      * ある種類のレシピを全て取得する
      */
     @Nonnull
-    public List<ITCCraftingRecipe> getRecipes(RecipeType type) {
-        return deserializedCraftingRecipes.stream().filter(tcCraftingRecipe -> tcCraftingRecipe.getCategory() == type).collect(Collectors.toList());
+    public Map<String, ITCCraftingRecipe> getUnmodifiableElements(RecipeType type) {
+        Map<String, ITCCraftingRecipe> result = new HashMap<>();
+        deserializedCraftingRecipes.forEach((s, recipe) -> {
+            if (recipe.getCategory() == type) {
+                result.put(s, recipe);
+            }
+        });
+        return result;
     }
 
     /**
@@ -32,5 +39,40 @@ public enum CraftingRecipesRegistry {
      */
     public enum RecipeType {
         ARMOR, TOOL, WEAPON, MISC
+    }
+
+    /**
+     * 編集不可能なレシピのコピーを取得する
+     */
+    @Override
+    public Map<String, ITCCraftingRecipe> getUnmodifiableElements() {
+        return Collections.unmodifiableMap(deserializedCraftingRecipes);
+    }
+
+    @Override
+    public void clear() {
+        deserializedCraftingRecipes.clear();
+    }
+
+    @Override
+    public void addAll(Map<String, ITCCraftingRecipe> recipes) {
+        deserializedCraftingRecipes.putAll(recipes);
+    }
+
+    /**
+     * クラフトレシピがちゃんと成立しているか確認する
+     */
+    public void validate() {
+        for (Map.Entry<String, ITCCraftingRecipe> recipeEntry : deserializedCraftingRecipes.entrySet()) {
+            TCItemRegistry.INSTANCE.commandToTCItem(recipeEntry.getValue().getResult()).orElseThrow(
+                    () -> new NoSuchElementException("クラフトレシピ" + recipeEntry.getKey() + "の成果物" + recipeEntry.getValue().getResult() + "がアイテムレジストリに見つかりません。"));
+            recipeEntry.getValue().getIngredients().forEach((String ingredient, Integer amount) -> {
+                TCItemRegistry.INSTANCE.commandToTCItem(ingredient).orElseThrow(
+                        () -> new NoSuchElementException("クラフトレシピ" + recipeEntry.getKey() + "の材料" + ingredient + "がアイテムレジストリに見つかりません。"));
+            });
+            if (recipeEntry.getValue().getFee() < 0 || recipeEntry.getValue().getResultAmount() < 0) {
+                throw new IllegalStateException("クラフトレシピ" + recipeEntry.getKey() + "の数値が不正です");
+            }
+        }
     }
 }

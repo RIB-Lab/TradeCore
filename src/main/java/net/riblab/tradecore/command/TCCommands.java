@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.command;
 
@@ -16,12 +16,12 @@ import net.riblab.tradecore.entity.mob.FakeVillagerService;
 import net.riblab.tradecore.entity.mob.ITCMob;
 import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.Utils;
-import net.riblab.tradecore.integration.CustomEnumArguments;
+import net.riblab.tradecore.integration.CustomEnumArgumentsUtil;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.Materials;
+import net.riblab.tradecore.item.ILootTable;
+import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
-import net.riblab.tradecore.item.base.TCItems;
 import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
@@ -30,14 +30,14 @@ import net.riblab.tradecore.shop.IShopData;
 import net.riblab.tradecore.ui.UIShop;
 import net.riblab.tradecore.ui.UIs;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 import static net.riblab.tradecore.command.CommandArgDescs.*;
 import static net.riblab.tradecore.command.CommandNames.*;
@@ -51,16 +51,17 @@ public final class TCCommands {
         throw new AssertionError();
     }
 
-    public static final String merchantName = "買い取り商";
+    public static final String MERCHANT_NAME = "買い取り商";
+    private static final Vector BLOCK_OFFSET = new Vector(0.5d, 0d, 0.5d);
 
     private static TCEconomy getEconomy() {
         return TCEconomy.getImpl();
     }
-    
+
     public static void onEnable() {
         registerCommands();
     }
-    
+
     /**
      * このプラグインで使う全てのコマンドを登録する
      */
@@ -95,25 +96,12 @@ public final class TCCommands {
         currencyCommand.withSubcommand(setPlayTicketCommand);
         currencyCommand.register();
 
-        CommandAPICommand tcGiveCommand = new CommandAPICommand(GIVE.get())
-                .withArguments(CustomEnumArguments.customITCItemArgument(TCITEM.get()))
-                .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
-                .executesPlayer((player, args) -> {
-                    ITCItem itcItem = (ITCItem) args.get(0);
-                    int amount = (int) args.get(1);
-                    ItemStack newStack = itcItem.getItemStack();
-                    newStack.setAmount(amount);
-                    player.getInventory().addItem(newStack);
-                });
-        tcGiveCommand.setPermission(CommandPermission.OP);
-        tcGiveCommand.register();
-
         CommandAPICommand sellCommand = new CommandAPICommand(SELL.get())
                 .executesPlayer((player, args) -> {
-                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+                    Location spawnLocation = player.getTargetBlock(MaterialSetRegistry.INSTANCE.commandToMaterialSet("transparent").orElseThrow(), 2).getLocation().add(BLOCK_OFFSET);
                     spawnLocation.setY(player.getLocation().getY());
 
-                    FakeVillagerService.getImpl().spawnFakeVillager(player, merchantName, spawnLocation);
+                    FakeVillagerService.getImpl().spawnFakeVillager(player, MERCHANT_NAME, spawnLocation);
                     player.getWorld().spawnParticle(Particle.SMOKE_LARGE, spawnLocation, 10, 1, 1, 1);
                 });
         sellCommand.setPermission(CommandPermission.NONE);
@@ -126,10 +114,10 @@ public final class TCCommands {
 
         CommandAPICommand spawnCommand = new CommandAPICommand(MOBS_SPAWN.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArguments.customITCMobArgument(MOBNAME.get()))
+                .withArguments(CustomEnumArgumentsUtil.customITCMobArgument(MOBNAME.get()))
                 .executesPlayer((player, args) -> {
                     ITCMob type = (ITCMob) args.get(0);
-                    Location spawnLocation = player.getTargetBlock(Materials.TRANSPARENT.get(), 2).getLocation().add(new Vector(0.5d, 0d, 0.5d));
+                    Location spawnLocation = player.getTargetBlock(MaterialSetRegistry.INSTANCE.commandToMaterialSet("transparent").orElseThrow(), 2).getLocation().add(BLOCK_OFFSET);
                     spawnLocation.setY(player.getLocation().getY());
 
                     CustomMobService.getImpl().spawn(player, spawnLocation, type);
@@ -137,7 +125,7 @@ public final class TCCommands {
         CommandAPICommand mobResetCommand = new CommandAPICommand(MOBS_RESET.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    int size =  CustomMobService.getImpl().deSpawnAll();
+                    int size = CustomMobService.getImpl().deSpawnAll();
                     player.sendMessage("モブシステムをリセットしました");
                     player.sendMessage(size + "体のモブを消去");
                 });
@@ -147,7 +135,7 @@ public final class TCCommands {
 
         CommandAPICommand shopCommand = new CommandAPICommand(SHOP.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArguments.customShopDataArgument(SHOPDATA.get()))
+                .withArguments(CustomEnumArgumentsUtil.customShopDataArgument(SHOPDATA.get()))
                 .executesPlayer((player, args) -> {
                     IShopData data = (IShopData) args.get(0);
                     UIShop.open(player, data);
@@ -180,7 +168,7 @@ public final class TCCommands {
         CommandAPICommand jobSetCommand = new CommandAPICommand(JOB_SET_JOBLV.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(new PlayerArgument(PLAYER.get()))
-                .withArguments(CustomEnumArguments.customJobTypeArgument(JOBTYPE.get()))
+                .withArguments(CustomEnumArgumentsUtil.customJobTypeArgument(JOBTYPE.get()))
                 .withArguments(new IntegerArgument(LEVEL.get()))
                 .executesPlayer((player, args) -> {
                     Player targetPlayer = (Player) args.get(0);
@@ -215,15 +203,14 @@ public final class TCCommands {
                 });
         CommandAPICommand enterDungeonCommand = new CommandAPICommand(DUNGEON_ENTER.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArguments.customDungeonDataArgument(DUNGEONDATA.get()))
+                .withArguments(CustomEnumArgumentsUtil.customDungeonDataArgument(DUNGEONDATA.get()))
                 .withArguments(new IntegerArgument(INSTANCEID.get()))
                 .executesPlayer((player, args) -> {
                     IDungeonData<?> data = (IDungeonData<?>) args.get(0);
                     int id = (int) args.get(1);
                     DungeonService IDungeonService = DungeonService.getImpl();
                     if (!IDungeonService.isDungeonExist(data, id)) {
-                        World instance = IDungeonService.create(data, id);
-                        IDungeonService.enter(player, instance);
+                        IDungeonService.create(data, id).ifPresent(instance -> IDungeonService.enter(player, instance));
                     } else {
                         IDungeonService.enter(player, data, id);
                     }
@@ -281,23 +268,23 @@ public final class TCCommands {
         projectileCommand.withSubcommand(projectileResetCommand);
         projectileCommand.register();
 
-        CommandAPICommand itemCommand = new CommandAPICommand("item")
+        CommandAPICommand itemCommand = new CommandAPICommand(ITEM.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                 });
-        CommandAPICommand itemExportCommand = new CommandAPICommand("export")
+        CommandAPICommand itemExportCommand = new CommandAPICommand(ITEM_EXPORT.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
-                    ITCItem item = TCItems.toTCItem(player.getInventory().getItemInMainHand());
-                    if(Objects.isNull(item))
+                    Optional<ITCItem> item = TCItemRegistry.INSTANCE.toTCItem(player.getInventory().getItemInMainHand());
+                    if (item.isEmpty())
                         return;
-                    
-                    DataService.getImpl().exportItem(item);
+
+                    DataService.getImpl().exportItem(item.get());
                     player.sendMessage("手持ちのアイテムをコンフィグのitemexportにエクスポートしました");
                 });
-        CommandAPICommand loadedItemGiveCommand = new CommandAPICommand("give")
+        CommandAPICommand loadedItemGiveCommand = new CommandAPICommand(ITEM_GIVE.get())
                 .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArguments.customNewITCItemArgument("name"))
+                .withArguments(CustomEnumArgumentsUtil.customTCItemArgument("name"))
                 .withArguments(new IntegerArgument(AMOUNT.get(), 1, 1000))
                 .executesPlayer((player, args) -> {
                     ITCItem itcItem = (ITCItem) args.get(0);
@@ -306,7 +293,7 @@ public final class TCCommands {
                     newStack.setAmount(amount);
                     player.getInventory().addItem(newStack);
                 });
-        CommandAPICommand itemReloadCommand = new CommandAPICommand("reload")
+        CommandAPICommand itemReloadCommand = new CommandAPICommand(ITEM_RELOAD.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DataService.getImpl().loadItems();
@@ -315,6 +302,30 @@ public final class TCCommands {
         itemCommand.withSubcommand(itemExportCommand);
         itemCommand.withSubcommand(loadedItemGiveCommand);
         itemCommand.withSubcommand(itemReloadCommand);
+
+        CommandAPICommand materialSetCommand = new CommandAPICommand("materialset")
+                .withPermission(CommandPermission.OP)
+                .withArguments(CustomEnumArgumentsUtil.customMaterialSetArgument("name"))
+                .executesPlayer((player, args) -> {
+                    Set<Material> materialsSet = (Set<Material>) args.get(0);
+                    for (Material material : materialsSet) {
+                        player.sendMessage(material.toString());
+                    }
+                });
+        itemCommand.withSubcommand(materialSetCommand);
+
+        CommandAPICommand lootTableCommand = new CommandAPICommand("loottable")
+                .withPermission(CommandPermission.OP)
+                .withArguments(CustomEnumArgumentsUtil.customLootTableArgument("name"))
+                .executesPlayer((player, args) -> {
+                    ILootTable lootTable = (ILootTable) args.get(0);
+                    player.sendMessage("MaterialSet: " + lootTable.getMaterialSetKey());
+                    player.sendMessage("ToolType: " + lootTable.getToolType().toString());
+                    player.sendMessage("HarvestLevel: " + lootTable.getHarvestLevel());
+                    lootTable.getDropChanceMap().forEach((s, aFloat) -> player.sendMessage(s + ":" + aFloat + "%"));
+                });
+        itemCommand.withSubcommand(lootTableCommand);
+        
         itemCommand.register();
     }
 }

@@ -1,9 +1,7 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.craft;
-
-import net.riblab.tradecore.item.base.ITCItem;
 
 import java.util.Map;
 
@@ -15,6 +13,6 @@ import java.util.Map;
  * @param resultAmount 完成品の量
  * @param fuelAmount   レシピを実行するために消費する燃料の量
  */
-record TCFurnaceRecipe(Map<ITCItem, Integer> ingredients, ITCItem result, int resultAmount,
+record TCFurnaceRecipe(Map<String, Integer> ingredients, String result, int resultAmount,
                        int fuelAmount) implements ITCFurnaceRecipe {
 }

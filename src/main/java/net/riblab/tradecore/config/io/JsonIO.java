@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.config.io;
 
@@ -12,20 +12,20 @@ import java.io.File;
 import java.io.IOException;
 
 public class JsonIO {
-    
+
     private static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     /**
      * あるデータファイル(.json)からあるデータタイプを読み込んで返す
      */
-    public static  <T> T loadAsJson(File dataFile, Class<T> dataType){
+    public static <T> T loadAsJson(File dataFile, Class<T> dataType) {
         String str = null;
         try {
-            str =  FileUtils.fileRead(dataFile);
+            str = FileUtils.fileRead(dataFile);
         } catch (IOException ignored) {
         }
 
-        if(!StringUtils.isEmpty(str))
+        if (!StringUtils.isEmpty(str))
             return gson.fromJson(str, dataType);
         else
             return null;
@@ -35,7 +35,7 @@ public class JsonIO {
      * あるクラスのインスタンスをあるファイルにjsonとして保存する<br>
      * 人間が編集することを期待する場合jsonではなくyamlシリアライザを定義すること
      */
-    public static void saveWithJson(Object dataInstance, File file){
+    public static void saveWithJson(Object dataInstance, File file) {
         String str = gson.toJson(dataInstance);
         try {
             FileUtils.forceMkdir(new File(file.getParent()));

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.entity.projectile;
 
@@ -12,11 +12,11 @@ public sealed interface CustomProjectileService permits CustomProjectileServiceI
 
     //TODO:種類が増えたらenum
     ITCProjectile ARROW = new TCProjectile(Arrow.class, "tcarrow");
-    
-    static CustomProjectileService getImpl(){
+
+    static CustomProjectileService getImpl() {
         return CustomProjectileServiceImpl.INSTANCE;
     }
-    
+
     void spawn(Player player, ITCProjectile projectile, Vector vector, double damage);
 
     void onCustomProjectileHit(Projectile projectile);

@@ -1,22 +1,24 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
 import net.riblab.tradecore.modifier.IAttackDamageModifier;
 
+import java.util.Optional;
+
 public class ModRandomAttackDamageI extends ItemMod<Integer> implements IAttackDamageModifier {
 
     /**
-     * @param level　追加したいダメージの100倍
+     * @param level 　追加したいダメージの100倍
      */
     public ModRandomAttackDamageI(Integer level) {
         super(level);
     }
 
     @Override
-    public String getLore() {
-        return "攻撃力: " + ((double) this.getParam()) / 100;
+    public Optional<String> getLore() {
+        return Optional.of("攻撃力: " + ((double) this.getParam()) / 100);
     }
 
     @Override

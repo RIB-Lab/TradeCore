@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.general;
 
@@ -114,10 +114,10 @@ public enum EventReciever implements Listener {
 
     @EventHandler
     public void onBlockDamage(BlockDamageEvent event) {
-        if(DungeonService.getImpl().isPlayerInDungeon(event.getPlayer())){
+        if (DungeonService.getImpl().isPlayerInDungeon(event.getPlayer())) {
             return;
         }
-        
+
         blockStateEventHandler.tryCreateBrokenBlock(event);
     }
 
@@ -133,11 +133,11 @@ public enum EventReciever implements Listener {
 
     @EventHandler
     public void onPlayerPlaceBlock(BlockPlaceEvent event) {
-        if(DungeonService.getImpl().isPlayerInDungeon(event.getPlayer())){
+        if (DungeonService.getImpl().isPlayerInDungeon(event.getPlayer())) {
             dungeonEventHandler.preventDungeonBlockPlacement(event);
             return;
         }
-        
+
         blockStateEventHandler.tryProcessHoeDrop(event);
         generalEventHandler.blockTCItemsPlacement(event);
     }
@@ -146,9 +146,9 @@ public enum EventReciever implements Listener {
     public void onLeavesDecay(LeavesDecayEvent event) {
         blockStateEventHandler.preventVanillaStickFromDropping(event);
     }
-    
+
     @EventHandler
-    public void onProjectileHit(ProjectileHitEvent event){
+    public void onProjectileHit(ProjectileHitEvent event) {
         generalEventHandler.processProjectileHit(event);
     }
 }

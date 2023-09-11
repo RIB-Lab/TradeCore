@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.block;
 
@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * ワールド中の破壊中のブロックを管理するサービス
@@ -54,8 +55,8 @@ enum BrokenBlocksServiceImpl implements BrokenBlocksService {
     }
 
     @Override
-    public BrokenBlock removePlayerFromMap(Player player) {
-        return brokenBlocks.remove(player);
+    public Optional<BrokenBlock> removePlayerFromMap(Player player) {
+        return Optional.ofNullable(brokenBlocks.remove(player));
     }
 }
  

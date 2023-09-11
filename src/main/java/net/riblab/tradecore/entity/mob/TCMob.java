@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.entity.mob;
 
@@ -12,8 +12,9 @@ import me.gamercoder215.mobchip.ai.attribute.EntityAttribute;
 import me.gamercoder215.mobchip.bukkit.BukkitBrain;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.general.NBTTagNames;
-import net.riblab.tradecore.item.base.ITCItem;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -57,8 +58,11 @@ class TCMob implements ITCMob {
      * エンティティのドロップ品
      */
     @Getter
-    private final Map<ITCItem, Float> drops;
+    private final Map<String, ChanceFloat> drops;
 
+    /**
+     * モブの寿命
+     */
     private static final int lifetime = 6000;
 
     @Override
@@ -97,10 +101,10 @@ class TCMob implements ITCMob {
     @ParametersAreNonnullByDefault
     public void onKilledByPlayer(Mob instance) {
         Random random = new Random();
-        drops.forEach((itcItem, aFloat) -> {
+        drops.forEach((string, aFloat) -> {
             float rand = random.nextFloat();
-            if (rand < aFloat) {
-                instance.getWorld().dropItemNaturally(instance.getLocation(), itcItem.getItemStack());
+            if (rand < aFloat.get()) {
+                instance.getWorld().dropItemNaturally(instance.getLocation(), TCItemRegistry.INSTANCE.commandToTCItem(string).orElseThrow().getItemStack());
             }
         });
     }

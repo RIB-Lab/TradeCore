@@ -1,21 +1,20 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.craft;
 
 import lombok.Getter;
-import net.riblab.tradecore.item.base.TCItems;
 
 import java.util.Map;
 
 /**
- * 精錬レシピレジストリ
+ * 精錬レシピレジストリ TODO:かまどが正式に実装されたらconfigに全部移す
  */
 public enum TCFurnaceRecipes {
-    TORCH(new TCFurnaceRecipe(Map.of(TCItems.STICK.get(), 1), TCItems.TORCH.get(), 1, 1)),
-    ASH(new TCFurnaceRecipe(Map.of(TCItems.ROUND_TRUNK.get(), 1), TCItems.ASH.get(), 1, 1)),
-    IRON_SHARD(new TCFurnaceRecipe(Map.of(TCItems.METEORIC_IRON_ORE.get(), 1, TCItems.ASH.get(), 1), TCItems.IRON_SHARD.get(), 1, 3)),
-    GOLD_SHARD(new TCFurnaceRecipe(Map.of(TCItems.SANDGOLD.get(), 1, TCItems.ASH.get(), 1), TCItems.GOLD_SHARD.get(), 1, 3));
+    TORCH(new TCFurnaceRecipe(Map.of("stick", 1), "vanilla_torch", 1, 1)),
+    ASH(new TCFurnaceRecipe(Map.of("round_trunk", 1), "ash", 1, 1)),
+    IRON_SHARD(new TCFurnaceRecipe(Map.of("meteoric_iron_ore", 1, "ash", 1), "iron_shard", 1, 3)),
+    GOLD_SHARD(new TCFurnaceRecipe(Map.of("sandgold", 1, "ash", 1), "gold_shard", 1, 3));
 
     @Getter
     private final ITCFurnaceRecipe recipe;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.block;
 
@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Optional;
 
 public sealed interface BrokenBlocksService permits BrokenBlocksServiceImpl {
 
@@ -46,6 +47,5 @@ public sealed interface BrokenBlocksService permits BrokenBlocksServiceImpl {
     /**
      * このサービスが持つプレイヤーの破壊情報を削除する(破壊中のブロックは削除されない)
      */
-    @Nullable
-    BrokenBlock removePlayerFromMap(@Nullable Player player);
+    Optional<BrokenBlock> removePlayerFromMap(@Nullable Player player);
 }

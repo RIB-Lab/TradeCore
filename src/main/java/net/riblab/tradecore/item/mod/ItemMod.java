@@ -1,11 +1,13 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.mod;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Optional;
 
 /**
  * ゲームで何らかの意味がある値を保存するアイテムの拡張要素
@@ -21,7 +23,7 @@ public class ItemMod<T> implements IItemMod<T> {
     private T param;
 
     @Override
-    public String getLore() {
-        return "ダミー";
+    public Optional<String> getLore() {
+        return Optional.of("ダミー");
     }
 }

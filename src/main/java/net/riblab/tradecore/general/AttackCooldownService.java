@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.general;
 
@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 /**
  * 攻撃のクールダウンを管理するクラス
  */
-public sealed interface AttackCooldownService permits AttackCooldownServiceImpl{
-    static AttackCooldownService getImpl(){
+public sealed interface AttackCooldownService permits AttackCooldownServiceImpl {
+    static AttackCooldownService getImpl() {
         return AttackCooldownServiceImpl.INSTANCE;
     }
 
@@ -20,6 +20,7 @@ public sealed interface AttackCooldownService permits AttackCooldownServiceImpl{
 
     /**
      * プレイヤーのクールダウンの秒数を取得する
+     *
      * @return クールダウンの秒数。クールダウンがなかったら0
      */
     double getCooldown(Player player);

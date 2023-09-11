@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.dungeon;
 
@@ -10,6 +10,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Optional;
 
 public sealed interface DungeonService permits DungeonServiceImpl {
 
@@ -32,8 +33,7 @@ public sealed interface DungeonService permits DungeonServiceImpl {
      * @param instanceID インスタンスのID。0未満なら0以上の最初に空いているインスタンス
      */
     @ParametersAreNonnullByDefault
-    @Nullable
-    World create(IDungeonData<?> data, int instanceID);
+    Optional<World> create(IDungeonData<?> data, int instanceID);
 
     /**
      * ダンジョンのインスタンスが存在するかどうか
@@ -100,6 +100,5 @@ public sealed interface DungeonService permits DungeonServiceImpl {
     /**
      * ダンジョンのトラッカーを取得
      */
-    @Nullable
-    DungeonProgressionTracker<?> getTracker(World world);
+    Optional<DungeonProgressionTracker<?>> getTracker(World world);
 }

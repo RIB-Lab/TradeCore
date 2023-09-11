@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.item.base;
 
@@ -15,6 +15,7 @@ import java.util.List;
  * このプラグインに存在する全ての固有アイテムの韻テーフェース
  */
 public sealed interface ITCItem permits TCItem {
+
 
     /**
      * この固有アイテムの表示名を取得
@@ -36,12 +37,12 @@ public sealed interface ITCItem permits TCItem {
      * @return 固有アイテムのテンプレートのコピー
      */
     ItemStack getTemplateItemStack();
-    
+
     int getCustomModelData();
 
     /**
      * 固有アイテムの初期値がランダマイズされたItemStackを生成して取得(プレイヤーに渡す用)
-     * 
+     *
      * @return 固有アイテムの新しい実体
      */
     ItemStack getItemStack();

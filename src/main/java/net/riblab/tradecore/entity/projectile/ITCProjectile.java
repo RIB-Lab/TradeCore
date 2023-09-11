@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.entity.projectile;
 
@@ -13,6 +13,6 @@ public interface ITCProjectile {
     Class<? extends Projectile> getBaseClass();
 
     String getInternalName();
-    
+
     public double getDamage(Projectile projectile);
 }

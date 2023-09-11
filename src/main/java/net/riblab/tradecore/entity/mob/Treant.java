@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.entity.mob;
 
@@ -8,7 +8,7 @@ import me.gamercoder215.mobchip.ai.attribute.AttributeInstance;
 import me.gamercoder215.mobchip.ai.attribute.EntityAttribute;
 import me.gamercoder215.mobchip.bukkit.BukkitBrain;
 import net.kyori.adventure.text.Component;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.general.ChanceFloat;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
@@ -22,7 +22,7 @@ import java.util.Map;
  */
 class Treant extends TCMob {
     public Treant() {
-        super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of(TCItems.BARK.get(), 1f));
+        super(EntityType.ZOMBIE, Component.text("トレント"), 4, "basic_treant", Map.of("bark", new ChanceFloat(1f)));
     }
 
     @Override

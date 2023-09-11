@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.modifier;
 
-public interface ISellPriceModifier extends IModifier<Double>{
+public interface ISellPriceModifier extends IModifier<Double> {
 }

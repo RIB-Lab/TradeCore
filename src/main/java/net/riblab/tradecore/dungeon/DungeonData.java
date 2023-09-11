@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.dungeon;
 
@@ -17,9 +17,14 @@ import java.util.Map;
 final class DungeonData<T> implements IDungeonData<T> {
 
     /**
-     * ダンジョン名
+     * ダンジョンの表示名
      */
-    private final DungeonNames names;
+    private final String name;
+
+    /**
+     * ダンジョンの内部名称
+     */
+    private final String internalName;
 
     /**
      * ダンジョンのスポーン地点
@@ -49,5 +54,5 @@ final class DungeonData<T> implements IDungeonData<T> {
     /**
      * 報酬プール
      */
-    private final Map<ITCItem, Float> rewardPool;
+    private final Map<String, Float> rewardPool;
 }

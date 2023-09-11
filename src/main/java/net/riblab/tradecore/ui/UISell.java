@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.ui;
 
@@ -10,18 +10,19 @@ import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.entity.mob.FakeVillagerService;
 import net.riblab.tradecore.integration.TCEconomy;
 import net.riblab.tradecore.item.base.ITCItem;
-import net.riblab.tradecore.item.base.TCItems;
+import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.modifier.ISellPriceModifier;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 売却画面
  */
-final class UISell implements IUI{
+final class UISell implements IUI {
 
     /**
      * 売却画面を開く
@@ -55,14 +56,14 @@ final class UISell implements IUI{
             if (Objects.isNull(content))
                 continue;
 
-            ITCItem itcItem = TCItems.toTCItem(content);
-            if (Objects.isNull(itcItem)) {
+            Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(content);
+            if (itcItem.isEmpty()) {
                 event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
                 continue;
             }
-            
-            ISellPriceModifier mod = (ISellPriceModifier) itcItem.getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof ISellPriceModifier).findFirst().orElse(null);
-            if(Objects.isNull(mod)){
+
+            ISellPriceModifier mod = (ISellPriceModifier) itcItem.get().getDefaultMods().stream().filter(iItemMod -> iItemMod instanceof ISellPriceModifier).findFirst().orElse(null);
+            if (Objects.isNull(mod)) {
                 event.getPlayer().getWorld().dropItemNaturally(event.getPlayer().getLocation(), content);
                 continue;
             }

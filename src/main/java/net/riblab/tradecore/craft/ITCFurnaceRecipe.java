@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.craft;
 
@@ -10,10 +10,10 @@ import java.util.Map;
 
 public sealed interface ITCFurnaceRecipe permits TCFurnaceRecipe {
     @Nonnull
-    Map<ITCItem, Integer> ingredients();
+    Map<String, Integer> ingredients();
 
     @Nonnull
-    ITCItem result();
+    String result();
 
     int resultAmount();
 

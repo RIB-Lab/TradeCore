@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.entity.mob;
 
@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * このプラグイン独自のモブをスポーンさせたりデスポーンイベントを発行したりするシステム
@@ -45,20 +44,16 @@ enum CustomMobServiceImpl implements CustomMobService {
         if (!isLootable)
             return;
 
-        ITCMob iTCMob = TCMobs.toTCMob(mob);
-        if (Objects.isNull(iTCMob))
-            return;
-
-        iTCMob.onKilledByPlayer(mob);
+        TCMobs.toTCMob(mob).ifPresent(itcMob -> itcMob.onKilledByPlayer(mob));
     }
 
     @Override
     public int deSpawnAll() {
-        int size  = spawnedMobs.size();
-        spawnedMobs.forEach(mob -> {
+        int size = spawnedMobs.size();
+        for (Mob mob : spawnedMobs) {
             MobUtils.setLootableTag(mob, false);
             mob.remove();
-        });
+        }
         spawnedMobs.clear();
         return size;
     }

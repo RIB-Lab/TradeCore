@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.craft;
 
@@ -9,39 +9,29 @@ import lombok.Setter;
 import java.util.Map;
 
 /**
- * レシピクラス
+ * レシピクラス。コンフィグから読み込むときだけ新しいインスタンスを建てる
  */
 public final class TCCraftingRecipe implements ITCCraftingRecipe {
-    @Getter @Setter
+    @Getter
+    @Setter
     private Map<String, Integer> ingredients;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String result;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int resultAmount;
-    @Getter @Setter
+    @Getter
+    @Setter
     private double fee;
-    @Getter @Setter
+    @Getter
+    @Setter
     private CraftingRecipesRegistry.RecipeType category;
-    @Getter @Setter
+    @Getter
+    @Setter
     private String internalName;
-    
-    public TCCraftingRecipe(){
-        
-    }
 
-    /**
-     * @param ingredients  レシピ素材。同じ種類のアイテムを複数スロットに入れないこと！
-     * @param result       レシピ完成品
-     * @param resultAmount 完成品の量
-     * @param fee          レシピを実行するための費用
-     * @param category     レシピのカテゴリ
-     */
-    public TCCraftingRecipe(Map<String, Integer> ingredients, String result, int resultAmount, double fee,
-                            CraftingRecipesRegistry.RecipeType category) {
-        this.ingredients = ingredients;
-        this.result = result;
-        this.resultAmount = resultAmount;
-        this.fee = fee;
-        this.category = category;
+    public TCCraftingRecipe() {
+
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023. RIBLaB 
+ * Copyright (c) 2023. RIBLaB
  */
 package net.riblab.tradecore.ui;
 
@@ -22,15 +22,15 @@ import java.util.Arrays;
 /**
  * スキルリセットUI
  */
-final class UISkillRespec implements IUI{
+final class UISkillRespec implements IUI {
 
     @Override
     public BaseGui open(Player player) {
-        if(!Advancements.IRON_AXE.get().isGranted(player)){
+        if (!Advancements.IRON_AXE.get().isGranted(player)) {
             player.sendMessage("もっと強くなってからくるんだな (先に鉄の斧の進捗を開放しましょう)");
             return null;
         }
-        
+
         //リスペック費用 ＝ 習得したスキルの数 * 100
         double fee = Arrays.stream(JobType.values()).mapToDouble(value -> JobSkillService.getImpl().getLearntSkillCount(player, value) * 100).sum();
         if (fee == 0) {
