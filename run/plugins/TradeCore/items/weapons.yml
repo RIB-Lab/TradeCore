@@ -52,3 +52,12 @@ basic_bow:
   material: BOW
   name: 普通の弓
   model: 0
+  
+basic_wand:
+  mods:
+    defaultattackdamage: '{"baseDamage":2.0,"spread":"WOOD"}'
+    weaponattribute: '"WAND"'
+    defaultmaxdurability: '"IRONAGE"'
+  material: STICK
+  name: 普通の杖
+  model: 0

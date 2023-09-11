@@ -11,9 +11,9 @@ public class ChanceFloat {
 
     public ChanceFloat(float value) {
         if(value <= 0 || value > 1)
-            this.value = value;
-        else 
             throw new IllegalArgumentException("0から1以外の確率は許可されていません");
+        else
+            this.value = value;
     }
     
     public float get(){

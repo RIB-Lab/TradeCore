@@ -39,7 +39,8 @@ public class ModWeaponAttribute extends ItemMod<ModWeaponAttribute.WeaponType> i
         SPEAR(WeaponAttributeSpear::attack, -3.2d),
         DAGGER(WeaponAttributeDagger::attack, -1.5d),
         BATTLEAXE(WeaponAttributeBattleAxe::attack, -3.6d),
-        BOW(WeaponAttributeBow::attack, 1);
+        BOW(WeaponAttributeBow::attack, 1),
+        WAND(WeaponAttributeWand::attack,1);
 
         /**
          * 敵を攻撃するfunction<br>
