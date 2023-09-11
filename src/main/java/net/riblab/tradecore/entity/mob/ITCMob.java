@@ -4,10 +4,12 @@
 package net.riblab.tradecore.entity.mob;
 
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -37,5 +39,5 @@ public interface ITCMob {
 
     String getInternalName();
 
-    java.util.Map<String, Float> getDrops();
+    java.util.Map<String, ChanceFloat> getDrops();
 }

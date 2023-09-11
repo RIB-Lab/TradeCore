@@ -12,6 +12,7 @@ import me.gamercoder215.mobchip.ai.attribute.EntityAttribute;
 import me.gamercoder215.mobchip.bukkit.BukkitBrain;
 import net.kyori.adventure.text.Component;
 import net.riblab.tradecore.TradeCore;
+import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.general.NBTTagNames;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import org.bukkit.entity.EntityType;
@@ -57,8 +58,11 @@ class TCMob implements ITCMob {
      * エンティティのドロップ品
      */
     @Getter
-    private final Map<String, Float> drops;
+    private final Map<String, ChanceFloat> drops;
 
+    /**
+     * モブの寿命
+     */
     private static final int lifetime = 6000;
 
     @Override
@@ -99,7 +103,7 @@ class TCMob implements ITCMob {
         Random random = new Random();
         drops.forEach((string, aFloat) -> {
             float rand = random.nextFloat();
-            if (rand < aFloat) {
+            if (rand < aFloat.get()) {
                 instance.getWorld().dropItemNaturally(instance.getLocation(), TCItemRegistry.INSTANCE.commandToTCItem(string).orElseThrow().getItemStack());
             }
         });

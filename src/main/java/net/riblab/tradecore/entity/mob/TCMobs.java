@@ -5,6 +5,7 @@ package net.riblab.tradecore.entity.mob;
 
 import de.tr7zw.nbtapi.NBTEntity;
 import net.kyori.adventure.text.Component;
+import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.general.NBTTagNames;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Mob;
@@ -26,7 +27,7 @@ public enum TCMobs {
     DUNGEON_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("テクスチャもクソもない何か"), 5, "dungeon_silverfish", Map.of())),
 
     //フィールド専用
-    BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of("round_stone", 0.25f, "map_stoneroom", 0.25f))),
+    BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of("round_stone", new ChanceFloat(0.25f), "map_stoneroom", new ChanceFloat(0.25f)))),
     BASIC_TREANT(new Treant());
 
     private final ITCMob ITCMob;
