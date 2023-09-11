@@ -3,6 +3,7 @@
  */
 package net.riblab.tradecore;
 
+import de.slikey.effectlib.EffectManager;
 import lombok.Getter;
 import net.riblab.tradecore.advancement.AdvancementInitializer;
 import net.riblab.tradecore.block.BlockUtils;
@@ -37,6 +38,9 @@ public class TradeCore extends JavaPlugin {
 
     @Getter
     private static boolean isWGLoaded;
+    
+    @Getter
+    private static EffectManager effectManager;
 
     static {
         Utils.initializeEnumSafely();
@@ -79,6 +83,7 @@ public class TradeCore extends JavaPlugin {
         }
 
         TCTasksInitializer.INSTANCE.init();
+        effectManager = new EffectManager(this);
 
         if (!isJUnitTest()) {
             AdvancementInitializer.INSTANCE.init();
@@ -95,6 +100,7 @@ public class TradeCore extends JavaPlugin {
 
         CustomMobService.getImpl().deSpawnAll();
         CustomProjectileService.getImpl().deSpawnAll();
+        effectManager.dispose();
 
         Bukkit.getOnlinePlayers().forEach(BlockUtils::removeSlowDig);
 
