@@ -473,7 +473,7 @@ public final class ItemCreator {
                 mod = (IItemMod<?>) constructor.newInstance(arg);
 
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                //古いバージョンのアイテムを使うと確実にエラーが発生するので、握りつぶす
                 //クラスの名前が変わっただけかもしれないし、modがなかった時のフォールバックも用意してあるので、握りつぶす
             }
 
