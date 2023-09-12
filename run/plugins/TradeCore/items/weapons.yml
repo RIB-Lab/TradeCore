@@ -71,11 +71,11 @@ basic_long_bow:
   name: 普通のロングボウ
   model: 0
   
-basic_wand:
+beginner_wand:
   mods:
     defaultattackdamage: '{"baseDamage":2.5,"spread":"WOOD"}'
     weaponattribute: '"WAND"'
     defaultmaxdurability: '"IRONAGE"'
   material: STICK
-  name: 普通の杖
+  name: 初級魔法杖
   model: 0

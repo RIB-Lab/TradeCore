@@ -21,14 +21,21 @@ basic_bow:
   
 basic_short_bow:
   category: WEAPON
-  fee: 3.0
+  fee: 2.0
   ingredients: { reinforced_stick: 1, primal_string: 2 }
   result: basic_short_bow
   resultAmount: 1
   
 basic_long_bow:
   category: WEAPON
-  fee: 3.0
+  fee: 4.0
   ingredients: { stick: 5, primal_string: 5 }
   result: basic_long_bow
+  resultAmount: 1
+  
+beginner_wand:
+  category: WEAPON
+  fee: 3.0
+  ingredients: { beginner_magic_orb: 1, stick: 2 }
+  result: beginner_wand
   resultAmount: 1

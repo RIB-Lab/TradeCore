@@ -214,3 +214,10 @@ primal_string:
   material: STRING
   name: 粗雑な糸
   model: 0
+
+beginner_magic_orb:
+  mods:
+    sellprice: '0.1'
+  material: SLIME_BALL
+  name: 初級魔法のオーブ
+  model: 0
