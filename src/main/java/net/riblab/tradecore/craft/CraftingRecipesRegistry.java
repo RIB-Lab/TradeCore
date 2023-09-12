@@ -18,14 +18,14 @@ public enum CraftingRecipesRegistry implements IRegistry<Map<String, ITCCrafting
     /**
      * デシリアライズしたクラフトレシピ
      */
-    private final Map<String, ITCCraftingRecipe> deserializedCraftingRecipes = new HashMap<>();
+    private final Map<String, ITCCraftingRecipe> deserializedCraftingRecipes = new LinkedHashMap<>(); //作業台で順番通りにレシピを表示するのに必要
 
     /**
      * ある種類のレシピを全て取得する
      */
     @Nonnull
     public Map<String, ITCCraftingRecipe> getUnmodifiableElements(RecipeType type) {
-        Map<String, ITCCraftingRecipe> result = new HashMap<>();
+        Map<String, ITCCraftingRecipe> result = new LinkedHashMap<>();
         deserializedCraftingRecipes.forEach((s, recipe) -> {
             if (recipe.getCategory() == type) {
                 result.put(s, recipe);

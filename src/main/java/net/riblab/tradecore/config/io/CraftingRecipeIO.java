@@ -44,7 +44,7 @@ public final class CraftingRecipeIO implements InterfaceIO<Map<String, ITCCrafti
     @Override
     public Map<String, ITCCraftingRecipe> deserialize(File craftingRecipeFile) {
 
-        Map<String, ITCCraftingRecipe> deserializedRecipes = new HashMap<>();
+        Map<String, ITCCraftingRecipe> deserializedRecipes = new LinkedHashMap<>();
         try (FileReader reader = new FileReader(craftingRecipeFile)) {
             // YAMLデータを読み込み、ルートノードを取得
             Node rootNode = yaml.compose(reader);
