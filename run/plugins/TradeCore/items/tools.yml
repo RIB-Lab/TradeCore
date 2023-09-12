@@ -99,7 +99,7 @@ iron_axe:
   mods:
     defaultminingspeed: '"IRONMADE"'
     toolstats: '{"toolType":"AXE","harvestLevel":4}'
-    monsterspawn: '{"basic_treant":0.05}'
+    monsterspawn: '{"forest_spider":0.05}'
     defaultmaxdurability: '"IRONAGE"'
   material: IRON_AXE
   name: 鉄の斧
@@ -165,7 +165,7 @@ golden_axe:
   mods:
     defaultminingspeed: '"GOLDMADE"'
     toolstats: '{"toolType":"AXE","harvestLevel":4}'
-    monsterspawn: '{"basic_treant":0.05}'
+    monsterspawn: '{"forest_spider":0.05}'
     defaultmaxdurability: '"GOLDAGE"'
   material: GOLDEN_AXE
   name: 金の斧

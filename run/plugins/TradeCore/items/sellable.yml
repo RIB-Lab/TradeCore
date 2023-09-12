@@ -207,3 +207,10 @@ gold_shard:
   material: GOLD_NUGGET
   name: 金の欠片
   model: 0
+  
+primal_string:
+  mods:
+    sellprice: '0.1'
+  material: STRING
+  name: 粗雑な糸
+  model: 0

@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * カスタムモブの定義一覧
+ * カスタムモブの定義一覧 //TODO:YAMLに定義する
  */
 public enum TCMobs {
     //ダンジョン専用
@@ -28,7 +28,8 @@ public enum TCMobs {
 
     //フィールド専用
     BASIC_SILVERFISH(new TCMob(EntityType.SILVERFISH, Component.text("ふぃっしゅ数ver1"), 12, "basic_silverfish", Map.of("round_stone", new ChanceFloat(0.25f), "map_stoneroom", new ChanceFloat(0.25f)))),
-    BASIC_TREANT(new Treant());
+    BASIC_TREANT(new Treant()),
+    FOREST_SPIDER(new ForestSpider());
 
     private final ITCMob ITCMob;
 
