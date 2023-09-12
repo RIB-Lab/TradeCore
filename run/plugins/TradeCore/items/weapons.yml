@@ -79,3 +79,39 @@ beginner_wand:
   material: STICK
   name: 初級魔法杖
   model: 0
+  
+iron_sword:
+  mods:
+    defaultattackdamage: '{"baseDamage":7.5,"spread":"IRON"}'
+    weaponattribute: '"SWORD"'
+    defaultmaxdurability: '"IRONAGE"'
+  material: IRON_SWORD
+  name: 鉄の剣
+  model: 0
+  
+iron_dagger:
+  mods:
+    defaultattackdamage: '{"baseDamage":6.0,"spread":"IRON"}'
+    weaponattribute: '"DAGGER"'
+    defaultmaxdurability: '"IRONAGE"'
+  material: IRON_SWORD
+  name: 鉄の短剣
+  model: 2
+  
+iron_spear:
+  mods:
+    defaultattackdamage: '{"baseDamage":5.5,"spread":"IRON"}'
+    weaponattribute: '"SPEAR"'
+    defaultmaxdurability: '"IRONAGE"'
+  material: IRON_SWORD
+  name: 鉄の槍
+  model: 1
+  
+iron_battleaxe:
+  mods:
+    defaultattackdamage: '{"baseDamage":12.0,"spread":"IRON"}'
+    weaponattribute: '"BATTLEAXE"'
+    defaultmaxdurability: '"IRONAGE"'
+  material: IRON_SWORD
+  name: 鉄の大斧
+  model: 3
