@@ -396,7 +396,7 @@ public final class GeneralEventHandler {
      * 射出物の削除処理
      */
     public void processProjectileHit(ProjectileHitEvent event) {
-        CustomProjectileService.getImpl().onCustomProjectileHit(event.getEntity());
+        CustomProjectileService.getImpl().onCustomProjectileHit(event.getEntity(), event.getHitEntity());
     }
 
     /**

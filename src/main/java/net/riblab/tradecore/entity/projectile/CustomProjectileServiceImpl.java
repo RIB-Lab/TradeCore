@@ -3,7 +3,9 @@
  */
 package net.riblab.tradecore.entity.projectile;
 
+import net.riblab.tradecore.entity.mob.MobUtils;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.util.Vector;
@@ -25,12 +27,15 @@ enum CustomProjectileServiceImpl implements CustomProjectileService {
     }
 
     @Override
-    public void onCustomProjectileHit(Projectile projectile) {
+    public void onCustomProjectileHit(Projectile projectile, Entity hitEntity) {
         if (!spawnedProjectiles.contains(projectile)) {
             return;
         }
 
         spawnedProjectiles.remove(projectile);
+        if(hitEntity instanceof Mob mob){
+            MobUtils.setLootableTag(mob, true);
+        }
 
         projectile.remove();
     }
