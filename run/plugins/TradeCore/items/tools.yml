@@ -170,3 +170,10 @@ golden_axe:
   material: GOLDEN_AXE
   name: 金の斧
   model: 0
+  
+reinforced_walking_stick:
+  mods:
+    addwalkspeed: '6'
+  material: STICK
+  name: 強化歩行杖
+  model: 0
