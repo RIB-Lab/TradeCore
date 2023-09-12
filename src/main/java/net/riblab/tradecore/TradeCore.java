@@ -25,6 +25,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 
 public class TradeCore extends JavaPlugin {
 
@@ -94,7 +96,8 @@ public class TradeCore extends JavaPlugin {
     @Override
     public void onDisable() {
         if (!isJUnitTest()) {
-            vaultHook.unhook();
+            if(Objects.nonNull(vaultHook))
+                vaultHook.unhook();
             DataService.getImpl().saveAll();
         }
 
