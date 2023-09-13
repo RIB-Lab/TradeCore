@@ -18,4 +18,9 @@ public class ModMaxHeight extends LootTableMod<Integer> implements IHeightModifi
     public Integer apply(Integer originalValue, Integer modifiedValue) {
         return getParam();
     }
+
+    @Override
+    public String toString(){
+        return "採取できる最大高度: " + getParam();
+    }
 }

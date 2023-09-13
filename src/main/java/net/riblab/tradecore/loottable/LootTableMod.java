@@ -16,4 +16,13 @@ public class LootTableMod<T> implements ILootTableMod<T> {
     @Getter
     @Setter
     private T param;
+
+    /**
+     * modをCUIやGUIで表示するときの名前
+     * @return 表示名
+     */
+    @Override
+    public String toString(){
+        return "エラー: modの名前が設定されていません。";
+    }
 }
