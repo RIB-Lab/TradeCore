@@ -3,8 +3,8 @@ package net.riblab.tradecore.config.io;
 
 import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.general.ErrorMessages;
-import net.riblab.tradecore.item.ILootTable;
-import net.riblab.tradecore.item.LootTable;
+import net.riblab.tradecore.loottable.ILootTable;
+import net.riblab.tradecore.loottable.LootTable;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
 import org.bukkit.Bukkit;
 import org.codehaus.plexus.util.FileUtils;

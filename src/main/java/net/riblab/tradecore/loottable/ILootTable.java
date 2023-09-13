@@ -1,11 +1,12 @@
 /*
  * Copyright (c) 2023. RIBLaB
  */
-package net.riblab.tradecore.item;
+package net.riblab.tradecore.loottable;
 
 import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.modifier.IToolStatsModifier.ToolType;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ILootTable {
@@ -18,4 +19,6 @@ public interface ILootTable {
     int getHarvestLevel();
 
     Map<String, ChanceFloat> getDropChanceMap();
+
+    List<LootTableMod<?>> getMods();
 }

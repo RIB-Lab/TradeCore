@@ -3,15 +3,12 @@
  */
 package net.riblab.tradecore.config;
 
-import net.riblab.tradecore.config.io.InterfaceIO;
 import net.riblab.tradecore.craft.ITCCraftingRecipe;
-import net.riblab.tradecore.general.IRegistry;
-import net.riblab.tradecore.item.ILootTable;
+import net.riblab.tradecore.loottable.ILootTable;
 import net.riblab.tradecore.item.base.ITCItem;
 import org.bukkit.Material;
 
 import javax.annotation.Nonnull;
-import java.io.File;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

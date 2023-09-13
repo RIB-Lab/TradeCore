@@ -1,16 +1,16 @@
 /*
  * Copyright (c) 2023. RIBLaB
  */
-package net.riblab.tradecore.item;
+package net.riblab.tradecore.loottable;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.general.IRegistry;
+import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
@@ -93,7 +93,8 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
     }
 
     /**
-     * あるマテリアルをあるツールで掘るために必要な最小硬度を取得。走査処理が重いので、掘っているプレイヤーのキャッシュがあればそちらを優先する
+     * あるマテリアルをあるツールで掘るために必要な最小硬度を取得。<br>
+     * 走査処理が重いので、掘っているプレイヤーのキャッシュがあればそちらを優先する
      */
     @ParametersAreNonnullByDefault
     public int getMinHardness(Material material, IToolStatsModifier toolStatsMod, UUID player) {
@@ -109,7 +110,8 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
     }
 
     /**
-     *  getCachedMinHardnessで使うキャッシュを削除する
+     *  getCachedMinHardnessで使うキャッシュを削除する。<br>
+     *  あるプレイヤーが新しいブロックを掘り始めた時呼ぶ
      */
     public void clearCachedMinHardness(UUID player){
         cachedMinHardness.remove(player);

@@ -15,6 +15,7 @@ import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.item.mod.IItemMod;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
+import net.riblab.tradecore.loottable.LootTableRegistry;
 import net.riblab.tradecore.modifier.IMiningSpeedModifier;
 import net.riblab.tradecore.modifier.IMonsterSpawnModifier;
 import net.riblab.tradecore.modifier.IToolStatsModifier;

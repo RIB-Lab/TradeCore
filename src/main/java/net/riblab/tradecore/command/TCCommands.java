@@ -18,7 +18,7 @@ import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.CustomEnumArgumentsUtil;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.item.ILootTable;
+import net.riblab.tradecore.loottable.ILootTable;
 import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
