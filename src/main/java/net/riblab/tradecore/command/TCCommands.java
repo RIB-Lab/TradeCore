@@ -303,19 +303,28 @@ public final class TCCommands {
         itemCommand.withSubcommand(itemExportCommand);
         itemCommand.withSubcommand(loadedItemGiveCommand);
         itemCommand.withSubcommand(itemReloadCommand);
-
-        //普段目に見えないルートテーブルを可視化する
+        itemCommand.register();
+        
         CommandAPICommand lootTableCommand = new CommandAPICommand("loottable")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                });
+        CommandAPICommand showLootTableCommand = new CommandAPICommand("show")
                 .withPermission(CommandPermission.OP)
                 .withArguments(CustomEnumArgumentsUtil.customLootTableArgument("name"))
                 .executesPlayer((player, args) -> {
                     ILootTable lootTable = (ILootTable) args.get(0);
                     player.sendMessage(((LootTable)lootTable).toString());
                 });
-        itemCommand.withSubcommand(lootTableCommand);
-        
-        itemCommand.register();
-
+        CommandAPICommand reloadLootTableCommand = new CommandAPICommand("reload")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    DataService.getImpl().loadLootTable();
+                    player.sendMessage("ルートテーブルをコンフィグから読み込みました");
+                });
+        lootTableCommand.withSubcommand(showLootTableCommand);
+        lootTableCommand.withSubcommand(reloadLootTableCommand);
+        lootTableCommand.register();
         
         CommandAPICommand materialSetCommand = new CommandAPICommand("materialset")
                 .withPermission(CommandPermission.OP)
@@ -340,5 +349,18 @@ public final class TCCommands {
         materialSetCommand.withSubcommand(materialSetShowCommand);
         materialSetCommand.withSubcommand(materialSetReloadCommand);
         materialSetCommand.register();
+
+        CommandAPICommand craftingRecipeCommand = new CommandAPICommand("craftingrecipe")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                });
+        CommandAPICommand craftingRecipeReloadCommand = new CommandAPICommand("reload")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    DataService.getImpl().loadCraftingRecipe();
+                    player.sendMessage("クラフトレシピをコンフィグから読み込みました");
+                });
+        craftingRecipeCommand.withSubcommand(craftingRecipeReloadCommand);
+        craftingRecipeCommand.register();
     }
 }

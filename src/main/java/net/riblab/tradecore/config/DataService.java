@@ -63,7 +63,17 @@ public sealed interface DataService permits DataServiceImpl {
     void loadItems();
 
     /**
+     * ルートテーブルをリロードする(前提であるアイテム、マテリアルセットもリロードされる)
+     */
+    void loadLootTable();
+    
+    /**
      * マテリアルセットを単品でリロードする
      */
     void loadMaterialSet();
+
+    /**
+     * クラフトレシピをリロードする(前提であるアイテムもリロードされる)
+     */
+    void loadCraftingRecipe();
 }

@@ -88,8 +88,29 @@ enum DataServiceImpl implements DataService {
         craftingRecipeIO.serialize(craftingRecipesMap, DataPaths.CRAFT_RECIPE_EXPORT_FILE.get());
     }
     
+    @Override
     public void loadItems(){
         loadFromYaml(TCItemRegistry.INSTANCE, DataPaths.ITEM_DIR.get(), itemIO);
+    }
+
+    @Override
+    public void loadLootTable() {
+        loadFromYaml(TCItemRegistry.INSTANCE, DataPaths.ITEM_DIR.get(), itemIO);
+        loadFromYaml(MaterialSetRegistry.INSTANCE, DataPaths.MATERIAL_SET_DIR.get(), materialSetIO);
+        loadFromYaml(LootTableRegistry.INSTANCE, DataPaths.LOOT_TABLE_DIR.get(), lootTableIO);
+        LootTableRegistry.INSTANCE.validate();
+    }
+    
+    @Override
+    public void loadMaterialSet(){
+        loadFromYaml(MaterialSetRegistry.INSTANCE, DataPaths.MATERIAL_SET_DIR.get(), materialSetIO);
+    }
+
+    @Override
+    public void loadCraftingRecipe() {
+        loadFromYaml(TCItemRegistry.INSTANCE, DataPaths.ITEM_DIR.get(), itemIO);
+        loadFromYaml(CraftingRecipesRegistry.INSTANCE, DataPaths.CRAFT_RECIPE_DIR.get() ,craftingRecipeIO);
+        CraftingRecipesRegistry.INSTANCE.validate();
     }
 
     public void exportMaterialSets(Map<String, Set<Material>> materialSets) {
@@ -114,9 +135,5 @@ enum DataServiceImpl implements DataService {
 
     public void exportLootTables(Map<String, ILootTable> lootTables) {
         lootTableIO.serialize(lootTables, DataPaths.LOOT_TABLE_EXPORT_FILE.get());
-    }
-    
-    public void loadMaterialSet(){
-        loadFromYaml(MaterialSetRegistry.INSTANCE, DataPaths.MATERIAL_SET_DIR.get(), materialSetIO);
     }
 }
