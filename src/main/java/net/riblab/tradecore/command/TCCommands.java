@@ -322,7 +322,7 @@ public final class TCCommands {
                     player.sendMessage("MaterialSet: " + lootTable.getMaterialSetKey());
                     player.sendMessage("ToolType: " + lootTable.getToolType().toString());
                     player.sendMessage("HarvestLevel: " + lootTable.getHarvestLevel());
-                    lootTable.getDropChanceMap().forEach((s, aFloat) -> player.sendMessage(s + ":" + aFloat + "%"));
+                    lootTable.getDropChanceMap().forEach((s, aFloat) -> player.sendMessage(s + ":" + aFloat.get() + "%"));
                 });
         itemCommand.withSubcommand(lootTableCommand);
         

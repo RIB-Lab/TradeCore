@@ -134,3 +134,17 @@ SAND:
     sandgold: 0.02
     sand_dust: 0.2
   tooltype: SHOVEL
+  
+CRAFTING_TABLE:
+  materialset: crafting_table
+  harvestlevel: 4
+  dropchancelevel:
+    vanilla_crafting_table: 1
+  tooltype: AXE
+  
+FURNACE:
+  materialset: furnace
+  harvestlevel: 2
+  dropchancelevel:
+    vanilla_furnace: 1
+  tooltype: PICKAXE

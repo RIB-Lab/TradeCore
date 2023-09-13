@@ -67,3 +67,9 @@ gravel:
 
 sand:
   - SAND
+
+crafting_table:
+  - CRAFTING_TABLE
+
+furnace:
+  - FURNACE

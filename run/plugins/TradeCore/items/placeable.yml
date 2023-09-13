@@ -25,3 +25,10 @@ vanilla_chest:
   material: CHEST
   name: チェスト
   model: 0
+  
+vanilla_crafting_table:
+  mods:
+    placeable: 'true'
+  material: CRAFTING_TABLE
+  name: 作業台
+  model: 0
