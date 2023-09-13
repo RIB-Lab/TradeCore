@@ -11,7 +11,7 @@ import net.riblab.tradecore.general.ErrorMessages;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItem;
 import net.riblab.tradecore.item.mod.IItemMod;
-import net.riblab.tradecore.item.mod.ShortHandModNames;
+import net.riblab.tradecore.item.mod.ShortHandItemModNames;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.codehaus.plexus.util.FileUtils;
@@ -149,7 +149,7 @@ public final class ItemIO implements InterfaceIO<Map<String, ITCItem>> {
 
                 Node modsNameNode = nodeTuple4.getKeyNode(); //アイテムmodの名前ノード
                 Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
-                Class<? extends IItemMod> modsClass = ShortHandModNames.getClassFromShortHandName(((ScalarNode) modsNameNode).getValue());
+                Class<? extends IItemMod> modsClass = ShortHandItemModNames.getClassFromShortHandName(((ScalarNode) modsNameNode).getValue());
                 if (Objects.isNull(modsClass)) {
                     throw new IllegalArgumentException(ErrorMessages.ILLEGAL_ITEM_MOD_NAME.get() + tcItem.getInternalName() + "の" + ((ScalarNode) modsNameNode).getValue());
                 }
@@ -206,7 +206,7 @@ public final class ItemIO implements InterfaceIO<Map<String, ITCItem>> {
      */
     private void saveItemMods(ITCItem item, Map<String, Object> defaultModsMap) {
         for (IItemMod<?> defaultMod : item.getDefaultMods()) {
-            String key = ShortHandModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) defaultMod.getClass());
+            String key = ShortHandItemModNames.getShortHandNameFromClass((Class<? extends IItemMod<?>>) defaultMod.getClass());
             String value = gson.toJson(defaultMod.getParam());
             defaultModsMap.put(key, value);
         }

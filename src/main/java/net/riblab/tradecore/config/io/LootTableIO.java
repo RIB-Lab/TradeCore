@@ -1,10 +1,16 @@
 package net.riblab.tradecore.config.io;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.general.ErrorMessages;
+import net.riblab.tradecore.item.mod.IItemMod;
+import net.riblab.tradecore.item.mod.ShortHandItemModNames;
 import net.riblab.tradecore.loottable.ILootTable;
+import net.riblab.tradecore.loottable.ILootTableMod;
 import net.riblab.tradecore.loottable.LootTable;
+import net.riblab.tradecore.loottable.ShortHandLootTableModNames;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
 import org.bukkit.Bukkit;
 import org.codehaus.plexus.util.FileUtils;
@@ -21,6 +27,8 @@ import java.util.*;
 import static net.riblab.tradecore.config.io.LootTableIOTags.*;
 
 public final class LootTableIO implements InterfaceIO<Map<String, ILootTable>> {
+
+    private final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().create();
     private final Yaml yaml;
 
     public LootTableIO() {
@@ -111,7 +119,15 @@ public final class LootTableIO implements InterfaceIO<Map<String, ILootTable>> {
         Map<String, Object> lootTableReady = new HashMap<>();
         
         for (Map.Entry<String, ILootTable> entry : objectToSave.entrySet()) {
+            Map<String, Object> modsMap = new HashMap<>();
+            for (ILootTableMod<?> mod : entry.getValue().getMods()) {
+                String key = ShortHandLootTableModNames.getShortHandNameFromClass((Class<? extends ILootTableMod<?>>) mod.getClass());
+                String value = gson.toJson(mod.getParam());
+                modsMap.put(key, value);
+            }
+            
             Map<String, Object> lootTableParams = new HashMap<>();
+            lootTableParams.put(MODS.get(), modsMap);
             lootTableParams.put(MATERIAL_SET.get(), entry.getValue().getMaterialSetKey());
             lootTableParams.put(TOOL_TYPE.get(), entry.getValue().getToolType().toString());
             lootTableParams.put(HARVEST_LEVEL.get(), entry.getValue().getHarvestLevel());

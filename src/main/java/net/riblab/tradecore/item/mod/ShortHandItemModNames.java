@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * modの種類と、その短縮形の名前を記録するenum。保存の際に重要
  */
-public enum ShortHandModNames {
+public enum ShortHandItemModNames {
     ADDARMOR(ModAddArmorI.class),
     CUSTOMARMOR(ModCustomArmor.class),
     DEFAULTATTACKDAMAGE(ModDefaultAttackDamageI.class),
@@ -37,7 +37,7 @@ public enum ShortHandModNames {
     @Getter
     private final Class<? extends IItemMod<?>> modClass;
 
-    ShortHandModNames(Class<? extends IItemMod<?>> modClass) {
+    ShortHandItemModNames(Class<? extends IItemMod<?>> modClass) {
         this.modClass = modClass;
     }
 
@@ -45,7 +45,7 @@ public enum ShortHandModNames {
      * クラスからそ短縮形の名前(小文字)を取得する
      */
     public static String getShortHandNameFromClass(Class<? extends IItemMod<?>> clazz) {
-        ShortHandModNames names = Arrays.stream(ShortHandModNames.values()).filter(shortHandModNames -> shortHandModNames.getModClass().equals(clazz)).findFirst().orElse(null);
+        ShortHandItemModNames names = Arrays.stream(ShortHandItemModNames.values()).filter(shortHandItemModNames -> shortHandItemModNames.getModClass().equals(clazz)).findFirst().orElse(null);
         return Objects.nonNull(names) ? names.name().toLowerCase(Locale.ROOT) : null;
     }
 
@@ -54,7 +54,7 @@ public enum ShortHandModNames {
      */
     public static Class<? extends IItemMod<?>> getClassFromShortHandName(String shortHandName) {
         String capitalName = shortHandName.toUpperCase(Locale.ROOT);
-        ShortHandModNames names = Arrays.stream(ShortHandModNames.values()).filter(shortHandModNames -> shortHandModNames.name().equals(capitalName)).findFirst().orElse(null);
+        ShortHandItemModNames names = Arrays.stream(ShortHandItemModNames.values()).filter(shortHandItemModNames -> shortHandItemModNames.name().equals(capitalName)).findFirst().orElse(null);
         return Objects.nonNull(names) ? names.getModClass() : null;
     }
 }

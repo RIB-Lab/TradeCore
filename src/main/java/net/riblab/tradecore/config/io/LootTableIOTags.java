@@ -9,6 +9,7 @@ public enum LootTableIOTags {
     HARVEST_LEVEL("harvestlevel"),
     RESULT("result"),
     DROPCHANCE_LEVEL("dropchancelevel"),
+    MODS("mods"),
     ;
 
     private final String name;
