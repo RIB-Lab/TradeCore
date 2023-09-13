@@ -10,6 +10,7 @@ import net.riblab.tradecore.general.IRegistry;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
@@ -21,6 +22,8 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
     INSTANCE;
 
     private final Map<String, ILootTable> lootTables = new HashMap<>();
+    
+    private final Map<UUID, Integer> cachedMinHardness = new HashMap<>();
 
     @Override
     public void clear() {
@@ -39,7 +42,7 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
 
 
     /**
-     * マテリアルとツールタイプに一致するルートテーブルを洗い出す
+     * マテリアルとツールタイプに一致するルートテーブルを洗い出す。全部のルートテーブルを走査するので慎重に
      *
      * @return ルートテーブル
      */
@@ -55,7 +58,7 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
     }
 
     /**
-     * マテリアルとツールタイプに一致し、採掘レベルの条件を満たすルートテーブルを洗い出す
+     * マテリアルとツールタイプに一致し、採掘レベルの条件を満たすルートテーブルを洗い出す。全部のルートテーブルを走査するので慎重に
      *
      * @return ルートテーブル
      */
@@ -73,11 +76,12 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
     }
 
     /**
-     * あるマテリアルをあるツールで掘るために必要な最小硬度を取得
+     * あるマテリアルをあるツールで掘るために必要な最小硬度を取得。全部のルートテーブルを走査するので慎重に
      */
     @ParametersAreNonnullByDefault
     public int getMinHardness(Material material, IToolStatsModifier toolStatsMod) {
         IToolStatsModifier.ToolStats toolStats = toolStatsMod.apply(null, null);
+        
         List<Integer> hardnessList = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
                 .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
                 .filter(table1 -> table1.getToolType() == toolStats.getToolType())
@@ -86,6 +90,29 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
             return Integer.MAX_VALUE;
 
         return Collections.min(hardnessList);
+    }
+
+    /**
+     * あるマテリアルをあるツールで掘るために必要な最小硬度を取得。走査処理が重いので、掘っているプレイヤーのキャッシュがあればそちらを優先する
+     */
+    @ParametersAreNonnullByDefault
+    public int getMinHardness(Material material, IToolStatsModifier toolStatsMod, UUID player) {
+        Integer cachedHardness = cachedMinHardness.get(player);
+        if(cachedHardness != null){
+            return cachedHardness;
+        }
+        
+        int minHardness = getMinHardness(material, toolStatsMod);
+        cachedMinHardness.put(player, minHardness);
+        
+        return minHardness;
+    }
+
+    /**
+     *  getCachedMinHardnessで使うキャッシュを削除する
+     */
+    public void clearCachedMinHardness(UUID player){
+        cachedMinHardness.remove(player);
     }
 
     public Optional<ILootTable> commandToLootTable(String internalName) {

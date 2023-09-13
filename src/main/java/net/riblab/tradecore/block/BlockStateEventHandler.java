@@ -69,6 +69,7 @@ public final class BlockStateEventHandler implements Listener {
         }
 
         getService().createBrokenBlock(event.getBlock(), event.getPlayer());
+        LootTableRegistry.INSTANCE.clearCachedMinHardness(event.getPlayer().getUniqueId());
     }
 
     /**
@@ -107,7 +108,7 @@ public final class BlockStateEventHandler implements Listener {
             return;
         }
 
-        int minHardness = LootTableRegistry.INSTANCE.getMinHardness(block.getType(), mod);
+        int minHardness = LootTableRegistry.INSTANCE.getMinHardness(block.getType(), mod, player.getUniqueId());
         if (minHardness > mod.apply(null, null).getHarvestLevel()) {
             getService().incrementDamage(player, bareHandMiningSpeed); //ツールで採掘できないなら実質素手
             return;
@@ -160,13 +161,13 @@ public final class BlockStateEventHandler implements Listener {
 
         Optional<ITCItem> itcItem = TCItemRegistry.INSTANCE.toTCItem(mainHand);
         if (itcItem.isEmpty()) {
-            event.setDropItems(false);//適正ツール以外での採掘は何も落とさない
+            event.setDropItems(false);//カスタムアイテム以外での採掘は何も落とさない
             return;
         }
 
         List<IItemMod<?>> mods = itcItem.get().getDefaultMods();
         IToolStatsModifier toolMod = (IToolStatsModifier) mods.stream().filter(iItemMod -> iItemMod instanceof IToolStatsModifier).findFirst().orElse(null);
-        if (Objects.isNull(toolMod)) { //ツール
+        if (Objects.isNull(toolMod)) { //ツールではない
             //適正ツール以外での採掘は何も落とさない
             event.setDropItems(false);
             return;
