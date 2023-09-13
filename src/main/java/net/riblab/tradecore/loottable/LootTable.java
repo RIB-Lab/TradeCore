@@ -49,4 +49,23 @@ public final class LootTable implements ILootTable {
     
     public LootTable() {
     }
+
+    @Override
+    public String toString(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("ルートテーブル: ").append(internalName).append("\n")
+                .append("対象のマテリアルセット: ").append(materialSetKey).append("\n")
+                .append("適正ツール: ").append(toolType.toString()).append("\n")
+                .append("採取レベル: ").append(harvestLevel).append("\n");
+        if(!mods.isEmpty()){
+            sb.append("mods:").append("\n");
+            for (ILootTableMod<?> mod : mods) {
+                sb.append("    ").append(mod.toString()).append("\n");
+            }
+        }
+        sb.append("採れるものリスト: ").append("\n");
+        dropChanceMap.forEach((s, aFloat) -> sb.append("    ").append(s).append(": ").append(aFloat.get()).append("%").append("\n"));
+        
+        return  sb.toString();
+    }
 }

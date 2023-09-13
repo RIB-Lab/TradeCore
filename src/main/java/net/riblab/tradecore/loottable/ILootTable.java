@@ -9,7 +9,7 @@ import net.riblab.tradecore.modifier.IToolStatsModifier.ToolType;
 import java.util.List;
 import java.util.Map;
 
-public interface ILootTable {
+public sealed interface ILootTable permits LootTable {
     String getInternalName();
     
     String getMaterialSetKey();

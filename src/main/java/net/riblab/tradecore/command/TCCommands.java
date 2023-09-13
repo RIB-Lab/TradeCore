@@ -27,6 +27,7 @@ import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
 import net.riblab.tradecore.loottable.ILootTableMod;
+import net.riblab.tradecore.loottable.LootTable;
 import net.riblab.tradecore.loottable.LootTableMod;
 import net.riblab.tradecore.shop.IShopData;
 import net.riblab.tradecore.ui.UIShop;
@@ -310,8 +311,9 @@ public final class TCCommands {
                 .withArguments(CustomEnumArgumentsUtil.customMaterialSetArgument("name"))
                 .executesPlayer((player, args) -> {
                     Set<Material> materialsSet = (Set<Material>) args.get(0);
+                    player.sendMessage("このマテリアルセットに含まれるマテリアル:");
                     for (Material material : materialsSet) {
-                        player.sendMessage(material.toString());
+                        player.sendMessage("    " + material.toString());
                     }
                 });
         itemCommand.withSubcommand(materialSetCommand);
@@ -322,17 +324,7 @@ public final class TCCommands {
                 .withArguments(CustomEnumArgumentsUtil.customLootTableArgument("name"))
                 .executesPlayer((player, args) -> {
                     ILootTable lootTable = (ILootTable) args.get(0);
-                    player.sendMessage("対象のマテリアルセット: " + lootTable.getMaterialSetKey());
-                    player.sendMessage("適正ツール: " + lootTable.getToolType().toString());
-                    player.sendMessage("採取レベル: " + lootTable.getHarvestLevel());
-                    if(!lootTable.getMods().isEmpty()){
-                        player.sendMessage("mods:");
-                        for (ILootTableMod<?> mod : lootTable.getMods()) {
-                            player.sendMessage("    " + mod.toString());
-                        }
-                    }
-                    player.sendMessage("採れるものリスト: ");
-                    lootTable.getDropChanceMap().forEach((s, aFloat) -> player.sendMessage("    " + s + ":" + aFloat.get() + "%"));
+                    player.sendMessage(((LootTable)lootTable).toString());
                 });
         itemCommand.withSubcommand(lootTableCommand);
         
