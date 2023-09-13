@@ -221,3 +221,10 @@ beginner_magic_orb:
   material: SLIME_BALL
   name: 初級魔法のオーブ
   model: 0
+  
+metal_scrap:
+  mods:
+    sellprice: '0.1'
+  material: IRON_NUGGET
+  name: 金属スクラップ
+  model: 0

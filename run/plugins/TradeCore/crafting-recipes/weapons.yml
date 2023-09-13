@@ -12,6 +12,8 @@ stone_sword:
   result: stone_sword
   resultAmount: 1
   
+# 鉄器時代
+
 basic_bow:
   category: WEAPON
   fee: 3.0
@@ -38,4 +40,32 @@ beginner_wand:
   fee: 3.0
   ingredients: { beginner_magic_orb: 1, stick: 2 }
   result: beginner_wand
+  resultAmount: 1
+  
+iron_sword:
+  category: WEAPON
+  fee: 5.0
+  ingredients: { iron_ingot: 2, reinforced_stick: 1, metal_scrap: 1 }
+  result: iron_sword
+  resultAmount: 1
+  
+iron_spear:
+  category: WEAPON
+  fee: 5.0
+  ingredients: { iron_ingot: 1, reinforced_stick: 2, metal_scrap: 2 }
+  result: iron_spear
+  resultAmount: 1
+  
+iron_dagger:
+  category: WEAPON
+  fee: 3.0
+  ingredients: { iron_ingot: 1, reinforced_stick: 1, metal_scrap: 3 }
+  result: iron_dagger
+  resultAmount: 1
+  
+iron_battleaxe:
+  category: WEAPON
+  fee: 7.0
+  ingredients: { iron_ingot: 5, reinforced_stick: 2 }
+  result: iron_battleaxe
   resultAmount: 1
