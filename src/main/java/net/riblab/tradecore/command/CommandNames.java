@@ -34,7 +34,7 @@ enum CommandNames {
     ITEM("item"),
     ITEM_EXPORT("export"),
     ITEM_GIVE("give"),
-    ITEM_RELOAD("reload");
+    RELOAD_ITEM("reload");
 
     private final String name;
 

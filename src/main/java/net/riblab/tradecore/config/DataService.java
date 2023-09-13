@@ -25,7 +25,7 @@ public sealed interface DataService permits DataServiceImpl {
     void saveAll();
 
     /**
-     * プラグインの全てのデータをロードする
+     * プラグインの全てのデータをまとめてロードする
      */
     void loadAll();
 
@@ -58,7 +58,12 @@ public sealed interface DataService permits DataServiceImpl {
     void exportLootTables(Map<String, ILootTable> lootTables);
 
     /**
-     * アイテムレジストリのloadのショートカット
+     * アイテムレジストリを単品でリロードする
      */
     void loadItems();
+
+    /**
+     * マテリアルセットを単品でリロードする
+     */
+    void loadMaterialSet();
 }

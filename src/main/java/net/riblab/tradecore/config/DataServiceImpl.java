@@ -52,7 +52,7 @@ enum DataServiceImpl implements DataService {
     public void loadAll() {
         currencyData = JsonIO.loadAsJson(DataPaths.CURRENCY_DATA_FILE.get(), CurrencyData.class);
         jobDatas = JsonIO.loadAsJson(DataPaths.JOBS_DATA_FILE.get(), JobDatas.class);
-        loadItems();
+        loadFromYaml(TCItemRegistry.INSTANCE, DataPaths.ITEM_DIR.get(), itemIO);
         loadFromYaml(CraftingRecipesRegistry.INSTANCE, DataPaths.CRAFT_RECIPE_DIR.get() ,craftingRecipeIO);
         loadFromYaml(MaterialSetRegistry.INSTANCE, DataPaths.MATERIAL_SET_DIR.get(), materialSetIO);
         loadFromYaml(LootTableRegistry.INSTANCE, DataPaths.LOOT_TABLE_DIR.get(), lootTableIO);
@@ -114,5 +114,9 @@ enum DataServiceImpl implements DataService {
 
     public void exportLootTables(Map<String, ILootTable> lootTables) {
         lootTableIO.serialize(lootTables, DataPaths.LOOT_TABLE_EXPORT_FILE.get());
+    }
+    
+    public void loadMaterialSet(){
+        loadFromYaml(MaterialSetRegistry.INSTANCE, DataPaths.MATERIAL_SET_DIR.get(), materialSetIO);
     }
 }

@@ -26,9 +26,7 @@ import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
-import net.riblab.tradecore.loottable.ILootTableMod;
 import net.riblab.tradecore.loottable.LootTable;
-import net.riblab.tradecore.loottable.LootTableMod;
 import net.riblab.tradecore.shop.IShopData;
 import net.riblab.tradecore.ui.UIShop;
 import net.riblab.tradecore.ui.UIs;
@@ -296,7 +294,7 @@ public final class TCCommands {
                     newStack.setAmount(amount);
                     player.getInventory().addItem(newStack);
                 });
-        CommandAPICommand itemReloadCommand = new CommandAPICommand(ITEM_RELOAD.get())
+        CommandAPICommand itemReloadCommand = new CommandAPICommand(RELOAD_ITEM.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DataService.getImpl().loadItems();
@@ -305,18 +303,6 @@ public final class TCCommands {
         itemCommand.withSubcommand(itemExportCommand);
         itemCommand.withSubcommand(loadedItemGiveCommand);
         itemCommand.withSubcommand(itemReloadCommand);
-
-        CommandAPICommand materialSetCommand = new CommandAPICommand("materialset")
-                .withPermission(CommandPermission.OP)
-                .withArguments(CustomEnumArgumentsUtil.customMaterialSetArgument("name"))
-                .executesPlayer((player, args) -> {
-                    Set<Material> materialsSet = (Set<Material>) args.get(0);
-                    player.sendMessage("このマテリアルセットに含まれるマテリアル:");
-                    for (Material material : materialsSet) {
-                        player.sendMessage("    " + material.toString());
-                    }
-                });
-        itemCommand.withSubcommand(materialSetCommand);
 
         //普段目に見えないルートテーブルを可視化する
         CommandAPICommand lootTableCommand = new CommandAPICommand("loottable")
@@ -329,5 +315,30 @@ public final class TCCommands {
         itemCommand.withSubcommand(lootTableCommand);
         
         itemCommand.register();
+
+        
+        CommandAPICommand materialSetCommand = new CommandAPICommand("materialset")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                });
+        CommandAPICommand materialSetShowCommand = new CommandAPICommand("show")
+                .withPermission(CommandPermission.OP)
+                .withArguments(CustomEnumArgumentsUtil.customMaterialSetArgument("name"))
+                .executesPlayer((player, args) -> {
+                    Set<Material> materialsSet = (Set<Material>) args.get(0);
+                    player.sendMessage("このマテリアルセットに含まれるマテリアル:");
+                    for (Material material : materialsSet) {
+                        player.sendMessage("    " + material.toString());
+                    }
+                });
+        CommandAPICommand materialSetReloadCommand = new CommandAPICommand("reload")
+                .withPermission(CommandPermission.OP)
+                .executesPlayer((player, args) -> {
+                    DataService.getImpl().loadMaterialSet();
+                    player.sendMessage("マテリアルセットをコンフィグから読み込みました");
+                });
+        materialSetCommand.withSubcommand(materialSetShowCommand);
+        materialSetCommand.withSubcommand(materialSetReloadCommand);
+        materialSetCommand.register();
     }
 }
