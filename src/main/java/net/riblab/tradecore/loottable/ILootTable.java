@@ -20,5 +20,5 @@ public interface ILootTable {
 
     Map<String, ChanceFloat> getDropChanceMap();
 
-    List<LootTableMod<?>> getMods();
+    List<ILootTableMod<?>> getMods();
 }

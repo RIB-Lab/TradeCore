@@ -66,13 +66,11 @@ public final class ItemIO implements InterfaceIO<Map<String, ITCItem>> {
 
                     TCItem tcItem = new TCItem();
                     tcItem.setInternalName(internalNameNode.getValue());
-                    List<IItemMod<?>> defaultMods = new ArrayList<>();
 
                     Node valueNode2 = nodeTuple2.getValueNode();
                     if (valueNode2 instanceof MappingNode valueNode2Map) {
-                        parseItemParams(tcItem, defaultMods, valueNode2Map);
+                        parseItemParams(tcItem, valueNode2Map);
                     }
-                    tcItem.setDefaultMods(defaultMods);
                     deserializedItems.put(internalNameNode.getValue(), tcItem);
                 }
             }
@@ -87,7 +85,7 @@ public final class ItemIO implements InterfaceIO<Map<String, ITCItem>> {
     /**
      * マッピングノードからアイテムの全てのパラメータをパースする
      */
-    private void parseItemParams(TCItem tcItem, List<IItemMod<?>> defaultMods, MappingNode valueNode2Map) {
+    private void parseItemParams(TCItem tcItem, MappingNode valueNode2Map) {
         Iterator<NodeTuple> iterator3 = valueNode2Map.getValue().iterator();
         while (iterator3.hasNext()) {
             NodeTuple nodeTuple3 = iterator3.next();
@@ -101,7 +99,7 @@ public final class ItemIO implements InterfaceIO<Map<String, ITCItem>> {
             } else if (itemPropertiesNode.getValue().equals(ItemIOTags.CUSTOMMODELDATA.get())) {
                 parseCustomModelData(tcItem, nodeTuple3);
             } else if (itemPropertiesNode.getValue().equals(ItemIOTags.DEFAULTMODS.get())) {
-                parseDefaultMods(tcItem, defaultMods, nodeTuple3);
+                parseDefaultMods(tcItem, nodeTuple3);
             }
         }
     }
@@ -140,7 +138,8 @@ public final class ItemIO implements InterfaceIO<Map<String, ITCItem>> {
     /**
      * アイテムのdefaultmodsをノードからパースする
      */
-    private void parseDefaultMods(TCItem tcItem, List<IItemMod<?>> defaultMods, NodeTuple nodeTuple3) {
+    private void parseDefaultMods(TCItem tcItem, NodeTuple nodeTuple3) {
+        List<IItemMod<?>> defaultMods = new ArrayList<>();
         Node valueNode3 = nodeTuple3.getValueNode();
         if (valueNode3 instanceof MappingNode valueNode3Map) {
             Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
@@ -149,7 +148,7 @@ public final class ItemIO implements InterfaceIO<Map<String, ITCItem>> {
 
                 Node modsNameNode = nodeTuple4.getKeyNode(); //アイテムmodの名前ノード
                 Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
-                Class<? extends IItemMod> modsClass = ShortHandItemModNames.getClassFromShortHandName(((ScalarNode) modsNameNode).getValue());
+                Class<? extends IItemMod<?>> modsClass = ShortHandItemModNames.getClassFromShortHandName(((ScalarNode) modsNameNode).getValue());
                 if (Objects.isNull(modsClass)) {
                     throw new IllegalArgumentException(ErrorMessages.ILLEGAL_ITEM_MOD_NAME.get() + tcItem.getInternalName() + "の" + ((ScalarNode) modsNameNode).getValue());
                 }
@@ -163,10 +162,11 @@ public final class ItemIO implements InterfaceIO<Map<String, ITCItem>> {
                     IItemMod<?> mod = (IItemMod<?>) constructor.newInstance(arg);
                     defaultMods.add(mod);
                 } catch (Exception e) {
-                    Bukkit.getLogger().severe(ErrorMessages.FAILED_TO_PARSE_ITEM_MOD + tcItem.getInternalName() + "の" + ((ScalarNode) modsNameNode).getValue());
+                    Bukkit.getLogger().severe(ErrorMessages.FAILED_TO_PARSE_ITEM_MOD.get() + tcItem.getInternalName() + "の" + ((ScalarNode) modsNameNode).getValue());
                     e.printStackTrace();
                 }
             }
+            tcItem.setDefaultMods(defaultMods);
         }
     }
 

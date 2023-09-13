@@ -45,7 +45,7 @@ public final class LootTable implements ILootTable {
     private Map<String, ChanceFloat> dropChanceMap;
 
     @Getter @Setter
-    private List<LootTableMod<?>> mods = new ArrayList<>();
+    private List<ILootTableMod<?>> mods = new ArrayList<>();
     
     public LootTable() {
     }

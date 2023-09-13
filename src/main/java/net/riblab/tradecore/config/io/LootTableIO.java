@@ -5,8 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.riblab.tradecore.general.ChanceFloat;
 import net.riblab.tradecore.general.ErrorMessages;
-import net.riblab.tradecore.item.mod.IItemMod;
-import net.riblab.tradecore.item.mod.ShortHandItemModNames;
 import net.riblab.tradecore.loottable.ILootTable;
 import net.riblab.tradecore.loottable.ILootTableMod;
 import net.riblab.tradecore.loottable.LootTable;
@@ -22,6 +20,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Type;
 import java.util.*;
 
 import static net.riblab.tradecore.config.io.LootTableIOTags.*;
@@ -73,6 +73,9 @@ public final class LootTableIO implements InterfaceIO<Map<String, ILootTable>> {
                             else if(lootProperties.equals(DROPCHANCE_LEVEL.get())){
                                 parseDropChance(deserializedTable, nodeTuple3);
                             }
+                            else if(lootProperties.equals(MODS.get())){
+                                parseMods(deserializedTable, nodeTuple3);
+                            }
                         }
                     }
                     deserializedLootTable.put(lootTableNameNode.getValue(), deserializedTable);
@@ -114,6 +117,38 @@ public final class LootTableIO implements InterfaceIO<Map<String, ILootTable>> {
         deserializedTable.setMaterialSetKey(((ScalarNode) nodeTuple3.getValueNode()).getValue());
     }
 
+    private void parseMods(LootTable lootTable, NodeTuple nodeTuple3) {
+        List<ILootTableMod<?>> mods = new ArrayList<>();
+        Node valueNode3 = nodeTuple3.getValueNode();
+        if (valueNode3 instanceof MappingNode valueNode3Map) {
+            Iterator<NodeTuple> iterator4 = valueNode3Map.getValue().iterator();
+            while (iterator4.hasNext()) {
+                NodeTuple nodeTuple4 = iterator4.next();
+
+                Node modsNameNode = nodeTuple4.getKeyNode(); //ルートテーブルmodの名前ノード
+                Node modsContentNode = nodeTuple4.getValueNode();//modの内容のノード
+                Class<? extends ILootTableMod<?>> modsClass = ShortHandLootTableModNames.getClassFromShortHandName(((ScalarNode) modsNameNode).getValue());
+                if (Objects.isNull(modsClass)) {
+                    throw new IllegalArgumentException(ErrorMessages.ILLEGAL_LOOT_TABLE_MOD_NAME.get() + lootTable.getInternalName() + "の" + ((ScalarNode) modsNameNode).getValue());
+                }
+
+                //Jsonを元の型に還元する
+                Constructor<?> constructor = modsClass.getConstructors()[0];
+                Type[] parameterTypes = constructor.getGenericParameterTypes();
+                String json = ((ScalarNode) modsContentNode).getValue();
+                try {
+                    Object arg = gson.fromJson(json, parameterTypes[0]);
+                    ILootTableMod<?> mod = (ILootTableMod<?>) constructor.newInstance(arg);
+                    mods.add(mod);
+                } catch (Exception e) {
+                    Bukkit.getLogger().severe(ErrorMessages.FAILED_TO_PARSE_LOOT_TABLE_MOD.get() + lootTable.getInternalName() + "の" + ((ScalarNode) modsNameNode).getValue());
+                    e.printStackTrace();
+                }
+            }
+            lootTable.setMods(mods);
+        }
+    }
+    
     @Override
     public void serialize(Map<String, ILootTable> objectToSave, File fileToSave) {
         Map<String, Object> lootTableReady = new HashMap<>();

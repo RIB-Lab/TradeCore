@@ -65,6 +65,8 @@ PRIMITIVE_STONES:
   dropchancelevel:
     widestone: 0.2
     tallstone: 0.2
+  mods:
+    minheight: 50
   tooltype: PICKAXE
   
 PRIMITIVE_STONES2:
