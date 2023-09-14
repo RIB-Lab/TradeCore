@@ -18,7 +18,6 @@ import net.riblab.tradecore.entity.projectile.CustomProjectileService;
 import net.riblab.tradecore.general.Utils;
 import net.riblab.tradecore.integration.CustomEnumArgumentsUtil;
 import net.riblab.tradecore.integration.TCEconomy;
-import net.riblab.tradecore.loottable.ILootTable;
 import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.ITCItem;
 import net.riblab.tradecore.item.base.TCItemRegistry;
@@ -26,6 +25,7 @@ import net.riblab.tradecore.job.data.JobData;
 import net.riblab.tradecore.job.data.JobDataService;
 import net.riblab.tradecore.job.data.JobType;
 import net.riblab.tradecore.job.skill.JobSkillService;
+import net.riblab.tradecore.loottable.ILootTable;
 import net.riblab.tradecore.loottable.LootTable;
 import net.riblab.tradecore.shop.IShopData;
 import net.riblab.tradecore.ui.UIShop;
@@ -67,6 +67,7 @@ public final class TCCommands {
      * このプラグインで使う全てのコマンドを登録する
      */
     private static void registerCommands() {
+        
         CommandAPICommand currencyCommand = new CommandAPICommand(CURRENCY.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
@@ -96,8 +97,9 @@ public final class TCCommands {
         currencyCommand.withSubcommand(setMoneyCommand);
         currencyCommand.withSubcommand(setPlayTicketCommand);
         currencyCommand.register();
-
+        
         CommandAPICommand sellCommand = new CommandAPICommand(SELL.get())
+                .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
                     Location spawnLocation = player.getTargetBlock(MaterialSetRegistry.INSTANCE.commandToMaterialSet("transparent").orElseThrow(), 2).getLocation().add(BLOCK_OFFSET);
                     spawnLocation.setY(player.getLocation().getY());
@@ -105,14 +107,12 @@ public final class TCCommands {
                     FakeVillagerService.getImpl().spawnFakeVillager(player, MERCHANT_NAME, spawnLocation);
                     player.getWorld().spawnParticle(Particle.SMOKE_LARGE, spawnLocation, 10, 1, 1, 1);
                 });
-        sellCommand.setPermission(CommandPermission.NONE);
         sellCommand.register();
-
+        
         CommandAPICommand mobCommand = new CommandAPICommand(MOBS.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                 });
-
         CommandAPICommand spawnCommand = new CommandAPICommand(MOBS_SPAWN.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(CustomEnumArgumentsUtil.customITCMobArgument(MOBNAME.get()))
@@ -133,7 +133,7 @@ public final class TCCommands {
         mobCommand.withSubcommand(spawnCommand);
         mobCommand.withSubcommand(mobResetCommand);
         mobCommand.register();
-
+        
         CommandAPICommand shopCommand = new CommandAPICommand(SHOP.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(CustomEnumArgumentsUtil.customShopDataArgument(SHOPDATA.get()))
@@ -160,7 +160,7 @@ public final class TCCommands {
         shopCommand.withSubcommand(respecShopCommand);
         shopCommand.withSubcommand(dungeonShopCommand);
         shopCommand.register();
-
+        
         CommandAPICommand jobCommand = new CommandAPICommand(JOB.get())
                 .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
@@ -197,7 +197,7 @@ public final class TCCommands {
         jobCommand.withSubcommand(jobResetCommand);
         jobCommand.withSubcommand(skillResetCommand);
         jobCommand.register();
-
+        
         CommandAPICommand dungeonCommand = new CommandAPICommand(DUNGEON.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
@@ -240,21 +240,21 @@ public final class TCCommands {
         dungeonCommand.withSubcommand(evacuateDungeonCommand);
         dungeonCommand.withSubcommand(dungeonListCommand);
         dungeonCommand.register();
-
+        
         CommandAPICommand wikiCommand = new CommandAPICommand(WIKI.get())
                 .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
                     player.sendMessage("wiki url: https://www.riblab.net/trade/");
                 });
         wikiCommand.register();
-
+        
         CommandAPICommand versionCommand = new CommandAPICommand(VERSION.get())
                 .withPermission(CommandPermission.NONE)
                 .executesPlayer((player, args) -> {
                     player.sendMessage(Utils.getVersion());
                 });
         versionCommand.register();
-
+        
         CommandAPICommand projectileCommand = new CommandAPICommand(PROJECTILE.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
@@ -268,7 +268,7 @@ public final class TCCommands {
                 });
         projectileCommand.withSubcommand(projectileResetCommand);
         projectileCommand.register();
-
+        
         CommandAPICommand itemCommand = new CommandAPICommand(ITEM.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
@@ -294,7 +294,7 @@ public final class TCCommands {
                     newStack.setAmount(amount);
                     player.getInventory().addItem(newStack);
                 });
-        CommandAPICommand itemReloadCommand = new CommandAPICommand(RELOAD_ITEM.get())
+        CommandAPICommand itemReloadCommand = new CommandAPICommand(GENERAL_RELOAD.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DataService.getImpl().loadItems();
@@ -305,18 +305,18 @@ public final class TCCommands {
         itemCommand.withSubcommand(itemReloadCommand);
         itemCommand.register();
         
-        CommandAPICommand lootTableCommand = new CommandAPICommand("loottable")
+        CommandAPICommand lootTableCommand = new CommandAPICommand(LOOT_TABLE.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                 });
-        CommandAPICommand showLootTableCommand = new CommandAPICommand("show")
+        CommandAPICommand showLootTableCommand = new CommandAPICommand(GENERAL_SHOW.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(CustomEnumArgumentsUtil.customLootTableArgument("name"))
                 .executesPlayer((player, args) -> {
                     ILootTable lootTable = (ILootTable) args.get(0);
                     player.sendMessage(((LootTable)lootTable).toString());
                 });
-        CommandAPICommand reloadLootTableCommand = new CommandAPICommand("reload")
+        CommandAPICommand reloadLootTableCommand = new CommandAPICommand(GENERAL_RELOAD.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DataService.getImpl().loadLootTable();
@@ -326,11 +326,11 @@ public final class TCCommands {
         lootTableCommand.withSubcommand(reloadLootTableCommand);
         lootTableCommand.register();
         
-        CommandAPICommand materialSetCommand = new CommandAPICommand("materialset")
+        CommandAPICommand materialSetCommand = new CommandAPICommand(MATERIAL_SET.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                 });
-        CommandAPICommand materialSetShowCommand = new CommandAPICommand("show")
+        CommandAPICommand materialSetShowCommand = new CommandAPICommand(GENERAL_SHOW.get())
                 .withPermission(CommandPermission.OP)
                 .withArguments(CustomEnumArgumentsUtil.customMaterialSetArgument("name"))
                 .executesPlayer((player, args) -> {
@@ -340,7 +340,7 @@ public final class TCCommands {
                         player.sendMessage("    " + material.toString());
                     }
                 });
-        CommandAPICommand materialSetReloadCommand = new CommandAPICommand("reload")
+        CommandAPICommand materialSetReloadCommand = new CommandAPICommand(GENERAL_RELOAD.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DataService.getImpl().loadMaterialSet();
@@ -349,12 +349,12 @@ public final class TCCommands {
         materialSetCommand.withSubcommand(materialSetShowCommand);
         materialSetCommand.withSubcommand(materialSetReloadCommand);
         materialSetCommand.register();
-
-        CommandAPICommand craftingRecipeCommand = new CommandAPICommand("craftingrecipe")
+        
+        CommandAPICommand craftingRecipeCommand = new CommandAPICommand(CRAFTING_RECIPE.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                 });
-        CommandAPICommand craftingRecipeReloadCommand = new CommandAPICommand("reload")
+        CommandAPICommand craftingRecipeReloadCommand = new CommandAPICommand(GENERAL_RELOAD.get())
                 .withPermission(CommandPermission.OP)
                 .executesPlayer((player, args) -> {
                     DataService.getImpl().loadCraftingRecipe();

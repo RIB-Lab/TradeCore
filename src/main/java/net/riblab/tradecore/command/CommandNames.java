@@ -34,7 +34,12 @@ enum CommandNames {
     ITEM("item"),
     ITEM_EXPORT("export"),
     ITEM_GIVE("give"),
-    RELOAD_ITEM("reload");
+    LOOT_TABLE("loottable"),
+    GENERAL_SHOW("show"),
+    GENERAL_RELOAD("reload"),
+    MATERIAL_SET("materialset"),
+    CRAFTING_RECIPE("craftingrecipe")
+    ;
 
     private final String name;
 
