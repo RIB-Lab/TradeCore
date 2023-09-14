@@ -74,6 +74,8 @@ PRIMITIVE_STONES2:
   harvestlevel: 1
   dropchancelevel:
     round_stone: 0.1
+  mods:
+    minheight: 50
   tooltype: PICKAXE
   
 PRIMITIVE_PLANKS:
@@ -149,4 +151,14 @@ FURNACE:
   harvestlevel: 2
   dropchancelevel:
     vanilla_furnace: 1
+  tooltype: PICKAXE
+  
+PRIMITIVE_STONES3:
+  materialset: primitive_stones
+  harvestlevel: 2
+  dropchancelevel:
+    lesser_mineral_chunk: 0.01
+  mods:
+    minheight: 30
+    maxheight: 49
   tooltype: PICKAXE

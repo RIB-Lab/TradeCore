@@ -10,6 +10,7 @@ import net.riblab.tradecore.general.IRegistry;
 import net.riblab.tradecore.item.MaterialSetRegistry;
 import net.riblab.tradecore.item.base.TCItemRegistry;
 import net.riblab.tradecore.modifier.IToolStatsModifier;
+import org.bukkit.Location;
 import org.bukkit.Material;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -39,38 +40,43 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
     public Map<String, ILootTable> getUnmodifiableElements() {
         return Collections.unmodifiableMap(lootTables);
     }
-
+    
 
     /**
-     * マテリアルとツールタイプに一致するルートテーブルを洗い出す。全部のルートテーブルを走査するので慎重に
+     * マテリアル、ツールタイプ、採掘レベル、その他ルートテーブルmod達の条件を全て満たすルートテーブルのドロップアイテムを洗い出す。全部のルートテーブルを走査するので慎重に
      *
      * @return ルートテーブル
      */
     @ParametersAreNonnullByDefault
-    public Multimap<Float, String> get(Material material, IToolStatsModifier.ToolType toolType) {
-        Multimap<Float, String> itemMultiMap = ArrayListMultimap.create();
-        List<Map<String, ChanceFloat>> itemMaps = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
-                .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
-                .filter(table1 -> table1.getToolType() == toolType)
-                .map(ILootTable::getDropChanceMap).toList();
-        itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach((s, aFloat) -> itemMultiMap.put(aFloat.get(), s)));
-        return itemMultiMap;
-    }
-
-    /**
-     * マテリアルとツールタイプに一致し、採掘レベルの条件を満たすルートテーブルを洗い出す。全部のルートテーブルを走査するので慎重に
-     *
-     * @return ルートテーブル
-     */
-    @ParametersAreNonnullByDefault
-    public Multimap<Float, String> get(Material material, IToolStatsModifier toolStatsMod) {
+    public Multimap<Float, String> get(Material material, IToolStatsModifier toolStatsMod, Location blockLoc) {
         IToolStatsModifier.ToolStats toolStats = toolStatsMod.apply(null, null);
         Multimap<Float, String> itemMultiMap = ArrayListMultimap.create();
-        List<Map<String, ChanceFloat>> itemMaps = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
+        List<ILootTable> lootTableCandidates = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
                 .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
                 .filter(table1 -> table1.getToolType() == toolStats.getToolType())
                 .filter(ILootTable -> ILootTable.getHarvestLevel() <= toolStats.getHarvestLevel())
-                .map(ILootTable::getDropChanceMap).toList();
+                .toList();
+
+        //mod検査ゾーン
+        List<Map<String, ChanceFloat>> itemMaps = new ArrayList<>();
+        for (ILootTable lootTable : lootTableCandidates) {
+            Optional<ILootTableMod<?>> maxHeightmod = lootTable.getMods().stream().filter(iLootTableMod -> iLootTableMod instanceof ModMaxHeight).findFirst();
+            if(maxHeightmod.isPresent()){
+                if(((ModMaxHeight) maxHeightmod.get()).getParam() < blockLoc.getY()){
+                    continue; //最大採掘可能高度　< 現在の採掘高度 -> X
+                }
+            }
+
+            Optional<ILootTableMod<?>> minHeightmod = lootTable.getMods().stream().filter(iLootTableMod -> iLootTableMod instanceof ModMinHeight).findFirst();
+            if(minHeightmod.isPresent()){
+                if(((ModMinHeight) minHeightmod.get()).getParam() > blockLoc.getY()){
+                    continue; //最小採掘可能高度　> 現在の採掘高度 -> X
+                }
+            }
+
+            itemMaps.add(lootTable.getDropChanceMap());
+        }
+        
         itemMaps.forEach(floatITCItemMap -> floatITCItemMap.forEach((s, aFloat) -> itemMultiMap.put(aFloat.get(), s)));
         return itemMultiMap;
     }
@@ -79,13 +85,34 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
      * あるマテリアルをあるツールで掘るために必要な最小硬度を取得。全部のルートテーブルを走査するので慎重に
      */
     @ParametersAreNonnullByDefault
-    public int getMinHardness(Material material, IToolStatsModifier toolStatsMod) {
+    public int getMinHardness(Material material, IToolStatsModifier toolStatsMod, Location blockLoc) {
         IToolStatsModifier.ToolStats toolStats = toolStatsMod.apply(null, null);
         
-        List<Integer> hardnessList = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
+        List<ILootTable> lootTableCandidates = LootTableRegistry.INSTANCE.getUnmodifiableElements().values().stream()
                 .filter(table1 -> MaterialSetRegistry.INSTANCE.commandToMaterialSet(table1.getMaterialSetKey()).orElseThrow().contains(material))
                 .filter(table1 -> table1.getToolType() == toolStats.getToolType())
-                .map(ILootTable::getHarvestLevel).toList();
+                .toList(); //マテリアルセットとツールの条件を満たしたルートテーブル達
+        
+        //mod検査ゾーン
+        List<Integer> hardnessList = new ArrayList<>();
+        for (ILootTable lootTable : lootTableCandidates) {
+            Optional<ILootTableMod<?>> maxHeightmod = lootTable.getMods().stream().filter(iLootTableMod -> iLootTableMod instanceof ModMaxHeight).findFirst();
+            if(maxHeightmod.isPresent()){
+                if(((ModMaxHeight) maxHeightmod.get()).getParam() < blockLoc.getY()){
+                    continue; //最大採掘可能高度　< 現在の採掘高度 -> X
+                }
+            }
+
+            Optional<ILootTableMod<?>> minHeightmod = lootTable.getMods().stream().filter(iLootTableMod -> iLootTableMod instanceof ModMinHeight).findFirst();
+            if(minHeightmod.isPresent()){
+                if(((ModMinHeight) minHeightmod.get()).getParam() > blockLoc.getY()){
+                    continue; //最小採掘可能高度　> 現在の採掘高度 -> X
+                }
+            }
+
+            hardnessList.add(lootTable.getHarvestLevel());
+        }
+        
         if (hardnessList.isEmpty())
             return Integer.MAX_VALUE;
 
@@ -97,13 +124,13 @@ public enum LootTableRegistry implements IRegistry<Map<String, ILootTable>> {
      * 走査処理が重いので、掘っているプレイヤーのキャッシュがあればそちらを優先する
      */
     @ParametersAreNonnullByDefault
-    public int getMinHardness(Material material, IToolStatsModifier toolStatsMod, UUID player) {
+    public int getMinHardness(UUID player, Material material, IToolStatsModifier toolStatsMod, Location blockLoc) {
         Integer cachedHardness = cachedMinHardness.get(player);
         if(cachedHardness != null){
             return cachedHardness;
         }
         
-        int minHardness = getMinHardness(material, toolStatsMod);
+        int minHardness = getMinHardness(material, toolStatsMod, blockLoc);
         cachedMinHardness.put(player, minHardness);
         
         return minHardness;

@@ -228,3 +228,10 @@ metal_scrap:
   material: IRON_NUGGET
   name: 金属スクラップ
   model: 0
+  
+lesser_mineral_chunk:
+  mods:
+    sellprice: '0.1'
+  material: STONE
+  name: 下級ミネラルチャンク
+  model: 0
